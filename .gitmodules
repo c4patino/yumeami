@@ -1,0 +1,6 @@
+[submodule "neovim"]
+	path = neovim
+	url = git@github.com:C4theBomb/neovim.git
+[submodule "dotfiles"]
+	path = dotfiles
+	url = git@github.com:C4theBomb/dotfiles.git
