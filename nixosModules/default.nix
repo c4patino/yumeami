@@ -6,7 +6,6 @@
         ./hyprland.nix
         ./network-manager.nix
         ./nvidia.nix
-        ./disko.nix
     ];
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];

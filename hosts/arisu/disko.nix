@@ -1,20 +1,14 @@
-{ pkgs, inputs, config, lib, ... }: {
-    options = {
-        disko.enable = lib.mkOption {
-            type = lib.types.bool;
-            default = true;
-            description = "Enable Disko";
-        };
-    };
-
-    config = lib.mkIf config.disko.enable {
-        disko.devices = {
-            disk.main = {
-                inherit device;
-                type = "disk";
-                content = {
-                    type = "gpt";
-                    partitions = {
+{ 
+    device ? throw "Storage device not defined",
+    ...
+} : {
+    disko.devices = {
+        disk.main = {
+            inherit device;
+            type = "disk";
+            content = {
+                type = "gpt";
+                partitions = {
                     boot = {
                         name = "boot";
                         size = "1M";
@@ -33,8 +27,8 @@
                     swap = {
                         size = "32G";
                         content = {
-                        type = "swap";
-                        resumeDevice = true;
+                            type = "swap";
+                            resumeDevice = true;
                         };
                     };
                     root = {
