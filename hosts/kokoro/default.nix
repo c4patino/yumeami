@@ -2,6 +2,8 @@
 {
     imports = [
         ../../nixosModules
+        inputs.disko.nixosModules.default
+        (import ./disko.nix { device = "/dev/nvme0n1"; })
     ];
 
     networking.hostName = "kokoro";

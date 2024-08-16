@@ -712,11 +712,11 @@
     "nixos-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1723470643,
-        "narHash": "sha256-Sue5BY+Vk5mLGBiG4zoFTl4mYgeUNhHChp5p1M8x4Qo=",
+        "lastModified": 1723734988,
+        "narHash": "sha256-T4rjsqaX3r9CBLI9Jf29vJLXBRCFIHCXmnfImirl3Yo=",
         "ref": "refs/heads/main",
-        "rev": "df2bd06417cd3dbab23a0f2e23f8ca24952564c2",
-        "revCount": 1,
+        "rev": "6954189271306dce99fc78f522a93b64fb1e6e2b",
+        "revCount": 2,
         "type": "git",
         "url": "https://github.com/C4theBomb/nixos-config.git"
       },
@@ -1179,11 +1179,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1723713666,
-        "narHash": "sha256-BoTMeLv9Fo5DtJDyYpolJe6nc0wx8+q4VfdX1SXWbsE=",
+        "lastModified": 1723732776,
+        "narHash": "sha256-tK2dm+WIEJGSq/PbRyagt7x43nd/o1HxP8HMj23HfnQ=",
         "owner": "sxyazi",
         "repo": "yazi",
-        "rev": "fc304ca043490c524211e615bdc9e197d5b0032e",
+        "rev": "4112bf451faa995f34763b2de3efb5aa715d107a",
         "type": "github"
       },
       "original": {
