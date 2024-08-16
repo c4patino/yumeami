@@ -13,7 +13,7 @@
         wget
         xclip
         sops
-        git-agecrypt
+        git-crypt
     ];
 
     sops = {

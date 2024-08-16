@@ -13,7 +13,7 @@
         wget
         xclip
         sops
-        git-agecrypt
+        git-crypt
     ];
 
     home.file."dotfiles/".source = inputs.nixos-config;
