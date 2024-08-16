@@ -75,15 +75,15 @@
         };
 
         neovim-config = {
-            url = "git+https://github.com/C4theBomb/neovim.git";
+            url = "github:C4theBomb/neovim";
             flake = false;
         };
         dotfiles = {
-            url = "git+https://github.com/C4theBomb/dotfiles.git";
+            url = "github:C4theBomb/dotfiles";
             flake = false;
         };
         nixos-config = {
-            url = "git+https://github.com/C4theBomb/nixos-config.git";
+            url = "github:C4theBomb/nixos-config";
             flake = false;
         };
     };

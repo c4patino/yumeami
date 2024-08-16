@@ -192,15 +192,15 @@
       "locked": {
         "lastModified": 1723429798,
         "narHash": "sha256-PX+02uWPspvCtcBmINsspfRwkIpW2AbPHlPdkL9SqyI=",
-        "ref": "refs/heads/main",
+        "owner": "C4theBomb",
+        "repo": "dotfiles",
         "rev": "95ee60d3c5a4ac7581cb1c98d1c824e8f04f0d6d",
-        "revCount": 1,
-        "type": "git",
-        "url": "https://github.com/C4theBomb/dotfiles.git"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "https://github.com/C4theBomb/dotfiles.git"
+        "owner": "C4theBomb",
+        "repo": "dotfiles",
+        "type": "github"
       }
     },
     "eww": {
@@ -482,11 +482,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1723723403,
-        "narHash": "sha256-IKWf8JdUOgoTYaWaQ7pFIjfpD6bFvf8V+rKuZRUytro=",
+        "lastModified": 1723738578,
+        "narHash": "sha256-TLkmHk6xWEUGpLci1QNyWRC7VFqocgBat2gl1gVXpY4=",
         "ref": "refs/heads/main",
-        "rev": "069faa4027d016549ee72afcd7df3b2c1e7ee578",
-        "revCount": 5091,
+        "rev": "12d9901472c6f9128fa8b16c25b3a879d1859e60",
+        "revCount": 5095,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -698,31 +698,31 @@
       "locked": {
         "lastModified": 1722357932,
         "narHash": "sha256-ve14UIJsUsl/0AvHK2eX4P9TklhdtOiiJJBAlZqvJw8=",
-        "ref": "refs/heads/main",
+        "owner": "C4theBomb",
+        "repo": "neovim",
         "rev": "1f33a8d61a4b618490bb7e7e79cf725b732d1edd",
-        "revCount": 8,
-        "type": "git",
-        "url": "https://github.com/C4theBomb/neovim.git"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "https://github.com/C4theBomb/neovim.git"
+        "owner": "C4theBomb",
+        "repo": "neovim",
+        "type": "github"
       }
     },
     "nixos-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1723734988,
-        "narHash": "sha256-T4rjsqaX3r9CBLI9Jf29vJLXBRCFIHCXmnfImirl3Yo=",
-        "ref": "refs/heads/main",
-        "rev": "6954189271306dce99fc78f522a93b64fb1e6e2b",
-        "revCount": 2,
-        "type": "git",
-        "url": "https://github.com/C4theBomb/nixos-config.git"
+        "lastModified": 1723778822,
+        "narHash": "sha256-9PZ6q8hBN3is5i8ydF1EzsTLg06DpUZO2abfe6RBnIM=",
+        "owner": "C4theBomb",
+        "repo": "nixos-config",
+        "rev": "c4d99b320b903ef43bc9db0691ac14cba84c8449",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "https://github.com/C4theBomb/nixos-config.git"
+        "owner": "C4theBomb",
+        "repo": "nixos-config",
+        "type": "github"
       }
     },
     "nixpkgs": {
