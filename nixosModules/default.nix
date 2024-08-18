@@ -13,9 +13,12 @@
 
     environment.systemPackages = with pkgs; [ 
         home-manager 
-        nh
         networkmanagerapplet
         gnupg
+
+        nh
+        nix-output-monitor
+        nvd
     ];
 
     time.timeZone = "America/Chicago";

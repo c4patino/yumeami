@@ -21,6 +21,9 @@
             (waybar.overrideAttrs (oldAttrs: { mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ]; }))
 
             hyprpicker
+            grim
+            slurp
+            wl-clipboard
         ];
 
         wayland.windowManager.hyprland = {
