@@ -22,7 +22,7 @@
                 "$mainMod, S, togglesplit,"
 
                 "$mainMod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
-                "$mainMod, Home, exec, grim -g \"$(slurp -d)\" - | wl-copy"
+                "$mainMod, Home, exec, grim -g \"$(slurp -d)\""
 
                 # Switch tabs
                 "ALT, Tab, cyclenext"
