@@ -17,8 +17,6 @@ let
         ];
     };
 
-    pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-
     secrets = builtins.fromJSON (builtins.readFile "${self}/secrets/crypt/secrets.json");
 in
 {
@@ -28,13 +26,14 @@ in
         homeConfigurations = {
             "c4patino@arisu" = inputs.home-manager.lib.homeManagerConfiguration {
                 modules = homeImports."c4patino@arisu";
-                inherit pkgs extraSpecialArgs;
+                pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+                inherit extraSpecialArgs;
             };
             "c4patino@kokoro" = inputs.home-manager.lib.homeManagerConfiguration {
                 modules = homeImports."c4patino@kokoro";
-                inherit pkgs extraSpecialArgs;
+                pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
+                inherit extraSpecialArgs;
             };
         };
     };
-
 }

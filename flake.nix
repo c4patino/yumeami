@@ -1,57 +1,36 @@
 {
     description = "snowflake";
 
-    outputs = inputs: inputs.flake-parts.lib.mkFlake {
-        inherit inputs;
-    } {
+    outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
         imports = [
-            inputs.pre-commit-hooks.flakeModule
+            inputs.devshell.flakeModule
+
             ./hosts
             ./home/profiles
         ];
+
         systems = ["x86_64-linux"];
-        perSystem = { config, pkgs, ... }: {
-            pre-commit = {
-                check.enable = true;
-                settings = {
-                excludes = ["flake.lock"];
-                    hooks = {
-                        stylua.enable = true;
-                        statix.enable = true;
-                        alejandra.enable = true;
-                        deadnix = {
-                            enable = true;
-                            excludes = ["overlays.nix"];
-                        };
-                        prettier = {
-                            enable = true;
-                            files = "\\.(js|ts|md|json)$";
-                            settings = {
-                                trailing-comma = "none";
-                            };
-                        };
-                    };
-                };
+
+        perSystem = { config, ... }: 
+        let 
+            system = "x86_64-linux";
+            pkgs = import inputs.nixpkgs { 
+                inherit system; 
+                config = { allowUnfree = true; cudaSupport = true; }; 
             };
-            devShells.default = pkgs.mkShell {
-                name = "snowflake";
-                shellHook = config.pre-commit.installationScript;
-                packages = with pkgs; [
-                    git
-                    sops
-                    alejandra
-                    yaml-language-server
-                    lua-language-server
-                ];
+        in
+        {
+            devShells = {
+                oasys = (import ./devEnvironments/oasys.nix { inherit pkgs; });
+                raman = (import ./devEnvironments/raman.nix { inherit pkgs; });
             };
-            formatter = pkgs.alejandra;
         };
     };
 
     inputs = {
         nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
         flake-parts.url = "github:hercules-ci/flake-parts";
-        pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+        devshell.url = "github:numtide/devshell";
 
         hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
         xdg-portal-hyprland.url = "github:hyprwm/xdg-desktop-portal-hyprland";

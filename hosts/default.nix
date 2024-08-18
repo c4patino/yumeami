@@ -7,10 +7,12 @@
     {
         arisu = nixosSystem {
             inherit specialArgs;
+            system = "x86_64-linux";
             modules = [ ./arisu ];
         };
         kokoro = nixosSystem {
             inherit specialArgs;
+            system = "x86_64-linux";
             modules = [ ./kokoro ];
         };
         hikari = nixosSystem {

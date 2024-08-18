@@ -1,23 +1,10 @@
 { inputs, pkgs, ... }: {
     imports = [
         ./stylix.nix
-
-        ../../programs
-        ../../wayland
-
-        inputs.sops-nix.homeManagerModules.sops
-    ];
-
-    home.packages = with pkgs; [
-        curl
-        wget
-        xclip
-        sops
-        git-crypt
     ];
 
     sops = {
-        defaultSopsFile = ../../../secrets/sops/secrets.yaml;
+        defaultSopsFile = inputs.dotfiles + "/secrets/sops/secrets.yaml" ;
         defaultSopsFormat = "yaml";
         age = {
             keyFile = "/home/c4patino/.config/sops/age/keys.txt";
@@ -25,7 +12,6 @@
         };
 
         secrets = {
-            github-auth = {};
         };
     };
 

@@ -1,34 +1,9 @@
 { inputs, pkgs, ... }: {
     imports = [
         ./stylix.nix
-
-        ../../programs
-        ../../wayland
-
-        inputs.sops-nix.homeManagerModules.sops
-    ];
-
-    home.packages = with pkgs; [
-        curl
-        wget
-        xclip
-        sops
-        git-crypt
     ];
 
     home.file."dotfiles/".source = inputs.nixos-config;
-
-    sops = {
-        defaultSopsFile = inputs.dotfiles + "/secrets/sops/secrets.yaml" ;
-        defaultSopsFormat = "yaml";
-        age = {
-            keyFile = "/home/nixos/.config/sops/age/keys.txt";
-            generateKey = true;
-        };
-
-        secrets = {
-        };
-    };
 
     home = {
         username = "nixos";

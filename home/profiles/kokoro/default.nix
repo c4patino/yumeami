@@ -1,19 +1,6 @@
 { inputs, pkgs, ... }: {
     imports = [
         ./stylix.nix
-
-        ../../programs
-        ../../wayland
-
-        inputs.sops-nix.homeManagerModules.sops
-    ];
-
-    home.packages = with pkgs; [
-        curl
-        wget
-        xclip
-        sops
-        git-crypt
     ];
 
     sops = {

@@ -1,10 +1,21 @@
-{ pkgs, ... }: {
+{ pkgs, inputs, ... }: {
     programs.home-manager.enable = true;
 
     nixpkgs.config.allowUnfree = true;
 
-    home.packages = [
-        (import ./scripts/get-music-cover.nix { inherit pkgs; })
-        (import ./scripts/scratchpad.nix { inherit pkgs; })
+    imports = [
+        ./programs
+        ./wayland
+        ./scripts
+
+        inputs.sops-nix.homeManagerModules.sops
+    ];
+
+    home.packages = with pkgs; [
+        curl
+        wget
+        xclip
+        sops
+        git-crypt
     ];
 }
