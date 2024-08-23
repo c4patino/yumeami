@@ -39,6 +39,7 @@
         eww.url = "github:elkowar/eww";
         anyrun.url = "github:Kirottu/anyrun";
         impermanence.url = "github:nix-community/impermanence";
+        xremap.url = "github:xremap/nix-flake";
 
         home-manager = {
             url = "github:nix-community/home-manager";

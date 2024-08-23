@@ -6,6 +6,7 @@
         ./hyprland.nix
         ./network-manager.nix
         ./nvidia.nix
+        ./xremap.nix
     ];
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];

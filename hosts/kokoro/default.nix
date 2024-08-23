@@ -22,4 +22,5 @@
     docker.enable = true;
     virtualbox.enable = true;
     teamviewer.enable = true;
+    xremap.enable = true;
 }
