@@ -21,8 +21,8 @@
         in
         {
             devShells = {
-                oasys = (import ./devEnvironments/oasys.nix { inherit pkgs; });
-                raman = (import ./devEnvironments/raman.nix { inherit pkgs; });
+                oasys = (import ./envs/oasys.nix { inherit pkgs; });
+                raman = (import ./envs/raman.nix { inherit pkgs; });
             };
         };
     };
