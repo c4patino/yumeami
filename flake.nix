@@ -5,7 +5,7 @@
         imports = [
             inputs.devshell.flakeModule
 
-            ./hosts
+            ./system/hosts
             ./home/profiles
         ];
 

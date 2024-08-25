@@ -4,7 +4,7 @@
 
         inputs.home-manager.nixosModules.home-manager
 
-        ../../nixosModules
+        ../..
     ];
 
     environment.systemPackages = with pkgs; [

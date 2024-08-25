@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{ ... }: {
     imports = [
         ./docker.nix
         ./virtualbox.nix
