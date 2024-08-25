@@ -20,4 +20,5 @@
     virtualbox.enable = true;
     teamviewer.enable = true;
     nvidia.enable = true;
+    steam.enable = true;
 }
