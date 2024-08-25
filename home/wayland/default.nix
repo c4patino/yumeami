@@ -2,7 +2,7 @@
     imports = [
         ./eww
         ./hyprland
-        ./services/gtk
+        ./services/gtk.nix
         ./services/clipboard.nix
         ./services/mako.nix
         ./services/variety.nix

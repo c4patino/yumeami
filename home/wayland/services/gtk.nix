@@ -1,6 +1,6 @@
 { pkgs, config, lib, ... }: 
 let
-    gruvboxPlus = import ./gruvbox-plus.nix { inherit pkgs; };
+    gruvboxPlus = import ../../../derivations/gruvbox-plus.nix { inherit pkgs; };
 in
 {
     config = lib.mkIf config.hyprland.enable {

@@ -7,7 +7,10 @@
     name = "raman";
 
     nativeBuildInputs = with pkgs; [
-        gtk3
+        python311
+        python311Packages.virtualenv
+        python311Packages.pip
+
         fiji
     ];
 
