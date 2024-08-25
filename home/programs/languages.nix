@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, inputs, ... }: {
     options = {
         languages.enable = lib.mkOption {
             type = lib.types.bool;
@@ -22,6 +22,10 @@
             enable = true;
             enableZshIntegration = true;
             nix-direnv.enable = true;
+        };
+
+        xdg.configFile."direnv/direnvrc" = {
+            source = inputs.dotfiles + "/direnvrc";
         };
     };
 }
