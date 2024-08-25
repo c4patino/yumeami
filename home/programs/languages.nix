@@ -10,14 +10,8 @@
     config = lib.mkIf config.languages.enable {
         home.packages = with pkgs; [
             conda
-            gcc
-            python3
-            nodejs_22
-            maven
-            go
         ];
 
-        programs.java.enable = true;
         programs.direnv = {
             enable = true;
             enableZshIntegration = true;

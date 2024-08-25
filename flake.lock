@@ -268,11 +268,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1724601813,
-        "narHash": "sha256-mJuOR2amEr4LKzO2+KllvGeHvi8WrPKz13+kzVCkBzU=",
+        "lastModified": 1724607874,
+        "narHash": "sha256-SMEo89FKzwXmQZAtiUwMmNNetwVsHI2FclkRhcpt170=",
         "owner": "elkowar",
         "repo": "eww",
-        "rev": "16250aee862cfab755bbfdb9686df152a2c4aa71",
+        "rev": "057297b4a339a4f72a6adf4ab587ebde2c331fcb",
         "type": "github"
       },
       "original": {
@@ -945,11 +945,11 @@
     "neovim-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1722357932,
-        "narHash": "sha256-ve14UIJsUsl/0AvHK2eX4P9TklhdtOiiJJBAlZqvJw8=",
+        "lastModified": 1724615620,
+        "narHash": "sha256-f+zV9AhwPerQkWKpgWTS+PuGKqEu8t9g5wGHxhdV6aU=",
         "owner": "C4theBomb",
         "repo": "neovim",
-        "rev": "1f33a8d61a4b618490bb7e7e79cf725b732d1edd",
+        "rev": "c4cfea57f8a83804342246f792a87097e9d59cb9",
         "type": "github"
       },
       "original": {
@@ -961,11 +961,11 @@
     "nixos-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1724602743,
-        "narHash": "sha256-WhepcB925mP7u3+CvbxTW2jSIwVqPd/P9YLIXu4/F64=",
+        "lastModified": 1724615562,
+        "narHash": "sha256-Bvfru/ZKzZSOw0Ua18wCiGVUC5fF51FSHLGWgBcYiC8=",
         "owner": "C4theBomb",
         "repo": "nixos-config",
-        "rev": "9f5147802e012f41f362491e13b19d22b6dbd108",
+        "rev": "0e86953209ac13b42b467ecc07dbb344ce18a1d6",
         "type": "github"
       },
       "original": {
