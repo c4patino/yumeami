@@ -23,4 +23,5 @@
     virtualbox.enable = true;
     teamviewer.enable = true;
     xremap.enable = true;
+    battery.enable = true;
 }
