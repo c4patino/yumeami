@@ -14,6 +14,7 @@
             nodejs_22
             maven
             go
+            python312
         ];
 
         programs.java.enable = true;

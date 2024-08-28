@@ -14,6 +14,7 @@
     home.packages = with pkgs; [
         curl
         wget
+        unzip
         xclip
         sops
         git-crypt

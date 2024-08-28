@@ -7,7 +7,7 @@
     name = "c-dev";
 
     nativeBuildInputs = with pkgs; [
-        libgcc
+        clang
         gdb
     ];
 

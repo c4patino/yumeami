@@ -28,6 +28,13 @@
                     ControlMaster auto 
                     ControlPath /tmp/ssh_%r@%h:%p 
                     ControlPersist 2h
+                    
+                Host nuros 
+                    HostName nuros.unl.edu 
+                    User cpatino2
+                    ControlMaster auto 
+                    ControlPath /tmp/ssh_%r@%h:%p 
+                    ControlPersist 2h
             '';
         };
     };
