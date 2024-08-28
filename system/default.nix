@@ -66,7 +66,6 @@
     programs.nix-ld = {
         enable = true;
         libraries = with pkgs; [
-            libclang
             stdenv.cc.cc
             cudaPackages.cudatoolkit
         ];

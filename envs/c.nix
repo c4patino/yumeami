@@ -7,8 +7,11 @@
     name = "c-dev";
 
     nativeBuildInputs = with pkgs; [
-        clang
+        cmake 
+        gcc
+        gnumake
         gdb
+        clang-tools
     ];
 
     shell = pkgs.zsh;
