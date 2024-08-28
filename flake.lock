@@ -945,11 +945,11 @@
     "neovim-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1724732670,
-        "narHash": "sha256-zyRNNNqgln9zrrC0G3xHVd+hKXIYiW5UClqYp/Jtz5A=",
+        "lastModified": 1724865383,
+        "narHash": "sha256-uTDSGDuFtlUpsd+AtnmhYoByI5Y8DIoqhisDaKqCZxY=",
         "owner": "C4theBomb",
         "repo": "neovim",
-        "rev": "efa2d836a6a8ce17c2cf5e36d6c209d54b9f6b19",
+        "rev": "036008f081437fc1b3104b6d5026c0201db45957",
         "type": "github"
       },
       "original": {
