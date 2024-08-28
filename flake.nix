@@ -23,6 +23,7 @@
             devShells = {
                 python312-dev = (import ./envs/python312.nix {inherit pkgs;});
                 c-dev = (import ./envs/c.nix {inherit pkgs;});
+                cpp-dev = (import ./envs/cpp.nix {inherit pkgs;});
             };
         };
     };
