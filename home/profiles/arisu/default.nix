@@ -1,17 +1,19 @@
-{ inputs, pkgs, ... }: {
+{ inputs, pkgs, self, ... }: {
     imports = [
         ./stylix.nix
     ];
 
     sops = {
-        defaultSopsFile = inputs.dotfiles + "/secrets/sops/secrets.yaml" ;
+        defaultSopsFile = "${self}/secrets/sops/secrets.yaml";
         defaultSopsFormat = "yaml";
         age = {
             keyFile = "/home/c4patino/.config/sops/age/keys.txt";
             generateKey = true;
         };
-
         secrets = {
+            github-auth = {};
+            github-runner = {};
+            github-runner-oasys = {};
         };
     };
 
