@@ -9,8 +9,11 @@
     nativeBuildInputs = with pkgs; [
         poetry
 
-        python312
+        python312Full
         python312Packages.virtualenv
+
+        # Won't actually use the matplotlib installed here, but needed to set up environment
+        python312Packages.matplotlib
     ];
 
     shell = pkgs.zsh;
