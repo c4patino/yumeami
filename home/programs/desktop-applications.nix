@@ -30,6 +30,11 @@
             default = false;
             description = "Enable Obsidian";
         };
+        fiji.enable = lib.mkOption {
+            type = lib.types.bool;
+            default = false;
+            description = "Enable Fiji";
+        };
     };
 
     config = {
@@ -49,6 +54,13 @@
             (lib.mkIf config.libreoffice.enable libreoffice-qt)
             (lib.mkIf config.libreoffice.enable hunspell)
             (lib.mkIf config.libreoffice.enable hunspellDicts.en_US)
+
+            (lib.mkIf config.fiji.enable fiji)
+            (lib.mkIf config.fiji.enable gtk3)
         ];
+
+        home.sessionVariables = lib.mkIf config.fiji.enable {
+            GSETTINGS_SCHEMA_DIR="${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}/glib-2.0/schemas";
+        };
     };
 }

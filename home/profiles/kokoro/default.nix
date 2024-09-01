@@ -32,6 +32,7 @@
     sms.enable = true;
     libreoffice.enable = true;
     obsidian.enable = true;
+    fiji.enable = true;
     obs.enable = true;
     postman.enable = true;
     google-chrome.enable = true;

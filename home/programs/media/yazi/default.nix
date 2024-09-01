@@ -19,7 +19,6 @@
             imv
             jq
             exiftool
-            fiji
         ];
 
 

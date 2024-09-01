@@ -31,6 +31,7 @@
     nvtop.enable = true;
     sms.enable = true;
     obsidian.enable = true;
+    fiji.enable = true;
     libreoffice.enable = true;
     obs.enable = true;
     postman.enable = true;
