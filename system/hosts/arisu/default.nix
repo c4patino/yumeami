@@ -1,8 +1,11 @@
 { config, pkgs, inputs, ... }:
 {
     imports = [
-        ./hardware-configuration.nix
         ../..
+        ./hardware-configuration.nix
+
+        inputs.disko.nixosModules.default
+        (import ./disko.nix { device = "/dev/nvme0n1"; })
     ];
 
     networking.hostName = "arisu";
@@ -17,7 +20,7 @@
     };
 
     docker.enable = true;
-    github-runners.enable = true;
+    github-runners.enable = false;
     slurm.enable = true;
     virtualbox.enable = true;
     teamviewer.enable = true;
