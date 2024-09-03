@@ -12,6 +12,7 @@
         gnumake
         gdb
         clang-tools
+        libclang
     ];
 
     shell = pkgs.zsh;

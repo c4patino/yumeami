@@ -11,6 +11,7 @@
         gcc
         gnumake
         gdb
+        libclang
         clang-tools
 
         catch2
