@@ -12,6 +12,8 @@
         gnumake
         gdb
         clang-tools
+
+        catch2
     ];
 
     shell = pkgs.zsh;
