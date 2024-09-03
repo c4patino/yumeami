@@ -56,6 +56,8 @@
         enable = true;
         powerOnBoot = true;
     };
+    
+    boot.supportedFilesystems = [ "ntfs" ];
 
     security = {
         polkit.enable = true;
