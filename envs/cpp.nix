@@ -7,14 +7,20 @@
     name = "cpp-dev";
 
     nativeBuildInputs = with pkgs; [
-        cmake 
-        gcc
-        gnumake
-        gdb
-        libclang
         clang-tools
+        clang
+        cmake 
+        codespell
+        conan
+        cppcheck
+        doxygen
+        gtest
+        lcov
+        vcpkg
+        vcpkg-tool
+        gdb
 
-        catch2
+        catch2_3
     ];
 
     shell = pkgs.zsh;
