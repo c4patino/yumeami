@@ -11,9 +11,8 @@
         boot.loader = {
             efi = {
                 canTouchEfiVariables = true;
-                efiSysMountPoint = "/boot/efi"
+                efiSysMountPoint = "/boot/efi";
             };
-            systemd-boot.enable = true;
             grub = {
                 enable = true;
                 devices = [ "nodev" ];
