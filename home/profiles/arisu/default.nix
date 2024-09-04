@@ -29,7 +29,7 @@
     music.enable = true;
     pycharm.enable = true;
     idea.enable = true;
-    leetcode.enable = true;
+    leetcode.enable = false;
     nvtop.enable = true;
     sms.enable = true;
     obsidian.enable = true;
