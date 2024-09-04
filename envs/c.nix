@@ -7,8 +7,8 @@
     name = "c-dev";
 
     nativeBuildInputs = with pkgs; [
-        clang
         clang-tools
+        clang
         cmake 
         codespell
         conan
