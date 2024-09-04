@@ -9,7 +9,11 @@
 
     config = lib.mkIf config.efi-bootloader.enable {
         boot.loader = {
-            efi.canTouchEfiVariables = true;
+            efi = {
+                canTouchEfiVariables = true;
+                efiSysMountPoint = "/boot/efi"
+            };
+            systemd-boot.enable = true;
             grub = {
                 enable = true;
                 devices = [ "nodev" ];
