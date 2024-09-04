@@ -20,7 +20,7 @@
     };
 
     docker.enable = true;
-    github-runners.enable = true;
+    github-runners.enable = false;
     slurm.enable = true;
     virtualbox.enable = true;
     teamviewer.enable = true;
