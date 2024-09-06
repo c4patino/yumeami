@@ -16,10 +16,6 @@
 
     echo "[INFO] Performing full disk format (overwriting with zeros) on /dev/$DRIVE"
     sudo dd if=/dev/zero of=/dev/$DRIVE bs=1M status=progress
-    if [ $? -ne 0 ]; then
-        echo "[ERROR] Failed to overwrite /dev/$DRIVE with zeros"
-        exit 1 
-    fi
     echo "[INFO] Successfully overwrote /dev/$DRIVE with zeros"
 
     echo "[INFO] Create partition table on /dev/$DRIVE"
