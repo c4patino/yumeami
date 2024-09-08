@@ -14,6 +14,7 @@
 
         # Won't actually use the matplotlib installed here, but needed to set up environment
         python311Packages.matplotlib
+        (python311Packages.opencv4.override { enableGtk3 = true; })
     ];
 
     shell = pkgs.zsh;

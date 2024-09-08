@@ -7,7 +7,7 @@
     :initial "initial-value"
 `date "+%A - %d %B %Y - %H:%M:%S"`)
 
-(defpoll time :interval "60s"
+(defpoll time :interval "30s"
   :initial "initial-value"
 `date +%H:%M`)
 
