@@ -8,20 +8,15 @@
     };
 
     config = lib.mkIf config.neovim.enable {
-        home.packages = with pkgs; [ ripgrep ];
+        home.packages = with pkgs; [
+            inputs.nixvim-config.packages.x86_64-linux.default
+        ];
 
-        programs.neovim = {
-            enable = true;
-            defaultEditor = true;
-
-            viAlias = true;
-            vimAlias = true;
-            vimdiffAlias = true;
-        };
-
-        xdg.configFile.nvim = {
-            source = inputs.neovim-config;
-            recursive = true;
-        };
+        # programs.nixvim = {
+        #     enable = true;
+        #     defaultEditor = true;
+        #
+        #     vimdiffAlias = true;
+        # };
     };
 }

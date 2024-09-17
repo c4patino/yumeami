@@ -60,6 +60,7 @@
             url = "github:C4theBomb/neovim";
             flake = false;
         };
+        nixvim-config.url = "github:C4theBomb/nixvim";
         dotfiles = {
             url = "github:C4theBomb/dotfiles";
             flake = false;
