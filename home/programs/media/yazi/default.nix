@@ -20,7 +20,7 @@
             jq
             exiftool
 			pandoc
-			tetex
+			texliveFull
         ];
 
 
