@@ -1,9 +1,9 @@
 [submodule "neovim"]
-	path = neovim
+	path = inputs/neovim
 	url = git@github.com:C4theBomb/neovim.git
 [submodule "dotfiles"]
-	path = dotfiles
+	path = inputs/dotfiles
 	url = git@github.com:C4theBomb/dotfiles.git
 [submodule "nixvim"]
-	path = nixvim
+	path = inputs/nixvim
 	url = git@github.com:C4theBomb/nixvim
