@@ -19,6 +19,7 @@
             imv
             jq
             exiftool
+			pandoc
         ];
 
 
