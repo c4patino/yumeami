@@ -26,4 +26,6 @@
     teamviewer.enable = true;
     nvidia.enable = true;
     steam.enable = true;
+
+	tailscale.enable = true;
 }

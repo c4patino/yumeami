@@ -24,4 +24,6 @@
     teamviewer.enable = true;
     xremap.enable = true;
     battery.enable = true;
+
+	tailscale.enable = true;
 }

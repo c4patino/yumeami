@@ -1,6 +1,7 @@
-{ lib, pkgs, ... }: {
+{ pkgs, ... }: {
     imports = [
         ./hardware
+		./services
         ./virtualization
         ./hyprland.nix
         ./steam.nix
