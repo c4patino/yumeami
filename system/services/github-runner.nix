@@ -11,7 +11,7 @@
         systemd.user.services.github-runner-arisu.after = [ "sops-nix.service" ];
 
         services.github-runners = {
-            arisu = {
+            "${config.networking.hostName}" = {
                 enable = true;
 				replace = true;
 				ephemeral = true;

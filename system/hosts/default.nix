@@ -3,7 +3,6 @@
     let
         inherit (inputs.nixpkgs.lib) nixosSystem;
         specialArgs = { inherit inputs self; };
-        secrets = builtins.fromJSON (builtins.readFile "${self}/secrets/crypt/secrets.json");
     in 
     {
         arisu = nixosSystem {

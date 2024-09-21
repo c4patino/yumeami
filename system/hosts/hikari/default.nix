@@ -8,7 +8,6 @@
     ];
 
     environment.systemPackages = with pkgs; [
-        neovim
         disko
         parted
         git

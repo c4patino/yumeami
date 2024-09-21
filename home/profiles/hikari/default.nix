@@ -14,7 +14,14 @@
         };
     };
 
-    wayland.windowManager.hyprland.settings.monitor = [
-        ", preferred, auto, 1"
-    ];
+	ssh.enable = true;
+	zoxide.enable = true;
+	zsh.enable = true;
+	git.enable = true;
+	lazygit.enable = true;
+
+	bottom.enable = true;
+	yazi.enable = true;
+
+	neovim.enable = true;
 } 
