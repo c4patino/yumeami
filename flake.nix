@@ -11,14 +11,7 @@
 
         systems = ["x86_64-linux"];
 
-        perSystem = { config, ... }: 
-        let 
-            system = "x86_64-linux";
-            pkgs = import inputs.nixpkgs { 
-                inherit system; 
-                config = { allowUnfree = true; cudaSupport = true; }; 
-            };
-        in
+        perSystem = { config, pkgs, ... }: 
         {
             devShells = {
                 python311-dev = (import ./envs/python311.nix {inherit pkgs;});
