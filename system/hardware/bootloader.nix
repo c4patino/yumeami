@@ -1,8 +1,8 @@
-{ pkgs, inputs, config, lib, ... }: {
+{ config, lib, ... }: {
     options = {
         efi-bootloader.enable = lib.mkOption {
             type = lib.types.bool;
-            default = true;
+            default = false;
             description = "Enable EFI bootloader";
         };
     };

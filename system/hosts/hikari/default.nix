@@ -14,10 +14,5 @@
         git
     ];
 
-    efi-bootloader.enable = false;
-    audio.enable = false;
-    network-manager.enable = false;
-    hyprland.enable = false;
-
     nixpkgs.hostPlatform = "x86_64-linux";
 }

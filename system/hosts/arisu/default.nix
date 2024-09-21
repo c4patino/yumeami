@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ pkgs, inputs, ... }:
 {
     imports = [
         ../..
@@ -19,13 +19,19 @@
         shell = pkgs.zsh;
     };
 
-    docker.enable = true;
-    github-runners.enable = true;
+	audio.enable = true;
+	efi-bootloader.enable = true;
+	network-manager.enable = true;
+    nvidia.enable = true;
+
+	docker.enable = true;
     slurm.enable = true;
     virtualbox.enable = true;
     teamviewer.enable = true;
-    nvidia.enable = true;
-    steam.enable = true;
 
+    github-runners.enable = true;
 	tailscale.enable = true;
+
+	hyprland.enable = true;
+	steam.enable = true;
 }

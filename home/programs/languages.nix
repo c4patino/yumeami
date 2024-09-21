@@ -1,4 +1,4 @@
-{ pkgs, lib, config, inputs, ... }: {
+{ lib, config, inputs, ... }: {
     options = {
         languages.enable = lib.mkOption {
             type = lib.types.bool;
@@ -8,16 +8,6 @@
     };
 
     config = lib.mkIf config.languages.enable {
-        home.packages = with pkgs; [
-            conda
-            gcc
-            nodejs_22
-            maven
-            go
-            python312
-        ];
-
-        programs.java.enable = true;
         programs.direnv = {
             enable = true;
             enableZshIntegration = true;

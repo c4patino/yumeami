@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ pkgs, inputs, ... }:
 {
     imports = [
         ../..
@@ -19,11 +19,17 @@
         shell = pkgs.zsh;
     };
 
+	audio.enable = true;
+    battery.enable = true;
+	efi-bootloader.enable = true;
+	network-manager.enable = true;
+    xremap.enable = true;
+
+	tailscale.enable = true;
+
     docker.enable = true;
     virtualbox.enable = true;
     teamviewer.enable = true;
-    xremap.enable = true;
-    battery.enable = true;
 
-	tailscale.enable = true;
+	hyprland.enable = true;
 }

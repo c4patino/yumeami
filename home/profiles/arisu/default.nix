@@ -1,4 +1,4 @@
-{ inputs, pkgs, self, ... }: {
+{ self, ... }: {
     imports = [
         ./stylix.nix
     ];
@@ -26,19 +26,35 @@
         };
     };
 
+	hyprland.enable = true;
+	kitty.enable = true;
+	anyrun.enable = true;
+
+	ssh.enable = true;
+	zoxide.enable = true;
+	zsh.enable = true;
+	languages.enable = true;
+	git.enable = true;
+	lazygit.enable = false;
+
+	bottom.enable = true;
+	nvtop.enable = true;
+	yazi.enable = true;
+
     music.enable = true;
+	leetcode.enable = true;
+
+	neovim.enable = true;
     pycharm.enable = true;
     idea.enable = true;
-    leetcode.enable = false;
-    nvtop.enable = true;
-    sms.enable = true;
-    obsidian.enable = true;
-    fiji.enable = true;
-    libreoffice.enable = true;
-    obs.enable = true;
+
+	fiji.enable = true;
+	google-chrome.enable = true;
+	libreoffice.enable = true;
+	obs.enable = true;
+	obsidian.enable = true;
     postman.enable = true;
-    google-chrome.enable = true;
-    languages.enable = true;
+	sms.enable = true;
 
     wayland.windowManager.hyprland.settings.monitor = [
         "DP-1, 2560x1440@120, 0x0, 1"

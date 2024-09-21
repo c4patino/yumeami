@@ -2,7 +2,7 @@
     options = {
         git.enable = lib.mkOption {
             type = lib.types.bool;
-            default = true;
+            default = false;
             description = "Enable git, git-lfs, and gh-cli";
         };
     };
