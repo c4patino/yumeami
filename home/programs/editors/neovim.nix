@@ -11,12 +11,5 @@
         home.packages = [
             inputs.nixvim-config.packages.x86_64-linux.default
         ];
-
-        # programs.nixvim = {
-        #     enable = true;
-        #     defaultEditor = true;
-        #
-        #     vimdiffAlias = true;
-        # };
     };
 }
