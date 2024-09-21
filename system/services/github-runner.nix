@@ -1,4 +1,4 @@
-{ pkgs, lib, config, self, secrets, ... }: {
+{ lib, config, ... }: {
     options = {
         github-runners.enable = lib.mkOption {
             type = lib.types.bool;
@@ -14,7 +14,6 @@
         services.github-runners = {
             arisu = {
                 enable = true;
-                ephemeral = true;
                 tokenFile = /home/c4patino/.config/sops-nix/secrets/github-runner;
                 url = "https://github.com/C4theBomb/nixos-config";
             };
