@@ -35,7 +35,7 @@
 	zsh.enable = true;
 	languages.enable = true;
 	git.enable = true;
-	lazygit.enable = false;
+	lazygit.enable = true;
 
 	bottom.enable = true;
 	yazi.enable = true;
