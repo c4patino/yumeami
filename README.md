@@ -8,7 +8,8 @@ Meticulously crafted collection of NixOS configurations tailored for my systems.
 |--------	|--------------------------------	|-------------------------------------------	|
 | arisu  	| `x86_64-linux`                 	| primary development tower, custom built   	|
 | kokoro 	| `x86_64-linux`                 	| ThinkBook 15 laptop, mobile development   	|
-| hikari 	| `x86_64-linux` `aarch64-linux` 	| custom installer ISO, new systems and VMs 	|
+| chibi 	| `aarch64-linux`                	| Raspberry Pi 4B for hosting and local dev 	|
+| hikari 	| `x86_64-linux`                	| custom installer ISO, new systems and VMs 	|
 
 
 ## Installation
