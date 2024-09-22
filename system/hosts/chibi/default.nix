@@ -15,12 +15,11 @@
         initialPassword = "passw0rd";
         shell = pkgs.zsh;
     };
-    programs.zsh.enable = true;
 
-	# network-manager.enable = true;
-	#
-	# docker.enable = true;
-	#
+	network-manager.enable = true;
+
+	docker.enable = true;
+
     # github-runners.enable = true;
-	# tailscale.enable = true;
+	tailscale.enable = true;
 }
