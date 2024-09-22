@@ -1,6 +1,7 @@
 { pkgs, lib, inputs, modulesPath, ... }: {
     imports = [
         ../..
+        ./hardware-configuration.nix
 
         "${modulesPath}/installer/sd-card/sd-image-raspberrypi-installer.nix"
 
