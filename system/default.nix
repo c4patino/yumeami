@@ -36,49 +36,48 @@
         LC_TIME = "en_US.UTF-8";
     };
 
-    networking.wireless.enable = true;
+    # networking.wireless.enable = true;
 
-    services = {
-        xserver = {
-            enable = true;
-            xkb = {
-                layout = "us";
-                variant = "";
-            };
-            displayManager.gdm.enable = true;
-        };
+    # services = {
+    #     xserver = {
+    #         enable = true;
+    #         xkb = {
+    #             layout = "us";
+    #             variant = "";
+    #         };
+    #         displayManager.gdm.enable = true;
+    #     };
+    #
+    #     printing.enable = true;
+    #
+    #     blueman.enable = true;
+    # };
 
-        printing.enable = true;
+    # hardware.bluetooth = {
+    #     enable = true;
+    #     powerOnBoot = true;
+    # };
 
-        blueman.enable = true;
-    };
+    # boot.supportedFilesystems = [ "ntfs" ];
 
-    hardware.bluetooth = {
-        enable = true;
-        powerOnBoot = true;
-    };
-    
-    boot.supportedFilesystems = [ "ntfs" ];
-	boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+    # security = {
+    #     polkit.enable = true;
+    #     rtkit.enable = true;
+    # };
 
-    security = {
-        polkit.enable = true;
-        rtkit.enable = true;
-    };
+    # programs.zsh.enable = true;
+    # programs.nix-ld = {
+    #     enable = true;
+    #     libraries = with pkgs; [
+    #         stdenv.cc.cc
+    #         cudaPackages.cudatoolkit
+    #     ];
+    # };
 
-    programs.zsh.enable = true;
-    programs.nix-ld = {
-        enable = true;
-        libraries = with pkgs; [
-            stdenv.cc.cc
-            cudaPackages.cudatoolkit
-        ];
-    };
-
-    programs.gnupg.agent = {
-        enable = true;
-        enableSSHSupport = true;
-    };
+    # programs.gnupg.agent = {
+    #     enable = true;
+    #     enableSSHSupport = true;
+    # };
 
     system.stateVersion = "24.05";
 }
