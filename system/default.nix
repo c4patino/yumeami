@@ -1,10 +1,10 @@
 { pkgs, ... }: {
     imports = [
-        ./hardware
-		./services
-        ./virtualization
-        ./hyprland.nix
-        ./steam.nix
+		#       ./hardware
+		# ./services
+		#       ./virtualization
+		#       ./hyprland.nix
+		#       ./steam.nix
     ];
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -65,7 +65,7 @@
     #     rtkit.enable = true;
     # };
 
-    # programs.zsh.enable = true;
+    programs.zsh.enable = true;
     # programs.nix-ld = {
     #     enable = true;
     #     libraries = with pkgs; [

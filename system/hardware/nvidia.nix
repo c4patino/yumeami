@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }: {
+{ config, lib, ... }: {
     options = {
         nvidia.enable = lib.mkOption {
             type = lib.types.bool;

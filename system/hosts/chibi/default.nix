@@ -23,5 +23,4 @@
 	#
     # github-runners.enable = true;
 	# tailscale.enable = true;
-	# nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 }
