@@ -14,6 +14,7 @@
         initialPassword = "passw0rd";
         shell = pkgs.zsh;
     };
+    programs.zsh.enable = true;
 
 	# network-manager.enable = true;
 	#
