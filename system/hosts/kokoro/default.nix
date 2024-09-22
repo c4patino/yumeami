@@ -19,6 +19,8 @@
         shell = pkgs.zsh;
     };
 
+	boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
 	audio.enable = true;
     battery.enable = true;
 	efi-bootloader.enable = true;

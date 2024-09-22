@@ -1,4 +1,4 @@
-{ pkgs, inputs, modulesPath, ... }: {
+{ pkgs, lib, inputs, modulesPath, ... }: {
     imports = [
         ../..
 
@@ -23,5 +23,5 @@
 	#
     # github-runners.enable = true;
 	# tailscale.enable = true;
-	# nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
+	nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 }
