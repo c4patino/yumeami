@@ -1,13 +1,12 @@
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, modulesPath, ... }:
 {
     imports = [
         ../..
 
-		inputs.nixos-hardware.nixosModules.raspberry-pi-4
-		../hardware-configuration.nix
+        "${modulesPath}/installer/sd-card/sd-image-raspberrypi-installer.nix"
 
-        inputs.disko.nixosModules.default
-        (import ./disko.nix { device = ""; })
+		inputs.nixos-hardware.nixosModules.raspberry-pi-4
+		./hardware-configuration.nix
     ];
 
     networking.hostName = "chibi";
@@ -21,7 +20,6 @@
         shell = pkgs.zsh;
     };
 
-	audio.enable = true;
 	network-manager.enable = true;
 
 	docker.enable = true;

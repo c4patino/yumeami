@@ -7,6 +7,10 @@ let
             ../.
             ./arisu
         ];
+        "c4patino@chibi" = [
+            ../.
+            ./chibi
+        ];
         "c4patino@kokoro" = [
             ../.
             ./kokoro

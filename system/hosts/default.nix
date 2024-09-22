@@ -31,5 +31,22 @@
                 }
             ];
         };
+		chibi = nixosSystem {
+			inherit specialArgs;
+			system = "x86_64-linux";
+			modules = [
+				./chibi
+				{
+					home-manager = {
+						useGlobalPkgs = true;
+						useUserPackages = true;
+						extraSpecialArgs = specialArgs;
+						users.nixos = {
+							imports = homeImports."c4patino@chibi";
+						};
+					};
+				}
+			];
+		};
     };
 }
