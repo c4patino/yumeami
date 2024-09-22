@@ -2,9 +2,9 @@
     imports = [
 		./hardware
 		./services
-		# ./virtualization
-		# ./hyprland.nix
-	    # ./steam.nix
+		./virtualization
+		./hyprland.nix
+	    ./steam.nix
     ];
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
