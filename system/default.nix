@@ -59,6 +59,7 @@
     };
     
     boot.supportedFilesystems = [ "ntfs" ];
+	boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
     security = {
         polkit.enable = true;
