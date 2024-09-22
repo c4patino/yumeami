@@ -15,6 +15,11 @@
             system = "x86_64-linux";
             modules = [ ./kokoro ];
         };
+		chibi = nixosSystem {
+			inherit specialArgs;
+			system = "aarch64-linux";
+			modules = [ ./chibi ];
+		};
         hikari = nixosSystem {
             inherit specialArgs;
             modules = [ 
@@ -24,29 +29,10 @@
                         useGlobalPkgs = true;
                         useUserPackages = true;
                         extraSpecialArgs = specialArgs;
-                        users.nixos = {
-                            imports = homeImports."c4patino@hikari";
-                        };
+                        users.nixos = { imports = homeImports."c4patino@hikari"; };
                     };
                 }
             ];
         };
-		chibi = nixosSystem {
-			inherit specialArgs;
-			system = "aarch64-linux";
-			modules = [
-				./chibi
-				# {
-				# 	home-manager = {
-				# 		useGlobalPkgs = true;
-				# 		useUserPackages = true;
-				# 		extraSpecialArgs = specialArgs;
-				# 		users.nixos = {
-				# 			imports = homeImports."c4patino@chibi";
-				# 		};
-				# 	};
-				# }
-			];
-		};
     };
 }

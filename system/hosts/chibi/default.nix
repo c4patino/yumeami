@@ -1,4 +1,4 @@
-{ pkgs, lib, inputs, ... }: {
+{ pkgs, inputs, ... }: {
     imports = [
         ../..
 		./hardware-configuration.nix
@@ -11,7 +11,7 @@
     users.users.c4patino = {
         isNormalUser = true;
         description = "C4 Patino";
-        extraGroups = [ "networkmanager" "wheel" "vboxusers" "docker" ];
+        extraGroups = [ "networkmanager" "wheel" "docker" ];
         initialPassword = "passw0rd";
         shell = pkgs.zsh;
     };
