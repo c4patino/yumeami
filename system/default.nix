@@ -36,34 +36,32 @@
         LC_TIME = "en_US.UTF-8";
     };
 
-    # networking.wireless.enable = true;
+    services = {
+        xserver = {
+            enable = true;
+            xkb = {
+                layout = "us";
+                variant = "";
+            };
+            displayManager.gdm.enable = true;
+        };
 
-    # services = {
-    #     xserver = {
-    #         enable = true;
-    #         xkb = {
-    #             layout = "us";
-    #             variant = "";
-    #         };
-    #         displayManager.gdm.enable = true;
-    #     };
-    #
-    #     printing.enable = true;
-    #
-    #     blueman.enable = true;
-    # };
+        printing.enable = true;
 
-    # hardware.bluetooth = {
-    #     enable = true;
-    #     powerOnBoot = true;
-    # };
+        blueman.enable = true;
+    };
 
-    # boot.supportedFilesystems = [ "ntfs" ];
+    hardware.bluetooth = {
+        enable = true;
+        powerOnBoot = true;
+    };
 
-    # security = {
-    #     polkit.enable = true;
-    #     rtkit.enable = true;
-    # };
+    boot.supportedFilesystems = [ "ntfs" ];
+
+    security = {
+        polkit.enable = true;
+        rtkit.enable = true;
+    };
 
     programs.zsh.enable = true;
     # programs.nix-ld = {
