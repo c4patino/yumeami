@@ -38,6 +38,11 @@ in
                 pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
                 inherit extraSpecialArgs;
             };
+            "c4patino@chibi" = inputs.home-manager.lib.homeManagerConfiguration {
+                modules = homeImports."c4patino@chibi";
+                pkgs = inputs.nixpkgs.legacyPackages.aarch64-linux;
+                inherit extraSpecialArgs;
+            };
         };
     };
 }
