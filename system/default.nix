@@ -1,10 +1,10 @@
 { pkgs, ... }: {
     imports = [
-		#       ./hardware
-		# ./services
-		#       ./virtualization
-		#       ./hyprland.nix
-		#       ./steam.nix
+		./hardware
+		./services
+		# ./virtualization
+		# ./hyprland.nix
+	    # ./steam.nix
     ];
 
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -64,18 +64,18 @@
     };
 
     programs.zsh.enable = true;
-    # programs.nix-ld = {
-    #     enable = true;
-    #     libraries = with pkgs; [
-    #         stdenv.cc.cc
-    #         cudaPackages.cudatoolkit
-    #     ];
-    # };
+    programs.nix-ld = {
+        enable = true;
+        libraries = with pkgs; [
+            stdenv.cc.cc
+            cudaPackages.cudatoolkit
+        ];
+    };
 
-    # programs.gnupg.agent = {
-    #     enable = true;
-    #     enableSSHSupport = true;
-    # };
+    programs.gnupg.agent = {
+        enable = true;
+        enableSSHSupport = true;
+    };
 
     system.stateVersion = "24.05";
 }
