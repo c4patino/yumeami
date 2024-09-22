@@ -1,9 +1,7 @@
-{ pkgs, lib, inputs, modulesPath, ... }: {
+{ pkgs, lib, inputs, ... }: {
     imports = [
         ../..
         ./hardware-configuration.nix
-
-        "${modulesPath}/installer/sd-card/sd-image-raspberrypi-installer.nix"
 
 		inputs.nixos-hardware.nixosModules.raspberry-pi-4
     ];
@@ -24,5 +22,5 @@
 	#
     # github-runners.enable = true;
 	# tailscale.enable = true;
-	nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
+	# nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 }
