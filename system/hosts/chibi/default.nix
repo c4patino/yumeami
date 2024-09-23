@@ -20,6 +20,6 @@
 
 	docker.enable = true;
 
-    # github-runners.enable = true;
+    github-runners.enable = true;
 	tailscale.enable = true;
 }
