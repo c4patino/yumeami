@@ -1,10 +1,12 @@
 keys:
   - &c4patino_arisu age1redpndk4tj0jy6d8cl98rkt5euxzpfzc8dvlhfan5a349tl7tg5s5j6zav
   - &c4patino_kokoro age1u0jz3r6tz3a7rz64j02xpwuykslq9zruxasutvmum07ya7k3xduseme93n 
+  - &c4patino_chibi age1r9285z8xmtj7g6alau7xp946p4fguvtd62dz05nvfgxyujhmfs7svp0uyw
 creation_rules:
   - path_regex: secrets/sops/secrets.yaml
     key_groups:
       - age:
         - *c4patino_arisu
         - *c4patino_kokoro
+        - *c4patino_chibi
 
