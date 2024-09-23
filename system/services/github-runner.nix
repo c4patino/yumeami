@@ -8,7 +8,7 @@
     };
 
     config = lib.mkIf config.github-runners.enable {
-        systemd.user.services.github-runner-arisu.after = [ "sops-nix.service" ];
+        systemd.user.services.github-runner-arisu.Unit.After = [ "sops-nix.service" ];
 
         services.github-runners = {
             "${config.networking.hostName}" = {

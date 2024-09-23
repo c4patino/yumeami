@@ -23,6 +23,7 @@
 
 	audio.enable = true;
 	efi-bootloader.enable = true;
+	display-manager.enable = true;
 	network-manager.enable = true;
     nvidia.enable = true;
 
