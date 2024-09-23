@@ -1,4 +1,4 @@
-{ lib, config, inputs, ... }: {
+{ pkgs, lib, config, inputs, ... }: {
     options = {
         neovim.enable = lib.mkOption {
             type = lib.types.bool;
@@ -9,7 +9,7 @@
 
     config = lib.mkIf config.neovim.enable {
         home.packages = [
-            inputs.nixvim-config.packages.x86_64-linux.default
+            inputs.nixvim-config.packages.${pkgs.system}.default
         ];
     };
 }
