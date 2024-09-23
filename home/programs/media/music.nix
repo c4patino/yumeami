@@ -1,4 +1,4 @@
-{pkgs, config, lib, ...}: {
+{ pkgs, config, lib, ... }: {
     options = {
         music.enable = lib.mkOption {
             type = lib.types.bool;

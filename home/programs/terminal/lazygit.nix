@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: {
+{ lib, config, ... }: {
     options = {
         lazygit.enable = lib.mkOption {
             type = lib.types.bool;

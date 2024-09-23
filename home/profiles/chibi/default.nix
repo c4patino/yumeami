@@ -25,12 +25,12 @@
 	ssh.enable = true;
 	zoxide.enable = true;
 	zsh.enable = true;
-	languages.enable = true;
+	# languages.enable = true;
 	git.enable = true;
 	lazygit.enable = true;
 
 	bottom.enable = true;
-	yazi.enable = true;
+	# yazi.enable = true;
 
-	neovim.enable = true;
+	# neovim.enable = true;
 } 

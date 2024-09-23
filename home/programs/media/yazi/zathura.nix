@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }: {
+{ config, lib, ... }: {
     config = lib.mkIf config.yazi.enable {
         programs.zathura = {
             enable = true;

@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{ ... }: {
     imports = [
         ./bat.nix
         ./git.nix
