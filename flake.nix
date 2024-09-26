@@ -23,12 +23,15 @@
 		in
         {
             devShells = {
+				c-dev = (import ./envs/c.nix { inherit pkgs; });
+				cpp-dev = (import ./envs/cpp.nix { inherit pkgs; });
+				go-dev = (import ./envs/go.nix { inherit pkgs; });
+				js-dev = (import ./envs/js.nix { inherit pkgs; });
                 python311-dev = (import ./envs/python311.nix { inherit pkgs; });
                 python311-tf-dev = (import ./envs/python311-tf.nix { inherit pkgs; });
                 python312-dev = (import ./envs/python312.nix { inherit pkgs; });
                 python312-tf-dev = (import ./envs/python312-tf.nix { inherit pkgs; });
-                c-dev = (import ./envs/c.nix { inherit pkgs; });
-                cpp-dev = (import ./envs/cpp.nix { inherit pkgs; });
+				rust-dev = (import ./envs/rust.nix { inherit pkgs; });
             };
         };
     };

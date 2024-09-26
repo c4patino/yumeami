@@ -14,6 +14,8 @@
 
         # Won't actually use the matplotlib installed here, but needed to set up environment
         python312Packages.matplotlib
+
+		# Won't actually use the OpenCV installed here, but this sets up env vars
         (python312Packages.opencv4.override { enableGtk3 = true; })
     ];
 
