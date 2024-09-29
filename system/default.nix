@@ -4,6 +4,7 @@
 		./services
 		./virtualization
 		./hyprland.nix
+		./secrets.nix
 	    ./steam.nix
     ];
 
@@ -36,21 +37,16 @@
         LC_TIME = "en_US.UTF-8";
     };
 
-    services = {
-        printing.enable = true;
+    services.printing.enable = true;
 
-        blueman.enable = true;
-    };
-
+	services.blueman.enable = true;
     hardware.bluetooth = {
         enable = true;
         powerOnBoot = true;
     };
 
     boot.supportedFilesystems = [ "ntfs" ];
-	services.davfs2 = {
-		enable = true;
-	};
+	services.davfs2.enable = true;
 
     security = {
         polkit.enable = true;

@@ -15,7 +15,7 @@
                 enable = true;
 				replace = true;
 				ephemeral = true;
-                tokenFile = /home/c4patino/.config/sops-nix/secrets/github-runner;
+                tokenFile = config.sops.secrets.github-runner.path;
                 url = "https://github.com/C4theBomb/nixos-config";
             };
         };
