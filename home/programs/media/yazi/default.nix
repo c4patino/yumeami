@@ -26,7 +26,6 @@
 
         programs.yazi = {
             enable = true;
-            package = pkgs.yazi;
             enableZshIntegration = true;
             settings = {
                 manager = {

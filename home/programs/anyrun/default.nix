@@ -53,12 +53,9 @@ in
                     Config(
                         prefix: "?",
                         engines: [
+							Google,
                             Custom(
-                                name: "SearXNG",
-                                url: "100.121.201.47:8100/search?q={}",
-                            ),
-                            Custom(
-                                name: "nix packages",
+                                name: "nixpkgs",
                                 url: "search.nixos.org/packages?query={}&channel=unstable",
                             ),
                         ],

@@ -41,11 +41,7 @@
         flake-parts.url = "github:hercules-ci/flake-parts";
         devshell.url = "github:numtide/devshell";
 
-        hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-        xdg-portal-hyprland.url = "github:hyprwm/xdg-desktop-portal-hyprland";
-        yazi.url = "github:sxyazi/yazi";
         stylix.url = "github:danth/stylix";
-        eww.url = "github:elkowar/eww";
         anyrun.url = "github:Kirottu/anyrun";
         impermanence.url = "github:nix-community/impermanence";
         xremap.url = "github:xremap/nix-flake";

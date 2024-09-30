@@ -1,4 +1,4 @@
-{ pkgs, inputs, config, lib, ... }: {
+{ pkgs, config, lib, ... }: {
     options = {
         hyprland.enable = lib.mkOption {
             type = lib.types.bool;
@@ -10,7 +10,6 @@
     config = lib.mkIf config.hyprland.enable {
         programs.hyprland = {
             enable = true;
-            package = inputs.hyprland.packages."${pkgs.system}".hyprland;
             xwayland.enable = true;
         };
 
