@@ -12,6 +12,9 @@
         python312Full
         python312Packages.virtualenv
 
+		python312Packages.torchvision
+		python312Packages.torchaudio
+
         # Won't actually use the matplotlib installed here, but needed to set up environment
         python312Packages.matplotlib
 
