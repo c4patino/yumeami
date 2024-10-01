@@ -1,4 +1,4 @@
-{ pkgs, lib, config, self, ... }: {
+{ lib, config, self, ... }: {
     options = {
         slurm.enable = lib.mkOption {
             type = lib.types.bool;
@@ -17,10 +17,10 @@
             partitionName = [ 
                 "main Nodes=arisu Default=YES MaxTime=INFINITE State=UP"
             ];
-        };
 
-        networking.firewall = {
-            enable = false;
+			extraConfig = ''
+				ReturnToService=2
+			'';
         };
 
         services.munge.enable = true;
