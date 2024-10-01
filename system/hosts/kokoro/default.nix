@@ -23,9 +23,11 @@
 
 	audio.enable = true;
     battery.enable = true;
+	bluetooth.enable = true;
 	efi-bootloader.enable = true;
 	display-manager.enable = true;
 	network-manager.enable = true;
+	printing.enable = true;
     xremap.enable = true;
 
 	tailscale.enable = true;

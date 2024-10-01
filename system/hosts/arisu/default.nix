@@ -22,10 +22,12 @@
 	boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
 	audio.enable = true;
+	bluetooth.enable = true;
 	efi-bootloader.enable = true;
 	display-manager.enable = true;
 	network-manager.enable = true;
     nvidia.enable = true;
+	printing.enable = true;
 
 	docker.enable = true;
     slurm.enable = true;

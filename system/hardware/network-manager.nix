@@ -1,4 +1,4 @@
-{ config, lib, ... }: {
+{ config, lib, pkgs, ... }: {
     options = {
         network-manager.enable = lib.mkOption {
             type = lib.types.bool;
@@ -8,6 +8,10 @@
     };
 
     config = lib.mkIf config.network-manager.enable {
+		environment.systemPackages = with pkgs; [ 
+			networkmanagerapplet
+		];
+
         networking.networkmanager.enable = true;
     };
 }
