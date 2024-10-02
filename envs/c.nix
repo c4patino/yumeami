@@ -1,9 +1,6 @@
-{ pkgs ? import <nixpkgs> { 
-    config = {
-        allowUnfree = true;
-        cudaSupport = true;
-    };
-}}: pkgs.mkShell {
+{
+	pkgs ? import <nixpkgs> { config = { allowUnfree = true; cudaSupport = true; }; }
+}: pkgs.mkShell {
     name = "c-dev";
 
     nativeBuildInputs = with pkgs; [

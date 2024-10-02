@@ -1,9 +1,8 @@
-{ pkgs ? import <nixpkgs> { 
-    config = {
-        allowUnfree = true;
-        cudaSupport = true;
-    };
-}}: pkgs.mkShell {
+{
+	pkgs ? import <nixpkgs> { config = { allowUnfree = true; cudaSupport = true; }; },
+	enableTensorflow ? false,
+	enablePyTorch ? false,
+}: pkgs.mkShell {
     name = "python312-dev";
 
     nativeBuildInputs = with pkgs; [
@@ -12,8 +11,9 @@
         python312Full
         python312Packages.virtualenv
 
-		python312Packages.torchvision
-		python312Packages.torchaudio
+		(if enableTensorflow then python312Packages.tensorflowWithCuda else null)
+		(if enablePyTorch then python312Packages.torchvision else null)
+		(if enablePyTorch then python312Packages.torchaudio else null)
 
         # Won't actually use the matplotlib installed here, but needed to set up environment
         python312Packages.matplotlib
