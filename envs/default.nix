@@ -24,11 +24,7 @@
 			go-dev = (import ./go.nix { inherit pkgs; });
 			js-dev = (import ./js.nix { inherit pkgs; });
 			python311-dev = (import ./python311.nix { inherit pkgs; });
-			python311-tf-dev = (import ./python311.nix { inherit pkgs; enableTensorflow = true; });
-			python311-torch-dev = (import ./python311.nix { inherit pkgs; enablePyTorch = true; });
 			python312-dev = (import ./python312.nix { inherit pkgs; });
-			python312-tf-dev = (import ./python312.nix { inherit pkgs; enableTensorflow = true; });
-			python312-torch-dev = (import ./python312.nix { inherit pkgs; enablePyTorch = true; });
 			rust-dev = (import ./rust.nix { inherit pkgs; });
 
 			c-cuda-dev = (import ./c.nix { pkgs = cudaPkgs; });
