@@ -31,17 +31,17 @@
 			python312-torch-dev = (import ./python312.nix { inherit pkgs; enablePyTorch = true; });
 			rust-dev = (import ./rust.nix { inherit pkgs; });
 
-			c-cuda-dev = (import ./c.nix { inherit cudaPkgs; });
-			cpp-cuda-dev = (import ./cpp.nix { inherit cudaPkgs; });
-			go-cuda-dev = (import ./go.nix { inherit cudaPkgs; });
-			js-cuda-dev = (import ./js.nix { inherit cudaPkgs; });
-			python311-cuda-dev = (import ./python311.nix { inherit cudaPkgs; });
-			python311-cuda-tf-dev = (import ./python311.nix { inherit cudaPkgs; enableTensorflow = true; });
-			python311-cuda-torch-dev = (import ./python311.nix { inherit cudaPkgs; enablePyTorch = true; });
-			python312-cuda-dev = (import ./python312.nix { inherit cudaPkgs; });
-			python312-cuda-tf-dev = (import ./python312.nix { inherit cudaPkgs; enableTensorflow = true; });
-			python312-cuda-torch-dev = (import ./python312.nix { inherit cudaPkgs; enablePyTorch = true; });
-			rust-cuda-dev = (import ./rust.nix { inherit cudaPkgs; });
+			c-cuda-dev = (import ./c.nix { pkgs = cudaPkgs; });
+			cpp-cuda-dev = (import ./cpp.nix { pkgs = cudaPkgs; });
+			go-cuda-dev = (import ./go.nix { pkgs = cudaPkgs; });
+			js-cuda-dev = (import ./js.nix { pkgs = cudaPkgs; });
+			python311-cuda-dev = (import ./python311.nix { pkgs = cudaPkgs; });
+			python311-cuda-tf-dev = (import ./python311.nix { pkgs = cudaPkgs; enableTensorflow = true; });
+			python311-cuda-torch-dev = (import ./python311.nix { pkgs = cudaPkgs; enablePyTorch = true; });
+			python312-cuda-dev = (import ./python312.nix { pkgs = cudaPkgs; });
+			python312-cuda-tf-dev = (import ./python312.nix { pkgs = cudaPkgs; enableTensorflow = true; });
+			python312-cuda-torch-dev = (import ./python312.nix { pkgs = cudaPkgs; enablePyTorch = true; });
+			rust-cuda-dev = (import ./rust.nix { pkgs = cudaPkgs; });
 		};
 	};
 }
