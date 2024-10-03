@@ -33,8 +33,8 @@
     pycharm.enable = true;
     idea.enable = true;
 
+	browsers.enable = true;
 	fiji.enable = true;
-	google-chrome.enable = true;
 	libreoffice.enable = true;
 	obs.enable = true;
 	obsidian.enable = true;

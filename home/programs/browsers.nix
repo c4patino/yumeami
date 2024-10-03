@@ -1,17 +1,19 @@
 { pkgs, lib, config, ... }: {
     options = {
-        google-chrome.enable = lib.mkOption {
+        browsers.enable = lib.mkOption {
             type = lib.types.bool;
             default = false;
-            description = "Enable google-chrome";
+            description = "Enable browsers";
         };
     };
 
-    config = lib.mkIf config.google-chrome.enable {
+    config = lib.mkIf config.browsers.enable {
         home.packages = with pkgs; [
             (google-chrome.override {
                 commandLineArgs = [ "--enable-features=UseOzonePlatform" "--ozone-platform=wayland" ];
             })
+
+			vivaldi
         ];
     };
 }
