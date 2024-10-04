@@ -55,17 +55,5 @@ in
             group = "munge";
             mode = "0400";
         };
-
-		systemd.services.slurm-autoconnect = {
-			description = "Automatically connect to SLURM cluster on startup and shutdown";
-			wantedBy = [ "multi-user.target" ];
-			after = [ "network.target" "slurmd.service" ];
-			postStart = ''
-				scontrol update nodename=$(hostname) state=up
-			'';
-			preStop = ''
-				scontrol update nodename=$(hostname) state=down reason="off"
-			'';
-		};
     };
 }
