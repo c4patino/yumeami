@@ -15,10 +15,10 @@ in
     config = lib.mkIf config.slurm.enable {
         services.slurm = {
 			controlMachine = primaryHost;
-			server.enable = (config.networking.hostName == primaryHost);
 			controlAddr = "100.89.24.88";
 
 			client.enable = builtins.elem config.networking.hostName computeNodes;
+			server.enable = (config.networking.hostName == primaryHost);
 
 			dbdserver = {
 				enable = (config.networking.hostName == primaryHost);
@@ -30,6 +30,7 @@ in
 				"kokoro NodeAddr=100.126.34.64 CPUs=10 Sockets=1 CoresPerSocket=10 ThreadsPerCore=1 RealMemory=23746 Weight=10 State=UNKNOWN" 
 				"chibi NodeAddr=100.101.224.25 CPUs=4 Sockets=1 CoresPerSocket=4 ThreadsPerCore=1 RealMemory=7750 Weight=50 State=UNKNOWN"
 			];
+
             partitionName = [ 
                 "main Nodes=arisu,chibi Default=YES MaxTime=INFINITE State=UP"
                 "extended Nodes=arisu,kokoro,chibi Default=YES MaxTime=INFINITE State=UP"
@@ -44,9 +45,7 @@ in
 				ReturnToService=2
 			'';
 
-			extraConfigPaths = [
-				(inputs.dotfiles + "/slurm")
-			];
+			extraConfigPaths = [ (inputs.dotfiles + "/slurm") ];
         };
 
         services.munge.enable = true;
@@ -56,5 +55,17 @@ in
             group = "munge";
             mode = "0400";
         };
+
+		systemd.services.slurm-autoconnect = {
+			description = "Automatically connect to SLURM cluster on startup and shutdown";
+			wantedBy = [ "multi-user.target" ];
+			after = [ "network.target" "slurmd.service" ];
+			postStart = ''
+				scontrol update nodename=$(hostname) state=up
+			'';
+			preStop = ''
+				scontrol update nodename=$(hostname) state=down reason="off"
+			'';
+		};
     };
 }
