@@ -30,6 +30,7 @@
 	printing.enable = true;
     xremap.enable = true;
 
+	slurm.enable = true;
 	tailscale.enable = true;
 
     docker.enable = true;

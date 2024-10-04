@@ -1,6 +1,7 @@
 { lib, config, self, inputs, ... }:
 let
-	enabledHosts = [ "arisu" "chibi" ];
+	primaryHost = "arisu";
+	computeNodes = [ "arisu" "kokoro" "chibi" ];
 in
 {
     options = {
@@ -13,22 +14,24 @@ in
 
     config = lib.mkIf config.slurm.enable {
         services.slurm = {
-			controlMachine = "arisu";
-			client.enable = true;
-			server.enable = builtins.elem config.networking.hostName enabledHosts;
+			controlMachine = primaryHost;
+			server.enable = (config.networking.hostName == primaryHost);
+			controlAddr = "100.89.24.88";
+
+			client.enable = builtins.elem config.networking.hostName computeNodes;
 
 			dbdserver = {
-				enable = (config.networking.hostName == "arisu");
-				dbdHost = "arisu";
+				enable = (config.networking.hostName == primaryHost);
+				dbdHost = primaryHost;
 			};
 
             nodeName = [ 
-				"arisu CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=63400 Gres=gpu:1,shard:12 State=UNKNOWN" 
-				# "kokoro CPUs=12 Sockets=1 CoresPerSocket=10 ThreadsPerCore=2 RealMemory=24300 Gres=gpu:1,shard:12 State=UNKNOWN" 
-				"chibi CPUs=4 Sockets=1 CoresPerSocket=4 ThreadsPerCore=1 RealMemory=7750 State=UNKNOWN"
+				"arisu NodeAddr=100.89.24.88 CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=63400 Gres=gpu:1,shard:12 Weight=100 State=UNKNOWN" 
+				"kokoro NodeAddr=100.126.34.64 CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=24300 Weight=10 State=UNKNOWN" 
+				"chibi NodeAddr=100.101.224.25 CPUs=4 Sockets=1 CoresPerSocket=4 ThreadsPerCore=1 RealMemory=7750 Weight=50 State=UNKNOWN"
 			];
             partitionName = [ 
-                "main Nodes=arisu,chibi Default=YES MaxTime=INFINITE State=UP"
+                "main Nodes=arisu,kokoro,chibi Default=YES MaxTime=INFINITE State=UP"
             ];
 
 			extraConfig = ''

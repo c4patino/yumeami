@@ -30,11 +30,11 @@
 	printing.enable = true;
 
 	docker.enable = true;
-    slurm.enable = true;
     virtualbox.enable = true;
     teamviewer.enable = true;
 
     github-runners.enable = true;
+	slurm.enable = true;
 	tailscale.enable = true;
 
 	hyprland.enable = true;
