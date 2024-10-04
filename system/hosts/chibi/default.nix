@@ -21,5 +21,6 @@
 	docker.enable = true;
 
     github-runners.enable = true;
+	slurm.enable = true;
 	tailscale.enable = true;
 }

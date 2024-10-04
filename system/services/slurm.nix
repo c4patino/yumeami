@@ -31,7 +31,8 @@ in
 				"chibi NodeAddr=100.101.224.25 CPUs=4 Sockets=1 CoresPerSocket=4 ThreadsPerCore=1 RealMemory=7750 Weight=50 State=UNKNOWN"
 			];
             partitionName = [ 
-                "main Nodes=arisu,kokoro,chibi Default=YES MaxTime=INFINITE State=UP"
+                "main Nodes=arisu,chibi Default=YES MaxTime=INFINITE State=UP"
+                "extended Nodes=arisu,kokoro,chibi Default=YES MaxTime=INFINITE State=UP"
             ];
 
 			extraConfig = ''
