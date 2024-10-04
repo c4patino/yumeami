@@ -1,4 +1,8 @@
-{ lib, config, self, inputs, ... }: {
+{ lib, config, self, inputs, ... }:
+let
+	enabledHosts = [ "arisu" "chibi" ];
+in
+{
     options = {
         slurm.enable = lib.mkOption {
             type = lib.types.bool;
@@ -9,24 +13,22 @@
 
     config = lib.mkIf config.slurm.enable {
         services.slurm = {
+			controlMachine = "arisu";
+			client.enable = true;
+			server.enable = builtins.elem config.networking.hostName enabledHosts;
+
 			dbdserver = {
-				dbdHost = "arisu";
-
 				enable = (config.networking.hostName == "arisu");
-				
-
+				dbdHost = "arisu";
 			};
 
-            server.enable = (config.networking.hostName == "arisu");
-
-            client.enable = true;
-
-            controlMachine = "arisu";
             nodeName = [ 
 				"arisu CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=63400 Gres=gpu:1,shard:12 State=UNKNOWN" 
+				# "kokoro CPUs=12 Sockets=1 CoresPerSocket=10 ThreadsPerCore=2 RealMemory=24300 Gres=gpu:1,shard:12 State=UNKNOWN" 
+				"chibi CPUs=4 Sockets=1 CoresPerSocket=4 ThreadsPerCore=1 RealMemory=7750 State=UNKNOWN"
 			];
             partitionName = [ 
-                "main Nodes=arisu Default=YES MaxTime=INFINITE State=UP"
+                "main Nodes=arisu,chibi Default=YES MaxTime=INFINITE State=UP"
             ];
 
 			extraConfig = ''
