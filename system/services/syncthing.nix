@@ -32,7 +32,7 @@ in
 				};
 				folders = {
 					"shared" = {
-						path = "~/";
+						path = "~/shared";
 						enable = (builtins.elem hostName sharedMachines);
 						copyOwnershipFromParent = true;
 						devices = sharedMachines;
