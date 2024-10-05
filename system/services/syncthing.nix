@@ -12,14 +12,13 @@
 			enable = true;
 			settings = {
 				devices = {
-					"arisu" = { 
-						autoAcceptFolders = true; 
+					"arisu" = {
+						id = "DRHDM4H-V3PNL37-XHUZNKB-L5OSHLY-HPZEKTW-ANIPKHM-IJHLAIO-YTLAMQJ";
+						autoAcceptFolders = true;
 					};
 				};
 				folders = {
-
 				};
-
 			};
         };
     };
