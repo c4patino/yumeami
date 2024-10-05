@@ -22,15 +22,18 @@ in
 			settings = {
 				devices = {
 					"arisu" = {
-						id = "DRHDM4H-V3PNL37-XHUZNKB-L5OSHLY-HPZEKTW-ANIPKHM-IJHLAIO-YTLAMQJ";
+						id = "DPBI57C-24TGY3G-VVNP5CZ-DDNUQ5G-7HZXQ67-WBC6ZJT-RVMAR64-SR25BAE";
+						addresses = [ "tcp://100.89.24.88:22000" ];
 						autoAcceptFolders = true;
 					};
 					"kokoro" = {
 						id = "GNLFB3X-TFDTLJY-NSZWWUT-JOWSBFQ-DXLZA4E-OTXL2SD-GNUQBY3-3R6AMAB";
+						addresses = [ "tcp://100.126.34.64:22000" ];
 						autoAcceptFolders = true;
 					};
 					"chibi" = {
 						id = "QV2Y5R5-3RHJDCW-L5L633X-UMASLYU-SASAOPE-CSCYPVH-XPZSWQX-UZEEJA7";
+						addresses = [ "tcp://100.101.224.25:22000" ];
 						autoAcceptFolders = true;
 					};
 				};
