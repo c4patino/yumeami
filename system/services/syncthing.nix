@@ -27,7 +27,7 @@ in
 						autoAcceptFolders = true;
 					};
 					"kokoro" = {
-						id = "GNLFB3X-TFDTLJY-NSZWWUT-JOWSBFQ-DXLZA4E-OTXL2SD-GNUQBY3-3R6AMAB";
+						id = "7XSPLOL-PJWH4LR-NBGYLCZ-PXJBRN2-434Q5YE-BACDCLG-T44FOWK-SZLIDQX";
 						addresses = [ "tcp://100.126.34.64:22000" ];
 						autoAcceptFolders = true;
 					};
