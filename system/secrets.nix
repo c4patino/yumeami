@@ -11,9 +11,18 @@
             generateKey = true;
         };
         secrets = {
-            github-auth = { };
-            github-runner = { };
-            github-runner-oasys = { };
+			"github/auth" = {
+				owner = config.users.users.c4patino.name;
+			};
+			"github/runner" = {
+				owner = config.users.users.c4patino.name;
+			};
+			"github/runner-oasys" = {
+				owner = config.users.users.c4patino.name;
+			};
+			"master-password" = {
+				owner = config.users.users.c4patino.name;
+			};
         };
     };
 }

@@ -30,6 +30,8 @@
     music.enable = true;
 	leetcode.enable = true;
 
+	lastpass.enable = true;
+
 	neovim.enable = true;
     pycharm.enable = true;
     idea.enable = true;

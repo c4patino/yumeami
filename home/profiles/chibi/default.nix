@@ -18,5 +18,7 @@
 	bottom.enable = true;
 	yazi.enable = true;
 
+	lastpass.enable = true;
+
 	neovim.enable = true;
 } 
