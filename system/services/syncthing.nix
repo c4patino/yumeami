@@ -15,6 +15,10 @@ in
     config = lib.mkIf config.syncthing.enable {
         services.syncthing = {
 			enable = true;
+			dataDir = "/mnt/syncthing/";
+			user = "c4patino";
+			group = "syncthing";
+
 			settings = {
 				devices = {
 					"arisu" = {
@@ -32,13 +36,14 @@ in
 				};
 				folders = {
 					"shared" = {
-						path = "~/shared";
+						path = "/mnt/syncthing/shared";
 						enable = (builtins.elem hostName sharedMachines);
-						copyOwnershipFromParent = true;
 						devices = sharedMachines;
 					};
 				};
 			};
         };
+
+		systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
     };
 }
