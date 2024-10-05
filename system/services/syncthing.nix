@@ -1,4 +1,9 @@
-{ lib, config, ... }: {
+{ lib, config, ... }: 
+let
+	hostName = config.networking.hostName;
+	sharedMachines = [ "arisu" "kokoro" "chibi" ];
+in
+{
     options = {
         syncthing.enable = lib.mkOption {
             type = lib.types.bool;
@@ -26,6 +31,12 @@
 					};
 				};
 				folders = {
+					"shared" = {
+						path = "~/";
+						enable = (builtins.elem hostName sharedMachines);
+						copyOwnershipFromParent = true;
+						devices = sharedMachines;
+					};
 				};
 			};
         };

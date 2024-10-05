@@ -11,7 +11,7 @@
     users.users.c4patino = {
         isNormalUser = true;
         description = "C4 Patino";
-        extraGroups = [ "networkmanager" "wheel" "docker" ];
+        extraGroups = [ "networkmanager" "wheel" "docker" "syncthing" ];
         initialPassword = "passw0rd";
         shell = pkgs.zsh;
     };
