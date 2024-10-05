@@ -32,7 +32,7 @@ in
 						autoAcceptFolders = true;
 					};
 					"chibi" = {
-						id = "QV2Y5R5-3RHJDCW-L5L633X-UMASLYU-SASAOPE-CSCYPVH-XPZSWQX-UZEEJA7";
+						id = "R4GG6JX-FVLM2BG-26U7GTV-XVMEKIY-72YMS7D-TGYSSKJ-JWJM4NJ-OZI2ZAY";
 						addresses = [ "tcp://100.101.224.25:22000" ];
 						autoAcceptFolders = true;
 					};
