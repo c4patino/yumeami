@@ -40,7 +40,7 @@ in
 				ReturnToService=2
 
 				AccountingStorageType=accounting_storage/slurmdbd
-				JobAcctGatherType=jobacct_gather/cgroup
+				JobAcctGatherType=jobacct_gather/linux
 			'';
 
 			extraConfigPaths = [ (inputs.dotfiles + "/slurm") ];
