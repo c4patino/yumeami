@@ -21,7 +21,7 @@ in
 			server.enable = (config.networking.hostName == primaryHost);
 
             nodeName = [ 
-				"arisu NodeAddr=100.89.24.88 CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=63443 Gres=gpu:1,shard:12 Weight=1 State=UNKNOWN"
+				"arisu NodeAddr=100.89.24.88 CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=63443 Gres=gpu:rtx3070:1,shard:12 Weight=1 State=UNKNOWN"
 				"kokoro NodeAddr=100.126.34.64 CPUs=10 Sockets=1 CoresPerSocket=10 ThreadsPerCore=1 RealMemory=23746 Weight=100 State=UNKNOWN"
 				"chibi NodeAddr=100.101.224.25 CPUs=4 Sockets=1 CoresPerSocket=4 ThreadsPerCore=1 RealMemory=7750 Weight=10 State=UNKNOWN"
 			];
@@ -40,6 +40,8 @@ in
 				ReturnToService=2
 
 				AccountingStorageType=accounting_storage/slurmdbd
+				AccountingStorageTRES=gres/gpu
+
 				JobAcctGatherType=jobacct_gather/linux
 			'';
 
