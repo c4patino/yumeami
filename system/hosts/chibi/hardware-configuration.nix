@@ -12,7 +12,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
-  boot.initrd.systemd.enableTpm2 = false;
+  boot.initrd.systemd.tpm2.enable = false;
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
