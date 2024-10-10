@@ -43,9 +43,12 @@ in
 				AccountingStorageTRES=gres/gpu
 
 				JobAcctGatherType=jobacct_gather/linux
+
+				TaskProlog=${inputs.dotfiles + "/slurm/config/prolog.sh"}
+				TaskEpilog=${inputs.dotfiles + "/slurm/config/epilog.sh"}
 			'';
 
-			extraConfigPaths = [ (inputs.dotfiles + "/slurm") ];
+			extraConfigPaths = [ (inputs.dotfiles + "/slurm/config") ];
 
 			dbdserver = {
 				enable = (config.networking.hostName == primaryHost);

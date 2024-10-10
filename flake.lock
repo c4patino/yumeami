@@ -219,11 +219,11 @@
     "dotfiles": {
       "flake": false,
       "locked": {
-        "lastModified": 1728089391,
-        "narHash": "sha256-gnd2dUScLBsBlfxPBqYWKAN2xdtqXjlc+h40gMIw6cw=",
+        "lastModified": 1728604720,
+        "narHash": "sha256-VN8P8Ccxe4KLqvgwfb28WZ4h8hRFbdMcOzaaSGEvv3o=",
         "owner": "C4theBomb",
         "repo": "dotfiles",
-        "rev": "dc363f89c37705933cb38c91c4d4188cccef8749",
+        "rev": "b8fddd98a667fc9aec584695cb5b04258a975766",
         "type": "github"
       },
       "original": {
