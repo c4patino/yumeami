@@ -44,8 +44,8 @@ in
 
 				JobAcctGatherType=jobacct_gather/linux
 
-				TaskProlog=${inputs.dotfiles + "/slurm/config/prolog.sh"}
-				TaskEpilog=${inputs.dotfiles + "/slurm/config/epilog.sh"}
+				TaskProlog=${inputs.dotfiles + "/slurm/prolog.sh"}
+				TaskEpilog=${inputs.dotfiles + "/slurm/epilog.sh"}
 			'';
 
 			extraConfigPaths = [ (inputs.dotfiles + "/slurm/config") ];
