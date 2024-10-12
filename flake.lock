@@ -1086,11 +1086,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1727893949,
-        "narHash": "sha256-ody9igASikDoq3on/sxoETT9Ut+F6h2y2nIYD6VLi00=",
+        "lastModified": 1728752473,
+        "narHash": "sha256-y8xq3iv132h7MC6Yt/k6sBHCmw2cn1qW+QwQ2bS3Xv4=",
         "owner": "C4theBomb",
         "repo": "nixvim",
-        "rev": "8ce124e2e90534a7371d59dae9c75b30d7c27b1d",
+        "rev": "640059429d9f70cf811f3285002287facc66c1bd",
         "type": "github"
       },
       "original": {
