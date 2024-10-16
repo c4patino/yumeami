@@ -6,6 +6,7 @@
     nativeBuildInputs = with pkgs; [
 		cargo
 		rustc
+		rustfmt
     ];
 
     shell = pkgs.zsh;
