@@ -10,8 +10,11 @@
 
         python311Full
         python311Packages.virtualenv
+		python311Packages.debugpy
 
 		(if enableTensorflow then python311Packages.tensorflowWithCuda else null)
+		(if enableTensorflow then (python311Packages.keras.override { tensorflow = python311Packages.tensorflowWithCuda; }) else null)
+
 		(if enablePyTorch then python311Packages.torchvision else null)
 		(if enablePyTorch then python311Packages.torchaudio else null)
 

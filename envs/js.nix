@@ -7,6 +7,8 @@
 		nodejs
 		nodePackages.pnpm
 		yarn
+
+		vscode-js-debug
     ];
 
     shell = pkgs.zsh;

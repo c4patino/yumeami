@@ -1,14 +1,12 @@
 {
 	pkgs ? import <nixpkgs> { config = { allowUnfree = true; cudaSupport = true; }; }
 }: pkgs.mkShell {
-    name = "go-dev";
+    name = "java-dev";
 
 	nativeBuildInputs = with pkgs; [
-		go
-		gotools
-		golangci-lint
+		jdk22
 
-		delve
+		jdt-language-server
 	];
 
     shell = pkgs.zsh;

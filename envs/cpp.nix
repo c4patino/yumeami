@@ -16,8 +16,6 @@
         vcpkg
         vcpkg-tool
         gdb
-
-        catch2_3
     ];
 
     shell = pkgs.zsh;

@@ -22,10 +22,14 @@
 			c-dev = (import ./c.nix { inherit pkgs; });
 			cpp-dev = (import ./cpp.nix { inherit pkgs; });
 			go-dev = (import ./go.nix { inherit pkgs; });
+			java-dev = (import ./java.nix { inherit pkgs; });
 			js-dev = (import ./js.nix { inherit pkgs; });
 			python311-dev = (import ./python311.nix { inherit pkgs; });
 			python312-dev = (import ./python312.nix { inherit pkgs; });
+
 			rust-dev = (import ./rust.nix { inherit pkgs; });
+			rust-cuda-dev = (import ./rust.nix { pkgs = cudaPkgs; });
+			rust-cuda-torch-dev = (import ./rust.nix { pkgs = cudaPkgs; enablePyTorch = true; });
 
 			python311-cuda-dev = (import ./python311.nix { pkgs = cudaPkgs; });
 			python311-cuda-tf-dev = (import ./python311.nix { pkgs = cudaPkgs; enableTensorflow = true; });
