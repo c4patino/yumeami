@@ -1,6 +1,5 @@
 {
 	pkgs ? import <nixpkgs> { config = { allowUnfree = true; cudaSupport = true; }; }, 
-	enablePyTorch ? false,
 }: pkgs.mkShell {
     name = "rust-dev";
 
@@ -8,8 +7,6 @@
 		cargo
 		rustc
 		rustfmt
-
-		(if enablePyTorch then libtorch-bin else null)
 
 		gdb
     ];
