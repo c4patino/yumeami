@@ -9,9 +9,9 @@
 
     config = lib.mkIf config.browsers.enable {
         home.packages = with pkgs; [
-            (google-chrome.override {
-                commandLineArgs = [ "--enable-features=UseOzonePlatform" "--ozone-platform=wayland" ];
-            })
+            # (google-chrome.override {
+            #     commandLineArgs = [ "--enable-features=UseOzonePlatform" "--ozone-platform=wayland" ];
+            # })
 
 			vivaldi
         ];
