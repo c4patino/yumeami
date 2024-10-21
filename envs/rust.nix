@@ -1,6 +1,5 @@
 {
 	pkgs ? import <nixpkgs> { config = { allowUnfree = true; cudaSupport = true; }; }, 
-	enablePyTorch ? false,
 }: pkgs.mkShell {
     name = "rust-dev";
 
@@ -19,6 +18,5 @@
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${pkgs.glib.out}/lib
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/run/opengl-driver/lib
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$NIX_LD_LIBRARY_PATH;
-		export LIBTORCH=${if enablePyTorch then pkgs.libtorch-bin.dev else null};
     '';
 }
