@@ -29,6 +29,7 @@
 
 			rust-dev = (import ./rust.nix { inherit pkgs; });
 			rust-cuda-dev = (import ./rust.nix { pkgs = cudaPkgs; });
+			rust-cuda-torch-dev = (import ./rust.nix { pkgs = cudaPkgs; enablePyTorch = true; });
 
 			python311-cuda-dev = (import ./python311.nix { pkgs = cudaPkgs; });
 			python311-cuda-tf-dev = (import ./python311.nix { pkgs = cudaPkgs; enableTensorflow = true; });
