@@ -1,5 +1,7 @@
 # Symphony
 
+stuff
+
 ![Logo](./demo.png)
 
 Meticulously crafted collection of NixOS configurations tailored for my systems. This repository encapsulates a unified setup across different machines, ensuring a consistent and efficient environment no matter where I’m working. The configurations are designed with modularity and clarity in mind, making it easy to adapt and scale. Whether it's setting up a new machine or refining an existing setup, Symphony brings what I believe to be the best practices in NixOS configuration management, unified under a single, cohesive structure. System and home manager configurations are kept separate to keep configuration flexible and modular.
