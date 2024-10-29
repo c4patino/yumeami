@@ -17,6 +17,7 @@
                 [cookies]
                 csrf = '${secrets.leetcode.csrf}'
                 session = '${secrets.leetcode.session}'
+				site = "leetcode.com"
             '';
         };
     };
