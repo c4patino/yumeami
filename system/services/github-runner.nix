@@ -24,9 +24,7 @@
 				ephemeral = true;
                 tokenFile = config.sops.secrets."github/runner-oasys".path;
                 url = "https://github.com/oasys-mas";
-				user = "c4patino";
-				group = "users";
-				extraPackages = with pkgs; [ openssl cudaPackages.cudatoolkit ];
+				extraPackages = with pkgs; [ openssl ];
             };
         };
 	};
