@@ -11,5 +11,9 @@
         home.packages = [
             inputs.nixvim-config.packages.${pkgs.system}.default
         ];
+
+		home.sessionVariables = {
+			EDITOR = "nvim";
+		};
     };
 }

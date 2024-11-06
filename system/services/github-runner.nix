@@ -1,4 +1,4 @@
-{ lib, config, ... }: {
+{ pkgs, lib, config, ... }: {
     options = {
         github-runners.enable = lib.mkOption {
             type = lib.types.bool;
@@ -18,6 +18,16 @@
                 tokenFile = config.sops.secrets."github/runner".path;
                 url = "https://github.com/C4theBomb/nixos-config";
             };
+            "${config.networking.hostName}-oasys" = {
+                enable = true;
+				replace = true;
+				ephemeral = true;
+                tokenFile = config.sops.secrets."github/runner-oasys".path;
+                url = "https://github.com/oasys-mas";
+				user = "c4patino";
+				group = "users";
+				extraPackages = with pkgs; [ openssl cudaPackages.cudatoolkit ];
+            };
         };
-    };
+	};
 }
