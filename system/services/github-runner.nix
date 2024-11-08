@@ -13,6 +13,7 @@
         services.github-runners = {
             "${config.networking.hostName}" = {
                 enable = true;
+				name = "arisu";
 				replace = true;
 				ephemeral = true;
                 tokenFile = config.sops.secrets."github/runner".path;
@@ -20,6 +21,7 @@
             };
             "${config.networking.hostName}-oasys" = {
                 enable = true;
+				name = "arisu";
 				replace = true;
 				ephemeral = true;
                 tokenFile = config.sops.secrets."github/runner-oasys".path;
