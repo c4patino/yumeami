@@ -8,13 +8,27 @@
     };
 
     config = lib.mkIf config.docker.enable {
-        virtualisation.docker = {
-            enable = true;
-            rootless = {
-                enable = true;
-                setSocketVariable = true;
-            };
-        };
+		hardware.nvidia-container-toolkit.enable = config.nvidia.enable;
+
+        virtualisation = {
+			containers = {
+				enable = true;
+			};
+
+			docker = {
+				enable = true;
+
+				daemon.settings.features.cdi = true;
+
+				rootless = {
+					enable = true;
+					setSocketVariable = true;
+					daemon.settings.features.cdi = true;
+				};
+			};
+
+			oci-containers.backend = "docker";
+		};
     };
 }
 

@@ -18,6 +18,10 @@
 				ephemeral = true;
                 tokenFile = config.sops.secrets."github/runner".path;
                 url = "https://github.com/C4theBomb/nixos-config";
+				extraPackages = with pkgs; [ openssl docker ];
+				extraLabels = lib.mkIf config.nvidia.enable [ "gpu" ];
+				user = "root";
+				group = "root";
             };
             "${config.networking.hostName}-oasys" = {
                 enable = true;
@@ -26,7 +30,10 @@
 				ephemeral = true;
                 tokenFile = config.sops.secrets."github/runner-oasys".path;
                 url = "https://github.com/oasys-mas";
-				extraPackages = with pkgs; [ openssl ];
+				extraPackages = with pkgs; [ openssl docker ];
+				extraLabels = lib.mkIf config.nvidia.enable [ "gpu" ];
+				user = "root";
+				group = "root";
             };
         };
 	};
