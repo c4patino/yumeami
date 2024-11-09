@@ -23,6 +23,9 @@
 			"master-password" = {
 				owner = config.users.users.c4patino.name;
 			};
+			"pypi" = {
+				owner = config.users.users.c4patino.name;
+			};
         };
     };
 }
