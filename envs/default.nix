@@ -24,6 +24,7 @@
 			go-dev = (import ./go.nix { inherit pkgs; });
 			java-dev = (import ./java.nix { inherit pkgs; });
 			js-dev = (import ./js.nix { inherit pkgs; });
+			nix-dev = (import ./nix.nix { inherit pkgs; });
 			python311-dev = (import ./python311.nix { inherit pkgs; });
 			python312-dev = (import ./python312.nix { inherit pkgs; });
 
