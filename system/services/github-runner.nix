@@ -5,36 +5,53 @@
             default = false;
             description = "Enable Github Action Runner";
         };
+		github-runners.runners = lib.mkOption {
+			type = lib.types.listOf lib.types.attrs;
+			default = [
+				{
+					name = "${config.networking.hostName}-nixos-config";
+					tokenFile = config.sops.secrets."github/runner".path;
+					url = "https://github.com/C4theBomb/nixos-config";
+				}
+				{
+					name = "${config.networking.hostName}-nixvim";
+					tokenFile = config.sops.secrets."github/runner".path;
+					url = "https://github.com/C4theBomb/nixvim";
+				}
+				{
+					name = "${config.networking.hostName}-neovim";
+					tokenFile = config.sops.secrets."github/runner".path;
+					url = "https://github.com/C4theBomb/neovim";
+				}
+				{
+					name = "${config.networking.hostName}-dotfiles";
+					tokenFile = config.sops.secrets."github/runner".path;
+					url = "https://github.com/C4theBomb/dotfiles";
+				}
+				{
+					name = "${config.networking.hostName}-oasys";
+					tokenFile = config.sops.secrets."github/runner-oasys".path;
+					url = "https://github.com/oasys-mas";
+				}
+			];
+			description = "List of GitHub runners to configure";
+		};
     };
 
-    config = lib.mkIf config.github-runners.enable {
-        systemd.user.services."github-runner-${config.networking.hostName}".after = [ "sops-nix.service" ];
-
-        services.github-runners = {
-            "${config.networking.hostName}" = {
-                enable = true;
-				name = "arisu";
+	config = lib.mkIf config.github-runners.enable {
+		services.github-runners = lib.foldl' (acc: runner: acc // {
+			"${runner.name}" = {
+				enable = true;
+				name = config.networking.hostName;
 				replace = true;
 				ephemeral = true;
-                tokenFile = config.sops.secrets."github/runner".path;
-                url = "https://github.com/C4theBomb/nixos-config";
+				tokenFile = runner.tokenFile;
+				url = runner.url;
 				extraPackages = with pkgs; [ openssl docker ];
 				extraLabels = lib.mkIf config.nvidia.enable [ "gpu" ];
 				user = "root";
 				group = "root";
-            };
-            "${config.networking.hostName}-oasys" = {
-                enable = true;
-				name = "arisu";
-				replace = true;
-				ephemeral = true;
-                tokenFile = config.sops.secrets."github/runner-oasys".path;
-                url = "https://github.com/oasys-mas";
-				extraPackages = with pkgs; [ openssl docker ];
-				extraLabels = lib.mkIf config.nvidia.enable [ "gpu" ];
-				user = "root";
-				group = "root";
-            };
-        };
-	};
+			};
+		}) {} config.github-runners.runners;
+  };
 }
