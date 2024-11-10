@@ -1,26 +1,30 @@
-{ lib, config, ... }: {
-    options = {
-        kitty.enable = lib.mkOption {
-            type = lib.types.bool;
-            default = false;
-            description = "Enable the kitty terminal emulator";
-        };
+{
+  lib,
+  config,
+  ...
+}: {
+  options = {
+    kitty.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Enable the kitty terminal emulator";
     };
+  };
 
-    config = lib.mkIf config.kitty.enable {
-        programs.kitty = {
-            enable = true;
-            shellIntegration.enableZshIntegration = true;
-            font.name = "MesloLGM Nerd Font Mono";
-			themeFile = "tokyo_night_night";
+  config = lib.mkIf config.kitty.enable {
+    programs.kitty = {
+      enable = true;
+      shellIntegration.enableZshIntegration = true;
+      font.name = "MesloLGM Nerd Font Mono";
+      themeFile = "tokyo_night_night";
 
-            keybindings = {
-                "ctrl+enter" = "new_window_with_cwd";
-            };
+      keybindings = {
+        "ctrl+enter" = "new_window_with_cwd";
+      };
 
-            extraConfig = ''
-                enabled_layouts grid, fat
-            '';
-        };
+      extraConfig = ''
+        enabled_layouts grid, fat
+      '';
     };
+  };
 }

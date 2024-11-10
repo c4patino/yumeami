@@ -1,22 +1,26 @@
-{ pkgs, inputs, ... }: {
-    programs.home-manager.enable = true;
+{
+  pkgs,
+  inputs,
+  ...
+}: {
+  programs.home-manager.enable = true;
 
-    nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfree = true;
 
-    imports = [
-        ./programs
-        ./wayland
-        ./scripts
+  imports = [
+    ./programs
+    ./wayland
+    ./scripts
 
-        inputs.sops-nix.homeManagerModules.sops
-    ];
+    inputs.sops-nix.homeManagerModules.sops
+  ];
 
-    home.packages = with pkgs; [
-        curl
-        wget
-        unzip
-        xclip
-        sops
-        git-crypt
-    ];
+  home.packages = with pkgs; [
+    curl
+    wget
+    unzip
+    xclip
+    sops
+    git-crypt
+  ];
 }

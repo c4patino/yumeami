@@ -1,7 +1,7 @@
-{ ... }: {
-    imports = [
-        ./docker.nix
-        ./virtualbox.nix
-        ./teamviewer.nix
-    ];
+{...}: {
+  imports = [
+    ./docker.nix
+    ./virtualbox.nix
+    ./teamviewer.nix
+  ];
 }

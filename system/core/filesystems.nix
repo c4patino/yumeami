@@ -1,4 +1,4 @@
-{ ... }: {
-    boot.supportedFilesystems = [ "ntfs" ];
-	services.davfs2.enable = true;
+{...}: {
+  boot.supportedFilesystems = ["ntfs"];
+  services.davfs2.enable = true;
 }

@@ -1,6 +1,6 @@
-{ ... }: {
-    imports = [
-        ./yazi
-        ./music.nix
-    ];
+{...}: {
+  imports = [
+    ./yazi
+    ./music.nix
+  ];
 }

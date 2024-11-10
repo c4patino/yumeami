@@ -1,19 +1,26 @@
 {
-	pkgs ? import <nixpkgs> { config = { allowUnfree = true; cudaSupport = true; }; }
-}: pkgs.mkShell {
-    name = "go-dev";
+  pkgs ?
+    import <nixpkgs> {
+      config = {
+        allowUnfree = true;
+        cudaSupport = true;
+      };
+    },
+}:
+pkgs.mkShell {
+  name = "go-dev";
 
-	nativeBuildInputs = with pkgs; [
-		go
-		gotools
-		golangci-lint
+  nativeBuildInputs = with pkgs; [
+    go
+    gotools
+    golangci-lint
 
-		delve
-	];
+    delve
+  ];
 
-    shell = pkgs.zsh;
+  shell = pkgs.zsh;
 
-    shellHook = ''
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$NIX_LD_LIBRARY_PATH;
-    '';
+  shellHook = ''
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$NIX_LD_LIBRARY_PATH;
+  '';
 }

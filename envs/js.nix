@@ -1,19 +1,26 @@
 {
-	pkgs ? import <nixpkgs> { config = { allowUnfree = true; cudaSupport = true; }; }
-}: pkgs.mkShell {
-    name = "js-dev";
+  pkgs ?
+    import <nixpkgs> {
+      config = {
+        allowUnfree = true;
+        cudaSupport = true;
+      };
+    },
+}:
+pkgs.mkShell {
+  name = "js-dev";
 
-    nativeBuildInputs = with pkgs; [
-		nodejs
-		nodePackages.pnpm
-		yarn
+  nativeBuildInputs = with pkgs; [
+    nodejs
+    nodePackages.pnpm
+    yarn
 
-		vscode-js-debug
-    ];
+    vscode-js-debug
+  ];
 
-    shell = pkgs.zsh;
+  shell = pkgs.zsh;
 
-    shellHook = ''
-        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$NIX_LD_LIBRARY_PATH;
-    '';
+  shellHook = ''
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$NIX_LD_LIBRARY_PATH;
+  '';
 }
