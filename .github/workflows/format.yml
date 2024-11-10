@@ -1,0 +1,31 @@
+name: alejandra
+
+on:
+  push:
+    branches: ["main"]
+    tags: ["v*.*.*"]
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches: ["*"]
+  workflow_dispatch:
+
+jobs:
+  format:
+    runs-on: [self-hosted]
+    permissions:
+        contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Activate nix-shell
+        uses: nicknovitski/nix-develop@v1.2.0
+        with:
+          arguments: "github:C4theBomb/nixos-config#nix-dev"
+      - name: Format all files
+        run: alejandra .
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5.0.1
+        with:
+          commit_message: "[skip ci] Autoformatting with alejandra"
