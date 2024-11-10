@@ -12,10 +12,12 @@ pkgs.mkShell {
 
   nativeBuildInputs = with pkgs; [
     cargo
+    cargo-release
+
     rustc
     rustfmt
 
-    gdb
+      gdb
   ];
 
   shell = pkgs.zsh;

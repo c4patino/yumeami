@@ -13,12 +13,10 @@ jobs:
   format:
     runs-on: [self-hosted]
     permissions:
-        contents: write
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
       - name: Activate nix-shell
         uses: nicknovitski/nix-develop@v1.2.0
         with:
