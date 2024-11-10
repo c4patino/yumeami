@@ -13,16 +13,16 @@
     };
   };
 
-  imports = [ inputs.nix-minecraft.nixosModules.minecraft-servers ];
+  imports = [inputs.nix-minecraft.nixosModules.minecraft-servers];
 
   config = lib.mkIf config.mcservers.enable {
     environment.systemPackages = with pkgs; [tmux];
 
     networking.firewall = {
-      allowedTCPPorts = [ 25565 ];
+      allowedTCPPorts = [25565];
     };
 
-    nixpkgs.overlays = [ inputs.nix-minecraft.overlay ];
+    nixpkgs.overlays = [inputs.nix-minecraft.overlay];
 
     services.minecraft-servers = {
       enable = true;
