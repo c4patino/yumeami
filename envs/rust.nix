@@ -17,7 +17,7 @@ pkgs.mkShell {
     rustc
     rustfmt
 
-      gdb
+    gdb
   ];
 
   shell = pkgs.zsh;
