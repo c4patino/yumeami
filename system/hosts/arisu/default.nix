@@ -42,5 +42,7 @@
   tailscale.enable = true;
 
   hyprland.enable = true;
+
   steam.enable = true;
+  mcservers.enable = true;
 }

@@ -22,6 +22,8 @@
     impermanence.url = "github:nix-community/impermanence";
     xremap.url = "github:xremap/nix-flake";
 
+    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

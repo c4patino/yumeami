@@ -44,6 +44,8 @@
   postman.enable = true;
   sms.enable = true;
 
+  prismlauncher.enable = true;
+
   wayland.windowManager.hyprland.settings.monitor = [
     ", preferred, auto, 1"
   ];
