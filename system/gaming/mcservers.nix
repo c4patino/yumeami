@@ -29,12 +29,14 @@
       eula = true;
 
       servers = {
-        test = {
+        vanilla = {
           enable = true;
-
           package = pkgs.vanillaServers.vanilla-1_21_3;
-
-          serverProperties = {};
+          jvmOpts = "-Xms4092M -Xmx4092M -XX:+UseG1GC";
+          serverProperties = {
+            difficulty = "hard";
+            server-port = 25565;
+          };
           whitelist = {};
         };
       };
