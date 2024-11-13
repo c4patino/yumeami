@@ -219,11 +219,11 @@
     "dotfiles": {
       "flake": false,
       "locked": {
-        "lastModified": 1731121008,
-        "narHash": "sha256-tby9NNhZo+SErZ790e64Ozku30uewLSUUpXiwqMoA1M=",
+        "lastModified": 1731478186,
+        "narHash": "sha256-DRbkzqhe87/lMLzKBDV3pQXaebcEcXSx7Wa43jZmnYo=",
         "owner": "C4theBomb",
         "repo": "dotfiles",
-        "rev": "cb01aca3e9181dd5304082a71049312226f6cc4a",
+        "rev": "dcf2fcad5ff090b9b51474f23250a1f6d1ba12c7",
         "type": "github"
       },
       "original": {
@@ -1156,11 +1156,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1731198842,
-        "narHash": "sha256-LNasvI7DflccYNvlOQWPrx+uV8DhV9CmrDcyhyK4Ank=",
+        "lastModified": 1731198855,
+        "narHash": "sha256-yjMaCZip5c3Br6XhDzRAepjPfnGVDU3GprM/BncaRQ8=",
         "owner": "C4theBomb",
         "repo": "nixvim",
-        "rev": "67f6c80162b6bf57ede099c4f65fc627ab7f6240",
+        "rev": "1b8d5137ca64f9be1cbdc56eaeff6d1d01e2237d",
         "type": "github"
       },
       "original": {
