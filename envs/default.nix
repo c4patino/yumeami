@@ -44,10 +44,6 @@
         enablePyTorch = true;
       };
       python312-cuda-dev = import ./python312.nix {pkgs = cudaPkgs;};
-      python312-cuda-tf-dev = import ./python312.nix {
-        pkgs = cudaPkgs;
-        enableTensorflow = true;
-      };
       python312-cuda-torch-dev = import ./python312.nix {
         pkgs = cudaPkgs;
         enablePyTorch = true;
