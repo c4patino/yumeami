@@ -35,12 +35,6 @@
           inactive_opacity = 1.0;
           fullscreen_opacity = 1.0;
 
-          drop_shadow = true;
-          shadow_range = 60;
-          shadow_offset = "0 5";
-          shadow_render_power = 4;
-          "col.shadow" = "rgba(00000099)";
-
           blur = {
             enabled = true;
             size = 6;

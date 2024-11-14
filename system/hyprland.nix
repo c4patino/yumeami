@@ -16,6 +16,7 @@
     programs.hyprland = {
       enable = true;
       xwayland.enable = true;
+      package = pkgs.hyprland;
     };
 
     environment.systemPackages = with pkgs; [
