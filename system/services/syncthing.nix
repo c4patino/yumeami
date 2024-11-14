@@ -50,5 +50,9 @@ in {
     };
 
     systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
+
+    environment.sessionVariables = {
+      SHARED = "/mnt/syncthing/shared";
+    };
   };
 }
