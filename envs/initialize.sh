@@ -23,7 +23,6 @@ cuda_shells=(
     "python311-cuda-tf-dev"
     "python311-cuda-torch-dev"
     "python312-cuda-dev"
-    "python312-cuda-tf-dev"
     "python312-cuda-torch-dev"
 )
 
