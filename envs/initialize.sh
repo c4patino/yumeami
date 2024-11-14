@@ -3,6 +3,7 @@
 #SBATCH --job-name=devshell-init
 #SBATCH --output=/mnt/syncthing/shared/devshell-init_%A_%a.out
 #SBATCH --error=/mnt/syncthing/shared/devshell-init_%A_%a.err
+#SBATCH --exclusive
 
 non_cuda_shells=(
     "c-dev"
