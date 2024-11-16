@@ -39,6 +39,16 @@
           };
           whitelist = {};
         };
+        modded = {
+          enable = true;
+          package = pkgs.fabricServers.fabric-1_21_3;
+          jvmOpts = "-Xms4092M -Xmx4092M -XX:+UseG1GC";
+          serverProperties = {
+            difficulty = "hard";
+            server-port = 25566;
+          };
+          whitelist = {};
+        };
       };
     };
   };
