@@ -19,7 +19,7 @@
     environment.systemPackages = with pkgs; [tmux];
 
     networking.firewall = {
-      allowedTCPPorts = [25565];
+      allowedTCPPorts = [25565 25566];
     };
 
     nixpkgs.overlays = [inputs.nix-minecraft.overlay];
