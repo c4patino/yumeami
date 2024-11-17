@@ -19,11 +19,11 @@
 
     home.file.".leetcode/leetcode.toml" = {
       text = ''
-                    ${builtins.readFile (inputs.dotfiles + "/leetcode.toml")}
+        ${builtins.readFile (inputs.dotfiles + "/leetcode.toml")}
 
-                    [cookies]
-                    csrf = '${secrets.leetcode.csrf}'
-                    session = '${secrets.leetcode.session}'
+        [cookies]
+        csrf = '${secrets.leetcode.csrf}'
+        session = '${secrets.leetcode.session}'
         site = "leetcode.com"
       '';
     };

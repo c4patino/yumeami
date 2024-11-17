@@ -23,6 +23,7 @@
   };
 
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  boot.loader.grub.theme = inputs.dotfiles + "/vimix/4k";
 
   audio.enable = true;
   bluetooth.enable = true;
