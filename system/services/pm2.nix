@@ -22,6 +22,8 @@
       description = "pm2";
       wantedBy = ["multi-user.target"];
       serviceConfig = {
+        User = config.users.users.c4patino.name;
+        Group = config.users.users.c4patino.group;
         ExecStart = "${pkgs.pm2}/bin/pm2 resurrect --no-daemon";
         ExecReload = "${pkgs.pm2}/bin/pm2 reload all";
         ExecStop = "${pkgs.pm2}/bin/pm2 kill";
