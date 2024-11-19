@@ -23,7 +23,7 @@
       unitConfig = {
         Type = "simple";
       };
-      wantedBy = [ "multi-user.target" ];
+      wantedBy = ["multi-user.target"];
       serviceConfig = {
         ExecStart = "${pkgs.pm2}/bin/pm2 resurrect";
         ExecReload = "${pkgs.pm2}/bin/pm2 reload all";
