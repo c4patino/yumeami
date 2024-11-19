@@ -29,6 +29,9 @@
         ExecReload = "${pkgs.pm2}/bin/pm2 reload all";
         ExecStop = "${pkgs.pm2}/bin/pm2 kill";
       };
+      environment = {
+        HOME = config.users.users.c4patino.home;
+      };
     };
   };
 }
