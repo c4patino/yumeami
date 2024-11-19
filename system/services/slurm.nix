@@ -53,11 +53,13 @@ in {
         TaskEpilog=${inputs.dotfiles + "/slurm/epilog.sh"}
       '';
 
-      extraCgroupConfig = ''
-        ConstrainCores=yes
-        ConstrainDevices=yes
-        ConstrainRAMSpace=yes
-      '' + (
+      extraCgroupConfig =
+        ''
+          ConstrainCores=yes
+          ConstrainDevices=yes
+          ConstrainRAMSpace=yes
+        ''
+        + (
           if config.networking.hostName != "chibi"
           then ''
             ConstrainSwapSpace=yes
