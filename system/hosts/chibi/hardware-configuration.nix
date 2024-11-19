@@ -15,6 +15,7 @@
   boot.initrd.availableKernelModules = ["xhci_pci"];
   boot.initrd.kernelModules = [];
   boot.kernelModules = [];
+  boot.kernelParams = [ "cgroup_enable=memory" "swapaccount=1" ];
   boot.extraModulePackages = [];
   boot.initrd.systemd.tpm2.enable = false;
 
