@@ -850,11 +850,11 @@
     "nixos-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1731478302,
-        "narHash": "sha256-apCYUg5P9TQWqAVoBZpl4OKZMSVbetrRFc0fh7rt03A=",
+        "lastModified": 1731898028,
+        "narHash": "sha256-hP3pnhOsc2mvhwm6kq1nER2j2kr9E5ETVQQaF7r+2pU=",
         "owner": "C4theBomb",
         "repo": "nixos-config",
-        "rev": "678e824d4bb4645f6ce4e3319a2483d4857eaf1c",
+        "rev": "7a17ae967780a57f863fda8c0574d7071bc72bec",
         "type": "github"
       },
       "original": {

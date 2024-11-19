@@ -24,6 +24,7 @@
 
   docker.enable = true;
 
+  pm2.enable = true;
   slurm.enable = true;
   syncthing.enable = true;
   tailscale.enable = true;
