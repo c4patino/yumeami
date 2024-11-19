@@ -53,6 +53,15 @@ in {
         TaskEpilog=${inputs.dotfiles + "/slurm/epilog.sh"}
       '';
 
+      extraCgroupConfig = ''
+        ConstrainCores=yes
+        ConstrainDevices=yes
+        ConstrainRAMSpace=yes
+      '' + (if config.networking.hostName != "chibi" then ''
+        ConstrainSwapSpace=yes
+        AllowedSwapSpace=0
+      '' else '''');
+
       extraConfigPaths = [(inputs.dotfiles + "/slurm/config")];
 
       dbdserver = {
