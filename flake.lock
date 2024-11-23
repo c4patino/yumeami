@@ -792,11 +792,11 @@
     "neovim-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1732340076,
-        "narHash": "sha256-Cd1oRPS48kzPmpAHxLfIpgaJ5yTP/NXusZbBFI+P2+U=",
+        "lastModified": 1732340154,
+        "narHash": "sha256-+agVXXMdpmHn/UZfWwCAx+2m9+kINpKcyhZg4AKBbsk=",
         "owner": "C4theBomb",
         "repo": "neovim",
-        "rev": "6102b79ad14827ceb0ad1c88b1a2fb2545c3a976",
+        "rev": "b79f072ddd95574e6ff03c7c813f6a585d128dd5",
         "type": "github"
       },
       "original": {
@@ -850,11 +850,11 @@
     "nixos-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1732339722,
-        "narHash": "sha256-d0WcqAgLdfgfm09GUzPant3JRGTs5aE+9rHh8TaNm1w=",
+        "lastModified": 1732340138,
+        "narHash": "sha256-4uq6bZt0iBVBQAk0t7dlRSU2SAVN0+xYXXGHl03QnjI=",
         "owner": "C4theBomb",
         "repo": "nixos-config",
-        "rev": "00cb23b6aba6592c84284768252d95525fddb2e8",
+        "rev": "0789c90d577eeb276f2046cafb731b8586caed49",
         "type": "github"
       },
       "original": {
