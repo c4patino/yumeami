@@ -26,4 +26,7 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5.0.1
         with:
-          commit_message: "[skip ci] Autoformatting with alejandra"
+          commit_message: | 
+            Autoformatting with alejandra
+
+            [skip ci]
