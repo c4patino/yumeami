@@ -12,6 +12,7 @@ non_cuda_shells=(
     "go-dev"
     "java-dev"
     "js-dev"
+    "lua-dev"
     "nix-dev"
     "python311-dev"
     "python312-dev"
