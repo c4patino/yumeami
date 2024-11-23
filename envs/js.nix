@@ -16,6 +16,7 @@ pkgs.mkShell {
     yarn
 
     vscode-js-debug
+    nodePackages.prettier
   ];
 
   shell = pkgs.zsh;
