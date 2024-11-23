@@ -8,16 +8,11 @@
     },
 }:
 pkgs.mkShell {
-  name = "js-dev";
+  name = "lua-dev";
 
   nativeBuildInputs = with pkgs; [
-    nodejs
-    nodePackages.pnpm
-    yarn
-
-    vscode-js-debug
-    prettierd
-    nodePackages.prettier
+    lua
+    stylua
   ];
 
   shell = pkgs.zsh;
