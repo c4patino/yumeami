@@ -15,7 +15,9 @@
     programs.kitty = {
       enable = true;
       shellIntegration.enableZshIntegration = true;
-      font.name = "MesloLGM Nerd Font Mono";
+      font = {
+        name = "MesloLGM Nerd Font Mono";
+      };
       themeFile = "tokyo_night_night";
 
       keybindings = {

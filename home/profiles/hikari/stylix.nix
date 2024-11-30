@@ -13,7 +13,7 @@
     fonts = {
       monospace = {
         name = "Meslo";
-        package = pkgs.nerdfonts;
+        package = pkgs.nerd-fonts.meslo-lg;
       };
       serif = {
         name = "Noto Serif";
