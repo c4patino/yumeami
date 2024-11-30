@@ -41,7 +41,7 @@ check_cuda() {
 initialize_shells() {
     if check_cuda; then
         echo "CUDA is available. Initializing CUDA-compatible and non-CUDA-compatible shells."
-        shells_to_initialize=("${cuda_shells[@]}" "${non_cuda_shells[@]}")
+        shells_to_initialize=("${non_cuda_shells[@]}" "${cuda_shells[@]}")
     else
         echo "CUDA is not available. Initializing only non-CUDA-compatible shells."
         shells_to_initialize=("${non_cuda_shells[@]}")

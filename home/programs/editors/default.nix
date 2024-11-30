@@ -1,4 +1,4 @@
-{lib, ...}: {
+{...}: {
   imports = [
     ./android-studio.nix
     ./neovim.nix
