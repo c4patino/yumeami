@@ -528,11 +528,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1732884235,
-        "narHash": "sha256-r8j6R3nrvwbT1aUp4EPQ1KC7gm0pu9VcV1aNaB+XG6Q=",
+        "lastModified": 1733085484,
+        "narHash": "sha256-dVmNuUajnU18oHzBQWZm1BQtANCHaqNuxTHZQ+GN0r8=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "819f682269f4e002884702b87e445c82840c68f2",
+        "rev": "c1fee8d4a60b89cae12b288ba9dbc608ff298163",
         "type": "github"
       },
       "original": {
@@ -834,11 +834,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1732931439,
-        "narHash": "sha256-BTtNLk3eh6GLtbapD+a+C0Z/K3tIEkZAmmL9UNDOYkM=",
+        "lastModified": 1733104667,
+        "narHash": "sha256-77V9I6NiwUaDswdsc5TilIREd7OFs8UAVQ3+++cIPN0=",
         "owner": "Infinidoge",
         "repo": "nix-minecraft",
-        "rev": "ae2095480d283c1e604ea9fa0034190552cbab34",
+        "rev": "5747ec35c936d9d9f58c281111f5ab7115fe13cc",
         "type": "github"
       },
       "original": {
@@ -850,11 +850,11 @@
     "nixos-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1732940254,
-        "narHash": "sha256-GsP9vuAYoqY1zv/44yvuQFycWmaOkLf6BBwlffKI4S4=",
+        "lastModified": 1733105668,
+        "narHash": "sha256-8uv9ZFzajIPE5QkAgPAEgbe0bUJSU1IcAjBOsIUUG48=",
         "owner": "C4theBomb",
         "repo": "nixos-config",
-        "rev": "93d476c5a0083a6ae8b7b77ffbcc84c58ccb2b94",
+        "rev": "2fa8b2119ba35b5549462025df1c29f5b14bbd45",
         "type": "github"
       },
       "original": {
@@ -865,11 +865,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1732483221,
-        "narHash": "sha256-kF6rDeCshoCgmQz+7uiuPdREVFuzhIorGOoPXMalL2U=",
+        "lastModified": 1733066523,
+        "narHash": "sha256-aQorWITXZu7b095UwnpUvcGt9dNJie/GO9r4hZfe2sU=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "45348ad6fb8ac0e8415f6e5e96efe47dd7f39405",
+        "rev": "fe01780d356d70fd119a19277bff71d3e78dad00",
         "type": "github"
       },
       "original": {
@@ -1140,11 +1140,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1732940210,
-        "narHash": "sha256-Ige50dX05f8+/CDIypyylqsn6K3ls03n+EGLveFb1xo=",
+        "lastModified": 1733106436,
+        "narHash": "sha256-dAJbAMoehbSdFJJc/qHUqiKutiJDyAWkG/NQfH1GlXE=",
         "owner": "C4theBomb",
         "repo": "nixvim",
-        "rev": "18e6449228bbc7c4875e2ae8520080e5c3dfb890",
+        "rev": "52f6c4a921f44e9cedb3da97b5346104b736d875",
         "type": "github"
       },
       "original": {
