@@ -39,6 +39,11 @@
           url = "https://github.com/C4theBomb/free-range-rust";
         }
         {
+          name = "${config.networking.hostName}-days-since";
+          tokenFile = config.sops.secrets."github/runner".path;
+          url = "https://github.com/C4theBomb/days-since";
+        }
+        {
           name = "${config.networking.hostName}-oasys";
           tokenFile = config.sops.secrets."github/runner-oasys".path;
           url = "https://github.com/oasys-mas";
