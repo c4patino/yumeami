@@ -8,8 +8,6 @@
     },
 }:
 pkgs.mkShell {
-  name = "go-dev";
-
   nativeBuildInputs = with pkgs; [
     go
     gotools

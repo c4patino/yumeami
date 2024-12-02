@@ -8,8 +8,6 @@
     },
 }:
 pkgs.mkShell {
-  name = "lua-dev";
-
   nativeBuildInputs = with pkgs; [
     lua
     stylua

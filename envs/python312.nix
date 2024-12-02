@@ -10,8 +10,6 @@
   enablePyTorch ? false,
 }:
 pkgs.mkShell {
-  name = "python312-dev";
-
   nativeBuildInputs = with pkgs; [
     poetry
 

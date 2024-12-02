@@ -8,8 +8,6 @@
     },
 }:
 pkgs.mkShell {
-  name = "js-dev";
-
   nativeBuildInputs = with pkgs; [
     nodejs
     nodePackages.pnpm

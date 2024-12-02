@@ -8,8 +8,6 @@
     },
 }:
 pkgs.mkShell {
-  name = "nix-dev";
-
   nativeBuildInputs = with pkgs; [
     alejandra
   ];

@@ -31,8 +31,9 @@
       nix-dev = import ./nix.nix {inherit pkgs;};
       python311-dev = import ./python311.nix {inherit pkgs;};
       python312-dev = import ./python312.nix {inherit pkgs;};
-
       rust-dev = import ./rust.nix {inherit pkgs;};
+      zig-dev = import ./zig.nix {inherit pkgs;};
+
       rust-cuda-dev = import ./rust.nix {pkgs = cudaPkgs;};
 
       python311-cuda-dev = import ./python311.nix {pkgs = cudaPkgs;};

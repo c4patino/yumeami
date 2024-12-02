@@ -8,8 +8,6 @@
     },
 }:
 pkgs.mkShell {
-  name = "c-dev";
-
   nativeBuildInputs = with pkgs; [
     clang-tools
     clang

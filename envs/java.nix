@@ -8,8 +8,6 @@
     },
 }:
 pkgs.mkShell {
-  name = "java-dev";
-
   nativeBuildInputs = with pkgs; [
     jdk22
 

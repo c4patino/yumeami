@@ -8,8 +8,6 @@
     },
 }:
 pkgs.mkShell {
-  name = "rust-dev";
-
   nativeBuildInputs = with pkgs; [
     cargo
     cargo-release
