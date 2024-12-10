@@ -14,8 +14,9 @@
 
   config = lib.mkIf config.music.enable {
     home.packages = with pkgs; [
-      pkgs.spotify-player
+      spotify-player
       spotify
+      cava
     ];
 
     programs.cava = {
