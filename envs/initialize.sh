@@ -23,10 +23,10 @@ non_cuda_shells=(
 cuda_shells=(
     "rust-cuda-dev"
     "python311-cuda-dev"
-    "python311-cuda-tf-dev"
     "python311-cuda-torch-dev"
-    "python312-cuda-dev"
-    "python312-cuda-torch-dev"
+	"python311-cuda-tf-dev"
+	"python312-cuda-dev"
+	"python312-cuda-torch-dev"
 )
 
 # Function to check if CUDA is available
