@@ -1,5 +1,4 @@
-#!/run/current-system/sw/bin/bash
-
+#!/usr/bin/env bash
 #SBATCH --job-name=devshell-init
 #SBATCH --output=/mnt/syncthing/shared/devshell-init_%A_%a.out
 #SBATCH --error=/mnt/syncthing/shared/devshell-init_%A_%a.err
