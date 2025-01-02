@@ -8,8 +8,6 @@
     wayland.windowManager.hyprland = {
       settings = {
         exec-once = [
-          "eww open bar --screen 0"
-
           "dbus-update-activation-environment --systmd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
           "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
         ];
