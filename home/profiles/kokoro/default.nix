@@ -22,6 +22,7 @@
   languages.enable = true;
   git.enable = true;
   lazygit.enable = true;
+  hyperfine.enable = true;
 
   bottom.enable = true;
   yazi.enable = true;
