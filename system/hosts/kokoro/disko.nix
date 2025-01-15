@@ -8,7 +8,7 @@
         partitions = {
           boot = {
             name = "boot";
-            size = "1M";
+            size = "3M";
             type = "EF02";
           };
           esp = {
@@ -32,36 +32,41 @@
             name = "root";
             size = "100%";
             content = {
-              type = "lvm_pv";
-              vg = "root_vg";
+              type = "zfs";
+              pool = "zroot";
             };
           };
         };
       };
     };
-    lvm_vg = {
-      root_vg = {
-        type = "lvm_vg";
-        lvs = {
-          root = {
-            size = "100%FREE";
-            content = {
-              type = "btrfs";
-              extraArgs = ["-f"];
+    zpool = {
+      zpool = {
+        type = "zpool";
+        rootFsOptions = {
+          compression = "zstd";
+          "com.sun:auto-snapshot" = "false";
+        };
 
-              subvolumes = {
-                "/root" = {
-                  mountpoint = "/";
-                };
-                "/persist" = {
-                  mountOptions = ["subvol=persist" "noatime"];
-                  mountpoint = "/persist";
-                };
-                "/nix" = {
-                  mountOptions = ["subvol=nix" "noatime"];
-                  mountpoint = "/nix";
-                };
-              };
+        datasets = {
+          root = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/";
+              relatime = "on";
+            };
+          };
+          persist = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/persist";
+              relatime = "on";
+            };
+          };
+          nix = {
+            type = "zfs_fs";
+            options = {
+              mountpoint = "/nix";
+              atime = "off";
             };
           };
         };
