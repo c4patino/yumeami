@@ -19,7 +19,10 @@
         variant = "";
       };
 
-      displayManager.gdm.enable = true;
+      displayManager.gdm = {
+        enable = true;
+        autoSuspend = false;
+      };
     };
   };
 }
