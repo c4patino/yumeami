@@ -18,7 +18,7 @@
             content = {
               type = "filesystem";
               format = "vfat";
-              mountpoint = "/boot/efi";
+              mountpoint = "/boot";
             };
           };
           swap = {
@@ -40,32 +40,36 @@
       };
     };
     zpool = {
-      zpool = {
+      zroot = {
         type = "zpool";
         rootFsOptions = {
           compression = "zstd";
+          canmount = "off";
           "com.sun:auto-snapshot" = "false";
         };
 
         datasets = {
           root = {
             type = "zfs_fs";
+            mountpoint = "/";
             options = {
-              mountpoint = "/";
+              mountpoint = "legacy";
               relatime = "on";
             };
           };
           persist = {
             type = "zfs_fs";
+            mountpoint = "/persist";
             options = {
-              mountpoint = "/persist";
+              mountpoint = "legacy";
               relatime = "on";
             };
           };
           nix = {
             type = "zfs_fs";
+            mountpoint = "/nix";
             options = {
-              mountpoint = "/nix";
+              mountpoint = "legacy";
               atime = "off";
             };
           };

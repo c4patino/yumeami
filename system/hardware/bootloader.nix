@@ -12,17 +12,11 @@
   };
 
   config = lib.mkIf config.efi-bootloader.enable {
-    boot.loader = {
-      efi = {
-        canTouchEfiVariables = true;
-        efiSysMountPoint = "/boot/efi";
-      };
-      grub = {
-        enable = true;
-        devices = ["nodev"];
-        efiSupport = true;
-        useOSProber = true;
-      };
+    boot.loader.grub = {
+      enable = true;
+      efiSupport = true;
+      efiInstallAsRemovable = true;
+      useOSProber = true;
     };
   };
 }
