@@ -9,7 +9,7 @@
 }:
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
-    jdk22
+    jdk23
 
     jdt-language-server
   ];
