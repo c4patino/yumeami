@@ -41,6 +41,7 @@
   teamviewer.enable = true;
 
   github-runners.enable = true;
+  samba.enable = true;
   slurm.enable = true;
   syncthing.enable = true;
   tailscale.enable = true;

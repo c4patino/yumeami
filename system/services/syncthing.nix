@@ -22,8 +22,8 @@ in {
       user = "c4patino";
       group = "syncthing";
 
-      key = "${self}/secrets/crypt/ssl/${config.networking.hostName}/key.pem";
-      cert = "${self}/secrets/crypt/ssl/${config.networking.hostName}/cert.pem";
+      key = "${self}/secrets/crypt/ssl/${hostName}/key.pem";
+      cert = "${self}/secrets/crypt/ssl/${hostName}/cert.pem";
 
       settings = {
         devices = {
