@@ -28,17 +28,17 @@ in {
       settings = {
         devices = {
           "arisu" = {
-            id = "DPBI57C-24TGY3G-VVNP5CZ-DDNUQ5G-7HZXQ67-WBC6ZJT-RVMAR64-SR25BAE";
+            id = "7W2TB7D-VZZEDAP-Q2LTH7S-LUF3JOC-472P4FX-ZUQX4SG-CLPTTK6-RVUP6QQ";
             addresses = ["tcp://100.117.106.23:22000"];
             autoAcceptFolders = true;
           };
           "kokoro" = {
-            id = "7XSPLOL-PJWH4LR-NBGYLCZ-PXJBRN2-434Q5YE-BACDCLG-T44FOWK-SZLIDQX";
+            id = "7ADRQXW-IB3IMNR-QCT4EXQ-4BON25I-4EFPOW6-AVJNUZK-TEDMDZQ-RH37RAB";
             addresses = ["tcp://100.69.45.111:22000"];
             autoAcceptFolders = true;
           };
           "chibi" = {
-            id = "R4GG6JX-FVLM2BG-26U7GTV-XVMEKIY-72YMS7D-TGYSSKJ-JWJM4NJ-OZI2ZAY";
+            id = "HBLTAF3-GJ7G6XS-ER6IMAZ-CY2UI7S-6BG3N3S-GF4TDIC-7USNXW7-M6TWJQU";
             addresses = ["tcp://100.101.224.25:22000"];
             autoAcceptFolders = true;
           };
