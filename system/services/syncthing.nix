@@ -1,4 +1,5 @@
 {
+  self,
   lib,
   config,
   ...
@@ -20,6 +21,9 @@ in {
       dataDir = "/mnt/syncthing/";
       user = "c4patino";
       group = "syncthing";
+
+      key = "${self}/secrets/crypt/ssl/${config.networking.hostName}/key.pem";
+      cert = "${self}/secrets/crypt/ssl/${config.networking.hostName}/cert.pem";
 
       settings = {
         devices = {
