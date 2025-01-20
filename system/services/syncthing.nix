@@ -25,12 +25,12 @@ in {
         devices = {
           "arisu" = {
             id = "DPBI57C-24TGY3G-VVNP5CZ-DDNUQ5G-7HZXQ67-WBC6ZJT-RVMAR64-SR25BAE";
-            addresses = ["tcp://100.89.24.88:22000"];
+            addresses = ["tcp://100.117.106.23:22000"];
             autoAcceptFolders = true;
           };
           "kokoro" = {
             id = "7XSPLOL-PJWH4LR-NBGYLCZ-PXJBRN2-434Q5YE-BACDCLG-T44FOWK-SZLIDQX";
-            addresses = ["tcp://100.126.34.64:22000"];
+            addresses = ["tcp://100.69.45.111:22000"];
             autoAcceptFolders = true;
           };
           "chibi" = {
