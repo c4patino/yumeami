@@ -8,7 +8,10 @@
     ./hardware-configuration.nix
 
     inputs.disko.nixosModules.default
-    (import ./disko.nix {device = "/dev/nvme0n1";})
+    (import ./disko.nix {
+      main = "/dev/nvme0n1";
+      extras = [];
+    })
   ];
 
   networking.hostName = "kokoro";

@@ -1,7 +1,11 @@
-{device ? throw "Storage device not defined", ...}: {
-  disko.devices = {
-    disk.main = {
-      inherit device;
+{
+  main ? throw "Primary device not defined",
+  extras ? throw "Additional raid drives not defined",
+  ...
+}: let
+  mainDisk = {
+    main = {
+      device = main;
       type = "disk";
       content = {
         type = "gpt";
@@ -39,6 +43,31 @@
         };
       };
     };
+  };
+  extraDisks = builtins.listToAttrs (builtins.map (d: {
+      name = d;
+      value = {
+        device = d;
+        type = "disk";
+        content = {
+          type = "gpt";
+          partitions = {
+            root = {
+              name = "root";
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = "zroot";
+              };
+            };
+          };
+        };
+      };
+    })
+    extras);
+in {
+  disko.devices = {
+    disk = mainDisk // extraDisks;
     zpool = {
       zroot = {
         type = "zpool";
