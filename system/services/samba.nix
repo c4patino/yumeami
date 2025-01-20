@@ -1,11 +1,8 @@
 {
-  self,
   lib,
   config,
   ...
-}: let
-  hostName = config.networking.hostName;
-in {
+}: {
   options = {
     samba.enable = lib.mkOption {
       type = lib.types.bool;
