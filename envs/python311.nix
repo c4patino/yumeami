@@ -6,8 +6,6 @@
         cudaSupport = true;
       };
     },
-  enableTensorflow ? false,
-  enablePyTorch ? false,
 }:
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
@@ -16,28 +14,6 @@ pkgs.mkShell {
     python311Full
     python311Packages.virtualenv
     python311Packages.debugpy
-
-    (
-      if enableTensorflow
-      then python311Packages.tensorflowWithCuda
-      else null
-    )
-    (
-      if enableTensorflow
-      then (python311Packages.keras.override {tensorflow = python311Packages.tensorflowWithCuda;})
-      else null
-    )
-
-    (
-      if enablePyTorch
-      then python311Packages.torchvision
-      else null
-    )
-    (
-      if enablePyTorch
-      then python311Packages.torchaudio
-      else null
-    )
 
     # Won't actually use the matplotlib installed here, but needed to set up environment
     python311Packages.matplotlib
@@ -52,7 +28,6 @@ pkgs.mkShell {
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${pkgs.libGL}/lib
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${pkgs.glib.out}/lib
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${pkgs.stdenv.cc.cc.lib}/lib
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/run/opengl-driver/lib
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$NIX_LD_LIBRARY_PATH
   '';
 }

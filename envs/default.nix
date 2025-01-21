@@ -35,21 +35,8 @@
       zig-dev = import ./zig.nix {inherit pkgs;};
 
       rust-cuda-dev = import ./rust.nix {pkgs = cudaPkgs;};
-
       python311-cuda-dev = import ./python311.nix {pkgs = cudaPkgs;};
-      python311-cuda-tf-dev = import ./python311.nix {
-        pkgs = cudaPkgs;
-        enableTensorflow = true;
-      };
-      python311-cuda-torch-dev = import ./python311.nix {
-        pkgs = cudaPkgs;
-        enablePyTorch = true;
-      };
       python312-cuda-dev = import ./python312.nix {pkgs = cudaPkgs;};
-      python312-cuda-torch-dev = import ./python312.nix {
-        pkgs = cudaPkgs;
-        enablePyTorch = true;
-      };
     };
   };
 }
