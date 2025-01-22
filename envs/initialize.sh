@@ -8,6 +8,7 @@
 non_cuda_shells=(
     "c-dev"
     "cpp-dev"
+	"csharp-dev"
     "go-dev"
     "java-dev"
     "js-dev"

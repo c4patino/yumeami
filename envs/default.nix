@@ -24,6 +24,7 @@
     devShells = {
       c-dev = import ./c.nix {inherit pkgs;};
       cpp-dev = import ./cpp.nix {inherit pkgs;};
+      csharp-dev = import ./csharp.nix {inherit pkgs;};
       go-dev = import ./go.nix {inherit pkgs;};
       java-dev = import ./java.nix {inherit pkgs;};
       js-dev = import ./js.nix {inherit pkgs;};
