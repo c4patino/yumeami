@@ -1019,11 +1019,11 @@
     "nixos-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1737609980,
-        "narHash": "sha256-8P0JZAo8X8D50OTIUu3u9AYNZfYxCnMuGngMcjVFGc0=",
+        "lastModified": 1737610053,
+        "narHash": "sha256-TNn/NJAVYeG4jfV3fz7rQtnkLcK2wZmbM19gLVIEyVE=",
         "owner": "C4theBomb",
         "repo": "nixos-config",
-        "rev": "85e9ef91f62459ab1eb23abb4cfe52bdb838eabe",
+        "rev": "fd2369b694e2de1407dcf9a053a45c71566772c9",
         "type": "github"
       },
       "original": {
