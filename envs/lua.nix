@@ -10,6 +10,9 @@
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     lua
+  ];
+
+  packages = with pkgs; [
     stylua
   ];
 

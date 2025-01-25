@@ -12,7 +12,9 @@ pkgs.mkShell {
     go
     gotools
     golangci-lint
+  ];
 
+  packages = with pkgs; [
     delve
   ];
 

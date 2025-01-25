@@ -8,7 +8,7 @@
     },
 }:
 pkgs.mkShell {
-  nativeBuildInputs = with pkgs; [
+  packages = with pkgs; [
     alejandra
   ];
 

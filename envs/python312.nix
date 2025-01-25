@@ -10,9 +10,11 @@
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     poetry
-
     python312Full
     python312Packages.virtualenv
+  ];
+
+  packages = with pkgs; [
     python312Packages.debugpy
   ];
 

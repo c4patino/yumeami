@@ -12,14 +12,17 @@ pkgs.mkShell {
     clang-tools
     clang
     cmake
-    codespell
     conan
     cppcheck
-    doxygen
     gtest
     lcov
     vcpkg
     vcpkg-tool
+  ];
+
+  packages = with pkgs; [
+    codespell
+    doxygen
     gdb
   ];
 

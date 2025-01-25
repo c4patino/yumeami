@@ -13,8 +13,10 @@ pkgs.mkShell {
     cargo-release
 
     rustc
-    rustfmt
+  ];
 
+  packages = with pkgs; [
+    rustfmt
     gdb
   ];
 

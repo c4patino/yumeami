@@ -12,7 +12,9 @@ pkgs.mkShell {
     nodejs
     nodePackages.pnpm
     yarn
+  ];
 
+  packages = with pkgs; [
     vscode-js-debug
     prettierd
     nodePackages.prettier

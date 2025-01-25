@@ -10,6 +10,9 @@
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     zig
+  ];
+
+  packages = with pkgs; [
     zls
     lldb
   ];
