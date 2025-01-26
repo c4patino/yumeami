@@ -1,4 +1,4 @@
-{...}: {
+{self, ...}: {
   imports = [
     ./stylix.nix
   ];
@@ -9,6 +9,11 @@
     stateVersion = "23.11";
     sessionVariables = {
       FLAKE = "/home/c4patino/dotfiles";
+    };
+
+    file = {
+      ".ssh/id_ed25519".source = "${self}/secrets/crypt/ssh/arisu/id_ed25519";
+      ".ssh/id_ed25519.pub".source = "${self}/secrets/crypt/ssh/arisu/id_ed25519.pub";
     };
   };
 
