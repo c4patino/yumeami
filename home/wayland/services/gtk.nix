@@ -3,9 +3,7 @@
   config,
   lib,
   ...
-}: let
-  gruvboxPlus = import ../../../derivations/gruvbox-plus.nix {inherit pkgs;};
-in {
+}: {
   config = lib.mkIf config.hyprland.enable {
     qt = {
       enable = true;
@@ -19,7 +17,7 @@ in {
         name = "adw-gtk3";
       };
       iconTheme = {
-        package = gruvboxPlus;
+        package = pkgs.gruvbox-plus-icons;
         name = "GruvboxPlus";
       };
     };
