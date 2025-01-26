@@ -16,7 +16,7 @@
     isNormalUser = true;
     description = "C4 Patino";
     extraGroups = ["networkmanager" "wheel" "docker" "syncthing"];
-    initialPassword = "passw0rd";
+    hashedPassword = "$6$XM5h391mH33WIoAy$xkeSzw/ootPPZbvHEqSguZDyB4gAeTMcjy1aRXcXcQWFkS1/SRPK27VgEYC.vYvdZLYWALZtpdEzWAfwT4VCM1";
     shell = pkgs.zsh;
   };
 
