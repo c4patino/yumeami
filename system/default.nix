@@ -9,6 +9,11 @@
     ./secrets.nix
   ];
 
+  nix.settings.trusted-users = [
+    "root"
+    "c4patino"
+  ];
+
   fonts = {
     enableDefaultPackages = true;
     fontDir.enable = true;
