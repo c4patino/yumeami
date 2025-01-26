@@ -8,7 +8,7 @@
     },
 }:
 pkgs.mkShell {
-  nativeBuildInputs = with pkgs; [
+  buildInputs = with pkgs; [
     dotnet-sdk
   ];
 

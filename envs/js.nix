@@ -10,6 +10,9 @@
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     nodejs
+  ];
+
+  buildInputs = with pkgs; [
     nodePackages.pnpm
     yarn
   ];

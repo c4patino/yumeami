@@ -9,19 +9,22 @@
 }:
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
-    clang-tools
-    clang
     cmake
     conan
-    cppcheck
-    gtest
-    lcov
-    vcpkg
     vcpkg-tool
   ];
 
+  buildInputs = with pkgs; [
+    clang
+    gtest
+    lcov
+    vcpkg
+  ];
+
   packages = with pkgs; [
+    clang-tools
     codespell
+    cppcheck
     doxygen
     gdb
   ];

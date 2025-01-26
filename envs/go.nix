@@ -10,12 +10,15 @@
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     go
+  ];
+
+  buildInputs = with pkgs; [
     gotools
-    golangci-lint
   ];
 
   packages = with pkgs; [
     delve
+    golangci-lint
   ];
 
   shell = pkgs.zsh;

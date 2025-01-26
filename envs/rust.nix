@@ -10,9 +10,11 @@
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     cargo
-    cargo-release
-
     rustc
+  ];
+
+  buildInputs = with pkgs; [
+    cargo-release
   ];
 
   packages = with pkgs; [
