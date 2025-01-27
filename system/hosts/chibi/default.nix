@@ -5,9 +5,14 @@
 }: {
   imports = [
     ../..
-    ./hardware-configuration.nix
 
     inputs.nixos-hardware.nixosModules.raspberry-pi-4
+
+    inputs.disko.nixosModules.default
+    (import ./disko.nix {
+      main = "/dev/nvme0n1";
+      extras = [];
+    })
   ];
 
   networking = {
