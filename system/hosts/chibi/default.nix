@@ -10,7 +10,10 @@
     inputs.nixos-hardware.nixosModules.raspberry-pi-4
   ];
 
-  networking.hostName = "chibi";
+  networking = {
+    hostName = "chibi";
+    hostId = "9245f27e";
+  };
 
   users.users.c4patino = {
     isNormalUser = true;

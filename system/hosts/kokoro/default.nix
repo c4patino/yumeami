@@ -14,8 +14,11 @@
     })
   ];
 
-  networking.hostName = "kokoro";
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "kokoro";
+    hostId = "f927bba2";
+    networkmanager.enable = true;
+  };
 
   users.users.c4patino = {
     isNormalUser = true;

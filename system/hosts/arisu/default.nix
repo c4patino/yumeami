@@ -15,8 +15,11 @@
     })
   ];
 
-  networking.hostName = "arisu";
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "arisu";
+    hostId = "c6cc4687";
+    networkmanager.enable = true;
+  };
 
   users.users.c4patino = {
     isNormalUser = true;
