@@ -1,11 +1,13 @@
 {pkgs, ...}:
 pkgs.writeShellScriptBin "format-drive" ''
-  if [  "$#" -ne 1 ]; then
-      echo "[ERROR] Usage: format-drive <drive-name>"
+  if [  "$#" -ne 2 ]; then
+      echo "[ERROR] Usage: format-drive <drive-name> <filesystem>"
+      echo "[INFO]: <filesystem> can either be 'ntfs' or 'ext4'"
       exit 1
   fi
 
   DRIVE=$1
+  FILESYSTEM=$2
 
   echo "[INFO] Starting format process for drive: $DRIVE"
 
@@ -27,29 +29,40 @@ pkgs.writeShellScriptBin "format-drive" ''
   fi
   echo "[INFO] Successfully created partition table on /dev/$DRIVE"
 
-  echo "[INFO] Create NTFS partition on /dev/$DRIVE"
-  sudo ${pkgs.parted}/bin/parted -a optimal /dev/$DRIVE --script mkpart primary ntfs 0% 100%
+  echo "[INFO] Creating primary partition on /dev/$DRIVE"
+  sudo ${pkgs.parted}/bin/parted -a optimal /dev/$DRIVE --script mkpart primary 0% 100%
   if [ $? -ne 0 ]; then
-      echo "[ERROR] Failed to create NTFS partition on /dev/$DRIVE"
+      echo "[ERROR] Failed to create partition on /dev/$DRIVE"
       exit 1
   fi
-  echo "[INFO] Successfully created NTFS partition on /dev/$DRIVE"
+  echo "[INFO] Successfully created partition on /dev/$DRIVE"
 
   if [[ "$DRIVE" =~ nvme ]]; then
       PARTITION="''${DRIVE}p1"
   else
       PARTITION="''${DRIVE}1"
   fi
-  echo "[INFO] Formatting partition $PARTITION with NTFS"
 
-
-  echo "[INFO] Formatting partition $PARTITION with NTFS"
-  sudo ${pkgs.ntfs3g}/bin/mkfs.ntfs -f /dev/$PARTITION
-  if [ $? -ne 0 ]; then
-      echo "[ERROR] Failed to format partition $PARTITION with NTFS"
+  if [ "$FILESYSTEM" == "ntfs" ]; then
+      echo "[INFO] Formatting partition $PARTITION with NTFS"
+      sudo ${pkgs.ntfs3g}/bin/mkfs.ntfs -f /dev/$PARTITION
+      if [ $? -ne 0 ]; then
+          echo "[ERROR] Failed to format partition $PARTITION with NTFS"
+          exit 1
+      fi
+      echo "[INFO] Successfully formatted partition $PARTITION with NTFS"
+  elif [ "$FILESYSTEM" == "ext4" ]; then
+      echo "[INFO] Formatting partition $PARTITION with EXT4"
+      sudo ${pkgs.e2fsprogs}/bin/mkfs.ext4 /dev/$PARTITION
+      if [ $? -ne 0 ]; then
+          echo "[ERROR] Failed to format partition $PARTITION with EXT4"
+          exit 1
+      fi
+      echo "[INFO] Successfully formatted partition $PARTITION with EXT4"
+  else
+      echo "[ERROR] Invalid filesystem type specified. Use 'ntfs' or 'ext4'."
       exit 1
   fi
-  echo "[INFO] Successfully formatted partition $PARTITION with NTFS"
 
   echo "[INFO] Format process completed successfully"
 ''
