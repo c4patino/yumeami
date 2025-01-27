@@ -26,8 +26,8 @@ in {
       server.enable = config.networking.hostName == primaryHost;
 
       nodeName = [
-        "arisu NodeAddr=100.117.106.23 CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=63443 Gres=gpu:rtx3070:1,shard:12 Weight=1 State=UNKNOWN"
-        "kokoro NodeAddr=100.69.45.111 CPUs=10 Sockets=1 CoresPerSocket=10 ThreadsPerCore=1 RealMemory=23744 Weight=100 State=UNKNOWN"
+        "arisu NodeAddr=100.117.106.23 CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=63400 Gres=gpu:rtx3070:1,shard:12 Weight=1 State=UNKNOWN"
+        "kokoro NodeAddr=100.69.45.111 CPUs=10 Sockets=1 CoresPerSocket=10 ThreadsPerCore=1 RealMemory=23700 Weight=100 State=UNKNOWN"
         "chibi NodeAddr=100.101.224.25 CPUs=4 Sockets=1 CoresPerSocket=4 ThreadsPerCore=1 RealMemory=7750 Weight=10 State=UNKNOWN"
       ];
 
