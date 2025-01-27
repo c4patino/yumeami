@@ -5,6 +5,7 @@
 }: {
   imports = [
     ../..
+    ./hardware-configuration.nix
 
     inputs.nixos-hardware.nixosModules.raspberry-pi-4
 
@@ -27,6 +28,9 @@
     hashedPassword = "$6$XM5h391mH33WIoAy$xkeSzw/ootPPZbvHEqSguZDyB4gAeTMcjy1aRXcXcQWFkS1/SRPK27VgEYC.vYvdZLYWALZtpdEzWAfwT4VCM1";
     shell = pkgs.zsh;
   };
+
+  efi-bootloader.enable = true;
+  boot.loader.generic-extlinux-compatible.enable = false;
 
   network-manager.enable = true;
 
