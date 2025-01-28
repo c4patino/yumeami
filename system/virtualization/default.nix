@@ -1,6 +1,6 @@
 {...}: {
   imports = [
-    ./docker.nix
+    ./containerization.nix
     ./virtualbox.nix
     ./teamviewer.nix
   ];
