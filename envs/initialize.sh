@@ -16,6 +16,7 @@ non_cuda_shells=(
     "nix-dev"
     "python311-dev"
     "python312-dev"
+	"racket-dev"
     "rust-dev"
 	"zig-dev"
 )

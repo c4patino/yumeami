@@ -32,7 +32,7 @@
       nix-dev = import ./nix.nix {inherit pkgs;};
       python311-dev = import ./python311.nix {inherit pkgs;};
       python312-dev = import ./python312.nix {inherit pkgs;};
-      scheme-dev = import ./scheme.nix {inherit pkgs;};
+      racket-dev = import ./racket.nix {inherit pkgs;};
       rust-dev = import ./rust.nix {inherit pkgs;};
       zig-dev = import ./zig.nix {inherit pkgs;};
 
