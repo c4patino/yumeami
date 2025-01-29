@@ -11,7 +11,7 @@
 
     inputs.disko.nixosModules.default
     (import ./disko.nix {
-      main = "/dev/nvme0n1";
+      main = "/dev/mmcblk1";
       extras = [];
     })
   ];

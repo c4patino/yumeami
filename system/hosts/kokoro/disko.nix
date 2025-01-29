@@ -1,6 +1,6 @@
 {
   main ? throw "Primary device not defined",
-  extras ? throw "Additional raid drives not defined",
+  extras ? [],
   ...
 }: let
   mainDisk = {
