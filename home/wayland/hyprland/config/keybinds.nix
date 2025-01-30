@@ -79,8 +79,6 @@
         "$mainMod SHIFT, 0, movetoworkspace, 10"
         "$mainMod SHIFT, bracketright, movetoworkspace, +1"
         "$mainMod SHIFT, bracketleft, movetoworkspace, -1"
-
-        "$mainMod, grave, hyprexpo:expo, toggle"
       ];
 
       bindm = [

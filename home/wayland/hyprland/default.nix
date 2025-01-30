@@ -7,7 +7,6 @@
     ./config/general.nix
     ./config/rules.nix
     ./config/keybinds.nix
-    ./config/plugins.nix
   ];
 
   config = lib.mkIf config.hyprland.enable {
