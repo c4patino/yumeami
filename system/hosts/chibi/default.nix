@@ -9,7 +9,7 @@
     ./hardware-configuration.nix
 
     inputs.disko.nixosModules.default
-    (import ./disko.nix {
+    (import ../../core/disko.nix {
       main = "/dev/mmcblk1";
       extras = [];
     })
