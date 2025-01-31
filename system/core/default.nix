@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   imports = [
     ./filesystems.nix
     ./locales.nix
@@ -18,10 +22,13 @@
 
   programs.nix-ld = {
     enable = true;
-    libraries = with pkgs; [
-      stdenv.cc.cc
-      cudaPackages.cudatoolkit
-    ];
+    libraries = with pkgs;
+      [
+        stdenv.cc.cc
+      ]
+      ++ lib.optionals config.nvidia.enable [
+        cudaPackages.cudatoolkit
+      ];
   };
 
   programs.zsh.enable = true;
