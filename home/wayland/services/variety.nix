@@ -12,7 +12,7 @@
         variety
       ];
 
-      file.".desktops/" = {
+      file.".assets/desktops/" = {
         source = inputs.dotfiles + "/desktops";
         recursive = true;
       };
