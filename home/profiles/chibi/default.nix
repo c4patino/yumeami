@@ -8,8 +8,8 @@
     };
 
     file = {
-      ".ssh/id_ed25519".source = "${self}/secrets/crypt/ssh/arisu/id_ed25519";
-      ".ssh/id_ed25519.pub".source = "${self}/secrets/crypt/ssh/arisu/id_ed25519.pub";
+      ".ssh/id_ed25519".source = "${self}/secrets/crypt/ssh/chibi/id_ed25519";
+      ".ssh/id_ed25519.pub".source = "${self}/secrets/crypt/ssh/chibi/id_ed25519.pub";
     };
   };
 
