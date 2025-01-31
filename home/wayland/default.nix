@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  config,
   ...
 }: {
   imports = [
@@ -20,7 +21,7 @@
     };
   };
 
-  config = {
+  config = lib.mkIf config.hyprland.enable {
     home.packages = with pkgs; [
       (waybar.overrideAttrs (oldAttrs: {mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true"];}))
 
