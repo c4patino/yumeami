@@ -24,7 +24,6 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  networking.hostId = "9245f27e";
 
   # networking.interfaces.end0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlan0.useDHCP = lib.mkDefault true;
