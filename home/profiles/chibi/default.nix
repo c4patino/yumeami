@@ -10,6 +10,7 @@
     file = {
       ".ssh/id_ed25519".source = "${self}/secrets/crypt/ssh/chibi/id_ed25519";
       ".ssh/id_ed25519.pub".source = "${self}/secrets/crypt/ssh/chibi/id_ed25519.pub";
+      ".config/sops/age/keys.txt".source = "${self}/secrets/crypt/age/chibi/keys.txt";
     };
   };
 
