@@ -12,9 +12,8 @@
     };
 
     file = {
-      ".ssh/id_ed25519".source = "${self}/secrets/crypt/ssh/arisu/id_ed25519";
-      ".ssh/id_ed25519.pub".source = "${self}/secrets/crypt/ssh/arisu/id_ed25519.pub";
-      ".config/sops/age/keys.txt".source = "${self}/secrets/crypt/age/arisu/keys.txt";
+      ".ssh/id_ed25519".source = "${self}/secrets/crypt/arisu/id_ed25519";
+      ".ssh/id_ed25519.pub".source = "${self}/secrets/crypt/arisu/id_ed25519.pub";
     };
   };
 
