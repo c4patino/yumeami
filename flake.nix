@@ -36,19 +36,18 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     neovim-config = {
-      url = "github:C4theBomb/neovim";
+      url = "github:c4patino/neovim";
       flake = false;
     };
-    nixvim-config.url = "github:C4theBomb/nixvim";
+    nixvim-config.url = "github:c4patino/nixvim";
     dotfiles = {
-      url = "github:C4theBomb/dotfiles";
+      url = "github:c4patino/dotfiles";
       flake = false;
     };
     nixos-config = {
-      url = "github:C4theBomb/nixos-config";
+      url = "github:c4patino/nixos-config";
       flake = false;
     };
   };

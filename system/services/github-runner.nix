@@ -16,32 +16,32 @@
         {
           name = "${config.networking.hostName}-nixos-config";
           tokenFile = config.sops.secrets."github/runner".path;
-          url = "https://github.com/C4theBomb/nixos-config";
+          url = "https://github.com/c4patino/nixos-config";
         }
         {
           name = "${config.networking.hostName}-nixvim";
           tokenFile = config.sops.secrets."github/runner".path;
-          url = "https://github.com/C4theBomb/nixvim";
+          url = "https://github.com/c4patino/nixvim";
         }
         {
           name = "${config.networking.hostName}-neovim";
           tokenFile = config.sops.secrets."github/runner".path;
-          url = "https://github.com/C4theBomb/neovim";
+          url = "https://github.com/c4patino/neovim";
         }
         {
           name = "${config.networking.hostName}-dotfiles";
           tokenFile = config.sops.secrets."github/runner".path;
-          url = "https://github.com/C4theBomb/dotfiles";
+          url = "https://github.com/c4patino/dotfiles";
         }
         {
           name = "${config.networking.hostName}-days-since";
           tokenFile = config.sops.secrets."github/runner".path;
-          url = "https://github.com/C4theBomb/days-since";
+          url = "https://github.com/c4patino/days-since";
         }
         {
           name = "${config.networking.hostName}-free-range-rust";
           tokenFile = config.sops.secrets."github/runner".path;
-          url = "https://github.com/C4theBomb/free-range-rust";
+          url = "https://github.com/c4patino/free-range-rust";
         }
         {
           name = "${config.networking.hostName}-free-range-zoo";

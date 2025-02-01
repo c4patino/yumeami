@@ -17,7 +17,7 @@ Meticulously crafted collection of NixOS configurations tailored for my systems.
 To set up your system using the Symphony configurations, follow these steps:
 
 ```bash
-git clone https://github.com/C4theBomb/nixos-configuration.git ~/dotfiles
+git clone https://github.com/c4patino/nixos-configuration.git ~/dotfiles
 cd ~/dotfiles
 
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
@@ -49,15 +49,16 @@ sudo nixos-install --root /mnt --flake /mnt/etc/nixos#<system>
 
 ## Authors
 
-- [@C4theBomb](https://www.github.com/C4theBomb)
+- [@c4patino](https://www.github.com/c4patino)
 
 
 ## Related
 
 Here are some related projects that are used in this configuration
 
-[neovim-config](https://github.com/C4theBomb/neovim-config)
-[dotfiles](https://github.com/C4theBomb/dotfiles)
+[neovim-config](https://github.com/c4patino/neovim-config)
+[nixvim-config](https://github.com/c4patino/nixvim-config)
+[dotfiles](https://github.com/c4patino/dotfiles)
 
 
 ## License
