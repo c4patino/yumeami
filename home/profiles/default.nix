@@ -3,7 +3,10 @@
   self,
   ...
 }: let
-  extraSpecialArgs = {inherit inputs self secrets;};
+  extraSpecialArgs = hostName: {
+    inherit inputs self secrets;
+    hostName = hostName;
+  };
 
   homeImports = {
     "c4patino@arisu" = [
@@ -31,17 +34,17 @@ in {
     "c4patino@arisu" = inputs.home-manager.lib.homeManagerConfiguration {
       modules = homeImports."c4patino@arisu";
       pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-      inherit extraSpecialArgs;
+      extraSpecialArgs = extraSpecialArgs "arisu";
     };
     "c4patino@kokoro" = inputs.home-manager.lib.homeManagerConfiguration {
       modules = homeImports."c4patino@kokoro";
       pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-      inherit extraSpecialArgs;
+      extraSpecialArgs = extraSpecialArgs "kokoro";
     };
     "c4patino@chibi" = inputs.home-manager.lib.homeManagerConfiguration {
       modules = homeImports."c4patino@chibi";
       pkgs = inputs.nixpkgs.legacyPackages.aarch64-linux;
-      inherit extraSpecialArgs;
+      extraSpecialArgs = extraSpecialArgs "chibi";
     };
   };
 }
