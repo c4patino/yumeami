@@ -4,7 +4,7 @@
   config,
   ...
 }: let
-  hostName = config.networking.hostName;
+  userHome = config.users.users.c4patino.home;
 in {
   imports = [
     inputs.sops-nix.nixosModules.sops
@@ -14,7 +14,7 @@ in {
     defaultSopsFile = "${self}/secrets/sops/secrets.yaml";
     defaultSopsFormat = "yaml";
     age = {
-      keyFile = "${self}/secrets/crypt/${hostName}/keys.txt";
+      keyFile = "${userHome}/.config/sops/age/keys.txt";
       generateKey = true;
     };
     secrets = {
