@@ -10,6 +10,7 @@
     ./services
     ./virtualization
     ./hyprland.nix
+    ./impermanence.nix
     ./secrets.nix
   ];
 

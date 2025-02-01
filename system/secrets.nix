@@ -13,10 +13,7 @@ in {
   sops = {
     defaultSopsFile = "${self}/secrets/sops/secrets.yaml";
     defaultSopsFormat = "yaml";
-    age = {
-      keyFile = "${userHome}/.config/sops/age/keys.txt";
-      generateKey = true;
-    };
+    age.keyFile = "${userHome}/.config/sops/age/keys.txt";
     secrets = {
       "github/auth" = {
         owner = config.users.users.c4patino.name;

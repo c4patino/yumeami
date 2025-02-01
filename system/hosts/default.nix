@@ -1,17 +1,33 @@
 {
+  self,
   inputs,
   homeImports,
-  self,
   ...
 }: {
   flake.nixosConfigurations = let
     inherit (inputs.nixpkgs.lib) nixosSystem;
+
+    secrets = builtins.fromJSON (builtins.readFile "${self}/secrets/crypt/secrets.json");
+
     specialArgs = {inherit inputs self;};
+    extraSpecialArgs = hostName: {
+      inherit inputs self secrets hostName;
+    };
   in {
     arisu = nixosSystem {
       inherit specialArgs;
       system = "x86_64-linux";
-      modules = [./arisu];
+      modules = [
+        ./arisu
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            extraSpecialArgs = extraSpecialArgs "arisu";
+            users.c4patino = {imports = homeImports."c4patino@arisu";};
+          };
+        }
+      ];
     };
     kokoro = nixosSystem {
       inherit specialArgs;

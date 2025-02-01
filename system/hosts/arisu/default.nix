@@ -3,6 +3,8 @@
     ../..
     ./hardware-configuration.nix
 
+    inputs.home-manager.nixosModules.home-manager
+
     inputs.disko.nixosModules.default
     (import ../disko.nix {
       main = "/dev/nvme1n1";
@@ -34,4 +36,6 @@
 
   steam.enable = true;
   mcservers.enable = true;
+
+  impermanence.enable = true;
 }
