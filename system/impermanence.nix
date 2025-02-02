@@ -94,6 +94,7 @@
           "Pictures"
           "Programming"
 
+          ".pm2"
           ".steam"
           ".vim"
         ];

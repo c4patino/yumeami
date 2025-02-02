@@ -55,6 +55,7 @@
   ];
 
   efi-bootloader.enable = true;
+  impermanence.enable = true;
 
   network-manager.enable = true;
 
