@@ -49,6 +49,11 @@
     ];
   };
 
+  systemd.tmpfiles.rules = [
+    "d /mnt/sda 0755 c4patino users -"
+    "d /mnt/sdb 0755 c4patino users -"
+  ];
+
   efi-bootloader.enable = true;
 
   network-manager.enable = true;

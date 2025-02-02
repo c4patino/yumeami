@@ -4,6 +4,7 @@
   inputs,
   hostName,
   config,
+  lib,
   ...
 }: {
   programs.home-manager.enable = true;
@@ -40,6 +41,11 @@
       ".ssh/id_ed25519.pub".source = "${self}/secrets/crypt/${hostName}/id_ed25519.pub";
       ".config/sops/age/keys.txt".source = "${self}/secrets/crypt/${hostName}/keys.txt";
     };
+
+    activation.createDirs = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      mkdir -p ~/Downloads
+      chmod 755 ~/Downloads
+    '';
   };
 
   ssh.enable = true;
