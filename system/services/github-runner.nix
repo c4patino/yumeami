@@ -24,7 +24,7 @@ in {
             description = "Path to the token file to utilize for authentication";
           };
           url = lib.mkOption {
-            type = types.path;
+            type = types.str;
             default = "";
             description = "URL of the repository for which to add the self-hosted runner";
           };

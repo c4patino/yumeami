@@ -5,7 +5,7 @@
   inputs,
   ...
 }: let
-  inherit (lib) types mapAttrs' flatten mapAttrsToList;
+  inherit (lib) types mapAttrs flatten mapAttrsToList;
 in {
   options.mcservers = {
     enable = lib.mkEnableOption "custom minecraft servers";
@@ -49,7 +49,7 @@ in {
 
     networking.firewall.allowedTCPPorts = flatten (mapAttrsToList (
         name: serverCfg:
-          if serverCfg.enable && serverCfg.serverProperties ? server-port
+          if serverCfg.serverProperties ? server-port
           then [serverCfg.serverProperties.server-port]
           else []
       )
@@ -62,12 +62,10 @@ in {
       eula = true;
 
       servers =
-        mapAttrs' (
-          name: serverCfg: {
-            inherit (serverCfg) package jvmOpts serverProperties whitelist;
-            enable = true;
-          }
-        )
+        mapAttrs (name: cfg: {
+          inherit (cfg) package jvmOpts serverProperties whitelist;
+          enable = true;
+        })
         config.mcservers.servers;
     };
   };
