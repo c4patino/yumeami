@@ -5,19 +5,12 @@
   inputs,
   ...
 }: {
-  options = {
-    pycharm.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable Pycharm";
-    };
-  };
+  options.pycharm.enable = lib.mkEnableOption "Pycharm";
 
   config = lib.mkIf config.pycharm.enable {
-    home.packages = with pkgs; [jetbrains.pycharm-professional];
-
-    home.file = {
-      ".ideavimrc".source = inputs.dotfiles + "/ideavimrc";
+    home = {
+      packages = with pkgs; [jetbrains.pycharm-professional];
+      file.".ideavimrc".source = inputs.dotfiles + "/ideavimrc";
     };
   };
 }

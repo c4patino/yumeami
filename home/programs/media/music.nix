@@ -4,13 +4,7 @@
   lib,
   ...
 }: {
-  options = {
-    music.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable Spotify";
-    };
-  };
+  options.music.enable = lib.mkEnableOption "Spotify and Cava";
 
   config = lib.mkIf config.music.enable {
     home.packages = with pkgs; [

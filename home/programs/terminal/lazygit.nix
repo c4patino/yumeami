@@ -3,17 +3,9 @@
   config,
   ...
 }: {
-  options = {
-    lazygit.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable lazygit";
-    };
-  };
+  options.lazygit.enable = lib.mkEnableOption "lazygit";
 
   config = lib.mkIf config.lazygit.enable {
-    programs.lazygit = {
-      enable = true;
-    };
+    programs.lazygit.enable = true;
   };
 }

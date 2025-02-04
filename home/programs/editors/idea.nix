@@ -5,13 +5,7 @@
   inputs,
   ...
 }: {
-  options = {
-    idea.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "enables IntelliJ IDEA";
-    };
-  };
+  options.idea.enable = lib.mkEnableOption "IntelliJ IDEA";
 
   config = lib.mkIf config.idea.enable {
     home.packages = with pkgs; [jetbrains.idea-ultimate];

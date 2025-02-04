@@ -4,13 +4,7 @@
   pkgs,
   ...
 }: {
-  options = {
-    hyperfine.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable hyperfine programming tool";
-    };
-  };
+  options.hyperfine.enable = lib.mkEnableOption "Hyperfine";
 
   config = lib.mkIf config.lastpass.enable {
     home.packages = with pkgs; [hyperfine];

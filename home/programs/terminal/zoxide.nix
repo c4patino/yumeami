@@ -3,13 +3,7 @@
   config,
   ...
 }: {
-  options = {
-    zoxide.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable zoxide";
-    };
-  };
+  options.zoxide.enable = lib.mkEnableOption "zoxide";
 
   config = lib.mkIf config.zoxide.enable {
     programs.zoxide = {

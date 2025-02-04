@@ -5,23 +5,12 @@
   ...
 }: {
   options = {
-    bottom.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable bottom";
-    };
-
-    nvtop.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable nvtop";
-    };
+    bottom.enable = lib.mkEnableOption "bottom";
+    nvtop.enable = lib.mkEnableOption "nvtop";
   };
 
   config = {
-    home.packages = with pkgs; [
-      (lib.mkIf config.nvtop.enable nvtopPackages.nvidia)
-    ];
+    home.packages = with pkgs; [(lib.mkIf config.nvtop.enable nvtopPackages.nvidia)];
 
     programs.bottom = lib.mkIf config.bottom.enable {
       enable = true;

@@ -1,16 +1,9 @@
 {
-  self,
   lib,
   config,
   ...
 }: {
-  options = {
-    ssh.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable ssh configuration";
-    };
-  };
+  options.ssh.enable = lib.mkEnableOption "ssh configurations";
 
   config = lib.mkIf config.ssh.enable {
     programs.ssh = {

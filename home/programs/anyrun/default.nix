@@ -10,13 +10,7 @@
     ${lib.getExe pkgs.sassc} -t expanded '${source}' > $out/${name}.css
   ''}/${name}.css";
 in {
-  options = {
-    anyrun.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable anyrun";
-    };
-  };
+  options.anyrun.enable = lib.mkEnableOption "Anyrun";
 
   imports = [inputs.anyrun.homeManagerModules.default];
 
@@ -43,26 +37,26 @@ in {
       extraConfigFiles = {
         "dictionary.ron".text = ''
           Config(
-              prefix: ":def",
+            prefix: ":def",
           )
         '';
         "applications.ron".text = ''
           Config(
-              desktop_actions: false,
-              max_entries: 10,
+            desktop_actions: false,
+            max_entries: 10,
           )
         '';
         "websearch.ron".text = ''
-                       Config(
-                           prefix: "?",
-                           engines: [
-          Google,
-                               Custom(
-                                   name: "nixpkgs",
-                                   url: "search.nixos.org/packages?query={}&channel=unstable",
-                               ),
-                           ],
-                       )
+          Config(
+            prefix: "?",
+            engines: [
+              Google,
+              Custom(
+                name: "nixpkgs",
+                url: "search.nixos.org/packages?query={}&channel=unstable",
+              ),
+            ],
+          )
         '';
       };
     };

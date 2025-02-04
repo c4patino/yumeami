@@ -4,13 +4,7 @@
   pkgs,
   ...
 }: {
-  options = {
-    git.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable git, git-lfs, and gh-cli";
-    };
-  };
+  options.git.enable = lib.mkEnableOption "git, git-lfs, and gh-cli";
 
   config = lib.mkIf config.git.enable {
     programs.git = {

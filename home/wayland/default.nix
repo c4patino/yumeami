@@ -4,6 +4,8 @@
   config,
   ...
 }: {
+  options.hyprland.enable = lib.mkEnableOption "Hyprland window manager";
+
   imports = [
     ./eww
     ./hyprland
@@ -12,14 +14,6 @@
     ./services/mako.nix
     ./services/variety.nix
   ];
-
-  options = {
-    hyprland.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable Hyprland window manager";
-    };
-  };
 
   config = lib.mkIf config.hyprland.enable {
     home.packages = with pkgs; [

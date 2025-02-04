@@ -3,13 +3,7 @@
   config,
   ...
 }: {
-  options = {
-    kitty.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable the kitty terminal emulator";
-    };
-  };
+  options.kitty.enable = lib.mkEnableOption "Kitty terminal emulator";
 
   config = lib.mkIf config.kitty.enable {
     programs.kitty = {

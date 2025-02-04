@@ -4,17 +4,9 @@
   config,
   ...
 }: {
-  options = {
-    prismlauncher.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable prism launcher";
-    };
-  };
+  options.prismlauncher.enable = lib.mkEnableOption "Prism Launcher";
 
   config = lib.mkIf config.prismlauncher.enable {
-    home.packages = with pkgs; [
-      prismlauncher
-    ];
+    home.packages = with pkgs; [prismlauncher];
   };
 }
