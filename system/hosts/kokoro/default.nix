@@ -29,4 +29,8 @@
   teamviewer.enable = true;
 
   hyprland.enable = true;
+
+  samba.mounts = {
+    "shared" = "arisu";
+  };
 }

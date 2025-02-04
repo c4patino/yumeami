@@ -16,4 +16,8 @@
   };
 
   pm2.enable = true;
+
+  samba.mounts = {
+    "shared" = "arisu";
+  };
 }

@@ -6,35 +6,79 @@
   pkgs,
   ...
 }: let
-  primaryHost = "arisu";
-  computeNodes = ["arisu" "kokoro" "chibi"];
+  inherit (lib) mapAttrsToList types foldl';
+  inherit (config.networking) hostName;
 in {
-  options = {
-    slurm.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable SLURM";
+  options.slurm = {
+    enable = lib.mkEnableOption "SLURM";
+    primaryHost = lib.mkOption {
+      type = types.str;
+      default = "";
+      description = "Device to use for the primary SLURM control host";
+    };
+    nodeMap = lib.mkOption {
+      description = "Mapping of node device defintitions to IPs and device configurations.";
+      type = types.attrsOf (types.submodule {
+        options = {
+          partitions = lib.mkOption {
+            type = types.listOf types.str;
+            default = [];
+            description = "List of partitions for the node.";
+          };
+          configString = lib.mkOption {
+            type = types.str;
+            default = "";
+            description = "Configuration string for the node capabilities";
+          };
+        };
+      });
+      default = {};
     };
   };
 
   config = lib.mkIf config.slurm.enable {
     services.slurm = {
-      controlMachine = primaryHost;
-      controlAddr = "100.117.106.23";
+      controlMachine = config.slurm.primaryHost;
+      controlAddr = config.devices.${config.slurm.primaryHost}.IP;
 
-      client.enable = builtins.elem config.networking.hostName computeNodes;
-      server.enable = config.networking.hostName == primaryHost;
+      client.enable = builtins.hasAttr hostName config.slurm.nodeMap;
+      server.enable =
+        if builtins.hasAttr config.slurm.primaryHost config.devices
+        then config.slurm.primaryHost == hostName
+        else builtins.throw "Host '${config.slurm.primaryHost} does not exist in the devices configuration.";
 
-      nodeName = [
-        "arisu NodeAddr=100.117.106.23 CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=63400 Gres=gpu:rtx3070:1,shard:12 Weight=1 State=UNKNOWN"
-        "kokoro NodeAddr=100.69.45.111 CPUs=10 Sockets=1 CoresPerSocket=10 ThreadsPerCore=1 RealMemory=23700 Weight=100 State=UNKNOWN"
-        "chibi NodeAddr=100.101.224.25 CPUs=4 Sockets=1 CoresPerSocket=4 ThreadsPerCore=1 RealMemory=7750 Weight=10 State=UNKNOWN"
-      ];
+      nodeName =
+        mapAttrsToList (
+          node: value: let
+            nodeIP =
+              if builtins.hasAttr node config.devices
+              then config.devices.${node}.IP
+              else builtins.throw "Host '${node}' does not exist in the devices configuration.";
+          in "${node} NodeAddr=${nodeIP} ${value.configString} State=UNKNOWN"
+        )
+        config.slurm.nodeMap;
 
-      partitionName = [
-        "main Nodes=arisu,chibi Default=YES MaxTime=INFINITE State=UP"
-        "extended Nodes=arisu,kokoro,chibi Default=NO MaxTime=INFINITE State=UP"
-      ];
+      partitionName = let
+        partitionMap = foldl' (
+          acc: node: let
+            partitions = config.slurm.nodeMap.${node}.partitions;
+          in
+            foldl' (innerAcc: partition:
+              acc
+              // {
+                ${partition} = (acc.${partition} or []) ++ [node];
+              })
+            acc
+            partitions
+        ) {} (builtins.attrNames config.slurm.nodeMap);
+
+        formatPartition = name: nodes: "${name} Nodes=${lib.concatStringsSep "," nodes} Default=${
+          if name == "main"
+          then "YES"
+          else "NO"
+        } MaxTime=INFINITE State=UP";
+      in
+        map (name: formatPartition name partitionMap.${name}) (builtins.attrNames partitionMap);
 
       extraConfig = ''
         GresTypes=gpu,shard
@@ -71,8 +115,8 @@ in {
       extraConfigPaths = [(inputs.dotfiles + "/slurm/config")];
 
       dbdserver = {
-        enable = config.networking.hostName == primaryHost;
-        dbdHost = primaryHost;
+        enable = config.slurm.primaryHost == hostName;
+        dbdHost = config.slurm.primaryHost;
         storagePassFile = "${self}/secrets/crypt/mysql.txt";
       };
     };
@@ -86,7 +130,7 @@ in {
     };
 
     services.mysql = {
-      enable = config.networking.hostName == primaryHost;
+      enable = config.slurm.primaryHost == hostName;
       ensureDatabases = ["slurm_acct_db"];
       ensureUsers = [
         {

@@ -6,56 +6,55 @@
 }: {
   flake.nixosConfigurations = let
     inherit (inputs.nixpkgs.lib) nixosSystem;
-
     secrets = builtins.fromJSON (builtins.readFile "${self}/secrets/crypt/secrets.json");
 
-    specialArgs = {inherit inputs self;};
-    extraSpecialArgs = hostName: {
+    specialArgs = hostName: {
       inherit inputs self secrets hostName;
     };
 
-    home-manager = hostName: {
+    # TODO: Make it such that homeManager inputs it's own import into modules
+    homeManager = hostName: {
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
-        extraSpecialArgs = extraSpecialArgs hostName;
+        extraSpecialArgs = specialArgs hostName;
         users.c4patino = {imports = homeImports."c4patino@${hostName}";};
       };
     };
   in {
     arisu = nixosSystem {
-      inherit specialArgs;
+      specialArgs = specialArgs "arisu";
       system = "x86_64-linux";
       modules = [
-        inputs.home-manager.nixosModules.home-manager
         ./arisu
-        (home-manager "arisu")
+        inputs.home-manager.nixosModules.home-manager
+        (homeManager "arisu")
       ];
     };
     kokoro = nixosSystem {
-      inherit specialArgs;
+      specialArgs = specialArgs "kokoro";
       system = "x86_64-linux";
       modules = [
-        inputs.home-manager.nixosModules.home-manager
         ./kokoro
-        (home-manager "kokoro")
+        inputs.home-manager.nixosModules.home-manager
+        (homeManager "kokoro")
       ];
     };
     chibi = nixosSystem {
-      inherit specialArgs;
+      specialArgs = specialArgs "chibi";
       system = "aarch64-linux";
       modules = [
-        inputs.home-manager.nixosModules.home-manager
         ./chibi
-        (home-manager "chibi")
+        inputs.home-manager.nixosModules.home-manager
+        (homeManager "chibi")
       ];
     };
     hikari = nixosSystem {
-      inherit specialArgs;
+      specialArgs = specialArgs "hikari";
       modules = [
-        inputs.home-manager.nixosModules.home-manager
         ./hikari
-        (home-manager "hikari")
+        inputs.home-manager.nixosModules.home-manager
+        (homeManager "hikari")
       ];
     };
   };

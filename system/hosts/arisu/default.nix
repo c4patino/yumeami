@@ -28,10 +28,14 @@
   teamviewer.enable = true;
 
   github-runners.enable = true;
-  samba.enable = true;
 
   hyprland.enable = true;
 
   steam.enable = true;
   mcservers.enable = true;
+
+  samba = {
+    enable = true;
+    shares = ["shared"];
+  };
 }
