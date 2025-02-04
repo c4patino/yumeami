@@ -3,13 +3,7 @@
   lib,
   ...
 }: {
-  options = {
-    audio.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Enable audio support";
-    };
-  };
+  options.audio.enable = lib.mkEnableOption "audio support";
 
   config = lib.mkIf config.audio.enable {
     services.pipewire = {

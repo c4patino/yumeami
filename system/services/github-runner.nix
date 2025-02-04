@@ -3,53 +3,34 @@
   lib,
   config,
   ...
-}: {
-  options = {
-    github-runners.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable Github Action Runner";
-    };
-    github-runners.runners = lib.mkOption {
-      type = lib.types.listOf lib.types.attrs;
-      default = [
-        {
-          name = "${config.networking.hostName}-nixos-config";
-          tokenFile = config.sops.secrets."github/runner".path;
-          url = "https://github.com/c4patino/nixos-config";
-        }
-        {
-          name = "${config.networking.hostName}-nixvim";
-          tokenFile = config.sops.secrets."github/runner".path;
-          url = "https://github.com/c4patino/nixvim";
-        }
-        {
-          name = "${config.networking.hostName}-neovim";
-          tokenFile = config.sops.secrets."github/runner".path;
-          url = "https://github.com/c4patino/neovim";
-        }
-        {
-          name = "${config.networking.hostName}-dotfiles";
-          tokenFile = config.sops.secrets."github/runner".path;
-          url = "https://github.com/c4patino/dotfiles";
-        }
-        {
-          name = "${config.networking.hostName}-days-since";
-          tokenFile = config.sops.secrets."github/runner".path;
-          url = "https://github.com/c4patino/days-since";
-        }
-        {
-          name = "${config.networking.hostName}-free-range-rust";
-          tokenFile = config.sops.secrets."github/runner".path;
-          url = "https://github.com/c4patino/free-range-rust";
-        }
-        {
-          name = "${config.networking.hostName}-free-range-zoo";
-          tokenFile = config.sops.secrets."github/runner-oasys".path;
-          url = "https://github.com/oasys-mas";
-        }
-      ];
-      description = "List of GitHub runners to configure";
+}: let
+  inherit (lib) types;
+  inherit (config.networking) hostName;
+in {
+  options.github-runners = {
+    enable = lib.mkEnableOption "Github self-hosted runners";
+    runners = lib.mkOption {
+      description = "Definition of runners to enable to the device";
+      type = types.listOf (types.submodule {
+        options = {
+          name = lib.mkOption {
+            type = types.str;
+            default = "";
+            description = "Name postfix of the github runners service to guarantee uniqueness";
+          };
+          tokenFile = lib.mkOption {
+            type = types.path;
+            default = "";
+            description = "Path to the token file to utilize for authentication";
+          };
+          url = lib.mkOption {
+            type = types.path;
+            default = "";
+            description = "URL of the repository for which to add the self-hosted runner";
+          };
+        };
+      });
+      default = [];
     };
   };
 
@@ -57,9 +38,9 @@
     services.github-runners = lib.foldl' (acc: runner:
       acc
       // {
-        "${runner.name}" = {
+        "${hostName}-${runner.name}" = {
           enable = true;
-          name = config.networking.hostName;
+          name = hostName;
           replace = true;
           ephemeral = true;
           tokenFile = runner.tokenFile;

@@ -4,18 +4,10 @@
   config,
   ...
 }: {
-  options = {
-    teamviewer.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable TeamViewer";
-    };
-  };
+  options.teamviewer.enable = lib.mkEnableOption "Teamviewer";
 
   config = lib.mkIf config.teamviewer.enable {
-    environment.systemPackages = with pkgs; [
-      teamviewer
-    ];
+    environment.systemPackages = with pkgs; [teamviewer];
 
     services.teamviewer.enable = true;
   };

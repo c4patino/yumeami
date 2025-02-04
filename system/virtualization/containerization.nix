@@ -4,13 +4,7 @@
   config,
   ...
 }: {
-  options = {
-    containerization.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable containerization support";
-    };
-  };
+  options.containerization.enable = lib.mkEnableOption "Podman, Docker, and Distrobox support";
 
   config = lib.mkIf config.containerization.enable {
     hardware.nvidia-container-toolkit.enable = config.nvidia.enable;

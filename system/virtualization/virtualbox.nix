@@ -3,13 +3,7 @@
   config,
   ...
 }: {
-  options = {
-    virtualbox.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable VirtualBox support";
-    };
-  };
+  options.virtualbox.enable = lib.mkEnableOption "VirtualBox";
 
   config = lib.mkIf config.virtualbox.enable {
     virtualisation.virtualbox.host = {

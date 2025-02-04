@@ -1,8 +1,5 @@
 {pkgs, ...}: {
-  environment.systemPackages = with pkgs; [
-    gnupg
-    openssl
-  ];
+  environment.systemPackages = with pkgs; [gnupg openssl];
 
   security = {
     polkit.enable = true;

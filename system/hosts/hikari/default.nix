@@ -1,7 +1,6 @@
 {
   pkgs,
   modulesPath,
-  inputs,
   ...
 }: {
   imports = [

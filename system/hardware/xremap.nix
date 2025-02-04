@@ -4,13 +4,7 @@
   inputs,
   ...
 }: {
-  options = {
-    xremap.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable Xremap and keybind remaps";
-    };
-  };
+  options.xremap.enable = lib.mkEnableOption "Xremap and keybinding remaps";
 
   imports = [
     inputs.xremap.nixosModules.default

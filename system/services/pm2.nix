@@ -4,18 +4,10 @@
   pkgs,
   ...
 }: {
-  options = {
-    pm2.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable pm2";
-    };
-  };
+  options.pm2.enable = lib.mkEnableOption "PM2 daemon";
 
   config = lib.mkIf config.pm2.enable {
-    environment.systemPackages = with pkgs; [
-      pm2
-    ];
+    environment.systemPackages = with pkgs; [pm2];
 
     systemd.services.pm2 = {
       enable = true;

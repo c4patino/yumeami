@@ -4,17 +4,9 @@
   lib,
   ...
 }: {
-  options = {
-    battery.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable battery interfaces";
-    };
-  };
+  options.battery.enable = lib.mkEnableOption "battery interfaces";
 
   config = lib.mkIf config.battery.enable {
-    environment.systemPackages = with pkgs; [
-      acpi
-    ];
+    environment.systemPackages = with pkgs; [acpi];
   };
 }

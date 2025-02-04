@@ -4,12 +4,41 @@
   config,
   inputs,
   ...
-}: {
-  options = {
-    mcservers.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable custom minecraft servers";
+}: let
+  inherit (lib) types mapAttrs' flatten mapAttrsToList;
+in {
+  options.mcservers = {
+    enable = lib.mkEnableOption "custom minecraft servers";
+    servers = lib.mkOption {
+      type = types.attrsOf (types.submodule {
+        options = {
+          package = lib.mkOption {
+            type = types.package;
+            default = null;
+            description = "The Minecraft server package to use.";
+          };
+
+          jvmOpts = lib.mkOption {
+            type = types.str;
+            default = "-Xms4092M -Xmx4092M -XX:+UseG1GC";
+            description = "JVM options for the Minecraft server.";
+          };
+
+          serverProperties = lib.mkOption {
+            type = types.attrs;
+            default = {};
+            description = "Minecraft server properties.";
+          };
+
+          whitelist = lib.mkOption {
+            type = types.attrs;
+            default = {};
+            description = "Whitelist for the Minecraft server.";
+          };
+        };
+      });
+      default = {};
+      description = "Minecraft server configurations.";
     };
   };
 
@@ -18,9 +47,13 @@
   config = lib.mkIf config.mcservers.enable {
     environment.systemPackages = with pkgs; [tmux];
 
-    networking.firewall = {
-      allowedTCPPorts = [25565 25566];
-    };
+    networking.firewall.allowedTCPPorts = flatten (mapAttrsToList (
+        name: serverCfg:
+          if serverCfg.enable && serverCfg.serverProperties ? server-port
+          then [serverCfg.serverProperties.server-port]
+          else []
+      )
+      config.mcservers.servers);
 
     nixpkgs.overlays = [inputs.nix-minecraft.overlay];
 
@@ -28,28 +61,14 @@
       enable = true;
       eula = true;
 
-      servers = {
-        vanilla = {
-          enable = true;
-          package = pkgs.vanillaServers.vanilla-1_21_3;
-          jvmOpts = "-Xms4092M -Xmx4092M -XX:+UseG1GC";
-          serverProperties = {
-            difficulty = "hard";
-            server-port = 25565;
-          };
-          whitelist = {};
-        };
-        modded = {
-          enable = true;
-          package = pkgs.fabricServers.fabric-1_21_3;
-          jvmOpts = "-Xms4092M -Xmx4092M -XX:+UseG1GC";
-          serverProperties = {
-            difficulty = "hard";
-            server-port = 25566;
-          };
-          whitelist = {};
-        };
-      };
+      servers =
+        mapAttrs' (
+          name: serverCfg: {
+            inherit (serverCfg) package jvmOpts serverProperties whitelist;
+            enable = true;
+          }
+        )
+        config.mcservers.servers;
     };
   };
 }

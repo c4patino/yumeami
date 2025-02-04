@@ -23,12 +23,8 @@
   programs.nix-ld = {
     enable = true;
     libraries = with pkgs;
-      [
-        stdenv.cc.cc
-      ]
-      ++ lib.optionals config.nvidia.enable [
-        cudaPackages.cudatoolkit
-      ];
+      [stdenv.cc.cc]
+      ++ lib.optionals config.nvidia.enable [cudaPackages.cudatoolkit];
   };
 
   programs.zsh.enable = true;

@@ -4,13 +4,7 @@
   inputs,
   ...
 }: {
-  options = {
-    impermanence.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable impermanence";
-    };
-  };
+  options.impermanence.enable = lib.mkEnableOption "impermanence";
 
   imports = [
     inputs.impermanence.nixosModules.impermanence

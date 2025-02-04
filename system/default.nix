@@ -4,23 +4,23 @@
   lib,
   ...
 }: let
-  inherit (lib) types mkOption;
+  inherit (lib) types;
 in {
-  options.devices = mkOption {
+  options.devices = lib.mkOption {
+    description = "Mapping of device names to their hostnames and IPs.";
+    default = {};
     type = types.attrsOf (types.submodule {
       options = {
-        IP = mkOption {
+        IP = lib.mkOption {
           type = types.str;
           description = "The IP address of the device.";
         };
-        hostName = mkOption {
+        hostName = lib.mkOption {
           type = types.str;
           description = "The hostname of the device.";
         };
       };
     });
-    default = {};
-    description = "Mapping of device names to their hostnames and IPs.";
   };
 
   imports = [

@@ -3,13 +3,7 @@
   config,
   ...
 }: {
-  options = {
-    bluetooth.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable bluetooth services";
-    };
-  };
+  options.bluetooth.enable = lib.mkEnableOption "bluetooth support";
 
   config = lib.mkIf config.bluetooth.enable {
     services.blueman.enable = true;

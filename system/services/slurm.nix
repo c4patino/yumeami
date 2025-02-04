@@ -17,13 +17,13 @@ in {
       description = "Device to use for the primary SLURM control host";
     };
     nodeMap = lib.mkOption {
-      description = "Mapping of node device defintitions to IPs and device configurations.";
+      description = "Mapping of node device defintitions to IPs and device configurations";
       type = types.attrsOf (types.submodule {
         options = {
           partitions = lib.mkOption {
             type = types.listOf types.str;
             default = [];
-            description = "List of partitions for the node.";
+            description = "List of partitions for the node";
           };
           configString = lib.mkOption {
             type = types.str;

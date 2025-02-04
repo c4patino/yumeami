@@ -3,13 +3,7 @@
   lib,
   ...
 }: {
-  options = {
-    nvidia.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable NVIDIA GPU support";
-    };
-  };
+  options.nvidia.enable = lib.mkEnableOption "nvidia GPU drivers";
 
   config = lib.mkIf config.nvidia.enable {
     hardware.graphics = {

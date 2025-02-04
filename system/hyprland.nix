@@ -4,13 +4,7 @@
   lib,
   ...
 }: {
-  options = {
-    hyprland.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable hyprland";
-    };
-  };
+  options.hyprland.enable = lib.mkEnableOption "Hyprland display manager";
 
   config = lib.mkIf config.hyprland.enable {
     programs.hyprland = {
@@ -19,9 +13,7 @@
       package = pkgs.hyprland;
     };
 
-    environment.systemPackages = with pkgs; [
-      xdg-desktop-portal-hyprland
-    ];
+    environment.systemPackages = with pkgs; [xdg-desktop-portal-hyprland];
 
     xdg.portal = {
       enable = true;

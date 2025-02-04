@@ -3,13 +3,7 @@
   lib,
   ...
 }: {
-  options = {
-    steam.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable steam";
-    };
-  };
+  options.steam.enable = lib.mkEnableOption "Steam";
 
   config = lib.mkIf config.steam.enable {
     programs.steam = {

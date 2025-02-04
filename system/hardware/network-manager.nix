@@ -4,19 +4,10 @@
   pkgs,
   ...
 }: {
-  options = {
-    network-manager.enable = lib.mkOption {
-      type = lib.types.bool;
-      default = false;
-      description = "Enable network manager";
-    };
-  };
+  options.network-manager.enable = lib.mkEnableOption "network manager";
 
   config = lib.mkIf config.network-manager.enable {
-    environment.systemPackages = with pkgs; [
-      networkmanagerapplet
-    ];
-
+    environment.systemPackages = with pkgs; [networkmanagerapplet];
     networking.networkmanager.enable = true;
   };
 }
