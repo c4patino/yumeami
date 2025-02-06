@@ -3,18 +3,19 @@
     ./stylix.nix
   ];
 
-  hyprland.enable = true;
-  kitty.enable = true;
   anyrun.enable = true;
 
-  nvtop.enable = true;
+  android-studio.enable = true;
+  idea.enable = true;
+  pycharm.enable = true;
+
+  prismlauncher.enable = true;
 
   music.enable = true;
-  leetcode.enable = true;
 
-  android-studio.enable = true;
-  pycharm.enable = true;
-  idea.enable = true;
+  kitty.enable = true;
+  leetcode.enable = true;
+  nvtop.enable = true;
 
   browsers.enable = true;
   fiji.enable = true;
@@ -24,7 +25,7 @@
   postman.enable = true;
   sms.enable = true;
 
-  prismlauncher.enable = true;
+  hyprland.enable = true;
 
   wayland.windowManager.hyprland.settings.monitor = [
     "DP-1, 2560x1440@120, 0x0, 1"

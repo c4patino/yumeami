@@ -4,7 +4,7 @@
   config,
   ...
 }: let
-  userHome = config.users.users.c4patino.home;
+  inherit (config.users.users) c4patino;
 in {
   imports = [
     inputs.sops-nix.nixosModules.sops
@@ -13,26 +13,14 @@ in {
   sops = {
     defaultSopsFile = "${self}/secrets/sops/secrets.yaml";
     defaultSopsFormat = "yaml";
-    age.keyFile = "${userHome}/.config/sops/age/keys.txt";
+    age.keyFile = "${c4patino.home}/.config/sops/age/keys.txt";
     secrets = {
-      "github/auth" = {
-        owner = config.users.users.c4patino.name;
-      };
-      "github/runner" = {
-        owner = config.users.users.c4patino.name;
-      };
-      "github/runner-oasys" = {
-        owner = config.users.users.c4patino.name;
-      };
-      "master-password" = {
-        owner = config.users.users.c4patino.name;
-      };
-      "tailscale/actions" = {
-        owner = config.users.users.c4patino.name;
-      };
-      "pypi" = {
-        owner = config.users.users.c4patino.name;
-      };
+      "github/auth" = {owner = c4patino.name;};
+      "github/runner" = {owner = c4patino.name;};
+      "github/runner-oasys" = {owner = c4patino.name;};
+      "master-password" = {owner = c4patino.name;};
+      "tailscale/actions" = {owner = c4patino.name;};
+      "pypi" = {owner = c4patino.name;};
     };
   };
 }

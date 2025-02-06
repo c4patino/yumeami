@@ -26,6 +26,8 @@ in {
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
   boot.loader.grub.theme = inputs.dotfiles + "/vimix/4k";
 
+  steam.enable = true;
+
   audio.enable = true;
   bluetooth.enable = true;
   display-manager.enable = true;
@@ -37,8 +39,6 @@ in {
 
   hyprland.enable = true;
 
-  steam.enable = true;
-
   samba = {
     enable = true;
     shares = ["shared"];
@@ -46,43 +46,18 @@ in {
 
   github-runners = {
     enable = true;
-    runners = [
-      {
-        name = "nixos-config";
-        tokenFile = secrets."github/runner".path;
-        url = "https://github.com/c4patino/nixos-config";
-      }
-      {
-        name = "nixvim";
-        tokenFile = secrets."github/runner".path;
-        url = "https://github.com/c4patino/nixvim";
-      }
-      {
-        name = "neovim";
-        tokenFile = secrets."github/runner".path;
-        url = "https://github.com/c4patino/neovim";
-      }
-      {
-        name = "dotfiles";
-        tokenFile = secrets."github/runner".path;
-        url = "https://github.com/c4patino/dotfiles";
-      }
-      {
-        name = "days-since";
-        tokenFile = secrets."github/runner".path;
-        url = "https://github.com/c4patino/days-since";
-      }
-      {
-        name = "free-range-rust";
-        tokenFile = secrets."github/runner".path;
-        url = "https://github.com/c4patino/free-range-rust";
-      }
-      {
-        name = "free-range-zoo";
+    runners = {
+      "nixos-config" = {url = "https://github.com/c4patino/nixos-config";};
+      "nixvim" = {url = "https://github.com/c4patino/nixvim";};
+      "neovim" = {url = "https://github.com/c4patino/neovim";};
+      "dotfiles" = {url = "https://github.com/c4patino/dotfiles";};
+      "days-since" = {url = "https://github.com/c4patino/days-since";};
+      "free-range-rust" = {url = "https://github.com/c4patino/free-range-rust";};
+      "free-range-zoo" = {
         tokenFile = secrets."github/runner-oasys".path;
         url = "https://github.com/oasys-mas";
-      }
-    ];
+      };
+    };
   };
 
   mcservers = {

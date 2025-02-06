@@ -76,10 +76,13 @@ in {
     ];
 
     efi-bootloader.enable = true;
-    impermanence.enable = true;
     network-manager.enable = true;
-    containerization.enable = true;
+
+    impermanence.enable = true;
+
     tailscale.enable = true;
+
+    containerization.enable = true;
 
     devices = {
       "arisu" = {

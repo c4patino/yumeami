@@ -48,17 +48,18 @@
     '';
   };
 
-  ssh.enable = true;
-  zsh.enable = true;
-
-  languages.enable = true;
-  git.enable = true;
-  lazygit.enable = true;
   neovim.enable = true;
 
-  bottom.enable = true;
   yazi.enable = true;
-  zoxide.enable = true;
+
+  git.enable = true;
   hyperfine.enable = true;
   lastpass.enable = true;
+  lazygit.enable = true;
+  bottom.enable = true;
+  ssh.enable = true;
+  zsh.enable = true;
+  zoxide.enable = true;
+
+  languages.enable = true;
 }
