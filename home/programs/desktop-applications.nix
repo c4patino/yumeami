@@ -33,7 +33,7 @@
         (lib.mkIf config.postman.enable postman)
 
         (lib.mkIf config.sms.enable slack)
-        (lib.mkIf config.sms.enable webcord)
+        (lib.mkIf config.sms.enable webcord-vencord)
         (lib.mkIf config.sms.enable zoom-us)
       ];
 
