@@ -19,6 +19,7 @@ pkgs.mkShell {
 
   packages = with pkgs; [
     python312Packages.debugpy
+    yapf
   ];
 
   shell = pkgs.zsh;
