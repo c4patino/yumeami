@@ -2,6 +2,7 @@
   self,
   inputs,
   config,
+  hostName,
   ...
 }: let
   inherit (config.users.users) c4patino;
@@ -13,7 +14,7 @@ in {
   sops = {
     defaultSopsFile = "${self}/secrets/sops/secrets.yaml";
     defaultSopsFormat = "yaml";
-    age.keyFile = "${c4patino.home}/.config/sops/age/keys.txt";
+    age.keyFile = "/persist/${c4patino.home}/dotfiles/secrets/crypt/${hostName}/keys.txt";
     secrets = {
       "github/auth" = {owner = c4patino.name;};
       "github/runner" = {owner = c4patino.name;};
