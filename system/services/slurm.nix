@@ -61,13 +61,15 @@ in {
       partitionName = let
         partitionMap = foldl' (
           acc: node: let
-            partitions = config.slurm.nodeMap.${node}.partitions;
+            partitions = config.slurm.nodeMap.${node}.partitions or [];
           in
-            foldl' (innerAcc: partition:
-              acc
-              // {
-                ${partition} = (acc.${partition} or []) ++ [node];
-              })
+            foldl' (
+              innerAcc: partition:
+                innerAcc
+                // {
+                  ${partition} = (innerAcc.${partition} or []) ++ [node];
+                }
+            )
             acc
             partitions
         ) {} (builtins.attrNames config.slurm.nodeMap);
