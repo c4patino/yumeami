@@ -45,7 +45,7 @@ in {
             else runner.tokenFile;
           url = runner.url;
           extraPackages = with pkgs; [openssl docker];
-          extraLabels = lib.mkIf config.nvidia.enable ["gpu"];
+          extraLabels = ["nix"] ++ lib.optional config.nvidia.enable "gpu";
           user = "root";
           group = "root";
         };
