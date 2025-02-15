@@ -14,7 +14,6 @@ permissions:
 
 jobs:
   format:
-    uses: c4patino/actions/.github/workflows/format-nix.yml@main
+    uses: c4patino/actions/.github/workflows/format.yml@main
     with:
       language: nix
-      shell: nix-dev
