@@ -8,8 +8,13 @@
     },
 }:
 pkgs.mkShell {
+  nativeBuildInputs = with pkgs; [
+    dotnetPackages.Nuget
+  ];
+
   buildInputs = with pkgs; [
     dotnet-sdk
+    mono5
   ];
 
   shell = pkgs.zsh;
