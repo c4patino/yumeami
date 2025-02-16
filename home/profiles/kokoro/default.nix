@@ -8,6 +8,7 @@
   android-studio.enable = true;
   idea.enable = true;
   pycharm.enable = true;
+  rider.enable = true;
 
   music.enable = true;
 
