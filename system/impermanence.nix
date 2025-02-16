@@ -95,6 +95,7 @@
           ".pm2"
           ".steam"
           ".vim"
+          "VirtualBox VMs"
         ];
 
         files = [
