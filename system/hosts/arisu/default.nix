@@ -35,7 +35,6 @@ in {
   printing.enable = true;
 
   virtualbox.enable = true;
-  teamviewer.enable = true;
 
   hyprland.enable = true;
 
