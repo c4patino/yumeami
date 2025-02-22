@@ -16,7 +16,6 @@
       inputs.home-manager.nixosModules.home-manager
       {
         home-manager = {
-          useGlobalPkgs = true;
           useUserPackages = true;
           extraSpecialArgs = specialArgs hostName;
           users.c4patino = {imports = homeImports."c4patino@${hostName}";};
