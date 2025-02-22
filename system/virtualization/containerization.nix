@@ -15,7 +15,11 @@
     ];
 
     virtualisation = {
-      containers.enable = true;
+      containers = {
+        enable = true;
+        containersConf.settings.containers.label = false;
+      };
+
       podman.enable = true;
       docker.enable = true;
 
