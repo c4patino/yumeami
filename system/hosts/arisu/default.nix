@@ -59,24 +59,4 @@ in {
       };
     };
   };
-
-  mcservers = {
-    enable = true;
-    servers = {
-      vanilla = {
-        package = pkgs.vanillaServers.vanilla-1_21_3;
-        serverProperties = {
-          difficulty = "hard";
-          server-port = 25565;
-        };
-      };
-      modded = {
-        package = pkgs.fabricServers.fabric-1_21_3;
-        serverProperties = {
-          difficulty = "hard";
-          server-port = 25566;
-        };
-      };
-    };
-  };
 }
