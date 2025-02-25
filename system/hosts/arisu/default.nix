@@ -53,7 +53,7 @@ in {
       "days-since" = {url = "https://github.com/c4patino/days-since";};
       "oasys-experiments" = {url = "https://github.com/c4patino/oasys-experiments";};
       "free-range-rust" = {url = "https://github.com/c4patino/free-range-rust";};
-      "free-range-zoo" = {
+      "oasys-mas" = {
         tokenFile = secrets."github/runner-oasys".path;
         url = "https://github.com/oasys-mas";
       };
