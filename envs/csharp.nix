@@ -14,6 +14,7 @@ pkgs.mkShell {
 
   buildInputs = with pkgs; [
     dotnet-sdk
+    dotnet-ef
     mono5
   ];
 
