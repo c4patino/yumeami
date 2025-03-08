@@ -102,6 +102,7 @@
 
         files = [
           ".ssh/known_hosts"
+          ".conan2/profiles/default"
         ];
       };
     };
