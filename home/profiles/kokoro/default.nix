@@ -6,6 +6,7 @@
   anyrun.enable = true;
 
   android-studio.enable = true;
+  clion.enable = true;
   idea.enable = true;
   pycharm.enable = true;
   rider.enable = true;
