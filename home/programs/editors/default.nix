@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ./android-studio.nix
+    ./clion.nix
     ./neovim.nix
     ./idea.nix
     ./pycharm.nix
