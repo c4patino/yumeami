@@ -55,6 +55,8 @@
           ".cache/spotify-player"
           ".cache/vivaldi"
 
+          ".conan2"
+
           ".config/autostart"
           ".config/gh"
           ".config/Google"
@@ -102,7 +104,6 @@
 
         files = [
           ".ssh/known_hosts"
-          ".conan2/profiles/default"
         ];
       };
     };
