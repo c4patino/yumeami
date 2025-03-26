@@ -46,9 +46,5 @@
       url = "github:c4patino/dotfiles";
       flake = false;
     };
-    nixos-config = {
-      url = "github:c4patino/nixos-config";
-      flake = false;
-    };
   };
 }

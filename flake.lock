@@ -1081,22 +1081,6 @@
         "type": "github"
       }
     },
-    "nixos-config": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1742926482,
-        "narHash": "sha256-Gtg4+0KuhRKH+/V6iJq38nCpWayRRsRSoJ4dxi5+Udg=",
-        "owner": "c4patino",
-        "repo": "nixos-config",
-        "rev": "55f0e23a91088175b3161c88292bd1527a9fd9d5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "c4patino",
-        "repo": "nixos-config",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1730200266,
@@ -1455,7 +1439,6 @@
         "impermanence": "impermanence",
         "neovim-config": "neovim-config",
         "nix-minecraft": "nix-minecraft",
-        "nixos-config": "nixos-config",
         "nixpkgs": "nixpkgs_4",
         "nixvim-config": "nixvim-config",
         "sops-nix": "sops-nix",
