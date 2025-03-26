@@ -1,9 +1,7 @@
-{inputs, ...}: {
+{...}: {
   imports = [
     ./stylix.nix
   ];
-
-  home.file."dotfiles/".source = inputs.nixos-config;
 
   home = {
     username = "nixos";
