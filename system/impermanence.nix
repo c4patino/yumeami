@@ -43,6 +43,8 @@
 
         "/var/spool/slurmctld"
         "/var/spool/slurmd"
+
+        "/var/www"
       ];
 
       users.c4patino = {
