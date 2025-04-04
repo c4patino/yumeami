@@ -91,6 +91,7 @@
           ".local/share/nvim"
           ".local/share/pnpm"
           ".local/share/PrismLauncher"
+          ".local/share/racket"
           ".local/share/Steam"
           ".local/share/zoxide"
           ".local/share/zsh"
