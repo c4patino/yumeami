@@ -13,8 +13,11 @@ pkgs.mkShell {
   ];
 
   buildInputs = with pkgs; [
-    dotnet-sdk
-    dotnet-sdk_9
+    (with dotnetCorePackages;
+      combinePackages [
+        sdk_9_0_1xx
+        sdk_8_0_3xx
+      ])
     dotnet-ef
     mono5
   ];
