@@ -26,6 +26,8 @@
         "/mnt/samba"
         "/mnt/syncthing"
 
+        "/opt"
+
         "/srv/minecraft"
 
         "/var/db/sudo/lectured"
