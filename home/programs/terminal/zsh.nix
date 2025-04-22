@@ -20,6 +20,11 @@
       syntaxHighlighting.enable = true;
       initExtra = "source ~/.p10k.zsh";
 
+      shellAliases = {
+        shutdown = "sudo shutdown";
+        reboot = "sudo reboot";
+      };
+
       history = {
         size = 10000;
         path = "${config.xdg.dataHome}/zsh/history";
