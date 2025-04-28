@@ -12,8 +12,6 @@
 in {
   options.anyrun.enable = lib.mkEnableOption "Anyrun";
 
-  imports = [inputs.anyrun.homeManagerModules.default];
-
   config = lib.mkIf config.anyrun.enable {
     programs.anyrun = {
       enable = true;
