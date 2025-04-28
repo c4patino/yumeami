@@ -34,8 +34,6 @@ in {
   nvidia.enable = true;
   printing.enable = true;
 
-  virtualbox.enable = true;
-
   hyprland.enable = true;
 
   samba = {

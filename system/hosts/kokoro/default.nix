@@ -25,8 +25,6 @@
   printing.enable = true;
   xremap.enable = true;
 
-  virtualbox.enable = true;
-
   hyprland.enable = true;
 
   samba.mounts = {
