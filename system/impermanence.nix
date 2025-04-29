@@ -23,6 +23,7 @@
       directories = [
         "/etc/NetworkManager/system-connections"
 
+        "/mnt/nfs"
         "/mnt/samba"
         "/mnt/syncthing"
 
