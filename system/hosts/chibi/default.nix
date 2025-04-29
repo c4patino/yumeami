@@ -17,11 +17,6 @@
 
   pm2.enable = true;
 
-  samba = {
-    enable = true;
-    shares = ["slurm"];
-  };
-
   samba.mounts = {
     "shared" = "arisu";
   };
