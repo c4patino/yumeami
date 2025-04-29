@@ -8,7 +8,7 @@
     homeDirectory = "/home/nixos";
     stateVersion = "23.11";
     sessionVariables = {
-      FLAKE = "/home/nixos/dotfiles";
+      NH_FLAKE = "/home/nixos/dotfiles";
     };
   };
 

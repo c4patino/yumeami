@@ -24,7 +24,7 @@
     homeDirectory = "/home/c4patino";
     stateVersion = "23.11";
     sessionVariables = {
-      FLAKE = "${config.home.homeDirectory}/dotfiles";
+      NH_FLAKE = "${config.home.homeDirectory}/dotfiles";
     };
 
     packages = with pkgs; [
