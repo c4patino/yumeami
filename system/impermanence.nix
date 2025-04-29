@@ -37,6 +37,7 @@
         "/var/lib/docker"
         "/var/lib/github-runner"
         "/var/lib/mysql"
+        "/var/lib/nfs"
         "/var/lib/nixos"
         "/var/lib/samba"
         "/var/lib/tailscale"

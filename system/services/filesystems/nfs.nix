@@ -20,9 +20,12 @@ in {
       description = "List of folder paths to share via Samba.";
     };
     mounts = lib.mkOption {
-      type = types.attrsOf types.str;
+      type = types.listOf (types.attrsOf (types.submodule {
+        name = types.str;
+        whitelist = types.listOf types.str;
+      }));
       default = {};
-      description = "List of the folder paths to mount via Samba and the host.";
+      description = "List of the folder paths to mount via Samba and the whitelisted hosts.";
     };
   };
 
@@ -44,7 +47,7 @@ in {
           acc
           // {
             "/mnt/nfs/${folder}" = {
-              device = "//${hostIP}/${folder}";
+              device = "${hostIP}:/mnt/nfs/${folder}";
               fsType = "nfs";
             };
           })
@@ -58,7 +61,18 @@ in {
     {
       services.nfs.server = {
         enable = true;
-        exports = builtins.concatStringsSep "\n" (map (name: "/mnt/nfs/${name} ${hostIP}(rw,nohide,insecure,no_subtree_check)")) shares;
+        exports = let
+          mountLines =
+            map (
+              mount: let
+                ips = builtins.concatStringsSep " " (
+                  map (ip: "${ip}(rw,nohide,insecure,no_subtree_check)") mount.whitelist
+                );
+              in "/export/${mount.name} ${ips}"
+            )
+            mounts;
+        in
+          builtins.concatStringsSep "\n" mountLines;
       };
 
       networking.firewall.allowedTCPPorts = [2049];
