@@ -6,11 +6,6 @@
   inherit (lib) types;
   inherit (config.networking) hostName;
   inherit (config.nfs) mounts shares;
-
-  hostIP =
-    if builtins.hasAttr hostName config.devices
-    then config.devices.${hostName}.IP
-    else throw "Host '${hostName}' does not exist in the devices configuration.";
 in {
   options.nfs = {
     enable = lib.mkEnableOption "NFS";
@@ -21,8 +16,18 @@ in {
     };
     mounts = lib.mkOption {
       type = types.listOf (types.attrsOf (types.submodule {
-        name = types.str;
-        whitelist = types.listOf types.str;
+        options = {
+          name = lib.mkOption {
+            type = types.str;
+            default = [];
+            description = "Folder name for the final nfs share.";
+          };
+          whitelist = lib.mkOption {
+            type = types.listOf types.str;
+            default = [];
+            description = "List of devices to whitelist on the nfs share.";
+          };
+        };
       }));
       default = {};
       description = "List of the folder paths to mount via Samba and the whitelisted hosts.";
@@ -68,7 +73,7 @@ in {
                 ips = builtins.concatStringsSep " " (
                   map (ip: "${ip}(rw,nohide,insecure,no_subtree_check)") mount.whitelist
                 );
-              in "/export/${mount.name} ${ips}"
+              in "/mnt/nfs/${mount.name} ${ips}"
             )
             mounts;
         in
