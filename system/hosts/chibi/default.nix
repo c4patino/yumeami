@@ -17,13 +17,16 @@
 
   pm2.enable = true;
 
-  nfs.shares = [
-    {
-      name = "slurm";
-      whitelist = ["arisu"];
-      permissions = ["rw" "nohide" "insecure" "no_subtree_check" "no_root_squash" "sync"];
-    }
-  ];
+  nfs = {
+    enable = true;
+    shares = [
+      {
+        name = "slurm";
+        whitelist = ["arisu"];
+        permissions = ["rw" "nohide" "insecure" "no_subtree_check" "no_root_squash" "sync"];
+      }
+    ];
+  };
 
   samba.mounts = {
     "shared" = "arisu";
