@@ -3,7 +3,6 @@
   config,
   self,
   inputs,
-  pkgs,
   ...
 }: let
   inherit (lib) mapAttrsToList types foldl';
@@ -80,9 +79,9 @@ in {
         map (name: formatPartition name partitionMap.${name}) (builtins.attrNames partitionMap);
 
       extraConfig = let
-        hostString = builtins.concatStringsSep "," (map (host: "${host}") config.slurm.controlHosts);
+        hostStrings = builtins.concatStringsSep "\n" (map (host: "SlurmctldHost=${host}(${devices.${host}.IP})") config.slurm.controlHosts);
       in ''
-        SlurmctldHost=${hostString}
+        ${hostStrings}
         GresTypes=gpu,shard
         TaskPlugin=task/cgroup
         SlurmdParameters=allow_ecores
