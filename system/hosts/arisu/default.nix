@@ -1,7 +1,6 @@
 {
   inputs,
   config,
-  pkgs,
   ...
 }
 : let
@@ -35,6 +34,10 @@ in {
   printing.enable = true;
 
   hyprland.enable = true;
+
+  nfs.mounts = {
+    "slurm" = "arisu";
+  };
 
   samba = {
     enable = true;
