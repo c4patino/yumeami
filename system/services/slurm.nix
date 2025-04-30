@@ -7,14 +7,15 @@
   ...
 }: let
   inherit (lib) mapAttrsToList types foldl';
+  inherit (config) devices;
   inherit (config.networking) hostName;
 in {
   options.slurm = {
     enable = lib.mkEnableOption "SLURM";
-    primaryHost = lib.mkOption {
-      type = types.str;
-      default = "";
-      description = "Device to use for the primary SLURM control host";
+    controlHosts = lib.mkOption {
+      type = types.listOf types.str;
+      default = [];
+      description = "Device to use for primary control hosts";
     };
     nodeMap = lib.mkOption {
       description = "Mapping of node device defintitions to IPs and device configurations";
@@ -38,14 +39,10 @@ in {
 
   config = lib.mkIf config.slurm.enable {
     services.slurm = {
-      controlMachine = config.slurm.primaryHost;
-      controlAddr = config.devices.${config.slurm.primaryHost}.IP;
-
       client.enable = builtins.hasAttr hostName config.slurm.nodeMap;
-      server.enable =
-        if builtins.hasAttr config.slurm.primaryHost config.devices
-        then config.slurm.primaryHost == hostName
-        else builtins.throw "Host '${config.slurm.primaryHost} does not exist in the devices configuration.";
+      server.enable = builtins.elem hostName config.slurm.controlHosts;
+
+      stateSaveLocation = "/mnt/nfs/slurm";
 
       nodeName =
         mapAttrsToList (
@@ -82,7 +79,10 @@ in {
       in
         map (name: formatPartition name partitionMap.${name}) (builtins.attrNames partitionMap);
 
-      extraConfig = ''
+      extraConfig = let
+        hostString = builtins.concatStringsSep "," (map (host: "${host}(${devices.${host}.IP})") config.slurm.controlHosts);
+      in ''
+        SlurmctldHost=${hostString}
         GresTypes=gpu,shard
         TaskPlugin=task/cgroup
         SlurmdParameters=allow_ecores
