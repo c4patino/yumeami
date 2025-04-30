@@ -17,6 +17,13 @@
 
   pm2.enable = true;
 
+  nfs.shares = [
+    {
+      name = "slurm";
+      whitelist = ["arisu"];
+    }
+  ];
+
   samba.mounts = {
     "shared" = "arisu";
   };
