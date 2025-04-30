@@ -90,11 +90,6 @@ in {
         DefMemPerCPU=1000
         ReturnToService=2
 
-        AccountingStorageType=accounting_storage/slurmdbd
-        AccountingStorageTRES=gres/gpu
-
-        JobAcctGatherType=jobacct_gather/linux
-
         TaskProlog=${inputs.dotfiles + "/slurm/prolog.sh"}
         TaskEpilog=${inputs.dotfiles + "/slurm/epilog.sh"}
       '';
@@ -115,12 +110,6 @@ in {
         );
 
       extraConfigPaths = [(inputs.dotfiles + "/slurm/config")];
-
-      dbdserver = {
-        enable = hostName == builtins.elemAt config.slurm.controlHosts 0;
-        dbdHost = builtins.elemAt config.slurm.controlHosts 0;
-        storagePassFile = "${self}/secrets/crypt/mysql.txt";
-      };
     };
 
     services.munge.enable = true;
@@ -129,20 +118,6 @@ in {
       user = "munge";
       group = "munge";
       mode = "0400";
-    };
-
-    services.mysql = {
-      enable = hostName == builtins.elemAt config.slurm.controlHosts 0;
-      ensureDatabases = ["slurm_acct_db"];
-      ensureUsers = [
-        {
-          name = "slurm";
-          ensurePermissions = {
-            "slurm_acct_db.*" = "ALL PRIVILEGES";
-          };
-        }
-      ];
-      package = pkgs.mariadb;
     };
   };
 }
