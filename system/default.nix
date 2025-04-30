@@ -101,7 +101,7 @@ in {
 
     slurm = {
       enable = true;
-      primaryHost = "arisu";
+      controlHosts = ["arisu" "chibi"];
       nodeMap = {
         arisu = {
           configString = "CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=63400 Gres=gpu:rtx3070:1,shard:12 Weight=1";
