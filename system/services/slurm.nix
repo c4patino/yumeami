@@ -15,7 +15,7 @@ in {
     controlHosts = lib.mkOption {
       type = types.listOf types.str;
       default = [];
-      description = "Device to use for primary control hosts";
+      description = "Device to use for control hosts";
     };
     nodeMap = lib.mkOption {
       description = "Mapping of node device defintitions to IPs and device configurations";
@@ -80,7 +80,7 @@ in {
         map (name: formatPartition name partitionMap.${name}) (builtins.attrNames partitionMap);
 
       extraConfig = let
-        hostString = builtins.concatStringsSep "," (map (host: "${host}(${devices.${host}.IP})") config.slurm.controlHosts);
+        hostString = builtins.concatStringsSep "," (map (host: "${host}") config.slurm.controlHosts);
       in ''
         SlurmctldHost=${hostString}
         GresTypes=gpu,shard
@@ -117,8 +117,8 @@ in {
       extraConfigPaths = [(inputs.dotfiles + "/slurm/config")];
 
       dbdserver = {
-        enable = config.slurm.primaryHost == hostName;
-        dbdHost = config.slurm.primaryHost;
+        enable = hostName == builtins.elemAt config.slurm.controlHosts 0;
+        dbdHost = builtins.elemAt config.slurm.controlHosts 0;
         storagePassFile = "${self}/secrets/crypt/mysql.txt";
       };
     };
@@ -132,7 +132,7 @@ in {
     };
 
     services.mysql = {
-      enable = config.slurm.primaryHost == hostName;
+      enable = hostName == builtins.elemAt config.slurm.controlHosts 0;
       ensureDatabases = ["slurm_acct_db"];
       ensureUsers = [
         {

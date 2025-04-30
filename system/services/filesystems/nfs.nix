@@ -22,6 +22,11 @@ in {
             default = [];
             description = "Folder name for the final nfs share.";
           };
+          permissions = lib.mkOption {
+            type = types.listOf types.str;
+            default = ["rw" "nohide" "insecure" "no_subtree_check"];
+            description = "List of permissions to apply to the folder";
+          };
           whitelist = lib.mkOption {
             type = types.listOf types.str;
             default = [];
@@ -70,9 +75,8 @@ in {
           mountLines =
             map (
               mount: let
-                ips = builtins.concatStringsSep " " (
-                  map (ip: "${ip}(rw,nohide,insecure,no_subtree_check)") mount.whitelist
-                );
+                permissions = builtins.concatStringsSep "," mount.permissions;
+                ips = builtins.concatStringsSep " " (map (ip: "${ip}(${permissions})") mount.whitelist);
               in "/mnt/nfs/${mount.name} ${ips}"
             )
             mounts;
