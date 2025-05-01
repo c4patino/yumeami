@@ -15,8 +15,6 @@
     hostId = "9245f27e";
   };
 
-  ntfy.enable = true;
-
   nfs = {
     enable = true;
     shares = [
