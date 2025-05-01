@@ -15,7 +15,7 @@
     hostId = "9245f27e";
   };
 
-  pm2.enable = true;
+  ntfy.enable = true;
 
   nfs = {
     enable = true;
