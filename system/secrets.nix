@@ -21,6 +21,7 @@ in {
       "github/runner-oasys" = {owner = c4patino.name;};
       "master-password" = {owner = c4patino.name;};
       "tailscale/actions" = {owner = c4patino.name;};
+      "tailscale/tsdproxy" = {owner = c4patino.name;};
       "pypi" = {owner = c4patino.name;};
     };
   };
