@@ -10,7 +10,6 @@
     environment.systemPackages = with pkgs; [pm2];
 
     systemd.services.pm2 = {
-      enable = true;
       description = "pm2";
       wantedBy = ["multi-user.target"];
       serviceConfig = {
@@ -23,6 +22,15 @@
       environment = {
         HOME = config.users.users.c4patino.home;
       };
+    };
+
+    users = {
+      users.pm2 = {
+        isSystemUser = true;
+        group = "pm2";
+      };
+
+      groups.pm2 = {};
     };
   };
 }
