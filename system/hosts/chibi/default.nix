@@ -15,6 +15,7 @@
     hostId = "9245f27e";
   };
 
+  ntfy.enable = true;
   uptime-kuma.enable = true;
 
   nfs = {
