@@ -6,7 +6,15 @@
   config = lib.mkIf config.glance.enable {
     services.glance.settings = {
       branding = {
-        custom-footer = ''<p><b>[ゆめあみ]</b></h4>'';
+        custom-footer = ''<p><b>[ゆめあみ]</b></p>'';
+      };
+
+      theme = {
+        contrast-multiplier = 1.2;
+        background-color = "240 21 15";
+        primary-color = "217 92 83";
+        positive-color = "115 54 76";
+        negative-color = "347 70 65";
       };
 
       pages = [
