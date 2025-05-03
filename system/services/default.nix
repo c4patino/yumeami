@@ -4,6 +4,7 @@
     ./glance
 
     ./github-runner.nix
+    ./httpd.nix
     ./ntfy.nix
     ./pm2.nix
     ./rustypaste.nix
