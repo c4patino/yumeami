@@ -18,6 +18,8 @@
   ntfy.enable = true;
   uptime-kuma.enable = true;
 
+  unbound.enable = true;
+
   nfs = {
     enable = true;
     shares = [

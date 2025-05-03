@@ -84,6 +84,8 @@ in {
 
     containerization.enable = true;
 
+    unbound.dnsHost = "chibi";
+
     devices = {
       "arisu" = {
         hostName = "arisu";

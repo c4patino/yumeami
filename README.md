@@ -1,4 +1,4 @@
-# Symphony
+# ゆめあみ
 
 ![Logo](./demo.png)
 
