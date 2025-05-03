@@ -25,15 +25,16 @@ in {
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
   boot.loader.grub.theme = inputs.dotfiles + "/vimix/4k";
 
-  steam.enable = true;
-
   audio.enable = true;
   bluetooth.enable = true;
   display-manager.enable = true;
+  hyprland.enable = true;
   nvidia.enable = true;
   printing.enable = true;
 
-  hyprland.enable = true;
+  steam.enable = true;
+
+  rustypaste.enable = true;
   glance.enable = true;
 
   nfs.mounts = {

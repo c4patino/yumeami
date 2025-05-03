@@ -40,6 +40,7 @@
         "/var/lib/nfs"
         "/var/lib/nixos"
         "/var/lib/ntfy"
+        "/var/lib/rustypaste"
         "/var/lib/samba"
         "/var/lib/tailscale"
         "/var/lib/teamviewer"
