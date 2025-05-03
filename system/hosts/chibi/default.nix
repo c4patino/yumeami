@@ -15,6 +15,8 @@
     hostId = "9245f27e";
   };
 
+  uptime-kuma.enable = true;
+
   nfs = {
     enable = true;
     shares = [
