@@ -4,7 +4,6 @@
   ...
 }: let
   inherit (lib) types;
-  inherit (config.networking) hostName;
   inherit (config.nfs) mounts shares;
 in {
   options.nfs = {
@@ -43,6 +42,7 @@ in {
     fileSystems =
       lib.foldl'
       (acc: folder: let
+        inherit (config.networking) hostName;
         host = mounts.${folder};
         hostIP =
           if builtins.hasAttr host config.devices
