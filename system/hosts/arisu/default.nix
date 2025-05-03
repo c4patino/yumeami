@@ -34,6 +34,7 @@ in {
   printing.enable = true;
 
   hyprland.enable = true;
+  glance.enable = true;
 
   nfs.mounts = {
     "slurm" = "chibi";
