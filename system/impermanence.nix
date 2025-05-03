@@ -42,6 +42,7 @@
         "/var/lib/samba"
         "/var/lib/tailscale"
         "/var/lib/teamviewer"
+        "/var/lib/uptime-kuma"
 
         "/var/log"
 

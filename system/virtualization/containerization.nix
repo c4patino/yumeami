@@ -21,9 +21,16 @@
       };
 
       podman.enable = true;
-      docker.enable = true;
+      docker = {
+        enable = true;
+        daemon.settings = {
+          hosts = ["unix:///var/run/docker.sock" "tcp://0.0.0.0:2376"];
+        };
+      };
 
       oci-containers.backend = "podman";
     };
+
+    networking.firewall.allowedTCPPorts = [2376];
   };
 }
