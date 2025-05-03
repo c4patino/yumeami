@@ -34,6 +34,8 @@ in {
 
   steam.enable = true;
 
+  httpd.enable = true;
+
   rustypaste.enable = true;
   glance.enable = true;
 

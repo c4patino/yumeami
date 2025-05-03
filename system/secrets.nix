@@ -22,6 +22,7 @@ in {
       "master-password" = {owner = c4patino.name;};
       "tailscale/actions" = {owner = c4patino.name;};
       "tailscale/tsdproxy" = {owner = c4patino.name;};
+      "cloudflare" = {owner = c4patino.name;};
       "pypi" = {owner = c4patino.name;};
     };
   };
