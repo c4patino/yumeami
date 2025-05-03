@@ -15,8 +15,8 @@ in {
     services.ntfy-sh = {
       enable = true;
       settings = {
-        base-url = "https://chibi.tail8b9fd9.ts.net:${port}";
-        listen-http = ":${port}";
+        base-url = "https://chibi.tail8b9fd9.ts.net:${toString port}";
+        listen-http = ":${toString port}";
       };
     };
 
