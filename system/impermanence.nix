@@ -39,6 +39,7 @@
         "/var/lib/mysql"
         "/var/lib/nfs"
         "/var/lib/nixos"
+        "/var/lib/ntfy"
         "/var/lib/samba"
         "/var/lib/tailscale"
         "/var/lib/teamviewer"
