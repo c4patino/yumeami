@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ./filesystems
+    ./glance
 
     ./github-runner.nix
     ./ntfy.nix
