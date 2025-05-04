@@ -3,8 +3,10 @@
   config,
   ...
 }: let
+  inherit (lib) mkEnableOption mkIf mkMerge filterAttrs mapAttrsToList concatStringsSep listToAttrs;
   inherit (config.sops) secrets;
   inherit (config.networking) hostName;
+  cfg = config.httpd;
 
   mkLocalhostConfig = name: service: let
     p = toString service.port;
@@ -35,24 +37,24 @@
 
   localhostProxyConfig =
     config.network-services
-    |> lib.mapAttrsToList mkLocalhostConfig
-    |> lib.concatStringsSep "\n";
+    |> mapAttrsToList mkLocalhostConfig
+    |> concatStringsSep "\n";
 
   internalVirtualHosts =
     config.network-services
-    |> lib.filterAttrs (_: svc: svc.host == hostName)
-    |> lib.mapAttrsToList (mkPublicVirtualHost "yumeami.sh")
-    |> lib.listToAttrs;
+    |> filterAttrs (_: svc: svc.host == hostName)
+    |> mapAttrsToList (mkPublicVirtualHost "yumeami.sh")
+    |> listToAttrs;
 in {
-  options.httpd.enable = lib.mkEnableOption "httpd";
+  options.httpd.enable = mkEnableOption "httpd";
 
-  config = lib.mkIf config.httpd.enable {
+  config = mkIf cfg.enable {
     services.httpd = {
       enable = true;
 
       extraModules = ["proxy" "proxy_http" "rewrite"];
 
-      virtualHosts = lib.mkMerge [
+      virtualHosts = mkMerge [
         {
           "localhost" = {
             acmeRoot = null;

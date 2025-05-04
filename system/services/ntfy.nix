@@ -3,11 +3,13 @@
   config,
   ...
 }: let
+  inherit (lib) mkIf mkEnableOption mkForce;
+  cfg = config.ntfy;
   port = 5201;
 in {
-  options.ntfy.enable = lib.mkEnableOption "ntfy";
+  options.ntfy.enable = mkEnableOption "ntfy";
 
-  config = lib.mkIf config.ntfy.enable {
+  config = mkIf cfg.enable {
     services.ntfy-sh = {
       enable = true;
       settings = {
@@ -17,7 +19,7 @@ in {
     };
 
     systemd.services.ntfy-sh.serviceConfig = {
-      DynamicUser = lib.mkForce false;
+      DynamicUser = mkForce false;
     };
 
     networking.firewall.allowedTCPPorts = [port];

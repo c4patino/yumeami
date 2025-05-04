@@ -2,10 +2,13 @@
   lib,
   config,
   ...
-}: {
-  options.lazygit.enable = lib.mkEnableOption "lazygit";
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  cfg = config.lazygit;
+in {
+  options.lazygit.enable = mkEnableOption "lazygit";
 
-  config = lib.mkIf config.lazygit.enable {
+  config = mkIf cfg.enable {
     programs.lazygit.enable = true;
   };
 }

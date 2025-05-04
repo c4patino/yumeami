@@ -3,11 +3,15 @@
   config,
   ...
 }: let
+  inherit (lib) mkEnableOption mkIf mkForce;
+  cfg = config.uptime-kuma;
+  userCfg = config.users.users;
+
   port = 5200;
 in {
-  options.uptime-kuma.enable = lib.mkEnableOption "uptime-kuma";
+  options.uptime-kuma.enable = mkEnableOption "uptime-kuma";
 
-  config = lib.mkIf config.uptime-kuma.enable {
+  config = mkIf cfg.enable {
     services.uptime-kuma = {
       enable = true;
       settings = {
@@ -17,8 +21,8 @@ in {
     };
 
     systemd.services.uptime-kuma.serviceConfig = {
-      DynamicUser = lib.mkForce false;
-      User = config.users.users.uptime-kuma.name;
+      DynamicUser = mkForce false;
+      User = userCfg.uptime-kuma.name;
     };
 
     users = {

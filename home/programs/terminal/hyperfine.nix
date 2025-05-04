@@ -3,10 +3,13 @@
   config,
   pkgs,
   ...
-}: {
-  options.hyperfine.enable = lib.mkEnableOption "Hyperfine";
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  cfg = config.hyperfine;
+in {
+  options.hyperfine.enable = mkEnableOption "Hyperfine";
 
-  config = lib.mkIf config.lastpass.enable {
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [hyperfine];
   };
 }

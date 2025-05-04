@@ -5,6 +5,9 @@
   config,
   ...
 }: let
+  inherit (lib) mkIf;
+  cfg = config.hyprland;
+
   varietyLock = pkgs.variety.overrideAttrs (old: {
     version = "0.8.12";
     src = pkgs.fetchFromGitHub {
@@ -15,7 +18,7 @@
     };
   });
 in {
-  config = lib.mkIf config.hyprland.enable {
+  config = mkIf cfg.enable {
     home = {
       # HACK: unlock variety in order to let it update as needed
       packages = with pkgs; [

@@ -3,10 +3,13 @@
   config,
   lib,
   ...
-}: {
-  options.music.enable = lib.mkEnableOption "Spotify and Cava";
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.music;
+in {
+  options.music.enable = mkEnableOption "Spotify and Cava";
 
-  config = lib.mkIf config.music.enable {
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [
       spotify-player
       spotify

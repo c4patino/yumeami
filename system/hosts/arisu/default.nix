@@ -2,10 +2,7 @@
   inputs,
   config,
   ...
-}
-: let
-  inherit (config.sops) secrets;
-in {
+}: {
   imports = [
     ../..
     ./hardware-configuration.nix
@@ -48,7 +45,9 @@ in {
     shares = ["shared"];
   };
 
-  github-runners = {
+  github-runners = let
+    inherit (config.sops) secrets;
+  in {
     enable = true;
     runners = {
       "nixos-config" = {url = "https://github.com/c4patino/nixos-config";};

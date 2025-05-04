@@ -5,33 +5,34 @@
   inputs,
   ...
 }: let
-  inherit (lib) types;
+  inherit (lib) types mkEnableOption mkOption;
+  cfg = config.mcservers;
 in {
-  options.mcservers = {
-    enable = lib.mkEnableOption "custom minecraft servers";
-    servers = lib.mkOption {
-      type = types.attrsOf (types.submodule {
+  options.mcservers = with types; {
+    enable = mkEnableOption "custom minecraft servers";
+    servers = mkOption {
+      type = attrsOf (submodule {
         options = {
-          package = lib.mkOption {
-            type = types.package;
+          package = mkOption {
+            type = package;
             default = null;
             description = "The Minecraft server package to use.";
           };
 
-          jvmOpts = lib.mkOption {
-            type = types.str;
+          jvmOpts = mkOption {
+            type = str;
             default = "-Xms4092M -Xmx4092M -XX:+UseG1GC";
             description = "JVM options for the Minecraft server.";
           };
 
-          serverProperties = lib.mkOption {
-            type = types.attrs;
+          serverProperties = mkOption {
+            type = attrs;
             default = {};
             description = "Minecraft server properties.";
           };
 
-          whitelist = lib.mkOption {
-            type = types.attrs;
+          whitelist = mkOption {
+            type = attrs;
             default = {};
             description = "Whitelist for the Minecraft server.";
           };
@@ -44,11 +45,11 @@ in {
 
   imports = [inputs.nix-minecraft.nixosModules.minecraft-servers];
 
-  config = lib.mkIf config.mcservers.enable {
+  config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [tmux];
 
     networking.firewall.allowedTCPPorts =
-      config.mcservers.servers
+      cfg.servers
       |> lib.mapAttrsToList
       |> lib.flatten;
 
@@ -59,7 +60,7 @@ in {
       eula = true;
 
       servers =
-        config.mcservers.servers
+        cfg.servers
         |> lib.mapAttrs (name: cfg: {
           inherit (cfg) package jvmOpts serverProperties whitelist;
           enable = true;

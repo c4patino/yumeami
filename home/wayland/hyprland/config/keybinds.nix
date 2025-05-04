@@ -2,8 +2,11 @@
   lib,
   config,
   ...
-}: {
-  config = lib.mkIf config.hyprland.enable {
+}: let
+  inherit (lib) mkIf;
+  cfg = config.hyprland;
+in {
+  config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings = {
       "$mainMod" = "SUPER";
       "$terminal" = "kitty";

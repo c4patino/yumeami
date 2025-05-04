@@ -2,10 +2,13 @@
   lib,
   config,
   ...
-}: {
-  options.zoxide.enable = lib.mkEnableOption "zoxide";
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  cfg = config.zoxide;
+in {
+  options.zoxide.enable = mkEnableOption "zoxide";
 
-  config = lib.mkIf config.zoxide.enable {
+  config = mkIf cfg.enable {
     programs.zoxide = {
       enable = true;
       enableZshIntegration = true;

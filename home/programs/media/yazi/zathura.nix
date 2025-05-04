@@ -2,8 +2,11 @@
   config,
   lib,
   ...
-}: {
-  config = lib.mkIf config.yazi.enable {
+}: let
+  inherit (lib) mkIf;
+  cfg = config.yazi;
+in {
+  config = mkIf cfg.enable {
     programs.zathura = {
       enable = true;
       extraConfig = ''

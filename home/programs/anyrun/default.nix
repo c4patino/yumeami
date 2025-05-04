@@ -5,14 +5,17 @@
   config,
   ...
 }: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.anyrun;
+
   compileSCSS = name: source: "${pkgs.runCommandLocal name {} ''
     mkdir -p $out
     ${lib.getExe pkgs.sassc} -t expanded '${source}' > $out/${name}.css
   ''}/${name}.css";
 in {
-  options.anyrun.enable = lib.mkEnableOption "Anyrun";
+  options.anyrun.enable = mkEnableOption "Anyrun";
 
-  config = lib.mkIf config.anyrun.enable {
+  config = mkIf cfg.enable {
     programs.anyrun = {
       enable = true;
       config = {

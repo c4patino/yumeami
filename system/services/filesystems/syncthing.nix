@@ -4,29 +4,30 @@
   config,
   ...
 }: let
-  inherit (lib) types mapAttrs' mapAttrs;
+  inherit (lib) types mkEnableOption mkOption mkIf mapAttrs' mapAttrs;
   inherit (config.networking) hostName;
+  cfg = config.syncthing;
 
   resolveHostIP = host:
     if builtins.hasAttr host config.devices
     then config.devices.${host}.IP
     else throw "Host '${host}' does not exist in the devices configuration.";
 in {
-  options.syncthing = {
-    enable = lib.mkEnableOption "Syncthing";
-    devices = lib.mkOption {
-      type = types.attrsOf types.str;
+  options.syncthing = with types; {
+    enable = mkEnableOption "Syncthing";
+    devices = mkOption {
+      type = attrsOf str;
       default = {};
       description = "A map of host names to their respective device IDs for Syncthing.";
     };
-    shares = lib.mkOption {
-      type = types.attrsOf (types.listOf types.str);
+    shares = mkOption {
+      type = attrsOf (listOf str);
       default = {};
       description = "A map of folder names to the list of hostnames with which the folder is shared.";
     };
   };
 
-  config = lib.mkIf config.syncthing.enable {
+  config = mkIf cfg.enable {
     services.syncthing = {
       enable = true;
       dataDir = "/mnt/syncthing/";
@@ -46,7 +47,7 @@ in {
             autoAcceptFolders = true;
           };
         in
-          config.syncthing.devices |> mapAttrs generateDeviceConfig;
+          cfg.devices |> mapAttrs generateDeviceConfig;
 
         folders = let
           generateShareConfig = folderName: sharedMachines: {
@@ -58,7 +59,7 @@ in {
             };
           };
         in
-          config.syncthing.shares |> mapAttrs' generateShareConfig;
+          cfg.shares |> mapAttrs' generateShareConfig;
       };
     };
 

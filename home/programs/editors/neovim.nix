@@ -4,10 +4,13 @@
   config,
   inputs,
   ...
-}: {
-  options.neovim.enable = lib.mkEnableOption "Neovim";
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  cfg = config.neovim;
+in {
+  options.neovim.enable = mkEnableOption "Neovim";
 
-  config = lib.mkIf config.neovim.enable {
+  config = mkIf cfg.enable {
     home = {
       packages = [inputs.nixvim-config.packages.${pkgs.system}.default];
       sessionVariables.EDITOR = "nvim";

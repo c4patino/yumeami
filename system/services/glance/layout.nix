@@ -2,8 +2,11 @@
   lib,
   config,
   ...
-}: {
-  config = lib.mkIf config.glance.enable {
+}: let
+  inherit (lib) mkIf;
+  cfg = config.glance;
+in {
+  config = mkIf cfg.enable {
     services.glance.settings = {
       branding = {
         custom-footer = ''<p><b>[ゆめあみ]</b></p>'';

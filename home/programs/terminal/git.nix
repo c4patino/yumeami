@@ -3,10 +3,13 @@
   config,
   pkgs,
   ...
-}: {
-  options.git.enable = lib.mkEnableOption "git, git-lfs, and gh-cli";
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.git;
+in {
+  options.git.enable = mkEnableOption "git, git-lfs, and gh-cli";
 
-  config = lib.mkIf config.git.enable {
+  config = mkIf cfg.enable {
     programs.git = {
       enable = true;
       lfs.enable = true;

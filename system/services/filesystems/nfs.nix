@@ -3,9 +3,10 @@
   config,
   ...
 }: let
-  inherit (lib) types;
-  inherit (config.nfs) mounts shares;
+  inherit (lib) types mkEnableOption mkIf mkOption mapAttrs' concatStringsSep;
   inherit (config.networking) hostName;
+
+  cfg = config.nfs;
 
   resolveHostIP = host:
     if builtins.hasAttr host config.devices
@@ -15,37 +16,35 @@
   checkHostConflict = folder: host:
     if host == hostName
     then throw "Conflict: Mount host '${host}' cannot be the same as this host '${hostName}' for folder '${folder}'."
-    else if builtins.elem folder shares
+    else if builtins.elem folder cfg.shares
     then throw "Conflict: Folder '${folder}' is listed in both shares and mounts. Please resolve."
     else null;
 in {
-  options.nfs = {
-    enable = lib.mkEnableOption "NFS";
-    shares = lib.mkOption {
-      type = types.listOf (types.submodule {
-        options = {
-          name = lib.mkOption {
-            type = types.str;
-            default = [];
-            description = "Folder name for the final nfs share.";
-          };
-          permissions = lib.mkOption {
-            type = types.listOf types.str;
-            default = ["rw" "nohide" "insecure" "no_subtree_check"];
-            description = "List of permissions to apply to the folder";
-          };
-          whitelist = lib.mkOption {
-            type = types.listOf types.str;
-            default = [];
-            description = "List of devices to whitelist on the nfs share.";
-          };
+  options.nfs = with types; {
+    enable = mkEnableOption "NFS";
+    shares = mkOption {
+      type = listOf (submodule {
+        options.name = mkOption {
+          type = str;
+          default = [];
+          description = "Folder name for the final nfs share.";
+        };
+        options.permissions = mkOption {
+          type = listOf str;
+          default = ["rw" "nohide" "insecure" "no_subtree_check"];
+          description = "List of permissions to apply to the folder";
+        };
+        options.whitelist = mkOption {
+          type = listOf str;
+          default = [];
+          description = "List of devices to whitelist on the nfs share.";
         };
       });
       default = [];
       description = "List of the folder paths to share via NFS.";
     };
-    mounts = lib.mkOption {
-      type = types.attrsOf types.str;
+    mounts = mkOption {
+      type = attrsOf str;
       default = {};
       description = "Set of folder paths to mount via NFS with the target host.";
     };
@@ -64,24 +63,24 @@ in {
         };
       };
     in
-      mounts |> lib.mapAttrs' mapFolderToMount;
+      cfg.mounts |> mapAttrs' mapFolderToMount;
 
-    services.nfs.server = lib.mkIf config.nfs.enable {
+    services.nfs.server = mkIf cfg.enable {
       enable = true;
       exports = let
         mapMountToPermissions = mount: let
-          permissions = mount.permissions |> builtins.concatStringsSep ",";
+          permissions = mount.permissions |> concatStringsSep ",";
           ips =
             mount.whitelist
             |> map (host: "${resolveHostIP host}(${permissions})")
-            |> builtins.concatStringsSep " ";
+            |> concatStringsSep " ";
         in "/mnt/nfs/${mount.name} ${ips}";
       in
-        shares
+        cfg.shares
         |> map mapMountToPermissions
-        |> builtins.concatStringsSep "\n";
+        |> concatStringsSep "\n";
     };
 
-    networking.firewall.allowedTCPPorts = lib.mkIf config.nfs.enable [2049];
+    networking.firewall.allowedTCPPorts = mkIf cfg.enable [2049];
   };
 }

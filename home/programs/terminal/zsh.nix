@@ -4,10 +4,13 @@
   config,
   inputs,
   ...
-}: {
-  options.zsh.enable = lib.mkEnableOption "zsh and plugins";
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  cfg = config.zsh;
+in {
+  options.zsh.enable = mkEnableOption "zsh and plugins";
 
-  config = lib.mkIf config.zsh.enable {
+  config = mkIf cfg.enable {
     home = {
       packages = with pkgs; [zsh-powerlevel10k];
       file.".p10k.zsh".source = inputs.dotfiles + "/p10k.zsh";

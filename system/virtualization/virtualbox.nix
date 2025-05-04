@@ -2,10 +2,13 @@
   lib,
   config,
   ...
-}: {
-  options.virtualbox.enable = lib.mkEnableOption "VirtualBox";
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.virtualbox;
+in {
+  options.virtualbox.enable = mkEnableOption "VirtualBox";
 
-  config = lib.mkIf config.virtualbox.enable {
+  config = mkIf cfg.enable {
     virtualisation.virtualbox.host = {
       enable = true;
       enableExtensionPack = true;

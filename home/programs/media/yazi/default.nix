@@ -3,8 +3,11 @@
   pkgs,
   lib,
   ...
-}: {
-  options.yazi.enable = lib.mkEnableOption "Yazi";
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.yazi;
+in {
+  options.yazi.enable = mkEnableOption "Yazi";
 
   imports = [
     ./keymap.nix
@@ -12,7 +15,7 @@
     ./zathura.nix
   ];
 
-  config = lib.mkIf config.yazi.enable {
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [
       mpv
       imv

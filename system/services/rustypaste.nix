@@ -5,11 +5,13 @@
   config,
   ...
 }: let
+  inherit (lib) mkEnableOption mkIf;
+  userCfg = config.users.users;
   port = 5100;
 in {
-  options.rustypaste.enable = lib.mkEnableOption "rustypaste daemon";
+  options.rustypaste.enable = mkEnableOption "rustypaste daemon";
 
-  config = lib.mkIf config.rustypaste.enable {
+  config = mkIf config.rustypaste.enable {
     environment.systemPackages = with pkgs; [rustypaste-cli];
 
     systemd.services.rustypaste = {
@@ -22,7 +24,7 @@ in {
       };
 
       serviceConfig = {
-        User = config.users.users.rustypaste.name;
+        User = userCfg.rustypaste.name;
 
         WorkingDirectory = "/var/lib/rustypaste";
         StateDirectory = "rustypaste";

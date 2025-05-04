@@ -3,10 +3,13 @@
   lib,
   config,
   ...
-}: {
-  options.android-studio.enable = lib.mkEnableOption "Android Studio";
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  cfg = config.android-studio;
+in {
+  options.android-studio.enable = mkEnableOption "Android Studio";
 
-  config = lib.mkIf config.android-studio.enable {
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [android-studio];
   };
 }

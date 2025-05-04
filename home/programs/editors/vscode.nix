@@ -2,10 +2,13 @@
   lib,
   config,
   ...
-}: {
-  options.vscode.enable = lib.mkEnableOption "VSCode";
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  cfg = config.vscode;
+in {
+  options.vscode.enable = mkEnableOption "VSCode";
 
-  config = lib.mkIf config.vscode.enable {
+  config = mkIf cfg.enable {
     programs.vscode.enable = true;
   };
 }

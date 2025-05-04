@@ -3,19 +3,21 @@
   config,
   ...
 }: let
-  inherit (lib) types;
+  inherit (lib) types mkEnableOption mkOption mkIf;
+  cfg = config.unbound;
+
   port = 54;
 in {
-  options.unbound = {
-    enable = lib.mkEnableOption "unbound";
-    dnsHost = lib.mkOption {
-      type = types.nullOr types.str;
+  options.unbound = with types; {
+    enable = mkEnableOption "unbound";
+    dnsHost = mkOption {
+      type = nullOr str;
       description = "The DNS hostname to resolve";
       default = null;
     };
   };
 
-  config = lib.mkIf config.unbound.enable {
+  config = mkIf cfg.enable {
     services.unbound = {
       enable = true;
       settings = {

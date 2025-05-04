@@ -2,10 +2,13 @@
   config,
   lib,
   ...
-}: {
-  options.efi-bootloader.enable = lib.mkEnableOption "EFI bootloader";
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  cfg = config.efi-bootloader;
+in {
+  options.efi-bootloader.enable = mkEnableOption "EFI bootloader";
 
-  config = lib.mkIf config.efi-bootloader.enable {
+  config = mkIf cfg.enable {
     boot.loader.grub = {
       enable = true;
       efiSupport = true;

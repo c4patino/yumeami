@@ -2,10 +2,13 @@
   config,
   lib,
   ...
-}: {
-  options.nvidia.enable = lib.mkEnableOption "nvidia GPU drivers";
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.nvidia;
+in {
+  options.nvidia.enable = mkEnableOption "nvidia GPU drivers";
 
-  config = lib.mkIf config.nvidia.enable {
+  config = mkIf cfg.enable {
     hardware.graphics = {
       enable = true;
       enable32Bit = true;

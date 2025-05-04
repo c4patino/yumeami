@@ -3,8 +3,11 @@
   lib,
   config,
   ...
-}: {
-  options.hyprland.enable = lib.mkEnableOption "Hyprland window manager";
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.hyprland;
+in {
+  options.hyprland.enable = mkEnableOption "Hyprland window manager";
 
   imports = [
     ./eww
@@ -15,7 +18,7 @@
     ./services/variety.nix
   ];
 
-  config = lib.mkIf config.hyprland.enable {
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [
       (waybar.overrideAttrs (oldAttrs: {mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true"];}))
 

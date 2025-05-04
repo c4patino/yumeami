@@ -3,8 +3,11 @@
   lib,
   inputs,
   ...
-}: {
-  options.xremap.enable = lib.mkEnableOption "Xremap and keybinding remaps";
+}: let
+  inherit (lib) mkEnableOption;
+  cfg = config.xremap;
+in {
+  options.xremap.enable = mkEnableOption "Xremap and keybinding remaps";
 
   imports = [
     inputs.xremap.nixosModules.default
@@ -12,7 +15,7 @@
 
   config = {
     services.xremap = {
-      enable = config.xremap.enable;
+      enable = cfg.enable;
       userName = "c4patino";
       config.modmap = [
         {
