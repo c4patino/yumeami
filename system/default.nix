@@ -15,10 +15,6 @@ in {
           type = types.str;
           description = "The IP address of the device.";
         };
-        hostName = lib.mkOption {
-          type = types.str;
-          description = "The hostname of the device.";
-        };
       };
     });
   };
@@ -51,6 +47,7 @@ in {
         "${self}/secrets/crypt/arisu/id_ed25519.pub"
         "${self}/secrets/crypt/kokoro/id_ed25519.pub"
         "${self}/secrets/crypt/chibi/id_ed25519.pub"
+        "${self}/secrets/crypt/shiori/id_ed25519.pub"
       ];
 
       shell = pkgs.zsh;
@@ -108,16 +105,16 @@ in {
 
     devices = {
       "arisu" = {
-        hostName = "arisu";
         IP = "100.117.106.23";
       };
       "kokoro" = {
-        hostName = "kokoro";
         IP = "100.69.45.111";
       };
       "chibi" = {
-        hostName = "chibi";
         IP = "100.101.224.25";
+      };
+      "shiori" = {
+        IP = "100.127.93.17";
       };
     };
 
@@ -137,6 +134,10 @@ in {
           configString = "CPUs=4 Sockets=1 CoresPerSocket=4 ThreadsPerCore=1 RealMemory=7750 Weight=10";
           partitions = ["main" "extended"];
         };
+        shiori = {
+          configString = "CPUs=4 Sockets=1 CoresPerSocket=4 ThreadsPerCore=1 RealMemory=15500 Weight=5";
+          partitions = ["main" "extended"];
+        };
       };
     };
 
@@ -146,9 +147,10 @@ in {
         arisu = "7W2TB7D-VZZEDAP-Q2LTH7S-LUF3JOC-472P4FX-ZUQX4SG-CLPTTK6-RVUP6QQ";
         kokoro = "7ADRQXW-IB3IMNR-QCT4EXQ-4BON25I-4EFPOW6-AVJNUZK-TEDMDZQ-RH37RAB";
         chibi = "HBLTAF3-GJ7G6XS-ER6IMAZ-CY2UI7S-6BG3N3S-GF4TDIC-7USNXW7-M6TWJQU";
+        shiori = "L7UA32V-4XQAY65-5ZHXBK2-43GHZGL-WJRSLL5-G3WQFCU-RC3RPXQ-64F2AAC";
       };
       shares = {
-        "shared" = ["arisu" "kokoro" "chibi"];
+        "shared" = ["arisu" "kokoro" "chibi" "shiori"];
       };
     };
   };

@@ -42,5 +42,10 @@
       specialArgs = specialArgs "hikari";
       modules = [./hikari] ++ homeManager "hikari";
     };
+    shiori = nixosSystem {
+      specialArgs = specialArgs "shiori";
+      system = "x86_64-linux";
+      modules = [./shiori] ++ homeManager "shiori";
+    };
   };
 }
