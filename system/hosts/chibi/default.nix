@@ -19,6 +19,7 @@
   uptime-kuma.enable = true;
 
   unbound.enable = true;
+  blocky.enable = true;
 
   nfs = {
     enable = true;
