@@ -18,6 +18,7 @@ in {
   };
 
   imports = [
+    ./blocky.nix
     ./httpd.nix
     ./tailscale.nix
     ./unbound.nix

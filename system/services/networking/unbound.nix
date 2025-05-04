@@ -4,7 +4,7 @@
   ...
 }: let
   inherit (lib) types;
-  port = 53;
+  port = 54;
 in {
   options.unbound = {
     enable = lib.mkEnableOption "unbound";
