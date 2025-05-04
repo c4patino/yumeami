@@ -6,14 +6,14 @@
 }: let
   inherit (lib) types;
 
-  nodeIP = node:
+  resolveHostIP = node:
     if builtins.hasAttr node config.devices
     then config.devices.${node}.IP
     else builtins.throw "Host '${node}' does not exist in the devices configuration.";
 
-  ip = lib.optionalString (config.unbound.dnsHost != null) "${nodeIP config.unbound.dnsHost}";
+  ip = lib.optionalString (config.unbound.dnsHost != null) "${resolveHostIP config.unbound.dnsHost}";
 
-  dns = lib.concatStringsSep " " [ip "1.1.1.1" "8.8.8.8" "100.100.100.100"];
+  dns = [ip "1.1.1.1" "8.8.8.8" "100.100.100.100"] |> lib.concatStringsSep " ";
 in {
   options = {
     network-manager.enable = lib.mkEnableOption "network manager";
@@ -55,7 +55,7 @@ in {
 
     networking.resolvconf.enable = true;
     networking.resolvconf.extraConfig = ''
-      ${lib.optionalString (config.unbound.dnsHost != null) "name_servers=${nodeIP config.unbound.dnsHost}"}
+      ${lib.optionalString (config.unbound.dnsHost != null) "name_servers=${resolveHostIP config.unbound.dnsHost}"}
       search_domains="tail8b9fd9.ts.net"
       name_servers="${dns}"
     '';

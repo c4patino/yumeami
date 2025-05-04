@@ -5,11 +5,19 @@
 }: let
   inherit (lib) types;
   inherit (config.nfs) mounts shares;
+  inherit (config.networking) hostName;
 
-  findHostIP = host:
+  resolveHostIP = host:
     if builtins.hasAttr host config.devices
     then config.devices.${host}.IP
     else throw "Host '${host}' does not exist in the devices configuration.";
+
+  checkHostConflict = folder: host:
+    if host == hostName
+    then throw "Conflict: Mount host '${host}' cannot be the same as this host '${hostName}' for folder '${folder}'."
+    else if builtins.elem folder shares
+    then throw "Conflict: Folder '${folder}' is listed in both shares and mounts. Please resolve."
+    else null;
 in {
   options.nfs = {
     enable = lib.mkEnableOption "NFS";
@@ -44,42 +52,34 @@ in {
   };
 
   config = {
-    fileSystems =
-      lib.foldl'
-      (acc: folder: let
-        inherit (config.networking) hostName;
-        host = mounts.${folder};
-        hostIP = findHostIP host;
-
-        _ =
-          if host == hostName
-          then throw "Conflict: Mount host '${host}' cannot be the same as this host '${hostName}' for folder '${folder}'."
-          else if builtins.elem folder shares
-          then throw "Conflict: Folder '${folder}' is listed in both shares and mounts. Please resolve."
-          else null;
-      in
-        acc
-        // {
-          "/mnt/nfs/${folder}" = {
-            device = "${hostIP}:/mnt/nfs/${folder}";
-            fsType = "nfs";
-          };
-        })
-      {} (builtins.attrNames mounts);
+    fileSystems = let
+      mapFolderToMount = folder: host: let
+        hostIP = resolveHostIP host;
+        _ = checkHostConflict folder host;
+      in {
+        name = "/mnt/nfs/${folder}";
+        value = {
+          device = "${hostIP}:/mnt/nfs/${folder}";
+          fsType = "nfs";
+        };
+      };
+    in
+      mounts |> lib.mapAttrs' mapFolderToMount;
 
     services.nfs.server = lib.mkIf config.nfs.enable {
       enable = true;
       exports = let
-        mountLines =
-          map (
-            mount: let
-              permissions = builtins.concatStringsSep "," mount.permissions;
-              ips = builtins.concatStringsSep " " (map (host: "${findHostIP host}(${permissions})") mount.whitelist);
-            in "/mnt/nfs/${mount.name} ${ips}"
-          )
-          shares;
+        mapMountToPermissions = mount: let
+          permissions = mount.permissions |> builtins.concatStringsSep ",";
+          ips =
+            mount.whitelist
+            |> map (host: "${resolveHostIP host}(${permissions})")
+            |> builtins.concatStringsSep " ";
+        in "/mnt/nfs/${mount.name} ${ips}";
       in
-        builtins.concatStringsSep "\n" mountLines;
+        shares
+        |> map mapMountToPermissions
+        |> builtins.concatStringsSep "\n";
     };
 
     networking.firewall.allowedTCPPorts = lib.mkIf config.nfs.enable [2049];

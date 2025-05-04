@@ -6,8 +6,12 @@
   ...
 }: let
   inherit (lib) mapAttrsToList types foldl';
-  inherit (config) devices;
   inherit (config.networking) hostName;
+
+  resolveHostIP = node:
+    if builtins.hasAttr node config.devices
+    then config.devices.${node}.IP
+    else builtins.throw "Host '${node}' does not exist in the devices configuration.";
 in {
   options.slurm = {
     enable = lib.mkEnableOption "SLURM";
@@ -43,43 +47,38 @@ in {
 
       stateSaveLocation = "/mnt/nfs/slurm";
 
-      nodeName =
-        mapAttrsToList (
-          node: value: let
-            nodeIP =
-              if builtins.hasAttr node config.devices
-              then config.devices.${node}.IP
-              else builtins.throw "Host '${node}' does not exist in the devices configuration.";
-          in "${node} NodeAddr=${nodeIP} ${value.configString} State=UNKNOWN"
-        )
-        config.slurm.nodeMap;
+      nodeName = let
+        generateNodeConfig = node: info: "${node} NodeAddr=${resolveHostIP node} ${info.configString} State=UNKNOWN";
+      in
+        config.slurm.nodeMap |> mapAttrsToList generateNodeConfig;
 
       partitionName = let
-        partitionMap = foldl' (
-          acc: node: let
-            partitions = config.slurm.nodeMap.${node}.partitions or [];
-          in
-            foldl' (
-              innerAcc: partition:
-                innerAcc
-                // {
-                  ${partition} = (innerAcc.${partition} or []) ++ [node];
-                }
-            )
-            acc
-            partitions
-        ) {} (builtins.attrNames config.slurm.nodeMap);
+        generatePartitionMap = nodeMap:
+          nodeMap
+          |> lib.attrNames
+          |> map (
+            node: (nodeMap.${node}.partitions) |> map (partition: {inherit partition node;})
+          )
+          |> lib.flatten
+          |> lib.groupBy (x: x.partition)
+          |> lib.mapAttrs (name: entries: entries |> map (e: e.node));
 
-        formatPartition = name: nodes: "${name} Nodes=${lib.concatStringsSep "," nodes} Default=${
+        formatPartition = name: nodes: "${name} Nodes=${nodes |> lib.concatStringsSep ","} Default=${
           if name == "main"
           then "YES"
           else "NO"
         } MaxTime=INFINITE State=UP";
+
+        partitionMap = config.slurm.nodeMap |> generatePartitionMap;
       in
-        map (name: formatPartition name partitionMap.${name}) (builtins.attrNames partitionMap);
+        partitionMap |> lib.mapAttrsToList formatPartition;
 
       extraConfig = let
-        hostStrings = builtins.concatStringsSep "\n" (map (host: "SlurmctldHost=${host}(${devices.${host}.IP})") config.slurm.controlHosts);
+        generateHostString = host: "SlurmctldHost=${host}(${resolveHostIP host})";
+        hostStrings =
+          config.slurm.controlHosts
+          |> map generateHostString
+          |> builtins.concatStringsSep "\n";
       in ''
         ${hostStrings}
         GresTypes=gpu,shard

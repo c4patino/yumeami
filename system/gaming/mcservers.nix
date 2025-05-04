@@ -5,7 +5,7 @@
   inputs,
   ...
 }: let
-  inherit (lib) types mapAttrs flatten mapAttrsToList;
+  inherit (lib) types;
 in {
   options.mcservers = {
     enable = lib.mkEnableOption "custom minecraft servers";
@@ -47,13 +47,10 @@ in {
   config = lib.mkIf config.mcservers.enable {
     environment.systemPackages = with pkgs; [tmux];
 
-    networking.firewall.allowedTCPPorts = flatten (mapAttrsToList (
-        name: serverCfg:
-          if serverCfg.serverProperties ? server-port
-          then [serverCfg.serverProperties.server-port]
-          else []
-      )
-      config.mcservers.servers);
+    networking.firewall.allowedTCPPorts =
+      config.mcservers.servers
+      |> lib.mapAttrsToList
+      |> lib.flatten;
 
     nixpkgs.overlays = [inputs.nix-minecraft.overlay];
 
@@ -62,11 +59,11 @@ in {
       eula = true;
 
       servers =
-        mapAttrs (name: cfg: {
+        config.mcservers.servers
+        |> lib.mapAttrs (name: cfg: {
           inherit (cfg) package jvmOpts serverProperties whitelist;
           enable = true;
-        })
-        config.mcservers.servers;
+        });
     };
   };
 }

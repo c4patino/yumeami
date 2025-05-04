@@ -11,13 +11,13 @@
     then config.devices.${node}.IP
     else builtins.throw "Host '${node}' does not exist in the devices configuration.";
 
-  domainMapping = lib.pipe config.network-services [
-    (lib.mapAttrsToList (name: svc: {
+  domainMapping =
+    config.network-services
+    |> lib.mapAttrsToList (name: svc: {
       name = "${name}.yumeami.sh";
       value = resolveNodeIP svc.host;
-    }))
-    lib.listToAttrs
-  ];
+    })
+    |> lib.listToAttrs;
 in {
   options.blocky.enable = lib.mkEnableOption "blocky";
 

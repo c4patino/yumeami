@@ -6,6 +6,11 @@
 }: let
   inherit (lib) types mapAttrs' mapAttrs;
   inherit (config.networking) hostName;
+
+  resolveHostIP = host:
+    if builtins.hasAttr host config.devices
+    then config.devices.${host}.IP
+    else throw "Host '${host}' does not exist in the devices configuration.";
 in {
   options.syncthing = {
     enable = lib.mkEnableOption "Syncthing";
@@ -32,29 +37,28 @@ in {
       cert = "${self}/secrets/crypt/${hostName}/cert.pem";
 
       settings = {
-        devices =
-          mapAttrs (hostName: id: let
-            ip =
-              if builtins.hasAttr hostName config.devices
-              then config.devices.${hostName}.IP
-              else builtins.throw "Missing IP for device '${hostName}' in the Syncthing configuration.";
+        devices = let
+          generateDeviceConfig = host: id: let
+            ip = resolveHostIP host;
           in {
             inherit id;
             addresses = ["tcp://${ip}:22000"];
             autoAcceptFolders = true;
-          })
-          config.syncthing.devices;
+          };
+        in
+          config.syncthing.devices |> mapAttrs generateDeviceConfig;
 
-        folders =
-          mapAttrs' (folderName: sharedMachines: {
+        folders = let
+          generateShareConfig = folderName: sharedMachines: {
             name = folderName;
             value = {
               path = "/mnt/syncthing/${folderName}";
               enable = builtins.elem hostName sharedMachines;
               devices = sharedMachines;
             };
-          })
-          config.syncthing.shares;
+          };
+        in
+          config.syncthing.shares |> mapAttrs' generateShareConfig;
       };
     };
 

@@ -33,16 +33,16 @@
     };
   };
 
-  localhostProxyConfig = lib.pipe config.network-services [
-    (lib.mapAttrsToList mkLocalhostConfig)
-    (lib.concatStringsSep "\n")
-  ];
+  localhostProxyConfig =
+    config.network-services
+    |> lib.mapAttrsToList mkLocalhostConfig
+    |> lib.concatStringsSep "\n";
 
-  internalVirtualHosts = lib.pipe config.network-services [
-    (lib.filterAttrs (_: svc: svc.host == hostName))
-    (lib.mapAttrsToList (mkPublicVirtualHost "yumeami.sh"))
-    lib.listToAttrs
-  ];
+  internalVirtualHosts =
+    config.network-services
+    |> lib.filterAttrs (_: svc: svc.host == hostName)
+    |> lib.mapAttrsToList (mkPublicVirtualHost "yumeami.sh")
+    |> lib.listToAttrs;
 in {
   options.httpd.enable = lib.mkEnableOption "httpd";
 

@@ -32,7 +32,8 @@ in {
 
   config = lib.mkIf config.github-runners.enable {
     services.github-runners =
-      mapAttrs' (name: runner: {
+      config.github-runners.runners
+      |> mapAttrs' (name: runner: {
         name = "${hostName}-${name}";
         value = {
           enable = true;
@@ -49,7 +50,6 @@ in {
           user = "root";
           group = "root";
         };
-      })
-      config.github-runners.runners;
+      });
   };
 }
