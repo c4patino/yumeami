@@ -6,10 +6,6 @@
   ...
 }: let
   port = 5100;
-  appService = {
-    name = "rustypaste";
-    port = port;
-  };
 in {
   options.rustypaste.enable = lib.mkEnableOption "rustypaste daemon";
 
@@ -56,7 +52,5 @@ in {
     ];
 
     networking.firewall.allowedTCPPorts = [port];
-
-    httpd.services = [appService];
   };
 }

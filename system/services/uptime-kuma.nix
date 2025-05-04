@@ -4,10 +4,6 @@
   ...
 }: let
   port = 5200;
-  appService = {
-    name = "uptime-kuma";
-    port = port;
-  };
 in {
   options.uptime-kuma.enable = lib.mkEnableOption "uptime-kuma";
 
@@ -35,7 +31,5 @@ in {
     };
 
     networking.firewall.allowedTCPPorts = [port];
-
-    httpd.services = [appService];
   };
 }

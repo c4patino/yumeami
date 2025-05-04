@@ -18,8 +18,9 @@
   ntfy.enable = true;
   uptime-kuma.enable = true;
 
-  unbound.enable = true;
   blocky.enable = true;
+  httpd.enable = true;
+  unbound.enable = true;
 
   nfs = {
     enable = true;
