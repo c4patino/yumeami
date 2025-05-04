@@ -1348,11 +1348,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1739646514,
-        "narHash": "sha256-9tTLz6gWJXb14VCJjlCSqQXBy54rx3AZ3rNwlXG6wLU=",
+        "lastModified": 1746319062,
+        "narHash": "sha256-mRMDvX3CbOtkzezwiKYIfKvqLndd9bxwOeRvrlttTZU=",
         "owner": "c4patino",
         "repo": "nixvim",
-        "rev": "07c3ee9d9c0bfcea3e23303ea36102a5a0b1e0f9",
+        "rev": "aec889bc369dd9ae95949766bb6122dcfda59fba",
         "type": "github"
       },
       "original": {
