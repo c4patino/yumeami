@@ -1,5 +1,5 @@
 {
-pkgs,
+  pkgs,
   lib,
   config,
   ...
@@ -7,7 +7,7 @@ pkgs,
   options.kitty.enable = lib.mkEnableOption "Kitty terminal emulator";
 
   config = {
-    home.packages = with pkgs; [ kitty.terminfo ];
+    home.packages = with pkgs; [kitty.terminfo];
 
     programs.kitty = lib.mkIf config.kitty.enable {
       enable = true;
