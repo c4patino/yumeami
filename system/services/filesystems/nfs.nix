@@ -5,6 +5,11 @@
 }: let
   inherit (lib) types;
   inherit (config.nfs) mounts shares;
+
+  findHostIP = host:
+    if builtins.hasAttr host config.devices
+    then config.devices.${host}.IP
+    else throw "Host '${host}' does not exist in the devices configuration.";
 in {
   options.nfs = {
     enable = lib.mkEnableOption "NFS";
@@ -44,10 +49,7 @@ in {
       (acc: folder: let
         inherit (config.networking) hostName;
         host = mounts.${folder};
-        hostIP =
-          if builtins.hasAttr host config.devices
-          then config.devices.${host}.IP
-          else throw "Host '${host}' does not exist in the devices configuration.";
+        hostIP = findHostIP host;
 
         _ =
           if host == hostName
@@ -72,7 +74,7 @@ in {
           map (
             mount: let
               permissions = builtins.concatStringsSep "," mount.permissions;
-              ips = builtins.concatStringsSep " " (map (ip: "${ip}(${permissions})") mount.whitelist);
+              ips = builtins.concatStringsSep " " (map (host: "${findHostIP host}(${permissions})") mount.whitelist);
             in "/mnt/nfs/${mount.name} ${ips}"
           )
           shares;

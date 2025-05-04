@@ -1,12 +1,15 @@
 {
+pkgs,
   lib,
   config,
   ...
 }: {
   options.kitty.enable = lib.mkEnableOption "Kitty terminal emulator";
 
-  config = lib.mkIf config.kitty.enable {
-    programs.kitty = {
+  config = {
+    home.packages = with pkgs; [ kitty.terminfo ];
+
+    programs.kitty = lib.mkIf config.kitty.enable {
       enable = true;
       shellIntegration.enableZshIntegration = true;
       font = {
