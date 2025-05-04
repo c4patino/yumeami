@@ -12,7 +12,10 @@
     else builtins.throw "Host '${node}' does not exist in the devices configuration.";
 
   domainMapping = lib.pipe config.network-services [
-    (lib.mapAttrsToList (name: svc: { name = "${name}.yumeami.sh"; value = resolveNodeIP svc.host; }))
+    (lib.mapAttrsToList (name: svc: {
+      name = "${name}.yumeami.sh";
+      value = resolveNodeIP svc.host;
+    }))
     lib.listToAttrs
   ];
 in {
