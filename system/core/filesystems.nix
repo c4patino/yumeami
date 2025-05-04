@@ -3,9 +3,4 @@
   services.davfs2.enable = true;
 
   environment.systemPackages = with pkgs; [cifs-utils];
-
-  environment.sessionVariables = {
-    SAMBA = "/mnt/samba";
-    SYNCTHING = "/mnt/syncthing";
-  };
 }
