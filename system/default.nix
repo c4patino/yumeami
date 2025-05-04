@@ -84,6 +84,14 @@ in {
 
     containerization.enable = true;
 
+    network-services = {
+      rustypaste = { host = "arisu"; port = 5100; };
+      glance = { host = "arisu"; port = 5150; };
+
+      uptime-kuma = { host = "chibi"; port = 5200; };
+      ntfy = { host = "chibi"; port = 5201; };
+    };
+
     unbound.dnsHost = "chibi";
 
     devices = {

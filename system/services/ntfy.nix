@@ -4,10 +4,6 @@
   ...
 }: let
   port = 5201;
-  appService = {
-    name = "ntfy";
-    port = port;
-  };
 in {
   options.ntfy.enable = lib.mkEnableOption "ntfy";
 
@@ -25,7 +21,5 @@ in {
     };
 
     networking.firewall.allowedTCPPorts = [port];
-
-    httpd.services = [appService];
   };
 }

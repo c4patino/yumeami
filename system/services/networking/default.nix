@@ -4,6 +4,8 @@
   config,
   ...
 }: let
+  inherit (lib) types;
+
   nodeIP = node:
     if builtins.hasAttr node config.devices
     then config.devices.${node}.IP
@@ -15,6 +17,28 @@
 in {
   options = {
     network-manager.enable = lib.mkEnableOption "network manager";
+    network-services = lib.mkOption {
+      type = with types;
+        attrsOf (submodule {
+          options = {
+            host = lib.mkOption {
+              type = str;
+              description = "Name of the device which is hosting the service";
+            };
+            port = lib.mkOption {
+              type = port;
+              description = "Local port of the service";
+            };
+            public = lib.mkOption {
+              type = bool;
+              default = false;
+              description = "Whether the service should be publicly accessible.";
+            };
+          };
+        });
+      default = {};
+      description = "Set of apps to reverse-proxy using Apache, keyed by service name.";
+    };
   };
 
   imports = [

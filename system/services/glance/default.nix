@@ -4,10 +4,6 @@
   ...
 }: let
   port = 5150;
-  appService = {
-    name = "glance";
-    port = port;
-  };
 in {
   options.glance.enable = lib.mkEnableOption "glance";
 
@@ -27,7 +23,5 @@ in {
         };
       };
     };
-
-    httpd.services = [appService];
   };
 }

@@ -3,24 +3,22 @@
   config,
   ...
 }: let
-  inherit (lib) types;
   inherit (config.sops) secrets;
+  inherit (config.networking) hostName;
 
-  mkDomainConfig = domain: service: let
-    n = service.name;
+  mkLocalhostConfig = name: service: let
     p = toString service.port;
   in ''
-    # --- ${n} (subdomain access) ---
-    RewriteCond %{HTTP_HOST} ^${n}\.${domain}$ [NC]
+    # --- ${name} (subdomain access) ---
+    RewriteCond %{HTTP_HOST} ^${name}\.localhost$ [NC]
     RewriteRule ^/(.*) http://localhost:${p}/$1 [P,L]
     ProxyPassReverse / http://localhost:${p}/
   '';
 
-  mkPublicVirtualHost = service: let
-    n = service.name;
+  mkPublicVirtualHost = domain: name: service: let
     p = toString service.port;
   in {
-    name = "${n}.cpatino.com";
+    name = "${name}.${domain}";
     value = {
       acmeRoot = null;
       documentRoot = "/var/empty";
@@ -28,41 +26,25 @@
         UseCanonicalName Off
         RewriteEngine On
 
-        # --- ${n} (subdomain access) ---
+        # --- ${name} (subdomain access) ---
         RewriteRule ^/(.*) http://localhost:${p}/$1 [P,L]
         ProxyPassReverse / http://localhost:${p}/
       '';
     };
   };
 
-  localhostProxyConfig = lib.concatStringsSep "\n" (map (mkDomainConfig "localhost") config.httpd.services);
-  publicVirtualHosts = lib.listToAttrs (map mkPublicVirtualHost (lib.filter (s: s.public) config.httpd.services));
+  localhostProxyConfig = lib.pipe config.network-services [
+    (lib.mapAttrsToList mkLocalhostConfig)
+    (lib.concatStringsSep "\n")
+  ];
+
+  internalVirtualHosts = lib.pipe config.network-services [
+    (lib.filterAttrs (_: svc: svc.host == hostName))
+    (lib.mapAttrsToList (mkPublicVirtualHost "yumeami.sh"))
+    lib.listToAttrs
+  ];
 in {
-  options.httpd = {
-    enable = lib.mkEnableOption "httpd";
-    services = lib.mkOption {
-      type = with types;
-        listOf (submodule {
-          options = {
-            name = lib.mkOption {
-              type = str;
-              description = "Name of the service, used in path and subdomain";
-            };
-            port = lib.mkOption {
-              type = port;
-              description = "Local port of the service";
-            };
-            public = lib.mkOption {
-              type = bool;
-              description = "Whether the service should be publicly accessible.";
-              default = false;
-            };
-          };
-        });
-      default = [];
-      description = "List of apps to reverse-proxy using Apache";
-    };
-  };
+  options.httpd.enable = lib.mkEnableOption "httpd";
 
   config = lib.mkIf config.httpd.enable {
     services.httpd = {
@@ -86,7 +68,7 @@ in {
           };
         }
 
-        publicVirtualHosts
+        internalVirtualHosts
       ];
     };
 
@@ -95,11 +77,8 @@ in {
       defaults.email = "c4patino@gmail.com";
       defaults = {
         dnsProvider = "cloudflare";
-        dnsProviderConfig = lib.mkOption {
-          type = lib.types.attrs;
-          default = {
-            CF_Token = secrets."cloudflare";
-          };
+        dnsProviderConfig = {
+          CF_Token = secrets."cloudflare";
         };
       };
     };

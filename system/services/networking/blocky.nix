@@ -5,6 +5,16 @@
   ...
 }: let
   port = 53;
+
+  resolveNodeIP = node:
+    if builtins.hasAttr node config.devices
+    then config.devices.${node}.IP
+    else builtins.throw "Host '${node}' does not exist in the devices configuration.";
+
+  domainMapping = lib.pipe config.network-services [
+    (lib.mapAttrsToList (name: svc: { name = "${name}.yumeami.sh"; value = resolveNodeIP svc.host; }))
+    lib.listToAttrs
+  ];
 in {
   options.blocky.enable = lib.mkEnableOption "blocky";
 
@@ -101,10 +111,7 @@ in {
 
         customDNS = {
           customTTL = "1h";
-          mapping = {
-            "rustypaste.yumeami.sh" = "100.117.106.23";
-            "glance.yumeami.sh" = "100.117.106.23";
-          };
+          mapping = domainMapping;
         };
       };
     };
