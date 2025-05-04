@@ -1,7 +1,7 @@
 {
+  self,
   pkgs,
   lib,
-  inputs,
   config,
   ...
 }: let
@@ -43,7 +43,7 @@ in {
     };
 
     environment.etc."rustypaste/rustypaste.toml" = {
-      source = inputs.dotfiles + "/rustypaste.toml";
+      source = "${self}/secrets/crypt/rustypaste/server.toml";
       mode = "0755";
     };
 

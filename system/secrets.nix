@@ -24,6 +24,7 @@ in {
       "tailscale/tsdproxy" = {owner = c4patino.name;};
       "cloudflare" = {owner = c4patino.name;};
       "pypi" = {owner = c4patino.name;};
+      "rustypaste" = {owner = c4patino.name;};
     };
   };
 }
