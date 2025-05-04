@@ -3,16 +3,18 @@
   config,
   inputs,
   ...
-}: {
-  options = {
-    languages.enable = lib.mkOption {
-      type = lib.types.bool;
+}: let
+  inherit (lib) types mkOption mkIf;
+  cfg = config.languages;
+in {
+  options.languages.enable = with types;
+    mkOption {
+      type = bool;
       default = false;
       description = "Enable support for multiple programming languages";
     };
-  };
 
-  config = lib.mkIf config.languages.enable {
+  config = mkIf cfg.enable {
     programs.direnv = {
       enable = true;
       enableZshIntegration = true;

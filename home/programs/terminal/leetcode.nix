@@ -5,10 +5,13 @@
   inputs,
   secrets,
   ...
-}: {
-  options.leetcode.enable = lib.mkEnableOption "Leetcode CLI";
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  cfg = config.leetcode;
+in {
+  options.leetcode.enable = mkEnableOption "Leetcode CLI";
 
-  config = lib.mkIf config.leetcode.enable {
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [leetcode-cli];
 
     home.file.".leetcode/leetcode.toml".text = ''

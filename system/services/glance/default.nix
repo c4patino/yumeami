@@ -3,15 +3,18 @@
   config,
   ...
 }: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.glance;
+
   port = 5150;
 in {
-  options.glance.enable = lib.mkEnableOption "glance";
+  options.glance.enable = mkEnableOption "glance";
 
   imports = [
     ./layout.nix
   ];
 
-  config = lib.mkIf config.glance.enable {
+  config = mkIf cfg.enable {
     services.glance = {
       enable = true;
       openFirewall = true;

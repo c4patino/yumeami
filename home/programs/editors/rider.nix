@@ -4,10 +4,13 @@
   config,
   inputs,
   ...
-}: {
-  options.rider.enable = lib.mkEnableOption "Rider";
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  cfg = config.rider;
+in {
+  options.rider.enable = mkEnableOption "Rider";
 
-  config = lib.mkIf config.rider.enable {
+  config = mkIf cfg.enable {
     home = {
       packages = with pkgs; [jetbrains.rider];
       file.".ideavimrc".source = inputs.dotfiles + "/ideavimrc";

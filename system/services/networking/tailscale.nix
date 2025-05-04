@@ -2,10 +2,13 @@
   lib,
   config,
   ...
-}: {
-  options.tailscale.enable = lib.mkEnableOption "Tailscale";
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.tailscale;
+in {
+  options.tailscale.enable = mkEnableOption "Tailscale";
 
-  config = lib.mkIf config.tailscale.enable {
+  config = mkIf cfg.enable {
     services.tailscale.enable = true;
   };
 }

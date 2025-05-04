@@ -3,10 +3,13 @@
   lib,
   config,
   ...
-}: {
-  options.teamviewer.enable = lib.mkEnableOption "Teamviewer";
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.teamviewer;
+in {
+  options.teamviewer.enable = mkEnableOption "Teamviewer";
 
-  config = lib.mkIf config.teamviewer.enable {
+  config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [teamviewer];
 
     services.teamviewer.enable = true;

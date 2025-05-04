@@ -4,9 +4,9 @@
   secrets,
   ...
 }: let
-  inherit (lib) types;
+  inherit (lib) types mkEnableOption mkOption mkMerge mkIf mapAttrs';
   inherit (config.networking) hostName;
-  inherit (config.samba) mounts shares;
+  cfg = config.samba;
 
   resolveHostIP = host:
     if builtins.hasAttr host config.devices
@@ -16,19 +16,19 @@
   checkHostConflict = folder: host:
     if host == hostName
     then throw "Conflict: Mount host '${host}' cannot be the same as this host '${hostName}' for folder '${folder}'."
-    else if builtins.elem folder shares
+    else if builtins.elem folder cfg.shares
     then throw "Conflict: Folder '${folder}' is listed in both shares and mounts. Please resolve."
     else null;
 in {
-  options.samba = {
-    enable = lib.mkEnableOption "Samba";
-    shares = lib.mkOption {
-      type = types.listOf types.str;
+  options.samba = with types; {
+    enable = mkEnableOption "Samba";
+    shares = mkOption {
+      type = listOf str;
       default = [];
       description = "List of folder paths to share via Samba.";
     };
-    mounts = lib.mkOption {
-      type = types.attrsOf types.str;
+    mounts = mkOption {
+      type = attrsOf str;
       default = {};
       description = "List of the folder paths to mount via Samba and the host.";
     };
@@ -52,14 +52,14 @@ in {
         };
       };
     in
-      mounts |> lib.mapAttrs' processMount;
+      cfg.mounts |> mapAttrs' processMount;
 
     environment.etc."samba/.credentials".text = ''
       username=${secrets.samba.username}
       password=${secrets.samba.password}
     '';
 
-    services.samba = lib.mkIf config.samba.enable {
+    services.samba = mkIf cfg.enable {
       enable = true;
       openFirewall = true;
       settings = let
@@ -80,11 +80,11 @@ in {
         };
 
         shareConfigs =
-          shares
+          cfg.shares
           |> map mapFolderToShare
           |> builtins.listToAttrs;
       in
-        lib.mkMerge [
+        mkMerge [
           {
             global = {
               "workgroup" = "WORKGROUP";
@@ -97,7 +97,7 @@ in {
         ];
     };
 
-    services.samba-wsdd = lib.mkIf config.samba.enable {
+    services.samba-wsdd = mkIf cfg.enable {
       enable = true;
       openFirewall = true;
     };

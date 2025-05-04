@@ -3,17 +3,20 @@
   config,
   inputs,
   ...
-}: {
-  options.impermanence.enable = lib.mkEnableOption "impermanence";
+}: let
+  inherit (lib) mkEnableOption mkIf mkAfter;
+  cfg = config.impermanence;
+in {
+  options.impermanence.enable = mkEnableOption "impermanence";
 
   imports = [
     inputs.impermanence.nixosModules.impermanence
   ];
 
-  config = lib.mkIf config.impermanence.enable {
+  config = mkIf cfg.enable {
     fileSystems."/persist".neededForBoot = true;
 
-    boot.initrd.postResumeCommands = lib.mkAfter ''
+    boot.initrd.postResumeCommands = mkAfter ''
       zfs rollback -r zroot/root@blank
     '';
 

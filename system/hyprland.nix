@@ -3,10 +3,13 @@
   config,
   lib,
   ...
-}: {
-  options.hyprland.enable = lib.mkEnableOption "Hyprland display manager";
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.hyprland;
+in {
+  options.hyprland.enable = mkEnableOption "Hyprland display manager";
 
-  config = lib.mkIf config.hyprland.enable {
+  config = mkIf cfg.enable {
     programs.hyprland = {
       enable = true;
       xwayland.enable = true;

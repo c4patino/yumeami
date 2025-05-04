@@ -4,10 +4,13 @@
   config,
   inputs,
   ...
-}: {
-  options.pycharm.enable = lib.mkEnableOption "Pycharm";
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  cfg = config.pycharm;
+in {
+  options.pycharm.enable = mkEnableOption "Pycharm";
 
-  config = lib.mkIf config.pycharm.enable {
+  config = mkIf cfg.enable {
     home = {
       packages = with pkgs; [jetbrains.pycharm-professional];
       file.".ideavimrc".source = inputs.dotfiles + "/ideavimrc";

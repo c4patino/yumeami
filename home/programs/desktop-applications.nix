@@ -3,41 +3,44 @@
   lib,
   config,
   ...
-}: {
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config;
+in {
   options = {
-    fiji.enable = lib.mkEnableOption "Fiji";
-    libreoffice.enable = lib.mkEnableOption "LibreOffice";
-    mongodb-compass.enable = lib.mkEnableOption "MongoDB Compass";
-    obs.enable = lib.mkEnableOption "OBS Studio";
-    obsidian.enable = lib.mkEnableOption "Obsidian";
-    postman.enable = lib.mkEnableOption "Postman";
-    sms.enable = lib.mkEnableOption "SMS applications";
+    fiji.enable = mkEnableOption "Fiji";
+    libreoffice.enable = mkEnableOption "LibreOffice";
+    mongodb-compass.enable = mkEnableOption "MongoDB Compass";
+    obs.enable = mkEnableOption "OBS Studio";
+    obsidian.enable = mkEnableOption "Obsidian";
+    postman.enable = mkEnableOption "Postman";
+    sms.enable = mkEnableOption "SMS applications";
   };
 
   config = {
     home = {
       packages = with pkgs; [
-        (lib.mkIf config.fiji.enable fiji)
-        (lib.mkIf config.fiji.enable gtk3)
+        (mkIf cfg.fiji.enable fiji)
+        (mkIf cfg.fiji.enable gtk3)
 
-        (lib.mkIf config.libreoffice.enable libreoffice-qt)
-        (lib.mkIf config.libreoffice.enable hunspell)
-        (lib.mkIf config.libreoffice.enable hunspellDicts.en_US)
+        (mkIf cfg.libreoffice.enable libreoffice-qt)
+        (mkIf cfg.libreoffice.enable hunspell)
+        (mkIf cfg.libreoffice.enable hunspellDicts.en_US)
 
-        (lib.mkIf config.mongodb-compass.enable mongodb-compass)
+        (mkIf cfg.mongodb-compass.enable mongodb-compass)
 
-        (lib.mkIf config.obs.enable obs-studio)
+        (mkIf cfg.obs.enable obs-studio)
 
-        (lib.mkIf config.obsidian.enable obsidian)
+        (mkIf cfg.obsidian.enable obsidian)
 
-        (lib.mkIf config.postman.enable postman)
+        (mkIf cfg.postman.enable postman)
 
-        (lib.mkIf config.sms.enable slack)
-        (lib.mkIf config.sms.enable webcord-vencord)
-        (lib.mkIf config.sms.enable zoom-us)
+        (mkIf cfg.sms.enable slack)
+        (mkIf cfg.sms.enable webcord-vencord)
+        (mkIf cfg.sms.enable zoom-us)
       ];
 
-      sessionVariables = lib.mkIf config.fiji.enable {
+      sessionVariables = lib.mkIf cfg.fiji.enable {
         GSETTINGS_SCHEMA_DIR = "${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}/glib-2.0/schemas";
       };
     };

@@ -4,6 +4,9 @@
   pkgs,
   ...
 }: let
+  inherit (lib) mkEnableOption mkIf mapAttrsToList;
+  cfg = config.blocky;
+
   port = 53;
 
   resolveNodeIP = node:
@@ -13,15 +16,15 @@
 
   domainMapping =
     config.network-services
-    |> lib.mapAttrsToList (name: svc: {
+    |> mapAttrsToList (name: svc: {
       name = "${name}.yumeami.sh";
       value = resolveNodeIP svc.host;
     })
     |> lib.listToAttrs;
 in {
-  options.blocky.enable = lib.mkEnableOption "blocky";
+  options.blocky.enable = mkEnableOption "blocky";
 
-  config = lib.mkIf config.blocky.enable {
+  config = mkIf cfg.enable {
     services.blocky = {
       enable = true;
       settings = {

@@ -2,10 +2,13 @@
   config,
   lib,
   ...
-}: {
-  options.display-manager.enable = lib.mkEnableOption "display managers";
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.display-manager;
+in {
+  options.display-manager.enable = mkEnableOption "display managers";
 
-  config = lib.mkIf config.display-manager.enable {
+  config = mkIf cfg.enable {
     services.xserver = {
       enable = true;
       xkb = {

@@ -3,16 +3,20 @@
   lib,
   config,
   ...
-}: {
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  btmCfg = config.bottom;
+  nvtopCfg = config.nvtop;
+in {
   options = {
-    bottom.enable = lib.mkEnableOption "bottom";
-    nvtop.enable = lib.mkEnableOption "nvtop";
+    bottom.enable = mkEnableOption "bottom";
+    nvtop.enable = mkEnableOption "nvtop";
   };
 
   config = {
-    home.packages = with pkgs; [(lib.mkIf config.nvtop.enable nvtopPackages.nvidia)];
+    home.packages = with pkgs; [(mkIf nvtopCfg.enable nvtopPackages.nvidia)];
 
-    programs.bottom = lib.mkIf config.bottom.enable {
+    programs.bottom = mkIf btmCfg.enable {
       enable = true;
       settings = {
         flags = {

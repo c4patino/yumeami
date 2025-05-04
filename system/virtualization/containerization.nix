@@ -3,11 +3,15 @@
   lib,
   config,
   ...
-}: {
-  options.containerization.enable = lib.mkEnableOption "Podman, Docker, and Distrobox support";
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.containerization;
+  nvdaCfg = config.nvidia;
+in {
+  options.containerization.enable = mkEnableOption "Podman, Docker, and Distrobox support";
 
-  config = lib.mkIf config.containerization.enable {
-    hardware.nvidia-container-toolkit.enable = config.nvidia.enable;
+  config = mkIf cfg.enable {
+    hardware.nvidia-container-toolkit.enable = nvdaCfg.enable;
 
     environment.systemPackages = with pkgs; [
       distrobox

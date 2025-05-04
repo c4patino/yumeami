@@ -3,10 +3,13 @@
   lib,
   config,
   ...
-}: {
-  options.browsers.enable = lib.mkEnableOption "common browers";
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  cfg = config.browsers;
+in {
+  options.browsers.enable = mkEnableOption "common browers";
 
-  config = lib.mkIf config.browsers.enable {
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [vivaldi];
   };
 }

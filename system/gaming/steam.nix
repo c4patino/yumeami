@@ -2,10 +2,13 @@
   config,
   lib,
   ...
-}: {
-  options.steam.enable = lib.mkEnableOption "Steam";
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.steam;
+in {
+  options.steam.enable = mkEnableOption "Steam";
 
-  config = lib.mkIf config.steam.enable {
+  config = mkIf cfg.enable {
     programs.steam = {
       enable = true;
       gamescopeSession.enable = true;

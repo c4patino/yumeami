@@ -2,10 +2,13 @@
   config,
   lib,
   ...
-}: {
-  options.audio.enable = lib.mkEnableOption "audio support";
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.audio;
+in {
+  options.audio.enable = mkEnableOption "audio support";
 
-  config = lib.mkIf config.audio.enable {
+  config = mkIf cfg.enable {
     services.pipewire = {
       enable = true;
       pulse.enable = true;

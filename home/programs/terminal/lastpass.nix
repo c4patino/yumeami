@@ -3,10 +3,13 @@
   config,
   pkgs,
   ...
-}: {
-  options.lastpass.enable = lib.mkEnableOption "Lastpass CLI";
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  cfg = config.lastpass;
+in {
+  options.lastpass.enable = mkEnableOption "Lastpass CLI";
 
-  config = lib.mkIf config.lastpass.enable {
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [lastpass-cli];
   };
 }

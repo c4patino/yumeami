@@ -3,13 +3,16 @@
   lib,
   config,
   ...
-}: {
-  options.kitty.enable = lib.mkEnableOption "Kitty terminal emulator";
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  cfg = config.kitty;
+in {
+  options.kitty.enable = mkEnableOption "Kitty terminal emulator";
 
   config = {
     home.packages = with pkgs; [kitty.terminfo];
 
-    programs.kitty = lib.mkIf config.kitty.enable {
+    programs.kitty = mkIf cfg.enable {
       enable = true;
       shellIntegration.enableZshIntegration = true;
       font = {

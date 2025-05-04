@@ -2,10 +2,13 @@
   config,
   lib,
   ...
-}: {
-  options.printing.enable = lib.mkEnableOption "printer drivers";
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.printing;
+in {
+  options.printing.enable = mkEnableOption "printer drivers";
 
-  config = lib.mkIf config.printing.enable {
+  config = mkIf cfg.enable {
     services.printing.enable = true;
   };
 }

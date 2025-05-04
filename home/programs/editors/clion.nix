@@ -4,10 +4,13 @@
   config,
   inputs,
   ...
-}: {
-  options.clion.enable = lib.mkEnableOption "CLion";
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  cfg = config.clion;
+in {
+  options.clion.enable = mkEnableOption "CLion";
 
-  config = lib.mkIf config.clion.enable {
+  config = mkIf cfg.enable {
     home = {
       packages = with pkgs; [jetbrains.clion];
       file.".ideavimrc".source = inputs.dotfiles + "/ideavimrc";

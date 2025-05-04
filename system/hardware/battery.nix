@@ -3,10 +3,13 @@
   config,
   lib,
   ...
-}: {
-  options.battery.enable = lib.mkEnableOption "battery interfaces";
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  cfg = config.battery;
+in {
+  options.battery.enable = mkEnableOption "battery interfaces";
 
-  config = lib.mkIf config.battery.enable {
+  config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [acpi];
   };
 }
