@@ -13,5 +13,7 @@ in {
     environment.systemPackages = with pkgs; [teamviewer];
 
     services.teamviewer.enable = true;
+
+    impermanence.folders = ["/var/lib/teamviewer"];
   };
 }

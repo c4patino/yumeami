@@ -61,5 +61,7 @@ in {
     '';
 
     networking.networkmanager.enable = true;
+
+    impermanence.folders = ["/etc/NetworkManager/system-connections"];
   };
 }

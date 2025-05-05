@@ -4,10 +4,17 @@
   inputs,
   ...
 }: let
-  inherit (lib) mkEnableOption mkIf mkAfter;
+  inherit (lib) types mkOption mkEnableOption mkIf mkAfter;
   cfg = config.impermanence;
 in {
-  options.impermanence.enable = mkEnableOption "impermanence";
+  options.impermanence = with types; {
+    enable = mkEnableOption "impermanence";
+    folders = mkOption {
+      type = listOf str;
+      default = [];
+      description = "List of root folders to persist";
+    };
+  };
 
   imports = [
     inputs.impermanence.nixosModules.impermanence
@@ -23,40 +30,20 @@ in {
     environment.persistence."/persist" = {
       hideMounts = true;
 
-      directories = [
-        "/etc/NetworkManager/system-connections"
+      directories = let
+        static = [
+          "/opt"
 
-        "/mnt/nfs"
-        "/mnt/samba"
-        "/mnt/syncthing"
-
-        "/opt"
-
-        "/srv/minecraft"
-
-        "/var/db/sudo/lectured"
-        "/var/lib/bluetooth"
-        "/var/lib/containers"
-        "/var/lib/docker"
-        "/var/lib/github-runner"
-        "/var/lib/mysql"
-        "/var/lib/nfs"
-        "/var/lib/nixos"
-        "/var/lib/ntfy"
-        "/var/lib/postgresql"
-        "/var/lib/rustypaste"
-        "/var/lib/samba"
-        "/var/lib/tailscale"
-        "/var/lib/teamviewer"
-        "/var/lib/uptime-kuma"
-
-        "/var/log"
-
-        "/var/spool/slurmctld"
-        "/var/spool/slurmd"
-
-        "/var/www"
-      ];
+          "/var/db/sudo/lectured"
+          "/var/lib/nixos"
+          "/var/log"
+        ];
+      in
+        lib.concatLists
+        [
+          static
+          cfg.folders
+        ];
 
       users.c4patino = {
         directories = [

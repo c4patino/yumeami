@@ -35,5 +35,7 @@ in {
     };
 
     networking.firewall.allowedTCPPorts = [port];
+
+    impermanence.folders = ["/var/lib/uptime-kuma"];
   };
 }

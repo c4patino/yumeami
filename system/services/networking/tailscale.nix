@@ -10,5 +10,7 @@ in {
 
   config = mkIf cfg.enable {
     services.tailscale.enable = true;
+
+    impermanence.folders = ["/var/lib/tailscale"];
   };
 }

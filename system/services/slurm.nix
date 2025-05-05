@@ -118,5 +118,10 @@ in {
       group = "munge";
       mode = "0400";
     };
+
+    impermanence.folders = [
+      "/var/spool/slurmctld"
+      "/var/spool/slurmd"
+    ];
   };
 }
