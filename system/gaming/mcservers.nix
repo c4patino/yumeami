@@ -66,5 +66,7 @@ in {
           enable = true;
         });
     };
+
+    impermanence.folders = ["/srv/minecraft"];
   };
 }

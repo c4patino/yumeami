@@ -54,5 +54,7 @@ in {
       };
     in
       cfg.runners |> mapAttrs' generateRunnerConfiguration;
+
+    impermanence.folders = ["/var/lib/github-runner"];
   };
 }

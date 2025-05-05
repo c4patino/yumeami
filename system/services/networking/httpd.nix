@@ -86,5 +86,7 @@ in {
     };
 
     networking.firewall.allowedTCPPorts = [80 443];
+
+    impermanence.folders = ["/var/www"];
   };
 }

@@ -36,5 +36,10 @@ in {
     };
 
     networking.firewall.allowedTCPPorts = [2376];
+
+    impermanence.folders = [
+      "/var/lib/containers"
+      "/var/lib/docker"
+    ];
   };
 }

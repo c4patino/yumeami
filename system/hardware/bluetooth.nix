@@ -14,5 +14,7 @@ in {
       enable = true;
       powerOnBoot = true;
     };
+
+    impermanence.folders = ["/var/lib/bluetooth"];
   };
 }
