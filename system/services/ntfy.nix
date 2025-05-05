@@ -5,6 +5,7 @@
 }: let
   inherit (lib) mkIf mkEnableOption mkForce;
   cfg = config.ntfy;
+
   port = 5201;
 in {
   options.ntfy.enable = mkEnableOption "ntfy";
@@ -13,7 +14,7 @@ in {
     services.ntfy-sh = {
       enable = true;
       settings = {
-        base-url = "https://chibi.tail8b9fd9.ts.net:${toString port}";
+        base-url = "http://ntfy.yumeami.sh:${toString port}";
         listen-http = ":${toString port}";
       };
     };
