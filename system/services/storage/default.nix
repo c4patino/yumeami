@@ -2,6 +2,7 @@
   imports = [
     ./nfs.nix
     ./postgresql.nix
+    ./rustypaste.nix
     ./samba.nix
     ./syncthing.nix
   ];
