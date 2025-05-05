@@ -117,6 +117,10 @@ in {
       };
     };
 
+    postgresql.databases = {
+      shiori = ["grafana" "forgejo" "vaultwarden"];
+    };
+
     slurm = {
       enable = true;
       controlHosts = ["arisu" "chibi"];
