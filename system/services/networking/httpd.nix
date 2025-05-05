@@ -1,9 +1,10 @@
 {
+  self,
   lib,
   config,
   ...
 }: let
-  inherit (lib) mkEnableOption mkIf mkMerge filterAttrs mapAttrsToList concatStringsSep listToAttrs;
+  inherit (lib) mkEnableOption mkIf mkMerge filterAttrs mapAttrsToList concatStringsSep listToAttrs replaceStrings;
   inherit (config.sops) secrets;
   inherit (config.networking) hostName;
   cfg = config.httpd;
@@ -17,22 +18,38 @@
     ProxyPassReverse / http://localhost:${p}/
   '';
 
-  mkPublicVirtualHost = domain: name: service: let
+  mkVirtualHost = {
+    domain,
+    useSSL,
+  }: name: service: let
+    ssl = "${self}/secrets/crypt/ssl/${hostName}";
     p = toString service.port;
-  in {
-    name = "${name}.${domain}";
-    value = {
-      acmeRoot = null;
-      documentRoot = "/var/empty";
-      extraConfig = ''
-        UseCanonicalName Off
-        RewriteEngine On
 
-        # --- ${name} (subdomain access) ---
-        RewriteRule ^/(.*) http://localhost:${p}/$1 [P,L]
-        ProxyPassReverse / http://localhost:${p}/
-      '';
-    };
+    certs = replaceStrings ["*"] ["wildcard"] domain;
+    sslConfig =
+      if useSSL
+      then {
+        addSSL = true;
+        sslServerKey = "${ssl}/${certs}.key";
+        sslServerCert = "${ssl}/${certs}.crt";
+      }
+      else {};
+  in {
+    name = replaceStrings ["*"] [name] domain;
+    value =
+      {
+        acmeRoot = null;
+        documentRoot = "/var/empty";
+        extraConfig = ''
+          UseCanonicalName Off
+          RewriteEngine On
+
+          # --- ${name} (subdomain access) ---
+          RewriteRule ^/(.*) http://localhost:${p}/$1 [P,L]
+          ProxyPassReverse / http://localhost:${p}/
+        '';
+      }
+      // sslConfig;
   };
 
   localhostProxyConfig =
@@ -43,7 +60,10 @@
   internalVirtualHosts =
     config.network-services
     |> filterAttrs (_: svc: svc.host == hostName)
-    |> mapAttrsToList (mkPublicVirtualHost "yumeami.sh")
+    |> mapAttrsToList (mkVirtualHost {
+      domain = "*.yumeami.sh";
+      useSSL = true;
+    })
     |> listToAttrs;
 in {
   options.httpd.enable = mkEnableOption "httpd";
