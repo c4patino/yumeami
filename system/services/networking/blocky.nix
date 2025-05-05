@@ -32,8 +32,6 @@ in {
 
         ports = {
           dns = 53;
-          http = 4000;
-          https = 443;
           tls = 853;
         };
 
