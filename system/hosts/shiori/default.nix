@@ -17,6 +17,8 @@
 
   httpd.enable = true;
 
+  vaultwarden.enable = true;
+
   samba.mounts = {
     "shared" = "arisu";
   };
