@@ -21,7 +21,12 @@ in {
     services = {
       postgresql = {
         enable = true;
-        settings.port = port;
+        enableTCPIP = true;
+
+        settings = {
+          port = port;
+        };
+
         authentication = let
           permissionEntries =
             cfg.databases

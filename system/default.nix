@@ -98,6 +98,11 @@ in {
         host = "chibi";
         port = 5201;
       };
+
+      vaultwarden = {
+        host = "shiori";
+        port = 5300;
+      };
     };
 
     unbound.dnsHost = "chibi";
