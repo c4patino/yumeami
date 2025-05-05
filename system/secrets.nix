@@ -16,14 +16,23 @@ in {
     defaultSopsFormat = "yaml";
     age.keyFile = "/persist/${c4patino.home}/dotfiles/secrets/crypt/${hostName}/keys.txt";
     secrets = {
+      "master-password" = {owner = c4patino.name;};
+
+      "postgresql/forgejo" = {owner = c4patino.name;};
+      "postgresql/grafana" = {owner = c4patino.name;};
+      "postgresql/vaultwarden" = {owner = c4patino.name;};
+
       "github/auth" = {owner = c4patino.name;};
       "github/runner" = {owner = c4patino.name;};
       "github/runner-oasys" = {owner = c4patino.name;};
-      "master-password" = {owner = c4patino.name;};
+
       "tailscale/actions" = {owner = c4patino.name;};
       "tailscale/tsdproxy" = {owner = c4patino.name;};
+
       "cloudflare" = {owner = c4patino.name;};
+
       "pypi" = {owner = c4patino.name;};
+
       "rustypaste" = {owner = c4patino.name;};
     };
   };

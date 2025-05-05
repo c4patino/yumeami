@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ./nfs.nix
+    ./postgresql.nix
     ./samba.nix
     ./syncthing.nix
   ];

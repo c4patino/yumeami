@@ -43,6 +43,7 @@ in {
         "/var/lib/nfs"
         "/var/lib/nixos"
         "/var/lib/ntfy"
+        "/var/lib/postgresql"
         "/var/lib/rustypaste"
         "/var/lib/samba"
         "/var/lib/tailscale"
