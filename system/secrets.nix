@@ -14,7 +14,9 @@ in {
   sops = {
     defaultSopsFile = "${self}/secrets/sops/secrets.yaml";
     defaultSopsFormat = "yaml";
-    age.keyFile = "/persist/${c4patino.home}/dotfiles/secrets/crypt/${hostName}/keys.txt";
+    age.keyFile = let
+      crypt = "/persist/${c4patino.home}/dotfiles/secrets/crypt";
+    in "${crypt}/age/${hostName}/keys.txt";
     secrets = {
       "master-password" = {owner = c4patino.name;};
 

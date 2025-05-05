@@ -36,11 +36,13 @@
       git-crypt
     ];
 
-    file = {
-      ".ssh/id_ed25519".source = "${self}/secrets/crypt/${hostName}/id_ed25519";
-      ".ssh/id_ed25519.pub".source = "${self}/secrets/crypt/${hostName}/id_ed25519.pub";
-      ".config/sops/age/keys.txt".source = "${self}/secrets/crypt/${hostName}/keys.txt";
-      ".config/rustypaste/config.toml".source = "${self}/secrets/crypt/rustypaste/client.toml";
+    file = let
+      crypt = "${self}/secrets/crypt/";
+    in {
+      ".ssh/id_ed25519".source = "${crypt}/ssh/${hostName}/id_ed25519";
+      ".ssh/id_ed25519.pub".source = "${crypt}/ssh/${hostName}/id_ed25519.pub";
+      ".config/sops/age/keys.txt".source = "${crypt}/age/${hostName}/keys.txt";
+      ".config/rustypaste/config.toml".source = "${crypt}/rustypaste/client.toml";
     };
 
     activation.createDirs = lib.hm.dag.entryAfter ["writeBoundary"] ''

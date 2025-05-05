@@ -42,12 +42,11 @@ in {
 
       hashedPassword = "$6$XM5h391mH33WIoAy$xkeSzw/ootPPZbvHEqSguZDyB4gAeTMcjy1aRXcXcQWFkS1/SRPK27VgEYC.vYvdZLYWALZtpdEzWAfwT4VCM1";
 
-      openssh.authorizedKeys.keyFiles = [
-        "${self}/secrets/crypt/arisu/id_ed25519.pub"
-        "${self}/secrets/crypt/kokoro/id_ed25519.pub"
-        "${self}/secrets/crypt/chibi/id_ed25519.pub"
-        "${self}/secrets/crypt/shiori/id_ed25519.pub"
-      ];
+      openssh.authorizedKeys.keyFiles = let
+        ssh = "${self}/secrets/crypt/ssh";
+      in
+        ["arisu" "chibi" "kokoro" "shiori"]
+        |> map (h: "${ssh}/${h}/id_ed25519.pub");
 
       shell = pkgs.zsh;
     };

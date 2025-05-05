@@ -8,6 +8,8 @@
   inherit (config.networking) hostName;
   cfg = config.syncthing;
 
+  ssl = "${self}/secrets/crypt/ssl/${hostName}";
+
   resolveHostIP = host:
     if builtins.hasAttr host config.devices
     then config.devices.${host}.IP
@@ -34,16 +36,14 @@ in {
       user = "c4patino";
       group = "syncthing";
 
-      key = "${self}/secrets/crypt/${hostName}/key.pem";
-      cert = "${self}/secrets/crypt/${hostName}/cert.pem";
+      key = "${ssl}/syncthing.key";
+      cert = "${ssl}/syncthing.crt";
 
       settings = {
         devices = let
-          generateDeviceConfig = host: id: let
-            ip = resolveHostIP host;
-          in {
+          generateDeviceConfig = host: id: {
             inherit id;
-            addresses = ["tcp://${ip}:22000"];
+            addresses = ["tcp://${resolveHostIP host}:22000"];
             autoAcceptFolders = true;
           };
         in
