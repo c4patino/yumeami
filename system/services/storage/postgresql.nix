@@ -17,11 +17,11 @@ in {
     };
   };
 
-  config = mkIf (cfg.databases ? hostName) {
+  config = mkIf (builtins.hasAttr hostName cfg.databases) {
     services = {
       postgresql = {
         enable = true;
-        port = port;
+        settings.port = port;
         authentication = let
           permissionEntries =
             cfg.databases
