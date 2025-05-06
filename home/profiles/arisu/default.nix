@@ -1,5 +1,6 @@
 {...}: {
   imports = [
+    ../global.nix
     ./stylix.nix
   ];
 

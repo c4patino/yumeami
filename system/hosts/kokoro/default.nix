@@ -1,6 +1,6 @@
 {inputs, ...}: {
   imports = [
-    ../..
+    ../global.nix
     ./hardware-configuration.nix
 
     inputs.disko.nixosModules.default
