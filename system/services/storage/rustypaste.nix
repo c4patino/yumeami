@@ -6,12 +6,14 @@
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
+  cfg = config.rustypaste;
   userCfg = config.users.users;
+
   port = 5100;
 in {
   options.rustypaste.enable = mkEnableOption "rustypaste daemon";
 
-  config = mkIf config.rustypaste.enable {
+  config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [rustypaste-cli];
 
     systemd.services.rustypaste = {
