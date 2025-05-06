@@ -81,16 +81,16 @@
     unbound.dnsHost = "chibi";
 
     devices = {
-      "arisu" = {
+      arisu = {
         IP = "100.117.106.23";
       };
-      "kokoro" = {
+      kokoro = {
         IP = "100.69.45.111";
       };
-      "chibi" = {
+      chibi = {
         IP = "100.101.224.25";
       };
-      "shiori" = {
+      shiori = {
         IP = "100.127.93.17";
       };
     };
