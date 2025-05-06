@@ -26,26 +26,26 @@
     arisu = nixosSystem {
       specialArgs = specialArgs "arisu";
       system = "x86_64-linux";
-      modules = [./arisu] ++ homeManager "arisu";
+      modules = [../. ./arisu] ++ homeManager "arisu";
     };
     kokoro = nixosSystem {
       specialArgs = specialArgs "kokoro";
       system = "x86_64-linux";
-      modules = [./kokoro] ++ homeManager "kokoro";
+      modules = [../. ./kokoro] ++ homeManager "kokoro";
     };
     chibi = nixosSystem {
       specialArgs = specialArgs "chibi";
       system = "aarch64-linux";
-      modules = [./chibi] ++ homeManager "chibi";
+      modules = [../. ./chibi] ++ homeManager "chibi";
     };
     hikari = nixosSystem {
       specialArgs = specialArgs "hikari";
-      modules = [./hikari] ++ homeManager "hikari";
+      modules = [../. ./hikari] ++ homeManager "hikari";
     };
     shiori = nixosSystem {
       specialArgs = specialArgs "shiori";
       system = "x86_64-linux";
-      modules = [./shiori] ++ homeManager "shiori";
+      modules = [../. ./shiori] ++ homeManager "shiori";
     };
   };
 }

@@ -1,2 +1,3 @@
 {...}: {
+  imports = [../global.nix];
 }
