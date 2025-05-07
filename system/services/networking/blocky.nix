@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkEnableOption mkIf mapAttrsToList;
+  inherit (lib) mkEnableOption mkIf mapAttrsToList listToAttrs;
   cfg = config.blocky;
 
   port = 53;
@@ -20,7 +20,7 @@
       name = "${name}.yumeami.sh";
       value = resolveNodeIP svc.host;
     })
-    |> lib.listToAttrs;
+    |> listToAttrs;
 in {
   options.blocky.enable = mkEnableOption "blocky";
 
