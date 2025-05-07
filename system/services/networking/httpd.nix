@@ -42,10 +42,18 @@
         documentRoot = "/var/empty";
         extraConfig = ''
           UseCanonicalName Off
-          RewriteEngine On
+          KeepAlive On
+          MaxKeepAliveRequests 100
+          KeepAliveTimeout 5
+
+          RequestHeader set X-Forwarded-Proto "https"
+          RequestHeader set X-Forwarded-Port "443"
+          RequestHeader set X-Forwarded-For %{REMOTE_ADDR}s
 
           # --- ${name} (subdomain access) ---
-          RewriteRule ^/(.*) http://localhost:${p}/$1 [P,L]
+          RewriteEngine On
+          ProxyPreserveHost On
+          ProxyPass / http://localhost:${p}/
           ProxyPassReverse / http://localhost:${p}/
         '';
       }

@@ -76,6 +76,10 @@
         host = "shiori";
         port = 5400;
       };
+      grafana = {
+        host = "shiori";
+        port = 5500;
+      };
     };
 
     unbound.dnsHost = "chibi";
