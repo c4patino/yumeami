@@ -1,4 +1,5 @@
 {
+  self,
   lib,
   config,
   ...
@@ -17,6 +18,7 @@ in {
       settings = {
         HOST = "0.0.0.0";
         PORT = "${toString port}";
+        NODE_EXTRA_CA_CERTS = "${self}/secrets/crypt/ssl/ca.crt";
       };
     };
 
