@@ -29,7 +29,7 @@
     sslConfig =
       if useSSL
       then {
-        addSSL = true;
+        forceSSL = true;
         sslServerKey = "${ssl}/${certs}.key";
         sslServerCert = "${ssl}/${certs}.crt";
       }
