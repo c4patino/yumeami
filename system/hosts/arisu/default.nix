@@ -50,7 +50,7 @@
   in {
     enable = true;
     runners = {
-      "nixos-config" = {url = "https://github.com/c4patino/nixos-config";};
+      "yumeami" = {url = "https://github.com/c4patino/yumeami";};
       "nixvim" = {url = "https://github.com/c4patino/nixvim";};
       "neovim" = {url = "https://github.com/c4patino/neovim";};
       "dotfiles" = {url = "https://github.com/c4patino/dotfiles";};
