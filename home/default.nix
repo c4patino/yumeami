@@ -1,12 +1,4 @@
-{
-  self,
-  pkgs,
-  inputs,
-  hostName,
-  config,
-  lib,
-  ...
-}: {
+{ inputs, ... }: {
   imports = [
     ./programs
     ./wayland
