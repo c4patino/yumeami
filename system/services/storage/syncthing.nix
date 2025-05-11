@@ -39,16 +39,16 @@ in {
 
       settings = {
         devices = let
-          generateDeviceConfig = host: id: {
+          mkDeviceConfig = host: id: {
             inherit id;
             addresses = ["tcp://${resolveHostIP host}:22000"];
             autoAcceptFolders = true;
           };
         in
-          cfg.devices |> mapAttrs generateDeviceConfig;
+          cfg.devices |> mapAttrs mkDeviceConfig;
 
         folders = let
-          generateShareConfig = folderName: sharedMachines: {
+          mkShare = folderName: sharedMachines: {
             name = folderName;
             value = {
               path = "/mnt/syncthing/${folderName}";
@@ -57,7 +57,7 @@ in {
             };
           };
         in
-          cfg.shares |> mapAttrs' generateShareConfig;
+          cfg.shares |> mapAttrs' mkShare;
       };
     };
 

@@ -58,7 +58,7 @@ in {
       enable = true;
       openFirewall = true;
       settings = let
-        generateShareConfig = folderPath: {
+        mkShare = folderPath: {
           "path" = "/mnt/samba/${folderPath}";
           "browsable" = "yes";
           "read only" = "no";
@@ -71,7 +71,7 @@ in {
 
         mapFolderToShare = folderPath: {
           name = folderPath;
-          value = generateShareConfig folderPath;
+          value = mkShare folderPath;
         };
 
         shareConfigs =

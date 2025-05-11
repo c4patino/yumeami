@@ -34,7 +34,7 @@ in {
 
   config = mkIf cfg.enable {
     services.github-runners = let
-      generateRunnerConfiguration = name: runner: {
+      mkRunnerConfig = name: runner: {
         name = "${hostName}-${name}";
         value = {
           enable = true;
@@ -53,7 +53,7 @@ in {
         };
       };
     in
-      cfg.runners |> mapAttrs' generateRunnerConfiguration;
+      cfg.runners |> mapAttrs' mkRunnerConfig;
 
     impermanence.folders = ["/var/lib/github-runner"];
   };

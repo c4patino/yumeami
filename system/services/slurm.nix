@@ -47,12 +47,12 @@ in {
       stateSaveLocation = "/mnt/nfs/slurm";
 
       nodeName = let
-        generateNodeConfig = node: info: "${node} NodeAddr=${resolveHostIP node} ${info.configString} State=UNKNOWN";
+        mkNodeCOnfig = node: info: "${node} NodeAddr=${resolveHostIP node} ${info.configString} State=UNKNOWN";
       in
-        cfg.nodeMap |> mapAttrsToList generateNodeConfig;
+        cfg.nodeMap |> mapAttrsToList mkNodeCOnfig;
 
       partitionName = let
-        generatePartitionMap = nodeMap:
+        mkPartitions = nodeMap:
           nodeMap
           |> attrNames
           |> map (
@@ -69,14 +69,14 @@ in {
         } MaxTime=INFINITE State=UP";
       in
         cfg.nodeMap
-        |> generatePartitionMap
+        |> mkPartitions
         |> mapAttrsToList formatPartition;
 
       extraConfig = let
-        generateHostString = host: "SlurmctldHost=${host}(${resolveHostIP host})";
+        mkHostString = host: "SlurmctldHost=${host}(${resolveHostIP host})";
         hostStrings =
           cfg.controlHosts
-          |> map generateHostString
+          |> map mkHostString
           |> concatStringsSep "\n";
       in ''
         ${hostStrings}
