@@ -1,4 +1,5 @@
 {
+  pkgs,
   lib,
   yumeami-lib,
   config,
@@ -42,10 +43,14 @@ in {
           in "${ip}:5600";
           name = "grafana";
           user = "grafana";
-          password = secrets.postgresql.grafana;
+          password = let
+            grafanaPassword = pkgs.writeText "grafana-password.txt" secrets.postgresql.grafana;
+          in "$__file{${grafanaPassword}}";
         };
+
         panels.enable_alpha = true;
       };
+
       provision = {
         datasources.settings.datasources = [
         ];
