@@ -2,21 +2,14 @@
   pkgs,
   lib,
   config,
+  yumeami-lib,
   ...
 }: let
-  inherit (lib) mkEnableOption mkIf optionalString concatStringsSep;
-
+  inherit (lib) mkEnableOption mkIf concatStringsSep;
   cfg = config.network-manager;
   ubCfg = config.unbound;
 
-  resolveHostIP = node:
-    if builtins.hasAttr node config.devices
-    then config.devices.${node}.IP
-    else builtins.throw "Host '${node}' does not exist in the devices configuration.";
-
-  ip = optionalString (config.unbound.dnsHost != null) "${resolveHostIP config.unbound.dnsHost}";
-
-  dns = [ip "1.1.1.1" "8.8.8.8" "100.100.100.100"] |> concatStringsSep " ";
+  resolveHostIP = yumeami-lib.resolveHostIP config.devices;
 in {
   options.network-manager.enable = mkEnableOption "network manager";
 
@@ -32,14 +25,22 @@ in {
       networkmanagerapplet
     ];
 
-    networking.resolvconf.enable = true;
-    networking.resolvconf.extraConfig = ''
-      ${optionalString (ubCfg.dnsHost != null) "name_servers=${resolveHostIP ubCfg.dnsHost}"}
-      search_domains="tail8b9fd9.ts.net"
-      name_servers="${dns}"
-    '';
+    networking = {
+      resolvconf.enable = true;
+      resolvconf.extraConfig = let
+        ip =
+          if ubCfg.dnsHost != null
+          then resolveHostIP ubCfg.dnsHost
+          else null;
+        allDns = lib.optional (ip != null) ip ++ ["1.1.1.1" "8.8.8.8" "100.100.100.100"];
+      in ''
+        ${lib.optionalString (ip != null) "name_servers=${ip}"}
+        search_domains="tail8b9fd9.ts.net"
+        name_servers="${concatStringsSep " " allDns}"
+      '';
 
-    networking.networkmanager.enable = true;
+      networkmanager.enable = true;
+    };
 
     impermanence.folders = ["/etc/NetworkManager/system-connections"];
   };

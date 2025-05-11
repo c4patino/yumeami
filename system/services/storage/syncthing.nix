@@ -1,6 +1,7 @@
 {
   self,
   lib,
+  yumeami-lib,
   config,
   ...
 }: let
@@ -8,12 +9,9 @@
   inherit (config.networking) hostName;
   cfg = config.syncthing;
 
-  ssl = "${self}/secrets/crypt/ssl/${hostName}";
+  resolveHostIP = yumeami-lib.resolveHostIP config.devices;
 
-  resolveHostIP = host:
-    if builtins.hasAttr host config.devices
-    then config.devices.${host}.IP
-    else throw "Host '${host}' does not exist in the devices configuration.";
+  ssl = "${self}/secrets/crypt/ssl/${hostName}";
 in {
   options.syncthing = with types; {
     enable = mkEnableOption "Syncthing";
