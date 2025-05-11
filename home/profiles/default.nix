@@ -6,10 +6,6 @@
   inherit (inputs.home-manager.lib) homeManagerConfiguration;
   secrets = builtins.fromJSON (builtins.readFile "${self}/secrets/crypt/secrets.json");
 
-  specialArgs = hostName: {
-    inherit inputs self secrets hostName;
-  };
-
   homeImports = {
     "c4patino@arisu" = [../. ./arisu];
     "c4patino@chibi" = [../. ./chibi];
@@ -17,33 +13,36 @@
     "c4patino@shiori" = [../. ./shiori];
     "nixos@hikari" = [../. ./hikari];
   };
+
+  specialArgs = hostName: {
+    inherit inputs self secrets hostName;
+  };
+
+  mkHomeManager = {
+    hostname,
+    username ? "c4patino",
+    system ? "x86_64-linux",
+  }:
+    homeManagerConfiguration {
+      modules = homeImports."${username}@${hostname}";
+      pkgs = inputs.nixpkgs.legacyPackages.${system};
+      extraSpecialArgs = specialArgs hostname;
+    };
 in {
   _module.args = {inherit homeImports;};
   flake.homeConfigurations = {
-    "c4patino@arisu" = homeManagerConfiguration {
-      modules = homeImports."c4patino@arisu";
-      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-      extraSpecialArgs = specialArgs "arisu";
+    "c4patino@arisu" = mkHomeManager {hostname = "arisu";};
+    "c4patino@kokoro" = mkHomeManager {hostname = "kokoro";};
+    "c4patino@shiori" = mkHomeManager {hostname = "shiori";};
+
+    "c4patino@chibi" = mkHomeManager {
+      hostname = "chibi";
+      system = "aarch64-linux";
     };
-    "c4patino@kokoro" = homeManagerConfiguration {
-      modules = homeImports."c4patino@kokoro";
-      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-      extraSpecialArgs = specialArgs "kokoro";
-    };
-    "c4patino@chibi" = homeManagerConfiguration {
-      modules = homeImports."c4patino@chibi";
-      pkgs = inputs.nixpkgs.legacyPackages.aarch64-linux;
-      extraSpecialArgs = specialArgs "chibi";
-    };
-    "c4patino@shiori" = homeManagerConfiguration {
-      modules = homeImports."c4patino@shiori";
-      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-      extraSpecialArgs = specialArgs "shiori";
-    };
-    "nixos@hikari" = homeManagerConfiguration {
-      modules = homeImports."nixos@hikari";
-      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-      extraSpecialArgs = specialArgs "hikari";
+
+    "nixos@hikari" = mkHomeManager {
+      hostname = "hikari";
+      username = "nixos";
     };
   };
 }
