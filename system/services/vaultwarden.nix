@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  yumeami-lib,
   config,
   secrets,
   ...
@@ -9,12 +10,9 @@
   cfg = config.vaultwarden;
   pgCfg = config.postgresql;
 
-  port = 5400;
+  resolveHostIP = yumeami-lib.resolveHostIP config.devices;
 
-  resolveHostIP = node:
-    if builtins.hasAttr node config.devices
-    then config.devices.${node}.IP
-    else builtins.throw "Host '${node}' does not exist in the devices configuration.";
+  port = 5400;
 in {
   options.vaultwarden.enable = mkEnableOption "vaultwarden";
 

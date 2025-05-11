@@ -1,5 +1,6 @@
 {
   lib,
+  yumeami-lib,
   config,
   secrets,
   ...
@@ -8,10 +9,7 @@
   cfg = config.grafana;
   pgCfg = config.postgresql;
 
-  resolveHostIP = node:
-    if builtins.hasAttr node config.devices
-    then config.devices.${node}.IP
-    else builtins.throw "Host '${node}' does not exist in the devices configuration.";
+  resolveHostIP = yumeami-lib.resolveHostIP config.devices;
 
   port = 5500;
 in {

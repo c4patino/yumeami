@@ -1,6 +1,6 @@
 {
-  pkgs,
   lib,
+  yumeami-lib,
   config,
   secrets,
   ...
@@ -9,10 +9,7 @@
   cfg = config.forgejo;
   pgCfg = config.postgresql;
 
-  resolveHostIP = host:
-    if builtins.hasAttr host config.devices
-    then config.devices.${host}.IP
-    else throw "Host '${host}' does not exist in the devices configuration.";
+  resolveHostIP = yumeami-lib.resolveHostIP config.devices;
 
   port = 5300;
 in {
