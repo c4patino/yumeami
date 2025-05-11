@@ -14,8 +14,8 @@
     "c4patino@arisu" = [../. ./arisu];
     "c4patino@chibi" = [../. ./chibi];
     "c4patino@kokoro" = [../. ./kokoro];
-    "c4patino@hikari" = [../. ./hikari];
     "c4patino@shiori" = [../. ./shiori];
+    "nixos@hikari" = [../. ./hikari];
   };
 in {
   _module.args = {inherit homeImports;};
@@ -40,8 +40,8 @@ in {
       pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
       extraSpecialArgs = specialArgs "shiori";
     };
-    "c4patino@hikari" = homeManagerConfiguration {
-      modules = homeImports."c4patino@hikari";
+    "nixos@hikari" = homeManagerConfiguration {
+      modules = homeImports."nixos@hikari";
       pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
       extraSpecialArgs = specialArgs "hikari";
     };
