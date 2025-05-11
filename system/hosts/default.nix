@@ -12,40 +12,52 @@
       inherit inputs self secrets hostName;
     };
 
-    homeManager = hostName: [
+    homeManager = {
+      username ? "c4patino",
+      hostname,
+    }: [
       inputs.home-manager.nixosModules.home-manager
       {
         home-manager = {
           useUserPackages = true;
-          extraSpecialArgs = specialArgs hostName;
-          users.c4patino = {imports = homeImports."c4patino@${hostName}";};
+          extraSpecialArgs = specialArgs hostname;
+          users.${username} = {imports = homeImports."${username}@${hostname}";};
         };
       }
     ];
+
+    mkSystem = {
+      hostname,
+      system,
+      username ? "c4patino",
+    }:
+      nixosSystem {
+        inherit system;
+        specialArgs = specialArgs hostname;
+        modules = [../. ./${hostname}] ++ homeManager {inherit hostname username;};
+      };
   in {
-    arisu = nixosSystem {
-      specialArgs = specialArgs "arisu";
+    arisu = mkSystem {
+      hostname = "arisu";
       system = "x86_64-linux";
-      modules = [../. ./arisu] ++ homeManager "arisu";
     };
-    kokoro = nixosSystem {
-      specialArgs = specialArgs "kokoro";
+    kokoro = mkSystem {
+      hostname = "kokoro";
       system = "x86_64-linux";
-      modules = [../. ./kokoro] ++ homeManager "kokoro";
     };
-    chibi = nixosSystem {
-      specialArgs = specialArgs "chibi";
+    chibi = mkSystem {
+      hostname = "chibi";
       system = "aarch64-linux";
-      modules = [../. ./chibi] ++ homeManager "chibi";
     };
-    hikari = nixosSystem {
-      specialArgs = specialArgs "hikari";
-      modules = [../. ./hikari] ++ homeManager "hikari";
-    };
-    shiori = nixosSystem {
-      specialArgs = specialArgs "shiori";
+    shiori = mkSystem {
+      hostname = "shiori";
       system = "x86_64-linux";
-      modules = [../. ./shiori] ++ homeManager "shiori";
+    };
+
+    hikari = mkSystem {
+      hostname = "hikari";
+      system = "x86_64-linux";
+      username = "nixos";
     };
   };
 }
