@@ -15,6 +15,10 @@ in {
         Host github
             HostName github.com
             User git
+        Host forgejo
+            HostName forgejo.yumeami.sh
+            User forgejo
+            Port 2222
 
         Host swan
             HostName swan.unl.edu
@@ -22,14 +26,6 @@ in {
             ControlMaster auto
             ControlPath /tmp/ssh_%r@%h:%p
             ControlPersist 2h
-
-        Host cse
-            HostName cse.unl.edu
-            User cpatino
-            ControlMaster auto
-            ControlPath /tmp/ssh_%r@%h:%p
-            ControlPersist 2h
-
         Host nuros
             HostName nuros.unl.edu
             User cpatino2
