@@ -1,5 +1,6 @@
 {
   lib,
+  yumeami-lib,
   config,
   secrets,
   ...
@@ -8,17 +9,11 @@
   inherit (config.networking) hostName;
   cfg = config.samba;
 
-  resolveHostIP = host:
-    if builtins.hasAttr host config.devices
-    then config.devices.${host}.IP
-    else throw "Host '${host}' does not exist in the devices configuration.";
-
-  checkHostConflict = folder: host:
-    if host == hostName
-    then throw "Conflict: Mount host '${host}' cannot be the same as this host '${hostName}' for folder '${folder}'."
-    else if builtins.elem folder cfg.shares
-    then throw "Conflict: Folder '${folder}' is listed in both shares and mounts. Please resolve."
-    else null;
+  resolveHostIP = yumeami-lib.resolveHostIP config.devices;
+  checkHostConflict = yumeami-lib.checkHostConflict {
+    inherit hostName;
+    shares = cfg.shares;
+  };
 in {
   options.samba = with types; {
     enable = mkEnableOption "Samba";

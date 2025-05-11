@@ -10,6 +10,7 @@
 
     specialArgs = hostName: {
       inherit inputs self secrets hostName;
+      yumeami-lib = import ../../lib {};
     };
 
     homeManager = {

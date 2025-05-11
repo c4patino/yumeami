@@ -1,5 +1,6 @@
 {
   lib,
+  yumeami-lib,
   config,
   self,
   inputs,
@@ -9,10 +10,7 @@
   inherit (config.networking) hostName;
   cfg = config.slurm;
 
-  resolveHostIP = node:
-    if builtins.hasAttr node config.devices
-    then config.devices.${node}.IP
-    else builtins.throw "Host '${node}' does not exist in the devices configuration.";
+  resolveHostIP = yumeami-lib.resolveHostIP config.devices;
 in {
   options.slurm = with types; {
     enable = mkEnableOption "SLURM";
