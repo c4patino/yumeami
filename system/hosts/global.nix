@@ -72,6 +72,10 @@
         port = 5201;
       };
 
+      forgejo = {
+        host = "shiori";
+        port = 5300;
+      };
       vaultwarden = {
         host = "shiori";
         port = 5400;

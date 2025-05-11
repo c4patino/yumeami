@@ -1,5 +1,6 @@
 {...}: {
   imports = [
+    ./forgejo.nix
     ./nfs.nix
     ./postgresql.nix
     ./rustypaste.nix

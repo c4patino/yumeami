@@ -19,6 +19,7 @@
 
   vaultwarden.enable = true;
   grafana.enable = true;
+  forgejo.enable = true;
 
   samba.mounts = {
     "shared" = "arisu";
