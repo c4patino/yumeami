@@ -29,8 +29,8 @@
 
     mkSystem = {
       hostname,
-      system,
       username ? "c4patino",
+      system ? "x86_64-linux",
     }:
       nixosSystem {
         inherit system;
@@ -38,26 +38,17 @@
         modules = [../. ./${hostname}] ++ homeManager {inherit hostname username;};
       };
   in {
-    arisu = mkSystem {
-      hostname = "arisu";
-      system = "x86_64-linux";
-    };
-    kokoro = mkSystem {
-      hostname = "kokoro";
-      system = "x86_64-linux";
-    };
+    arisu = mkSystem {hostname = "arisu";};
+    kokoro = mkSystem {hostname = "kokoro";};
+    shiori = mkSystem {hostname = "shiori";};
+
     chibi = mkSystem {
       hostname = "chibi";
       system = "aarch64-linux";
     };
-    shiori = mkSystem {
-      hostname = "shiori";
-      system = "x86_64-linux";
-    };
 
     hikari = mkSystem {
       hostname = "hikari";
-      system = "x86_64-linux";
       username = "nixos";
     };
   };
