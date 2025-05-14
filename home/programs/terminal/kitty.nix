@@ -17,6 +17,7 @@ in {
       shellIntegration.enableZshIntegration = true;
       font = {
         name = "MesloLGM Nerd Font Mono";
+        size = 14;
       };
       themeFile = "tokyo_night_night";
 
