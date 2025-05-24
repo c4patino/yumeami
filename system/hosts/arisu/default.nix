@@ -45,17 +45,16 @@
     shares = ["shared"];
   };
 
+  gitea-runners = {
+    enable = true;
+    runners."default" = {instances = 2;};
+  };
+
   github-runners = let
     inherit (config.sops) secrets;
   in {
     enable = true;
     runners = {
-      "yumeami" = {url = "https://github.com/c4patino/yumeami";};
-      "nixvim" = {url = "https://github.com/c4patino/nixvim";};
-      "neovim" = {url = "https://github.com/c4patino/neovim";};
-      "dotfiles" = {url = "https://github.com/c4patino/dotfiles";};
-      "days-since" = {url = "https://github.com/c4patino/days-since";};
-      "oasys-experiments" = {url = "https://github.com/c4patino/oasys-experiments";};
       "oasys-mas" = {
         tokenFile = secrets."github/runner-oasys".path;
         url = "https://github.com/oasys-mas";
