@@ -6,12 +6,20 @@
   ...
 }: let
   inherit (lib) mkEnableOption mkIf filterAttrs attrNames head;
+  inherit (config.networking) hostName;
   cfg = config.forgejo;
   pgCfg = config.postgresql;
 
   resolveHostIP = yumeami-lib.resolveHostIP config.devices;
 
   port = 5300;
+
+  dbHost =
+    pgCfg.databases
+    |> filterAttrs (host: dbs: lib.elem "forgejo" dbs)
+    |> attrNames
+    |> head
+    |> resolveHostIP;
 in {
   options.forgejo.enable = mkEnableOption "forgejo";
 
@@ -22,6 +30,8 @@ in {
       stateDir = "/var/lib/forgejo";
 
       lfs.enable = true;
+
+      database.type = mkIf (dbHost == hostName) "postgres";
 
       settings = {
         server = {
