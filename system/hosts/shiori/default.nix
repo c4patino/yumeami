@@ -21,6 +21,11 @@
   grafana.enable = true;
   forgejo.enable = true;
 
+  gitea-runners = {
+    enable = true;
+    runners."default" = {instances = 5;};
+  };
+
   samba.mounts = {
     "shared" = "arisu";
   };
