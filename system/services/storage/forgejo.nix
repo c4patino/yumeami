@@ -34,9 +34,11 @@ in {
       database.type = mkIf (dbHost == hostName) "postgres";
 
       settings = {
-        server = {
-          DOMAIN = "forgejo.yumeami.sh";
-          ROOT_URL = "https://forgejo.yumeami.sh/";
+        server = let
+          url = "git.yumeami.sh";
+        in {
+          DOMAIN = url;
+          ROOT_URL = "https://${url}/";
           HTTP_PORT = port;
           SSH_PORT = 2222;
           START_SSH_SERVER = true;

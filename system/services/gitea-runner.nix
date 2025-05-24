@@ -28,7 +28,7 @@ in {
           };
           url = mkOption {
             type = str;
-            default = "https://forgejo.yumeami.sh";
+            default = "https://git.yumeami.sh";
             description = "URL of the repository for which to add the self-hosted runner.";
           };
           labels = mkOption {

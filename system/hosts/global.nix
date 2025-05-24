@@ -74,7 +74,7 @@
         port = 5201;
       };
 
-      forgejo = {
+      git = {
         host = "shiori";
         port = 5300;
       };
