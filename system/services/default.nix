@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ./glance
+    ./metrics
     ./networking
     ./storage
 
