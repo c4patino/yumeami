@@ -291,7 +291,7 @@ in {
                         {
                           title = "forgejo";
                           icon = "si:forgejo";
-                          url = "https://forgejo.yumeami.sh";
+                          url = "https://git.yumeami.sh";
                         }
                         {
                           title = "vaultwarden";
