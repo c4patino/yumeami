@@ -16,7 +16,7 @@ in {
             HostName github.com
             User git
         Host forgejo
-            HostName forgejo.yumeami.sh
+            HostName git.yumeami.sh
             User forgejo
             Port 2222
 
