@@ -9,14 +9,17 @@ in {
   config = mkIf cfg.enable {
     services.mako = {
       enable = true;
-      icons = true;
+      settings = {
+        icons = true;
+        max-icon-size = 64;
 
-      maxIconSize = 64;
-      maxVisible = 3;
-      defaultTimeout = 5000;
-      ignoreTimeout = true;
-      anchor = "top-right";
-      output = "DP-2";
+        max-visible = 3;
+        default-timeout = 5000;
+        ignore-timeout = true;
+
+        anchor = "top-right";
+        output = "DP-2";
+      };
     };
   };
 }
