@@ -301,12 +301,12 @@ in {
                         {
                           title = "rustypaste";
                           icon = "si:pastebin";
-                          url = "https://rustypaste.yumeami.sh";
+                          url = "https://paste.yumeami.sh";
                         }
                         {
                           title = "uptime-kuma";
                           icon = "si:uptimekuma";
-                          url = "https://uptime-kuma.yumeami.sh";
+                          url = "https://monitor.yumeami.sh";
                         }
                         {
                           title = "ntfy";
