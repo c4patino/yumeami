@@ -20,8 +20,6 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      (waybar.overrideAttrs (oldAttrs: {mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true"];}))
-
       hyprpicker
       grim
       slurp
