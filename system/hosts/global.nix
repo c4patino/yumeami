@@ -56,7 +56,7 @@
     containerization.enable = true;
 
     network-services = {
-      rustypaste = {
+      paste = {
         host = "arisu";
         port = 5100;
       };
@@ -65,7 +65,7 @@
         port = 5150;
       };
 
-      uptime-kuma = {
+      monitor = {
         host = "chibi";
         port = 5200;
       };
