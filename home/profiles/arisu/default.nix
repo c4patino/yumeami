@@ -6,12 +6,6 @@
 
   anyrun.enable = true;
 
-  android-studio.enable = true;
-  clion.enable = true;
-  idea.enable = true;
-  pycharm.enable = true;
-  rider.enable = true;
-
   prismlauncher.enable = true;
 
   music.enable = true;
@@ -21,9 +15,7 @@
   nvtop.enable = true;
 
   browsers.enable = true;
-  fiji.enable = true;
   libreoffice.enable = true;
-  obs.enable = true;
   obsidian.enable = true;
   postman.enable = true;
   sms.enable = true;
