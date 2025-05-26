@@ -60,7 +60,7 @@
         host = "arisu";
         port = 5100;
       };
-      glance = {
+      dash = {
         host = "arisu";
         port = 5150;
       };
