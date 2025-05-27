@@ -22,11 +22,6 @@
   httpd.enable = true;
   unbound.enable = true;
 
-  gitea-runners = {
-    enable = true;
-    runners."default" = {instances = 5;};
-  };
-
   nfs = {
     enable = true;
     shares = [
