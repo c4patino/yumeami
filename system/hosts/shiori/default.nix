@@ -23,7 +23,7 @@
 
   gitea-runners = {
     enable = true;
-    runners."default" = {instances = 5;};
+    runners."default" = {instances = 3;};
   };
 
   samba.mounts = {

@@ -47,7 +47,7 @@
 
   gitea-runners = {
     enable = true;
-    runners."default" = {instances = 2;};
+    runners."default" = {instances = 1;};
   };
 
   github-runners = let
