@@ -22,7 +22,7 @@ in {
       package = pkgs.vaultwarden-postgresql;
       dbBackend = "postgresql";
       config = {
-        DOMAIN = "http://vaultwarden.yumeami.sh";
+        DOMAIN = "http://vault.yumeami.sh";
 
         SIGNUPS_ALLOWED = false;
         SIGNUPS_VERIFY = false;

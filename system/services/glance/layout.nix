@@ -296,7 +296,7 @@ in {
                         {
                           title = "vaultwarden";
                           icon = "si:vaultwarden";
-                          url = "https://vaultwarden.yumeami.sh";
+                          url = "https://vault.yumeami.sh";
                         }
                         {
                           title = "rustypaste";
