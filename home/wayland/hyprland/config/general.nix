@@ -70,13 +70,11 @@ in {
           preserve_split = true;
         };
 
-        master = {
-          new_status = "master";
-        };
+        master.new_status = "master";
 
-        gestures = {
-          workspace_swipe = false;
-        };
+        gestures.workspace_swipe = false;
+
+        ecosystem.no_update_news = true;
 
         misc = {
           disable_hyprland_logo = true;
