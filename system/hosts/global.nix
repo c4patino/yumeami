@@ -78,7 +78,7 @@
         host = "shiori";
         port = 5300;
       };
-      vaultwarden = {
+      vault = {
         host = "shiori";
         port = 5400;
       };
