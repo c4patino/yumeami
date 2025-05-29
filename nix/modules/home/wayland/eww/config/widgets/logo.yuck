@@ -1,0 +1,6 @@
+(defwidget logo []
+  (box
+    :class "logo"
+    (image :path "/home/c4patino/.assets/nix-logo.png"
+      :image-width 24
+    :image-height 24)))
