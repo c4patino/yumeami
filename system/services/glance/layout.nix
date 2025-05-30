@@ -45,7 +45,7 @@ in {
             {
               title = "arxiv";
               shortcut = "!ar";
-              url = "https://arxiv.org/search/?query=thing&searchtype=all&abstracts=show&order=-announced_date_first&size=50";
+              url = "https://arxiv.org/search/?query={QUERY}&searchtype=all&abstracts=show&order=-announced_date_first&size=50";
             }
           ];
         };
