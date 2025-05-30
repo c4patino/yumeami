@@ -30,8 +30,6 @@ in {
         set inputbar-fg "#c0caf5"
         set statusbar-bg "#1a1b26"
         set statusbar-fg "#c0caf5"
-        set highlight-color "#e0af68"
-        set highlight-active-color "#9ece6a"
         set default-bg "#1a1b26"
         set default-fg "#c0caf5"
         set render-loading true
