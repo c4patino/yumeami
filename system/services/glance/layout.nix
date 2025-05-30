@@ -47,6 +47,11 @@ in {
               shortcut = "!ar";
               url = "https://arxiv.org/search/?query={QUERY}&searchtype=all&abstracts=show&order=-announced_date_first&size=50";
             }
+            {
+              title = "google scholar";
+              shortcut = "!gs";
+              url = "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C28&q={QUERY}";
+            }
           ];
         };
         sidebar = {
