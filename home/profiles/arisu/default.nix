@@ -19,6 +19,7 @@
   obsidian.enable = true;
   postman.enable = true;
   sms.enable = true;
+  zotero.enable = true;
 
   hyprland.enable = true;
 

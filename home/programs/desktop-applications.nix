@@ -15,6 +15,7 @@ in {
     obsidian.enable = mkEnableOption "Obsidian";
     postman.enable = mkEnableOption "Postman";
     sms.enable = mkEnableOption "SMS applications";
+    zotero.enable = mkEnableOption "Zotero";
   };
 
   config = {
@@ -30,6 +31,8 @@ in {
         (mkIf cfg.mongodb-compass.enable mongodb-compass)
 
         (mkIf cfg.obs.enable obs-studio)
+
+        (mkIf cfg.zotero.enable zotero)
 
         (mkIf cfg.obsidian.enable obsidian)
 

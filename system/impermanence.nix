@@ -101,6 +101,9 @@ in {
           ".steam"
           ".vim"
           "VirtualBox VMs"
+
+          "Zotero"
+          ".zotero"
         ];
 
         files = [
