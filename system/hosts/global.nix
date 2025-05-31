@@ -114,7 +114,7 @@
       controlHosts = ["arisu" "chibi"];
       nodeMap = {
         arisu = {
-          configString = "CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=63400 Gres=gpu:rtx3070:1,shard:12 Weight=1";
+          configString = "CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=63400 Gres=gpu:rtx3070:1,shard:rtx3070:12 Weight=1";
           partitions = ["main" "extended"];
         };
         kokoro = {
