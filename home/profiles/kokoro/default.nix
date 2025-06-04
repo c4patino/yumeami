@@ -21,7 +21,6 @@
   hyprland.enable = true;
 
   wayland.windowManager.hyprland.settings.monitor = [
-    "eDP-1, 1920x1080@60, 0x0, 1"
-    ", preferred, -1920x0, 1"
+    ", preferred, auto-left, 1"
   ];
 }
