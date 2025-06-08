@@ -1,0 +1,50 @@
+let mapleader = " "
+
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-commentary'
+
+set showmode
+set scrolloff = 8
+set incsearch = true
+set hlsearch = true
+
+set number
+set relativenumber
+set ideajoin
+
+map J <Action>(MoveStatementDown)
+map K <Action>(MoveStatementUp)
+
+map <C-d> <C-d>zz
+map <C-u> <C-u>zz
+
+map n nzzzv
+map N Nzzzv
+
+map <leader>p [["_dP"]]
+
+map <leader>y [["+y]]
+map <leader>Y [["+Y]]
+
+map <leader>d [["_d]]
+
+map Q gq
+map <leader>f <Action>(ReformatCode)
+
+map <leader>pf <Action>(GoToFile)
+map <leader>ps <Action>(TextSearchAction)
+
+map [t <Action>(GotoNextError)
+map ]t <Action>(GotoPreviousError)
+
+map za <Action>(ExpandCollapseToggleAction)
+map zR <Action>(ExpandAllRegions)
+map zM <Action>(CollapseAllRegions)
+
+map gd <Action>(GotoDeclaration)
+map gr <Action>(FindUsages)
+map gI <Action>(GotoImplementation)
+map gT <Action>(GotoTypeDeclaration)
+map <leader>vws <Action>(GotoSymbol)
+map <leader>vrn <Action>(RenameElement)
+map <leader>pv <Action>(ActivateProjectToolWindow)

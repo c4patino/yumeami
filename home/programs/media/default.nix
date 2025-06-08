@@ -1,6 +1,0 @@
-{...}: {
-  imports = [
-    ./yazi
-    ./music.nix
-  ];
-}

@@ -1,0 +1,55 @@
+{
+  inputs,
+  lib,
+  namespace,
+  ...
+}:
+with lib;
+with lib.${namespace}; {
+  imports = [
+    ./hardware-configuration.nix
+
+    inputs.disko.nixosModules.default
+    (import ../../disko.nix {main = "/dev/mmcblk1";})
+  ];
+
+  ${namespace} = {
+    bundles = {
+      common = enabled;
+    };
+    services = {
+      metrics = {
+        ntfy = enabled;
+        uptime-kuma = enabled;
+      };
+      networking = {
+        blocky = enabled;
+        httpd = enabled;
+        unbound = enabled;
+      };
+
+      storage = {
+        nfs = {
+          enable = true;
+          shares = [
+            {
+              name = "slurm";
+              whitelist = ["arisu"];
+              permissions = ["rw" "nohide" "insecure" "no_subtree_check" "no_root_squash" "sync"];
+            }
+          ];
+        };
+        samba = {
+          mounts = {
+            "shared" = "arisu";
+          };
+        };
+      };
+    };
+  };
+
+  networking = {
+    hostName = "chibi";
+    hostId = "9245f27e";
+  };
+}
