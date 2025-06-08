@@ -1,0 +1,40 @@
+{
+  lib,
+  namespace,
+  ...
+}:
+with lib;
+with lib.${namespace}; {
+  imports = [./stylix.nix];
+
+  ${namespace} = {
+    bundles = {
+      common = enabled;
+
+      desktop = {
+        enable = true;
+        applications = enabled;
+      };
+
+      development = enabled;
+      shell = enabled;
+    };
+
+    cli.dev = {
+      leetcode = enabled;
+    };
+
+    cli.metrics = {
+      hyperfine = enabled;
+      nvtop = enabled;
+    };
+  };
+
+  wayland.windowManager.hyprland.settings.monitor = [
+    "DP-4, 2560x1440@120, 0x0, 1"
+    "DP-5, 2560x1440@120, -2560x0, 1"
+    ", preferred, auto-left, 1"
+  ];
+
+  home.stateVersion = "25.11";
+}
