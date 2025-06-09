@@ -27,6 +27,8 @@ in {
           pandoc = enabled;
           yazi = enabled;
         };
+
+        scripts = enabled;
       };
     };
   };
