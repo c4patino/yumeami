@@ -9,7 +9,7 @@
   base = "${namespace}.services.networking.unbound";
   cfg = getAttrByNamespace config base;
 
-  port = 5500;
+  port = 54;
 in {
   options = with types;
     mkOptionsWithNamespace base {
