@@ -4,16 +4,15 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.cli.media.spotify";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "spotify";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "spotify";
+  };
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [spotify-player];

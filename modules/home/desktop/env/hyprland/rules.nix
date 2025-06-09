@@ -3,9 +3,9 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace;
   base = "${namespace}.desktop.env.hyprland";
   cfg = getAttrByNamespace config base;
 in {

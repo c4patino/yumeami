@@ -6,9 +6,9 @@
   pkgs,
   system,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption getExe;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.desktop.apps.launchers.anyrun";
   cfg = getAttrByNamespace config base;
 
@@ -17,10 +17,9 @@ with lib.${namespace}; let
     ${getExe pkgs.sassc} -t expanded '${source}' > $out/${name}.css
   ''}/${name}.css";
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "Anyrun";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "Anyrun";
+  };
 
   config = mkIf cfg.enable {
     programs.anyrun = {

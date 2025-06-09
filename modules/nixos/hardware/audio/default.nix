@@ -3,16 +3,15 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.hardware.audio";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "audio";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "audio";
+  };
 
   config = mkIf cfg.enable {
     security.rtkit.enable = true;

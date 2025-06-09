@@ -4,16 +4,15 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.desktop.env.hyprland";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "hyprland";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "hyprland";
+  };
 
   config = mkIf cfg.enable {
     programs.hyprland = {

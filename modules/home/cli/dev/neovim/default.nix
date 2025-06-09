@@ -5,16 +5,15 @@
   namespace,
   system,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.cli.dev.neovim";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "neovim";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "neovim";
+  };
 
   config = mkIf cfg.enable {
     home = {

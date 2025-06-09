@@ -5,9 +5,9 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption attrNames filterAttrs elem head;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP readJsonOrEmpty getIn;
   base = "${namespace}.services.metrics.grafana";
   cfg = getAttrByNamespace config base;
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
@@ -15,10 +15,9 @@ with lib.${namespace}; let
 
   port = 5500;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "Grafana";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "Grafana";
+  };
 
   config = mkIf cfg.enable {
     services.grafana = {

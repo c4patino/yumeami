@@ -8,6 +8,8 @@
 }:
 with lib;
 with lib.${namespace}; let
+  inherit (lib) mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace;
   inherit (config.networking) hostName;
   base = "${namespace}.bundles.common";
   cfg = getAttrByNamespace config base;

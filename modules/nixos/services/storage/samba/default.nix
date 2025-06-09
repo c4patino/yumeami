@@ -4,9 +4,9 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) types mkIf mkEnableOption mkOption mapAttrs' mkMerge;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP readJsonOrEmpty getIn;
   inherit (config.users) users;
   base = "${namespace}.services.storage.samba";
   cfg = getAttrByNamespace config base;

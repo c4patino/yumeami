@@ -4,16 +4,15 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.hardware.battery";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "battery";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "battery";
+  };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [acpi];

@@ -5,16 +5,15 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.desktop.services.variety";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "variety";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "variety";
+  };
 
   config = mkIf cfg.enable {
     home = {

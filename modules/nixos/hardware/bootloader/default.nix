@@ -3,16 +3,15 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.hardware.bootloader";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "bootloader";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "bootloader";
+  };
 
   config = mkIf cfg.enable {
     boot.loader.grub = {

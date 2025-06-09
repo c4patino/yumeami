@@ -3,16 +3,15 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
   base = "${namespace}.bundles.shell";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "shell utility bundle";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "shell utility bundle";
+  };
 
   config = mkIf cfg.enable {
     ${namespace} = {

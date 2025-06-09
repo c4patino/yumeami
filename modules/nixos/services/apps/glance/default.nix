@@ -3,9 +3,9 @@
   lib,
   namespace,
   ...
-} @ args:
-with lib;
-with lib.${namespace}; let
+} @ args: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.services.apps.glance";
   cfg = getAttrByNamespace config base;
 
@@ -15,10 +15,9 @@ in {
     (import ./layout.nix args)
   ];
 
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "glance";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "glance";
+  };
 
   config = mkIf cfg.enable {
     services.glance = {

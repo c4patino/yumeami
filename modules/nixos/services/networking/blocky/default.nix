@@ -4,19 +4,18 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption mapAttrsToList listToAttrs;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP;
   base = "${namespace}.services.networking.blocky";
   cfg = getAttrByNamespace config base;
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
   port = 53;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "blocky";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "blocky";
+  };
 
   config = mkIf cfg.enable {
     services.blocky = {

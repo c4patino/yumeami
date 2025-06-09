@@ -5,9 +5,9 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.desktop.services.hyprpaper";
   cfg = getAttrByNamespace config base;
 
@@ -23,10 +23,9 @@ with lib.${namespace}; let
     ${pkgs.hyprland}/bin/hyprctl hyprpaper reload ,"$WALLPAPER"
   '';
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "hyprpaper";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "hyprpaper";
+  };
 
   config = mkIf cfg.enable {
     services.hyprpaper = {

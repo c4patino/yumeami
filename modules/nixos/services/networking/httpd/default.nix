@@ -4,9 +4,9 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption mapAttrsToList listToAttrs replaceStrings mkMerge concatStringsSep filterAttrs;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn;
   inherit (config.networking) hostName;
   base = "${namespace}.services.networking.httpd";
   cfg = getAttrByNamespace config base;
@@ -65,10 +65,9 @@ with lib.${namespace}; let
       // sslConfig;
   };
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "Apache HTTPD";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "Apache HTTPD";
+  };
 
   config = mkIf cfg.enable {
     services.httpd = {

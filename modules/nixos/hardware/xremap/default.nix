@@ -4,9 +4,9 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.hardware.xremap";
   cfg = getAttrByNamespace config base;
 in {
@@ -14,10 +14,9 @@ in {
     inputs.xremap.nixosModules.default
   ];
 
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "xremap";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "xremap";
+  };
 
   config = {
     services.xremap = {

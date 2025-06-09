@@ -3,9 +3,9 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) types mkOption optional optionalString concatStringsSep;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP;
   base = "${namespace}.services.networking";
   cfg = getAttrByNamespace config base;
   dnsCfg = getAttrByNamespace config "${base}.unbound";

@@ -4,9 +4,9 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) types mkIf mkEnableOption mkOption genList mapAttrs optional attrValues concatLists listToAttrs;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   inherit (config.sops) secrets;
   inherit (config.networking) hostName;
   base = "${namespace}.services.ci.gitea-runner";

@@ -4,9 +4,9 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) types mkEnableOption mkOption mkIf mapAttrs mapAttrs';
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.syncthing";
   cfg = getAttrByNamespace config base;

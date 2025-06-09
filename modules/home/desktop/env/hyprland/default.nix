@@ -4,9 +4,9 @@
   namespace,
   pkgs,
   ...
-} @ args:
-with lib;
-with lib.${namespace}; let
+} @ args: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.desktop.env.hyprland";
   cfg = getAttrByNamespace config base;
 in {
@@ -16,10 +16,9 @@ in {
     (import ./rules.nix args)
   ];
 
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "Hyprland";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "Hyprland";
+  };
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [hyprpicker hyprpaper];

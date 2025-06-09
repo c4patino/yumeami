@@ -3,16 +3,15 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.hardware.bluetooth";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "bluetooth";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "bluetooth";
+  };
 
   config = mkIf cfg.enable {
     services.blueman.enable = true;

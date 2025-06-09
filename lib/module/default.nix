@@ -168,7 +168,6 @@ with lib; rec {
   ## @param pathStr   dot-separated list for the nested attribute to retrieve
   ## @param attrs     attribute list for getting the keys
   ## @return          attribute value if found; otherwise null
-
   getIn = pathStr: attrs: let
     path = splitString "." pathStr;
     go = attrs: p:
