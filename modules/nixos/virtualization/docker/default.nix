@@ -24,6 +24,13 @@ in {
         containersConf.settings.containers.label = false;
       };
 
+      docker = {
+        enable = true;
+        daemon.settings = {
+          hosts = ["unix:///var/run/docker.sock" "tcp://0.0.0.0:2376"];
+        };
+      };
+
       oci-containers.backend = mkOverride 0 "docker";
     };
 
