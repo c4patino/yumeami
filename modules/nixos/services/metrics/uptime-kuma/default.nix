@@ -7,6 +7,7 @@
 }:
 with lib;
 with lib.${namespace}; let
+  inherit (config.users) users;
   base = "${namespace}.services.metrics.uptime-kuma";
   cfg = getAttrByNamespace config base;
 
@@ -29,7 +30,7 @@ in {
 
     systemd.services.uptime-kuma.serviceConfig = {
       DynamicUser = mkForce false;
-      User = userCfg.uptime-kuma.name;
+      User = users.uptime-kuma.name;
     };
 
     users = {

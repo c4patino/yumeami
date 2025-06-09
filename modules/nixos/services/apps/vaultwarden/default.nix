@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   namespace,
   pkgs,
@@ -11,6 +12,8 @@ with lib.${namespace}; let
   cfg = getAttrByNamespace config base;
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+
+  port = 5400;
 in {
   options = with types;
     mkOptionsWithNamespace base {
@@ -29,14 +32,14 @@ in {
         SIGNUPS_VERIFY = false;
 
         DATABASE_URL = let
-          secrets = readJsonOrEmpty "${crypt}/secrets.json";
+          secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/secrets.json";
           ip =
             pgCfg.databases
             |> filterAttrs (host: dbs: elem "vaultwarden" dbs)
             |> attrNames
             |> head
             |> resolveHostIP networkCfg.devices;
-        in ''postgresql://vaultwarden:${getIn secrets "postgresql.vaultwarden"}@${ip}:5600/vaultwarden'';
+        in ''postgresql://vaultwarden:${getIn "postgresql.vaultwarden" secrets}@${ip}:5600/vaultwarden'';
 
         LOG_LEVEL = "Info";
 

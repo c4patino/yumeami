@@ -3,6 +3,7 @@
   inputs,
   lib,
   namespace,
+  pkgs,
   ...
 }:
 with lib;
@@ -48,7 +49,7 @@ in {
           user = "grafana";
           password = let
             secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/secrets.json";
-            grafanaPassword = pkgs.writeText "grafana-password.txt" (getIn secrets "postgresql.grafana");
+            grafanaPassword = pkgs.writeText "grafana-password.txt" (getIn "postgresql.grafana" secrets);
           in "$__file{${grafanaPassword}}";
         };
 

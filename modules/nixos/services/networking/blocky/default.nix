@@ -2,12 +2,14 @@
   config,
   lib,
   namespace,
+  pkgs,
   ...
 }:
 with lib;
 with lib.${namespace}; let
   base = "${namespace}.services.networking.blocky";
   cfg = getAttrByNamespace config base;
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
   port = 53;
 in {
@@ -107,10 +109,10 @@ in {
 
         customDNS = {
           domainMapping =
-            getAttrByNamespace config "${namespace}.services.networking"
+            networkCfg.network-services
             |> mapAttrsToList (name: svc: {
               name = "${name}.yumeami.sh";
-              value = resolveNodeIP svc.host;
+              value = resolveHostIP networkCfg.devices svc.host;
             })
             |> listToAttrs;
         };
