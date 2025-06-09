@@ -107,7 +107,8 @@ in {
         };
 
         customDNS = {
-          domainMapping =
+          customTTL = "1h";
+          mapping =
             networkCfg.network-services
             |> mapAttrsToList (name: svc: {
               name = "${name}.yumeami.sh";
