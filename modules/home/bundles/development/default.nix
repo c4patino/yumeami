@@ -16,14 +16,12 @@ in {
 
   config = mkIf cfg.enable {
     ${namespace} = {
-      cli = {
-        dev = {
-          direnv = enabled;
-          git = enabled;
-          lazygit = enabled;
-          neovim = enabled;
-          zoxide = enabled;
-        };
+      cli.dev = {
+        direnv = enabled;
+        git = enabled;
+        lazygit = enabled;
+        neovim = enabled;
+        zoxide = enabled;
       };
     };
   };

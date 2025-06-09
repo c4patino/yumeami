@@ -22,9 +22,7 @@ in {
 
   config = mkIf cfg.enable {
     ${namespace} = {
-      hardware = {
-        bootloader = enabled;
-      };
+      hardware.bootloader = enabled;
 
       services = {
         ci = {

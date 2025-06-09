@@ -22,9 +22,7 @@ with lib.${namespace}; {
       common = enabled;
       desktop = enabled;
     };
-    hardware = {
-      nvidia = enabled;
-    };
+    hardware.nvidia = enabled;
     services = {
       apps = {
         rustypaste = enabled;
@@ -48,14 +46,10 @@ with lib.${namespace}; {
           };
         };
       };
-      networking = {
-        httpd = enabled;
-      };
+      networking.httpd = enabled;
       storage = {
-        nfs = {
-          mounts = {
-            "slurm" = "chibi";
-          };
+        nfs.mounts = {
+          "slurm" = "chibi";
         };
         samba = {
           enable = true;

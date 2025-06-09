@@ -13,9 +13,6 @@ with lib.${namespace}; let
   cfg = getAttrByNamespace config base;
 in {
   config = mkIf cfg.enable {
-    ${namespace} = {
-    };
-
     users.users.c4patino = {
       isNormalUser = true;
       description = "C4 Patino";
