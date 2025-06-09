@@ -13,6 +13,12 @@ with lib.${namespace}; let
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
+  dbHost =
+    pgCfg.databases
+    |> filterAttrs (host: dbs: lib.elem "forgejo" dbs)
+    |> attrNames
+    |> head;
+
   port = 5300;
 in {
   options = with types;
@@ -47,21 +53,14 @@ in {
         };
 
         database = {
-          DB_TYPE = lib.mkForce "postgres";
-          HOST = let
-            host =
-              pgCfg.databases
-              |> filterAttrs (host: dbs: lib.elem "forgejo" dbs)
-              |> attrNames
-              |> head
-              |> resolveHostIP networkCfg.devices;
-          in "${host}:5600";
+          DB_TYPE = mkForce "postgres";
+          HOST = mkForce "${resolveHostIP networkCfg.devices dbHost}:5600";
           NAME = "forgejo";
           USER = "forgejo";
           PASSWD =
-            "${crypt}/secrets.json"
+            "${inputs.self}/secrets/crypt/secrets.json"
             |> readJsonOrEmpty
-            |> getIn "postgresql.forgjo";
+            |> getIn "postgresql.forgejo";
         };
 
         service.DISABLE_REGISTRATION = true;
