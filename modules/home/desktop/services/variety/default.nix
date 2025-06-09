@@ -29,13 +29,9 @@ in {
       };
     };
 
-    wayland.windowManager.hyprland = {
-      settings = {
-        exec-once = [
-          "swaybg &"
-          "variety &"
-        ];
-      };
-    };
+    wayland.windowManager.hyprland.settings. exec-once = [
+      "swaybg &"
+      "variety &"
+    ];
   };
 }

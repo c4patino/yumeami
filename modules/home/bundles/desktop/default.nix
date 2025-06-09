@@ -31,7 +31,7 @@ in {
 
         services = {
           mako = enabled;
-          variety = enabled;
+          hyprpaper = enabled;
           wl-clipboard = enabled;
         };
       };
