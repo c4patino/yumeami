@@ -3,16 +3,15 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.cli.dev.zoxide";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "zoxide";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "zoxide";
+  };
 
   config = mkIf cfg.enable {
     programs.zoxide = {

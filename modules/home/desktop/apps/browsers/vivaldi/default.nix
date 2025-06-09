@@ -4,16 +4,15 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.desktop.apps.browsers.vivaldi";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "Vivaldi";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "Vivaldi";
+  };
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [vivaldi];

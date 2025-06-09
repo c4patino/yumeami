@@ -3,16 +3,15 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.cli.metrics.btm";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "btm";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "btm";
+  };
 
   config = mkIf cfg.enable {
     programs.bottom = {

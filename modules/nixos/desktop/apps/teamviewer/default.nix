@@ -4,16 +4,15 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
   base = "${namespace}.desktop.apps.teamviewer";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "Teamviewer";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "Teamviewer";
+  };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [teamviewer];

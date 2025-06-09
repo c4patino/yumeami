@@ -3,10 +3,11 @@
   inputs,
   lib,
   namespace,
+  pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) types mkIf mkEnableOption mkOption mapAttrs mapAttrsToList flatten;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.desktop.apps.games.minecraft";
   cfg = getAttrByNamespace config base;
 in {

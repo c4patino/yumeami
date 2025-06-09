@@ -2,18 +2,18 @@
   config,
   lib,
   namespace,
+  pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.services.ci.pm2";
   cfg = getAttrByNamespace config base;
   userCfg = config.users.users;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "pm2";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "pm2";
+  };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [pm2];

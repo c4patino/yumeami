@@ -2,17 +2,17 @@
   config,
   lib,
   namespace,
+  pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.desktop.games.prismlauncher";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "PrismLauncher";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "PrismLauncher";
+  };
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [prismlauncher];

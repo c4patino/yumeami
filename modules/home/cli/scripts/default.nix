@@ -4,16 +4,15 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.cli.scripts";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "custom shell scripts";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "custom shell scripts";
+  };
 
   config = mkIf cfg.enable {
     home.packages = [

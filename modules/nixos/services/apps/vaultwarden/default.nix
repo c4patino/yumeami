@@ -5,9 +5,9 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption filterAttrs attrNames head elem;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn resolveHostIP;
   base = "${namespace}.services.apps.vaultwarden";
   cfg = getAttrByNamespace config base;
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
@@ -15,10 +15,9 @@ with lib.${namespace}; let
 
   port = 5400;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "vaultwarden";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "vaultwarden";
+  };
 
   config = mkIf cfg.enable {
     services.vaultwarden = {

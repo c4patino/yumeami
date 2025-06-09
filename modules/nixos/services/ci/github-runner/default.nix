@@ -4,9 +4,9 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) types mkEnableOption mkOption mkIf optional mapAttrs';
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   inherit (config.networking) hostName;
   inherit (config.sops) secrets;
   base = "${namespace}.services.ci.github-runner";

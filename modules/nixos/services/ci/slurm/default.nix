@@ -4,9 +4,9 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) types mkEnableOption mkOption mkIf groupBy mapAttrsToList attrNames mapAttrs concatStringsSep flatten;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP;
   inherit (config.networking) hostName;
   base = "${namespace}.services.ci.slurm";
   cfg = getAttrByNamespace config base;

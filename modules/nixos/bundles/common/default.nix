@@ -4,9 +4,9 @@
   namespace,
   pkgs,
   ...
-} @ args:
-with lib;
-with lib.${namespace}; let
+} @ args: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
   base = "${namespace}.bundles.common";
   cfg = getAttrByNamespace config base;
 in {
@@ -15,10 +15,9 @@ in {
     (import ./users.nix args)
   ];
 
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "common bundle";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "common bundle";
+  };
 
   config = mkIf cfg.enable {
     ${namespace} = {

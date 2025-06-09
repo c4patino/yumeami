@@ -3,16 +3,15 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
   base = "${namespace}.desktop.apps.editors.vscode";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "VSCode";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "VSCode";
+  };
 
   config = mkIf cfg.enable {
     programs.vscode = enabled;

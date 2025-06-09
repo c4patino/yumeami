@@ -3,16 +3,15 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.cli.access.ssh";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "ssh";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "ssh";
+  };
 
   config = mkIf cfg.enable {
     programs.ssh = {

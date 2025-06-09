@@ -4,16 +4,15 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
   base = "${namespace}.cli.media.yazi";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "yazi";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "yazi";
+  };
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [

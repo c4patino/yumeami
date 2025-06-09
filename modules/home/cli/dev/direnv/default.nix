@@ -4,16 +4,15 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.cli.dev.direnv";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "direnv";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "direnv";
+  };
 
   config = mkIf cfg.enable {
     programs.direnv = {

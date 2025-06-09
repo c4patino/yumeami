@@ -4,16 +4,15 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.services.networking.network-manager";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "network-manager";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "network-manager";
+  };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [networkmanagerapplet];

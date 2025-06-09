@@ -3,16 +3,15 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.desktop.apps.media.zathura";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "Zathura";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "Zathura";
+  };
 
   config = mkIf cfg.enable {
     programs.zathura = {

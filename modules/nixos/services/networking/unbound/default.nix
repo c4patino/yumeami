@@ -3,9 +3,9 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) types mkIf mkEnableOption mkOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.services.networking.unbound";
   cfg = getAttrByNamespace config base;
 

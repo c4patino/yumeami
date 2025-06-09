@@ -4,19 +4,18 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption mkForce;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   inherit (config.users) users;
   base = "${namespace}.services.metrics.uptime-kuma";
   cfg = getAttrByNamespace config base;
 
   port = 5200;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "uptime-kuma";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "uptime-kuma";
+  };
 
   config = mkIf cfg.enable {
     services.uptime-kuma = {

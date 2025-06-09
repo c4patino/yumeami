@@ -4,9 +4,9 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption filterAttrs attrNames head mkForce;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP readJsonOrEmpty getIn;
   inherit (config.networking) hostName;
   base = "${namespace}.services.apps.forgejo";
   cfg = getAttrByNamespace config base;
@@ -21,10 +21,9 @@ with lib.${namespace}; let
 
   port = 5300;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "forgejo";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "forgejo";
+  };
 
   config = mkIf cfg.enable {
     services.forgejo = {

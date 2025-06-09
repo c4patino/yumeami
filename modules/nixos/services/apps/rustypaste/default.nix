@@ -5,19 +5,18 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.services.apps.rustypaste";
   cfg = getAttrByNamespace config base;
   userCfg = config.users.users;
 
   port = 5100;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "rustypaste";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "rustypaste";
+  };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [rustypaste-cli];

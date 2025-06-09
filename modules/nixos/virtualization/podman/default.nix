@@ -4,18 +4,17 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption mkOverride;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
   base = "${namespace}.virtualization.podman";
   cfg = getAttrByNamespace config base;
   nvdaBase = "${namespace}.hardware.nvidia";
   nvdaCfg = getAttrByNamespace config nvdaBase;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "podman";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "podman";
+  };
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [podman-compose];

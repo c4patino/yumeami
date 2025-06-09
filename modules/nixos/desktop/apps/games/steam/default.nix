@@ -3,16 +3,15 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.desktop.apps.games.steam";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "Steam";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "Steam";
+  };
 
   config = mkIf cfg.enable {
     programs.steam = {

@@ -3,16 +3,15 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
   base = "${namespace}.bundles.desktop.applications";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "desktop application bundle";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "desktop application bundle";
+  };
 
   config = mkIf cfg.enable {
     ${namespace} = {

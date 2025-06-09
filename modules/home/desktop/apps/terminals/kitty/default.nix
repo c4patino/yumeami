@@ -4,16 +4,15 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.desktop.apps.terminals.kitty";
   cfg = getAttrByNamespace config base;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "Kitty";
-    };
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "Kitty";
+  };
 
   config = {
     home.packages = with pkgs; [kitty.terminfo];

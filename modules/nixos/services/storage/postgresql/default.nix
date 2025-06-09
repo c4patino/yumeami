@@ -3,9 +3,9 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
+  inherit (lib) types mkIf mkOption concatStringsSep hasAttr getAttr;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.postgresql";
   cfg = getAttrByNamespace config base;
