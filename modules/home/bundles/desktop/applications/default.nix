@@ -18,9 +18,7 @@ in {
     ${namespace} = {
       desktop = {
         apps = {
-          browsers = {
-            vivaldi = enabled;
-          };
+          browsers.vivaldi = enabled;
 
           media = {
             libreoffice = enabled;
@@ -36,9 +34,7 @@ in {
             zoom = enabled;
           };
 
-          terminals = {
-            kitty = enabled;
-          };
+          terminals.kitty = enabled;
         };
       };
     };

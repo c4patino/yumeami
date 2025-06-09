@@ -59,9 +59,7 @@ in {
               port = 5500;
             };
           };
-          unbound = {
-            dnsHost = "chibi";
-          };
+          unbound.dnsHost = "chibi";
         };
       };
     };

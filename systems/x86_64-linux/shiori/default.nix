@@ -28,18 +28,10 @@ with lib.${namespace}; {
           runners."default" = {instances = 1;};
         };
       };
-      metrics = {
-        grafana = enabled;
-      };
-      networking = {
-        httpd = enabled;
-      };
-      storage = {
-        samba = {
-          mounts = {
-            "shared" = "arisu";
-          };
-        };
+      metrics.grafana = enabled;
+      networking.httpd = enabled;
+      storage.samba.mounts = {
+        "shared" = "arisu";
       };
     };
   };

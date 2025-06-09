@@ -39,10 +39,8 @@ with lib.${namespace}; {
             }
           ];
         };
-        samba = {
-          mounts = {
-            "shared" = "arisu";
-          };
+        samba.mounts = {
+          "shared" = "arisu";
         };
       };
     };

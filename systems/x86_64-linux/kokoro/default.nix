@@ -22,14 +22,8 @@ with lib.${namespace}; {
       battery = enabled;
       xremap = enabled;
     };
-    services = {
-      storage = {
-        samba = {
-          mounts = {
-            "shared" = "arisu";
-          };
-        };
-      };
+    services.storage.samba.mounts = {
+      "shared" = "arisu";
     };
   };
 

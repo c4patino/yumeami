@@ -17,11 +17,7 @@ in {
   config = mkIf cfg.enable {
     ${namespace} = {
       desktop = {
-        apps = {
-          launchers = {
-            anyrun = enabled;
-          };
-        };
+        apps.launchers.anyrun = enabled;
 
         env = {
           eww = enabled;
