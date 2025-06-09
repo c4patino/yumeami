@@ -50,4 +50,6 @@ with lib.${namespace}; {
     hostName = "chibi";
     hostId = "9245f27e";
   };
+
+  system.stateVersion = "25.11";
 }
