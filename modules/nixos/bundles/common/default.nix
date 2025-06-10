@@ -89,7 +89,10 @@ in {
       };
     };
 
-    nix.settings.experimental-features = ["nix-command" "flakes" "pipe-operators"];
+    nix.settings = {
+      experimental-features = ["nix-command" "flakes" "pipe-operators"];
+      trusted-users = with config.users.users; [c4patino.name];
+    };
 
     environment.systemPackages = with pkgs; [
       home-manager
