@@ -30,6 +30,10 @@ in {
           wl-clipboard = enabled;
         };
       };
+      cli.media = {
+        grim = enabled;
+        slurp = enabled;
+      };
     };
   };
 }
