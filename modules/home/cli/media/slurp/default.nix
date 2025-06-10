@@ -11,7 +11,7 @@
   cfg = getAttrByNamespace config base;
 in {
   options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "grim";
+    enable = mkEnableOption "slurp";
   };
 
   config = mkIf cfg.enable {
