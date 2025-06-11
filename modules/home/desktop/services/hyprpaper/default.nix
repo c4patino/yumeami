@@ -13,14 +13,19 @@
 
   rotateWallpaper = pkgs.writeShellScriptBin "rotate-wallpaper" ''
     WALLPAPER_DIR="$HOME/.assets/desktops"
+    HYPRCTL=${pkgs.hyprland}/bin/hyprctl
 
-    CURRENT_WALL=$(${pkgs.hyprland}/bin/hyprctl hyprpaper listloaded)
+    CURRENT_WALL=$($HYPRCTL hyprpaper listloaded | awk 'NR==1')
     CURRENT_BASE=$(basename "$CURRENT_WALL")
 
-    WALLPAPER=$(find -L $WALLPAPER_DIR -type f ! -name "$CURRENT_BASE" | shuf -n 1)
-    echo "$WALLPAPER"
+    NEW_WALLPAPER=$(find -L $WALLPAPER_DIR -type f ! -name "$CURRENT_BASE" | shuf -n 1)
 
-    ${pkgs.hyprland}/bin/hyprctl hyprpaper reload ,"$WALLPAPER"
+    $HYPRCTL hyprpaper preload $NEW_WALLPAPER
+    $HYPRCTL hyprpaper wallpaper ,"$NEW_WALLPAPER"
+
+    if [ -n "$CURRENT_WALL" ]; then
+      $HYPRCTL hyprpaper unload "$CURRENT_WALL"
+    fi
   '';
 in {
   options = mkOptionsWithNamespace base {
