@@ -23,6 +23,8 @@ in {
     cli.metrics = {
       hyperfine = enabled;
     };
+
+    desktop.services.brightnessctl = enabled;
   };
 
   wayland.windowManager.hyprland.settings.monitor = [
