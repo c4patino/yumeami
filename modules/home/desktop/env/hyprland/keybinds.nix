@@ -32,15 +32,7 @@ in {
         "$mainMod, S, togglesplit,"
 
         "$mainMod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
-        "$mainMod, Home, exec, grim -g \"$(slurp -d)\""
-
-        # Switch tabs
-        "ALT, Tab, cyclenext"
-        "ALT, Tab, bringactivetotop"
-        "SHIFT ALT, Tab, cyclenext, prev"
-
-        # Cycle recent workspaces
-        "SUPER, Tab, workspace, previous"
+        "$mainMod, Home, exec, sh -c 'grim -g \"$(slurp -d)\" ~/Downloads/$(date +%Y-%m-%d-%H%M%S).png'"
 
         # Scratchpad
         "ALT, S, exec, scratchpad"
@@ -69,8 +61,6 @@ in {
         "$mainMod, 8, workspace, 8"
         "$mainMod, 9, workspace, 9"
         "$mainMod, 0, workspace, 10"
-        "$mainMod, bracketright, workspace, e+1"
-        "$mainMod, bracketleft, workspace, e-1"
 
         # Move active window to a workspace with mainMod + SHIFT + [0-9]
         "$mainMod SHIFT, 1, movetoworkspace, 1"
@@ -83,8 +73,6 @@ in {
         "$mainMod SHIFT, 8, movetoworkspace, 8"
         "$mainMod SHIFT, 9, movetoworkspace, 9"
         "$mainMod SHIFT, 0, movetoworkspace, 10"
-        "$mainMod SHIFT, bracketright, movetoworkspace, +1"
-        "$mainMod SHIFT, bracketleft, movetoworkspace, -1"
       ];
 
       bindm = [
