@@ -17,6 +17,7 @@ in {
     ${namespace} = {
       cli = {
         dev = {
+          fzf = enabled;
           zoxide = enabled;
           zsh = enabled;
         };
