@@ -27,6 +27,16 @@ in {
       themeFile = "tokyo_night_night";
 
       keybindings = {
+        "ctrl+shift+h" = "neighboring_window left";
+        "ctrl+shift+j" = "neighboring_window bottom";
+        "ctrl+shift+k" = "neighboring_window top";
+        "ctrl+shift+l" = "neighboring_window right";
+
+        "ctrl+shift+t" = "new_tab";
+        "ctrl+shift+r" = "set_tab_title";
+        "ctrl+shift+<" = "move_tab -1";
+        "ctrl+shift+>" = "move_tab +1";
+
         "ctrl+enter" = "new_window_with_cwd";
       };
 
