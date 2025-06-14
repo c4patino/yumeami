@@ -32,6 +32,7 @@ in {
       shellAliases = {
         shutdown = "sudo shutdown";
         reboot = "sudo reboot";
+        rsyncp = "rsync -P -ahvz";
       };
 
       history = {
