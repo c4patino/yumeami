@@ -13,6 +13,7 @@ in {
   config = mkIf cfg.enable {
     services.glance.settings = {
       branding = {
+        app-name = "dash";
         custom-footer = "<p><b>[ゆめあみ]</b></p>";
         logo-text = "夢";
       };
