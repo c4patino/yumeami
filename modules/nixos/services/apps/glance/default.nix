@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   namespace,
   ...
@@ -28,8 +29,20 @@ in {
         server = {
           host = "0.0.0.0";
           port = port;
+          proxied = true;
+          assets-path = "/etc/glance/assets";
+        };
+
+        branding = {
+          favicon-url = "/assets/favicon.svg";
+          app-icon-url = "/assets/favicon.svg";
         };
       };
+    };
+
+    environment.etc."glance/assets/favicon.svg" = {
+      source = "${inputs.dotfiles}/assets/icons/favicon.svg";
+      mode = "0755";
     };
   };
 }
