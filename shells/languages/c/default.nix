@@ -13,7 +13,6 @@ mkShell {
     clang
     gtest
     lcov
-    vcpkg
   ];
 
   packages = with pkgs; [
