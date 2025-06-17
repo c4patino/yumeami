@@ -56,5 +56,9 @@
           title = "yumeami";
         };
       };
+
+      overlays = with inputs; [
+        devshell.overlays.default
+      ];
     };
 }
