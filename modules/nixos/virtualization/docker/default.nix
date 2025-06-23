@@ -2,20 +2,22 @@
   config,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf mkEnableOption mkOverride;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.virtualization.docker";
   cfg = getAttrByNamespace config base;
-  nvdaBase = "${namespace}.hardware.nvidia";
-  nvdaCfg = getAttrByNamespace config nvdaBase;
+  nvdaCfg = getAttrByNamespace config "${namespace}.hardware.nvidia";
 in {
   options = mkOptionsWithNamespace base {
     enable = mkEnableOption "docker";
   };
 
   config = mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [libnvidia-container nvidia-container-toolkit];
+
     hardware.nvidia-container-toolkit.enable = nvdaCfg.enable;
 
     virtualisation = {
@@ -28,6 +30,12 @@ in {
         enable = true;
         daemon.settings = {
           hosts = ["unix:///var/run/docker.sock" "tcp://0.0.0.0:2376"];
+          runtimes = {
+            nvidia = {
+              args = [];
+              path = "nvidia-container-runtime";
+            };
+          };
         };
       };
 

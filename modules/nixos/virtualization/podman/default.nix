@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption mkOverride;
+  inherit (lib) mkIf mkEnableOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
   base = "${namespace}.virtualization.podman";
   cfg = getAttrByNamespace config base;
@@ -28,8 +28,6 @@ in {
       };
 
       podman = enabled;
-
-      oci-containers.backend = mkOverride 10 "podman";
     };
 
     ${namespace}.services.storage.impermanence.folders = ["/var/lib/containers"];
