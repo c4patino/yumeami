@@ -78,6 +78,7 @@ in {
 
     wayland.windowManager.hyprland.settings.exec-once = [
       "hyprpaper &"
+      "rotate-wallpaper"
     ];
   };
 }
