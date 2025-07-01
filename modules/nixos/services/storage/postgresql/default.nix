@@ -2,6 +2,7 @@
   config,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib) types mkIf mkOption concatStringsSep hasAttr getAttr;
@@ -26,6 +27,7 @@ in {
       postgresql = {
         enable = true;
         enableTCPIP = true;
+        package = pkgs.postgresql_16;
 
         settings = {
           port = port;
