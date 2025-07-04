@@ -1207,11 +1207,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1751402802,
-        "narHash": "sha256-CakH5BG3IOsf3SvorhYuQF4b+Ox1bkt2gti37Rv/F7w=",
+        "lastModified": 1751636095,
+        "narHash": "sha256-5dqvKtqOW0a7AZ3nSOIDwaUcUrqwLqIrmhlygqG323g=",
         "owner": "c4patino",
         "repo": "nixvim",
-        "rev": "689607d5244d740c2605d3bcec46f30cbff76c2a",
+        "rev": "d35377760fc1cebf4f99d38310c2a3fc41fdbe79",
         "type": "github"
       },
       "original": {
