@@ -21,6 +21,8 @@ pkgs.mkShell {
     golangci-lint
   ];
 
+  hardeningDisable = ["fortify"];
+
   shell = pkgs.zsh;
 
   shellHook = ''
