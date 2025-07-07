@@ -16,6 +16,7 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = [
+      (import ./clock.nix {inherit pkgs;})
       (import ./format-drive.nix {inherit pkgs;})
       (import ./get-music-cover.nix {inherit pkgs;})
       (import ./nr.nix {inherit pkgs;})
