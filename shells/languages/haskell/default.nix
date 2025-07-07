@@ -14,6 +14,7 @@ pkgs.mkShell {
   ];
 
   packages = with pkgs; [
+    haskellPackages.haskell-debug-adapter
     ormolu
   ];
 
