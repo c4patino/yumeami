@@ -33,6 +33,10 @@ in {
           hostname = "swan.unl.edu";
           user = "c4patino";
         };
+        swan-xfer = {
+          hostname = "swan-xfer.unl.edu";
+          user = "c4patino";
+        };
         nuros = {
           hostname = "nuros.unl.edu";
           user = "cpatino2";
