@@ -41,6 +41,10 @@ in {
         default = {};
         description = "Set of apps to reverse-proxy using Apache, keyed by service name.";
       };
+      gateways = mkOption {
+        type = listOf str;
+        description = "Names of devices which will serve as public gateways.";
+      };
     };
 
   config = {

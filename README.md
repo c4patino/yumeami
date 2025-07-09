@@ -2,15 +2,23 @@
 
 ![logo](./demo.png)
 
-Meticulously crafted collection of NixOS configurations tailored for my systems. This repository encapsulates a unified setup across different machines, ensuring a consistent and efficient environment no matter where I'm working. The configurations are designed with modularity and clarity in mind, making it easy to adapt and scale. Whether it's setting up a new machine or refining an existing setup, ゆめあみ brings what I believe to be the best practices in NixOS configuration management, unified under a single, cohesive structure.
+Meticulously crafted collection of NixOS configurations tailored for my
+systems. This repository encapsulates a unified setup across different
+machines, ensuring a consistent and efficient environment no matter where I'm
+working. The configurations are designed with modularity and clarity in mind,
+making it easy to adapt and scale. Whether it's setting up a new machine or
+refining an existing setup, ゆめあみ brings what I believe to be the best
+practices in NixOS configuration management, unified under a single, cohesive
+structure.
 
-| System      | Architecture     | Description                               |
-|-------------|------------------|-------------------------------------------|
-| 🧠 arisu    | `x86_64-linux`   | primary development tower, custom built   |
-| 💖 kokoro   | `x86_64-linux`   | thinkBook 15 laptop, mobile development   |
-| 🌸 shiori   | `x86_64-linux`   | always-on mini pc, quiet and stable host  |
-| 🐣 chibi    | `aarch64-linux`  | raspberry Pi 4B for hosting and local dev |
-| ✨ hikari   | `x86_64-linux`   | custom installer iso, new systems and VMs |
+| System      | Architecture     | Description                                 |
+|-------------|------------------|---------------------------------------------|
+| 🧠 arisu    | `x86_64-linux`   | primary development tower, custom built     |
+| 💖 kokoro   | `x86_64-linux`   | thinkBook 15 laptop, mobile development     |
+| 🌸 shiori   | `x86_64-linux`   | always-on mini pc, quiet and stable host    |
+| 🐣 chibi    | `aarch64-linux`  | raspberry Pi 4B for hosting and local dev   |
+| 🚪 tobira   | `x86_64-linux`   | hetzner cloud VPS for outside communication |
+| ✨ hikari   | `x86_64-linux`   | custom installer iso, new systems and VMs   |
 
 ## Repository Structure
 
