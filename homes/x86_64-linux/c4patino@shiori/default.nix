@@ -8,7 +8,6 @@ in {
   ${namespace} = {
     bundles = {
       common = enabled;
-      development = enabled;
       shell = enabled;
     };
   };
