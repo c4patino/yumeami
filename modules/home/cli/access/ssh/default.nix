@@ -16,28 +16,28 @@ in {
   config = mkIf cfg.enable {
     programs.ssh = {
       enable = true;
-      extraConfig = ''
-        Host github
-            HostName github.com
-            User git
-        Host forgejo
-            HostName git.yumeami.sh
-            User forgejo
-            Port 2222
-
-        Host swan
-            HostName swan.unl.edu
-            User c4patino
-            ControlMaster auto
-            ControlPath /tmp/ssh_%r@%h:%p
-            ControlPersist 2h
-        Host nuros
-            HostName nuros.unl.edu
-            User cpatino2
-            ControlMaster auto
-            ControlPath /tmp/ssh_%r@%h:%p
-            ControlPersist 2h
-      '';
+      controlMaster = "auto";
+      controlPath = "/tmp/ssh_%r@%h:%p";
+      controlPersist = "2h";
+      matchBlocks = {
+        github = {
+          hostname = "github.com";
+          user = "git";
+        };
+        forgejo = {
+          hostname = "git.yumeami.sh";
+          user = "forgejo";
+          port = 2222;
+        };
+        swan = {
+          hostname = "swan.unl.edu";
+          user = "c4patino";
+        };
+        nuros = {
+          hostname = "nuros.unl.edu";
+          user = "cpatino2";
+        };
+      };
     };
   };
 }
