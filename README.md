@@ -1,4 +1,4 @@
-# ゆめあみ
+# ゆめあみ (yumeami)
 
 ![logo](./demo.png)
 
@@ -10,8 +10,8 @@ Meticulously crafted collection of NixOS configurations tailored for my systems.
 | 💖 kokoro    | `x86_64-linux`                 	| ThinkBook 15 laptop, mobile development   	|
 | 🌸 shiori    | `x86_64-linux`                 	| always-on mini PC, quiet and stable host      |
 | 🐣 chibi 	   | `aarch64-linux`                	| Raspberry Pi 4B for hosting and local dev 	|
+| 🚪 tobira    | `x86_64-linux`                	    | hetzner cloud VPS for outside communication   |
 | ✨ hikari    | `x86_64-linux`                	    | custom installer ISO, new systems and VMs 	|
-
 
 ## Installation
 
