@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf mkEnableOption mapAttrsToList listToAttrs replaceStrings mkMerge concatStringsSep filterAttrs;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn resolveHostIP;
   inherit (config.networking) hostName;
   base = "${namespace}.services.networking.httpd";
   cfg = getAttrByNamespace config base;
@@ -39,6 +39,8 @@
         sslServerCert = "${ssl}/${certs}.crt";
       }
       else {};
+
+    proxyTarget = "http://${resolveHostIP networkingCfg.devices service.host}:${p}";
   in {
     name = replaceStrings ["*"] [name] domain;
     value =
@@ -58,8 +60,8 @@
           # --- ${name} (subdomain access) ---
           RewriteEngine On
           ProxyPreserveHost On
-          ProxyPass / http://localhost:${p}/
-          ProxyPassReverse / http://localhost:${p}/
+          ProxyPass / ${proxyTarget}/
+          ProxyPassReverse / ${proxyTarget}/
         '';
       }
       // sslConfig;
@@ -80,6 +82,7 @@ in {
           "localhost" = let
             localhostProxyConfig =
               networkingCfg.network-services
+              |> filterAttrs (_: svc: hostName == svc.host)
               |> mapAttrsToList mkLocalhostConfig
               |> concatStringsSep "\n";
           in {
@@ -97,10 +100,18 @@ in {
         }
 
         (networkingCfg.network-services
-          |> filterAttrs (_: svc: svc.host == hostName)
+          |> filterAttrs (_: svc: hostName == svc.host)
           |> mapAttrsToList (mkVirtualHost {
             domain = "*.yumeami.sh";
             useSSL = true;
+          })
+          |> listToAttrs)
+
+        (networkingCfg.network-services
+          |> filterAttrs (_: svc: svc.public && builtins.elem hostName networkingCfg.gateways)
+          |> mapAttrsToList (mkVirtualHost {
+            domain = "*.cpatino.com";
+            useSSL = false;
           })
           |> listToAttrs)
       ];
