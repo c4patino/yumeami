@@ -20,13 +20,17 @@ in {
       shell = enabled;
     };
 
-    cli.dev = {
-      leetcode = enabled;
-    };
-
-    cli.metrics = {
-      hyperfine = enabled;
-      nvtop = enabled;
+    cli = {
+      access = {
+        bitwarden = enabled;
+      };
+      dev = {
+        leetcode = enabled;
+      };
+      metrics = {
+        hyperfine = enabled;
+        nvtop = enabled;
+      };
     };
   };
 
