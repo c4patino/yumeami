@@ -20,8 +20,13 @@ in {
       shell = enabled;
     };
 
-    cli.metrics = {
-      hyperfine = enabled;
+    cli = {
+      access = {
+        bitwarden = enabled;
+      };
+      metrics = {
+        hyperfine = enabled;
+      };
     };
 
     desktop.services.brightnessctl = enabled;
