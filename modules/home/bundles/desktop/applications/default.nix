@@ -30,7 +30,6 @@ in {
           sms = {
             discord = enabled;
             slack = enabled;
-            zoom = enabled;
           };
 
           terminals.kitty = enabled;
