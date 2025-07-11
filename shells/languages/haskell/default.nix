@@ -11,6 +11,7 @@ pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     cabal-install
     ghc
+    stack
   ];
 
   packages = with pkgs; [
