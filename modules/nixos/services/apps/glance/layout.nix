@@ -185,6 +185,7 @@ in {
                     "UC9-y-6csu5WGm29I7JiwpnA" # Computerphile
                     "UCiGFu5PErgAg07tUHTLd7Xw" # Daily Dose Of Neuro & Vedal
                     "UCjJjavV8vOmu49a3vxPaWtQ" # Dylan Beattie
+                    "UCT7H_xchRHaT9zr5GalIZVA" # Evan Edinger
                     "UCODHrzPMGbNv67e84WDZhQQ" # fern
                     "UCsBjURrPoezykLs9EqgamOA" # Fireship
                     "UCqJ-Xo29CKyLTjn6z2XwYAw" # Game Maker's Toolkit
