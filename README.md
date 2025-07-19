@@ -1,68 +1,134 @@
-# ゆめあみ
+# ゆめあみ (yumeami)
 
 ![logo](./demo.png)
 
-Meticulously crafted collection of NixOS configurations tailored for my systems. This repository encapsulates a unified setup across different machines, ensuring a consistent and efficient environment no matter where I’m working. The configurations are designed with modularity and clarity in mind, making it easy to adapt and scale. Whether it's setting up a new machine or refining an existing setup, Symphony brings what I believe to be the best practices in NixOS configuration management, unified under a single, cohesive structure. System and home manager configurations are kept separate to keep configuration flexible and modular.
+Meticulously crafted collection of NixOS configurations tailored for my systems. This repository encapsulates a unified setup across different machines, ensuring a consistent and efficient environment no matter where I'm working. The configurations are designed with modularity and clarity in mind, making it easy to adapt and scale. Whether it's setting up a new machine or refining an existing setup, ゆめあみ brings what I believe to be the best practices in NixOS configuration management, unified under a single, cohesive structure.
 
-| System 	   | Architecture                   	| Description                               	|
-|-----------   |--------------------------------	|-------------------------------------------	|
-| 🧠 arisu     | `x86_64-linux`                 	| primary development tower, custom built   	|
-| 💖 kokoro    | `x86_64-linux`                 	| ThinkBook 15 laptop, mobile development   	|
-| 🌸 shiori    | `x86_64-linux`                 	| always-on mini PC, quiet and stable host      |
-| 🐣 chibi 	   | `aarch64-linux`                	| Raspberry Pi 4B for hosting and local dev 	|
-| ✨ hikari    | `x86_64-linux`                	    | custom installer ISO, new systems and VMs 	|
+| System      | Architecture     | Description                               |
+|-------------|------------------|-------------------------------------------|
+| 🧠 arisu    | `x86_64-linux`   | primary development tower, custom built   |
+| 💖 kokoro   | `x86_64-linux`   | thinkBook 15 laptop, mobile development   |
+| 🌸 shiori   | `x86_64-linux`   | always-on mini pc, quiet and stable host  |
+| 🐣 chibi    | `aarch64-linux`  | raspberry Pi 4B for hosting and local dev |
+| ✨ hikari   | `x86_64-linux`   | custom installer iso, new systems and VMs |
 
+## Repository Structure
+
+```
+.
+├── flake.nix              # Main flake configuration
+├── homes/                 # Home-manager configurations
+│   ├── aarch64-linux/     # ARM architecture systems
+│   └── x86_64-linux/      # x86 architecture systems
+├── lib/                   # Shared library functions
+├── modules/               # Modular configurations
+│   ├── home/              # Home-manager modules
+│   └── nixos/             # NixOS system modules
+├── secrets/               # Encrypted secrets (git-crypt)
+├── shells/                # Development shell environments
+└── systems/               # NixOS system configurations
+```
+
+## Prerequisites
+
+- NixOS installation media
+- ZFS support (for impermanence)
+- A storage device to install to
+- Basic understanding of NixOS and the Nix language
 
 ## Installation
 
-To set up your system using the Symphony configurations, follow these steps:
+To set up your system using ゆめあみ configurations:
 
 ```bash
+# Clone the repository
 git clone https://github.com/c4patino/nixos-configuration.git ~/dotfiles
 cd ~/dotfiles
 
+# Partition and format drives using disko
+# Replace <device> with your disk device (e.g., sda, nvme0n1)
 sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
     --mode disko ~/dotfiles/system/hosts/disko.nix \
-    --arg main '"/dev/<device>"' [--arg extras '["/dev/<device>"]']
+    --mode disko ~/dotfiles/systems/disko.nix \
+    --arg main '"/dev/<device>"'
 
+# Copy configuration to the persistent storage
 sudo cp ~/dotfiles /mnt/persist
 
-sudo nixos-install --root /mnt --flake ~/dotfiles#<system> --option extra-experimental-features pipe-operators
+# Install NixOS with the configuration for your system
+# Replace <system-name> with one of: arisu, kokoro, shiori, chibi
+sudo nixos-install --root /mnt --flake ~/dotfiles#<system-name> --option extra-experimental-features pipe-operators
 ```
-    
+
+## Customization
+
+To customize a configuration for your own use:
+
+1. Create a new host configuration in `systems/<arch>/<hostname>/default.nix`
+2. Configure your hardware settings in `systems/<arch>/<hostname>/hardware-configuration.nix`
+3. Create a home-manager configuration in `homes/<arch>/<user>@<hostname>/default.nix`
+4. Enable the desired modules for your system and home configurations
+
 ## Features
 
-- Dynamic backgrounds: Variety-powered slideshow for ever-changing wallpapers.
-- Development environments: Preconfigured setups for various programming languages.
-- Neovim: Highly customized configuration for efficient coding.
-- Various editors: Native Vim shortcut support and configurations.
-- Yazi: Fast, terminal-based file manager.
-- Eww task bar: Minimal and versatile task bar interface.
-- Spotify: Seamless Spotify integration.
-- Anyrun: Intuitive application launcher.
-- Kitty terminal: Customized themes and keybindings.
-- Zoxide: Enhanced terminal navigation with zoxide.
+- **Impermanence**: ZFS snapshot-based system with persistent directories for clean reboots
+- **Dynamic backgrounds**: Variety-powered slideshow for ever-changing wallpapers
+- **Development environments**: Preconfigured setups for various programming languages
+- **Neovim**: Highly customized configuration for efficient coding
+- **Various editors**: Native Vim shortcut support and configurations
+- **Yazi**: Fast, terminal-based file manager
+- **Eww task bar**: Minimal and versatile task bar interface
+- **Spotify**: Seamless Spotify integration
+- **Anyrun**: Intuitive application launcher
+- **Kitty terminal**: Customized themes and keybindings
+- **Zoxide**: Enhanced terminal navigation with zoxide
 
+## Usage
+
+### Rebuilding Your System
+
+```bash
+# For system configuration
+sudo nixos-rebuild switch --flake ~/dotfiles#<hostname>
+
+# For home-manager configuration
+home-manager switch --flake ~/dotfiles#<user>@<hostname>
+```
+
+### Adding New Modules
+
+1. Create a new module in the appropriate directory:
+   - System modules: `modules/nixos/<category>/<module-name>/`
+   - Home modules: `modules/home/<category>/<module-name>/`
+2. Create a `default.nix` file following the existing module structure
+3. Enable your module in your system or home configuration
+
+## Troubleshooting
+
+### Common Issues
+
+- **ZFS import fails**: Ensure you have the correct pool name in your configuration
+- **Module not found**: Check that the module is correctly imported and the namespace is correct
+- **Secrets not accessible**: Run `git-crypt unlock` if you have access to the repository keys
 
 ## Roadmap
-- impermanence configuration to prevent over-time pollution of directories
 
+- Add comprehensive module test coverage
+- Implement integration tests with virtual machines
+- Add performance benchmarking for critical configurations
 
 ## Authors
 
 - [@c4patino](https://www.github.com/c4patino)
 
-
 ## Related
 
 Here are some related projects that are used in this configuration
 
-[neovim-config](https://github.com/c4patino/neovim-config)
-[nixvim-config](https://github.com/c4patino/nixvim-config)
-[dotfiles](https://github.com/c4patino/dotfiles)
-
+- [neovim-config](https://github.com/c4patino/neovim-config)
+- [nixvim-config](https://github.com/c4patino/nixvim-config)
+- [dotfiles](https://github.com/c4patino/dotfiles)
 
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-
