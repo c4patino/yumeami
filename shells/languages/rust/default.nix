@@ -18,8 +18,9 @@ pkgs.mkShell {
   ];
 
   packages = with pkgs; [
-    rustfmt
+    clippy
     gdb
+    rustfmt
   ];
 
   shell = pkgs.zsh;
