@@ -3,6 +3,7 @@
   lib,
   namespace,
   pkgs,
+  inputs,
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
@@ -19,7 +20,7 @@ in {
       packages = with pkgs; [jetbrains.clion];
 
       file.".ideavimrc" = {
-        source = ../.ideavimrc;
+        source = inputs.dotfiles + "/.ideavimrc";
       };
     };
   };

@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   namespace,
   pkgs,
@@ -18,7 +19,7 @@ in {
     home = {
       packages = with pkgs; [zsh-powerlevel10k];
       file.".p10k.zsh" = {
-        source = ./p10k.zsh;
+        source = inputs.dotfiles + "/.p10k.zsh";
       };
     };
 

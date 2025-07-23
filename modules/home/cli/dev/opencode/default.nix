@@ -3,6 +3,7 @@
   lib,
   namespace,
   pkgs,
+  inputs,
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
@@ -15,6 +16,12 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [opencode];
+    home = {
+      packages = with pkgs; [opencode];
+
+      file.".config/opencode/opencode.json" = {
+        source = inputs.dotfiles + "/.config/opencode/opencode.json";
+      };
+    };
   };
 }

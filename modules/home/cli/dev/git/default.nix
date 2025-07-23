@@ -32,6 +32,15 @@ in {
         gpg.format = "ssh";
         diff.colorMoved = "zebra";
       };
+
+      ignores = [
+        # Add patterns to globally ignore here
+        ".env"
+        ".env.local"
+        ".direnv"
+        ".envrc"
+        "AGENTS.md"
+      ];
     };
 
     programs.gh = enabled;

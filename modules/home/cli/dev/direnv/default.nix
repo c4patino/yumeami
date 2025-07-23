@@ -22,7 +22,7 @@ in {
     };
 
     xdg.configFile."direnv/direnvrc" = {
-      source = inputs.dotfiles + "/direnvrc";
+      source = inputs.dotfiles + "/.config/direnv/direnvrc";
     };
   };
 }
