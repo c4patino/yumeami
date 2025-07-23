@@ -24,7 +24,7 @@ in {
       ];
 
       file.".assets/nix-logo.png" = {
-        source = inputs.dotfiles + "/assets/nix-logo.png";
+        source = inputs.dotfiles + "/.assets/nix-logo.png";
       };
     };
 

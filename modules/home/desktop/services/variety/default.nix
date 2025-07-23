@@ -23,7 +23,7 @@ in {
       ];
 
       file.".assets/desktops/" = {
-        source = inputs.dotfiles + "/assets/desktops";
+        source = inputs.dotfiles + "/.assets/desktops";
         recursive = true;
       };
     };

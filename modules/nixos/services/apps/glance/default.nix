@@ -41,7 +41,7 @@ in {
     };
 
     environment.etc."glance/assets/favicon.svg" = {
-      source = "${inputs.dotfiles}/assets/icons/favicon.svg";
+      source = inputs.dotfiles + "/.assets/icons/favicon.svg";
       mode = "0755";
     };
   };
