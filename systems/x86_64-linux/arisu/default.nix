@@ -22,6 +22,7 @@ in {
       common = enabled;
       desktop = enabled;
     };
+    desktop.apps.teamviewer = enabled;
     hardware.nvidia = enabled;
     services = {
       apps = {
