@@ -18,6 +18,7 @@ in {
       common = enabled;
       desktop = enabled;
     };
+    desktop.apps.teamviewer = enabled;
     hardware = {
       battery = enabled;
       xremap = enabled;
