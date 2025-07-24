@@ -12,13 +12,12 @@ pkgs.mkShell {
     go
   ];
 
-  buildInputs = with pkgs; [
-    gotools
-  ];
+
 
   packages = with pkgs; [
     delve
     golangci-lint
+    gotools
   ];
 
   hardeningDisable = ["fortify"];
