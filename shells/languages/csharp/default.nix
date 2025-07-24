@@ -10,16 +10,19 @@
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     dotnetPackages.Nuget
-  ];
-
-  buildInputs = with pkgs; [
     (with dotnetCorePackages;
       combinePackages [
         sdk_9_0_1xx
         sdk_8_0_3xx
       ])
-    dotnet-ef
+  ];
+
+  buildInputs = with pkgs; [
     mono5
+  ];
+  
+  packages = with pkgs; [
+    dotnet-ef
   ];
 
   shell = pkgs.zsh;

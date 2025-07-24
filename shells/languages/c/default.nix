@@ -5,15 +5,13 @@
 mkShell {
   nativeBuildInputs = with pkgs; [
     cmake
+    clang
     conan
+    gcc
     vcpkg-tool
   ];
 
   buildInputs = with pkgs; [
-    clang
-    gcc
-    gtest
-    lcov
     vcpkg
   ];
 
@@ -23,6 +21,8 @@ mkShell {
     cppcheck
     doxygen
     gdb
+    gtest
+    lcov
   ];
 
   shell = pkgs.zsh;

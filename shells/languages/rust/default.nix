@@ -13,11 +13,9 @@ pkgs.mkShell {
     rustc
   ];
 
-  buildInputs = with pkgs; [
-    cargo-release
-  ];
 
   packages = with pkgs; [
+    cargo-release
     clippy
     gdb
     rustfmt
