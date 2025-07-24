@@ -16,6 +16,7 @@ pkgs.mkShell {
 
   buildInputs = with pkgs; [
     clang
+    gcc
     gtest
     lcov
     vcpkg
