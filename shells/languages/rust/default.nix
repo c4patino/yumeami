@@ -13,7 +13,6 @@ pkgs.mkShell {
     rustc
   ];
 
-
   packages = with pkgs; [
     cargo-release
     clippy

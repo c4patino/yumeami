@@ -20,7 +20,7 @@ pkgs.mkShell {
   buildInputs = with pkgs; [
     mono5
   ];
-  
+
   packages = with pkgs; [
     dotnet-ef
   ];
