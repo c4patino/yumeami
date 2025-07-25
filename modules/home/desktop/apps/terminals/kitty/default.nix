@@ -32,12 +32,16 @@ in {
         "ctrl+shift+k" = "neighboring_window top";
         "ctrl+shift+l" = "neighboring_window right";
 
+        "ctrl+t" = "new_tab_with_cwd";
         "ctrl+shift+t" = "new_tab";
-        "ctrl+shift+r" = "set_tab_title";
-        "ctrl+shift+<" = "move_tab -1";
-        "ctrl+shift+>" = "move_tab +1";
 
         "ctrl+enter" = "new_window_with_cwd";
+        "ctrl+shift+enter" = "new_window";
+
+        "ctrl+shift+r" = "set_tab_title";
+
+        "ctrl+shift+<" = "move_tab -1";
+        "ctrl+shift+>" = "move_tab +1";
       };
 
       extraConfig = ''
