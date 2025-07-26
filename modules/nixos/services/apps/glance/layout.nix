@@ -178,6 +178,7 @@ in {
                     "UC7kIy8fZavEni8Gzl8NLjOQ" # Alex O'Connor
                     "UCkbwOi_U5CBkevtlVhuzWnA" # Backend Banter
                     "UC5--wS0Ljbin1TjWQX6eafA" # bigboxSWE
+                    "UCYI-TL0LoFRl1gFnnUFwdow" # Better Software Conference
                     "UC9Z1XWw1kmnvOOFsj6Bzy2g" # Blackthornprod
                     "UC415bOPUcGSamy543abLmRA" # Cleo Abram
                     "UC0e3QhIYukixgh5VVpKHH9Q" # CodeBullet
@@ -219,6 +220,7 @@ in {
                     "UCVk4b-svNJoeytrrlOixebQ" # TheVimeagen
                     "UCbfYPyITQ-7l4upoX8nvctg" # Two Minute Papers
                     "UCHnyfMqiRRG1u-2MsSQLbXA" # Veritasium
+                    "UConVfxXodg78Tzh5nNu85Ew" # Welch Labs
                     "UCudx6plmpbs5WtWvsvu-EdQ" # Zeltik
                   ];
                 }
