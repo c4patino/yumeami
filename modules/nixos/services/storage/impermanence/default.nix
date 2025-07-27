@@ -98,6 +98,7 @@ in {
 
           ".pm2"
           ".steam"
+          ".stack"
           ".vim"
           "Obsidian"
           "Pictures"
