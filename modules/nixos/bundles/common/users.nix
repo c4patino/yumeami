@@ -44,9 +44,11 @@ in {
         "github/auth" = {owner = c4patino.name;};
         "github/runner" = {owner = c4patino.name;};
         "github/runner-oasys" = {owner = c4patino.name;};
+        "github/nixpkgs-update" = {owner = c4patino.name;};
 
-        "tailscale/actions" = {owner = c4patino.name;};
-        "tailscale/tsdproxy" = {owner = c4patino.name;};
+        "tailscale/api/actions" = {owner = c4patino.name;};
+        "tailscale/auth/machines" = {owner = c4patino.name;};
+        "tailscale/auth/tsdproxy" = {owner = c4patino.name;};
 
         "cloudflare" = {owner = c4patino.name;};
 
