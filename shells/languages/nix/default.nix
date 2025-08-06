@@ -10,6 +10,7 @@
 pkgs.mkShell {
   packages = with pkgs; [
     alejandra
+    nix-prefetch-scripts
   ];
 
   shell = pkgs.zsh;
