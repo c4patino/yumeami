@@ -27,9 +27,10 @@ in {
           name = "Main editing remaps";
           remap = {
             CAPSLOCK = {
-              held = "CONTROL_L";
               alone = "ESC";
               alone_timeout_millis = 250;
+              free_hold = true;
+              held = "CONTROL_L";
             };
           };
         }
