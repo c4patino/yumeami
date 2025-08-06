@@ -34,11 +34,13 @@ in {
       };
 
       ignores = [
-        # Add patterns to globally ignore here
+        ".direnv"
         ".env"
         ".env.local"
-        ".direnv"
         ".envrc"
+        ".git"
+        ".pnpm-store"
+        ".venv"
         "AGENTS.md"
       ];
     };
