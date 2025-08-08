@@ -58,8 +58,5 @@
         };
       };
 
-      overlays = with inputs; [
-        devshell.overlays.default
-      ];
-    };
+};
 }

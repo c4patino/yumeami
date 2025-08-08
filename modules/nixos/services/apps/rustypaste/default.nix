@@ -18,10 +18,10 @@ in {
     enable = mkEnableOption "rustypaste";
   };
 
-  config = mkIf cfg.enable {
+  config = {
     environment.systemPackages = with pkgs; [rustypaste-cli];
 
-    systemd.services.rustypaste = {
+    systemd.services.rustypaste = mkIf cfg.enable {
       description = "rustypaste";
 
       wantedBy = ["multi-user.target"];
@@ -42,7 +42,7 @@ in {
       };
     };
 
-    users = {
+    users = mkIf cfg.enable {
       users.rustypaste = {
         isSystemUser = true;
         group = "rustypaste";
@@ -51,7 +51,7 @@ in {
       groups.rustypaste = {};
     };
 
-    environment.etc."rustypaste/rustypaste.toml" = {
+    environment.etc."rustypaste/rustypaste.toml" = mkIf cfg.enable {
       source = let
         crypt = "${inputs.self}/secrets/crypt/";
       in "${crypt}/rustypaste/server.toml";
@@ -59,12 +59,12 @@ in {
       mode = "0755";
     };
 
-    systemd.tmpfiles.rules = [
+    systemd.tmpfiles.rules = mkIf cfg.enable [
       "d /var/lib/rustypaste 2750 rustypaste rustypaste -"
     ];
 
-    networking.firewall.allowedTCPPorts = [port];
+    networking.firewall.allowedTCPPorts = mkIf cfg.enable [port];
 
-    ${namespace}.services.storage.impermanence.folders = ["/var/lib/rustypaste"];
+    ${namespace}.services.storage.impermanence.folders = mkIf cfg.enable ["/var/lib/rustypaste"];
   };
 }
