@@ -26,8 +26,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixvim-config = {
-      url = "github:c4patino/nixvim";
+    yumevim-nix = {
+      url = "github:c4patino/yumevim-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     dotfiles = {

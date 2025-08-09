@@ -1,6 +1,3 @@
 [submodule "dotfiles"]
 	path = inputs/dotfiles
 	url = git@github.com:C4theBomb/dotfiles.git
-[submodule "nixvim"]
-	path = inputs/nixvim
-	url = git@github.com:C4theBomb/nixvim.git
