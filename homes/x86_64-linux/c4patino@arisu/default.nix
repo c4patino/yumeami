@@ -27,6 +27,9 @@ in {
       dev = {
         leetcode = enabled;
       };
+      media = {
+        spotify = enabled;
+      };
       metrics = {
         hyperfine = enabled;
         nvtop = enabled;
