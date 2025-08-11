@@ -3,7 +3,7 @@
   mkShell,
 }:
 mkShell {
-  nativeBuildInputs = with pkgs; [
+  buildInputs = with pkgs; [
     lua
   ];
 

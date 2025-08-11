@@ -9,17 +9,19 @@
 }:
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
-    nodejs
     nodePackages.pnpm
+  ];
+
+  buildInputs = with pkgs; [
+    nodejs
     yarn
   ];
 
   packages = with pkgs; [
-    vscode-js-debug
-    prettierd
     nodePackages.prettier
+    prettierd
+    vscode-js-debug
   ];
-
   shell = pkgs.zsh;
 
   shellHook = ''

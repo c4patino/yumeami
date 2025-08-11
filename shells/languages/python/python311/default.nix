@@ -8,12 +8,9 @@
     },
 }:
 pkgs.mkShell {
-  nativeBuildInputs = with pkgs; [
-    python311Full
-  ];
-
   buildInputs = with pkgs; [
     poetry
+    python311Full
     python311Packages.virtualenv
   ];
 
