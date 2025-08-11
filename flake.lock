@@ -1581,11 +1581,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1753912394,
-        "narHash": "sha256-isRKmt+8b7MpsA53duHPus3gj8luM6Kubq8g8tF6ykY=",
+        "lastModified": 1754888919,
+        "narHash": "sha256-Qdufhd2YRPzGWN67EMbipnprkD41GoRmh/h+Aru0988=",
         "owner": "c4patino",
         "repo": "yumevim-nix",
-        "rev": "978b1e5c093b156be99c738f225f40601de98e76",
+        "rev": "cccf995a7b4012c5bfed4a5173de803c81923556",
         "type": "github"
       },
       "original": {
