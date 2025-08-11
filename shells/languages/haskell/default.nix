@@ -10,13 +10,13 @@
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     ghc
+    stack
   ];
 
   packages = with pkgs; [
     cabal-install
     haskellPackages.haskell-debug-adapter
     ormolu
-    stack
   ];
 
   shell = pkgs.zsh;

@@ -9,6 +9,7 @@
 }:
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
+    pkg-config
     cargo
     rustc
   ];

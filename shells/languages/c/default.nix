@@ -9,9 +9,6 @@ mkShell {
     conan
     gcc
     vcpkg-tool
-  ];
-
-  buildInputs = with pkgs; [
     vcpkg
   ];
 
