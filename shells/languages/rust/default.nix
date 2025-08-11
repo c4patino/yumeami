@@ -14,10 +14,13 @@ pkgs.mkShell {
   ];
 
   packages = with pkgs; [
+    bacon
+    cargo-info
     cargo-release
     clippy
     gdb
     rustfmt
+    rusty-man
   ];
 
   shell = pkgs.zsh;
