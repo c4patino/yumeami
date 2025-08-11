@@ -2,6 +2,7 @@
   config,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
@@ -14,6 +15,11 @@ in {
   };
 
   config = mkIf cfg.enable {
+    home.packages = with pkgs; [
+      mprocs
+      tokei
+    ];
+
     ${namespace} = {
       cli.dev = {
         direnv = enabled;
