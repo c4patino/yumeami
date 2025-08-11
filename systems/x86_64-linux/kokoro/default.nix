@@ -31,6 +31,11 @@ in {
   networking = {
     hostName = "kokoro";
     hostId = "f927bba2";
+
+    # HACK: this is done because otherwise spotify-player cannot play music (https://github.com/aome510/spotify-player/issues/796)
+    extraHosts = ''
+      0.0.0.0 apresolve.spotify.com
+    '';
   };
 
   boot = {
