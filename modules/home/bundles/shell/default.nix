@@ -2,6 +2,7 @@
   config,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
@@ -14,6 +15,13 @@ in {
   };
 
   config = mkIf cfg.enable {
+    home.packages = with pkgs; [
+      dust
+      ripgrep
+      ripgrep-all
+      wiki-tui
+    ];
+
     ${namespace} = {
       cli = {
         dev = {
