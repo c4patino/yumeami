@@ -15,79 +15,324 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [spotify-player];
+    home = {
+      packages = with pkgs; [spotify-player];
 
-    xdg.configFile = {
-      "spotify-player/app.toml" = {
-        text = ''
-          theme = "tokyonight"
-          client_id = "d0136e02950c48869f941ab053d5ac11"
-          client_port = 8080
-          playack_format = "{track} • {artists}\n{album}\n{metadata}"
-          notify_format = { summary = "{track} • {artists}", body = "{album}" }
-          copy_command = { command = "wl-copy", args = [] }
-          app_refresh_duration_in_ms = 32
-          playback_refresh_duration_in_ms = 0
-          cover_image_refresh_duration_in_ms = 2000
-          page_size_in_rows = 20
-          track_table_item_max_len = 32
-          enable_media_control = true
-          enable_streaming = true
-          enable_cover_image_cache = true
-          default_device = "c4-desktop"
-          play_icon = "▶"
-          pause_icon = "▌▌"
-          liked_icon = "♥"
-          playback_window_position = "Top"
-          cover_img_width = 5
-          cover_img_length = 11
-          cover_img_scale = 1
-          playback_window_width = 6
+      file = {
+        ".config/spotify-player/app.toml" = {
+          text = ''
+            theme = "tokyonight"
+            client_id = "65b708073fc0480ea92a077233ca87bd"
+            login_redirect_uri = "http://127.0.0.1:8989/login"
+            client_port = 8080
+            tracks_playback_limit = 50
+            playback_format = "{status} {track} • {artists}\n{album}\n{metadata}"
+            playback_metadata_fields = ["repeat", "shuffle", "volume", "device"]
+            notify_format = { summary = "{track} • {artists}", body = "{album}" }
+            notify_timeout_in_secs = 0
+            app_refresh_duration_in_ms = 32
+            playback_refresh_duration_in_ms = 0
+            page_size_in_rows = 20
+            enable_media_control = false
+            enable_streaming = "Always"
+            enable_notify = true
+            enable_cover_image_cache = true
+            notify_streaming_only = false
+            default_device = "spotify-player"
+            play_icon = "▶"
+            pause_icon = "❚❚"
+            liked_icon = "♥"
+            cover_img_length = 9
+            cover_img_width = 5
+            cover_img_pixels = 16
+            seek_duration_secs = 5
 
-          [device]
-          name = "computer"
-          device_type = "computer"
-          volume = 100
-          bitrate = 320
-          audio_cache = true
-          normalization = false
-        '';
-      };
-      "spotify-player/theme.toml" = {
-        text = ''
-          [[themes]]
-          name = "tokyonight"
-          [themes.palette]
-          foreground = "#c0caf5"
-          black = "#414868"
-          red = "#f7768e"
-          green = "#9ece6a"
-          yellow = "#e0af68"
-          blue = "#2ac3de"
-          magenta = "#bb9af7"
-          cyan = "#7dcfff"
-          white = "#eee8d5"
-          bright_black = "#24283b"
-          bright_red = "#ff4499"
-          bright_green = "#73daca"
-          bright_yellow = "#657b83"
-          bright_blue = "#839496"
-          bright_magenta = "#ff007c"
-          bright_cyan = "#93a1a1"
-          bright_white = "#fdf6e3"
-          [themes.component_style]
-          block_title = { fg = "Magenta"  }
-          border = {}
-          playback_track = { fg = "Cyan", modifiers = ["Bold"] }
-          playback_artists = { fg = "Cyan", modifiers = ["Bold"] }
-          playback_album = { fg = "Yellow" }
-          playback_metadata = { fg = "White" }
-          playback_progress_bar = { bg = "BrightBlack", fg = "Green" }
-          current_playing = { fg = "Green", modifiers = ["Bold"] }
-          page_desc = { fg = "Cyan", modifiers = ["Bold"] }
-          table_header = { fg = "Blue" }
-          selection = { modifiers = ["Bold", "Reversed"] }
-        '';
+            [device]
+            name = "spotify-player"
+            device_type = "computer"
+            volume = 90
+            bitrate = 320
+            audio_cache = false
+            normalization = false
+            autoplay = false
+
+            [layout]
+            library = { playlist_percent = 40, album_percent = 40 }
+            playback_window_position = "Top"
+            playback_window_height = 6
+          '';
+        };
+
+        ".config/spotify-player/theme.toml" = {
+          text = ''
+            [[themes]]
+            name = "tokyonight"
+            [themes.palette]
+            black = "black"
+            red = "red"
+            green = "green"
+            yellow = "yellow"
+            blue = "blue"
+            magenta = "magenta"
+            cyan = "cyan"
+            white = "white"
+            bright_black = "bright_black"
+            bright_red = "bright_red"
+            bright_green = "bright_green"
+            bright_yellow = "bright_yellow"
+            bright_blue = "bright_blue"
+            bright_magenta = "bright_magenta"
+            bright_cyan = "bright_cyan"
+            bright_white = "bright_white"
+
+            [[themes]]
+            name = "dracula"
+            [themes.palette]
+            background = "#1e1f29"
+            foreground = "#f8f8f2"
+            black = "#000000"
+            red = "#ff5555"
+            green = "#50fa7b"
+            yellow = "#f1fa8c"
+            blue = "#bd93f9"
+            magenta = "#ff79c6"
+            cyan = "#8be9fd"
+            white = "#bbbbbb"
+            bright_black = "#555555"
+            bright_red = "#ff5555"
+            bright_green = "#50fa7b"
+            bright_yellow = "#f1fa8c"
+            bright_blue = "#bd93f9"
+            bright_magenta = "#ff79c6"
+            bright_cyan = "#8be9fd"
+            bright_white = "#ffffff"
+
+            # same colors as dracula, but includes non-default component styles
+            [[themes]]
+            name = "dracula2"
+            [themes.palette]
+            background = "#1e1f29"
+            foreground = "#f8f8f2"
+            black = "#000000"
+            red = "#ff5555"
+            green = "#50fa7b"
+            yellow = "#f1fa8c"
+            blue = "#bd93f9"
+            magenta = "#ff79c6"
+            cyan = "#8be9fd"
+            white = "#bbbbbb"
+            bright_black = "#555555"
+            bright_red = "#ff5555"
+            bright_green = "#50fa7b"
+            bright_yellow = "#f1fa8c"
+            bright_blue = "#bd93f9"
+            bright_magenta = "#ff79c6"
+            bright_cyan = "#8be9fd"
+            bright_white = "#ffffff"
+            [themes.component_style]
+            like = { fg = "Red", modifiers = ["Bold"] }
+            selection = { bg = "Black", fg = "White", modifiers = ["Bold"] }
+            secondary_row = { bg = "#677075" }
+
+            [[themes]]
+            name = "gruvbox_dark"
+            [themes.palette]
+            background = "#282828"
+            foreground = "#ebdbb2"
+            black = "#282828"
+            red = "#cc241d"
+            green = "#98971a"
+            yellow = "#d79921"
+            blue = "#458588"
+            magenta = "#b16286"
+            cyan = "#689d6a"
+            white = "#a89984"
+            bright_black = "#928374"
+            bright_red = "#fb4934"
+            bright_green = "#b8bb26"
+            bright_yellow = "#fabd2f"
+            bright_blue = "#83a598"
+            bright_magenta = "#d3869b"
+            bright_cyan = "#8ec07c"
+            bright_white = "#ebdbb2"
+
+            [[themes]]
+            name = "gruvbox_light"
+            [themes.palette]
+            background = "#fbf1c7"
+            foreground = "#282828"
+            black = "#fbf1c7"
+            red = "#9d0006"
+            green = "#79740e"
+            yellow = "#b57614"
+            blue = "#076678"
+            magenta = "#8f3f71"
+            cyan = "#427b58"
+            white = "#3c3836"
+            bright_black = "#9d8374"
+            bright_red = "#cc241d"
+            bright_green = "#98971a"
+            bright_yellow = "#d79921"
+            bright_blue = "#458588"
+            bright_magenta = "#b16186"
+            bright_cyan = "#689d69"
+            bright_white = "#7c6f64"
+
+            [[themes]]
+            name = "solarized_dark"
+            [themes.palette]
+            background = "#002b36"
+            foreground = "#839496"
+            black = "#073642"
+            red = "#dc322f"
+            green = "#859900"
+            yellow = "#b58900"
+            blue = "#268bd2"
+            magenta = "#d33682"
+            cyan = "#2aa198"
+            white = "#eee8d5"
+            bright_black = "#002b36"
+            bright_red = "#cb4b16"
+            bright_green = "#586e75"
+            bright_yellow = "#657b83"
+            bright_blue = "#839496"
+            bright_magenta = "#6c71c4"
+            bright_cyan = "#93a1a1"
+            bright_white = "#fdf6e3"
+
+            [[themes]]
+            name = "solarized_light"
+            [themes.palette]
+            background = "#fdf6e3"
+            foreground = "#657b83"
+            black = "#073642"
+            red = "#dc322f"
+            green = "#859900"
+            yellow = "#b58900"
+            blue = "#268bd2"
+            magenta = "#d33682"
+            cyan = "#2aa198"
+            white = "#eee8d5"
+            bright_black = "#002b36"
+            bright_red = "#cb4b16"
+            bright_green = "#586e75"
+            bright_yellow = "#657b83"
+            bright_blue = "#839496"
+            bright_magenta = "#6c71c4"
+            bright_cyan = "#93a1a1"
+            bright_white = "#fdf6e3"
+
+            [[themes]]
+            name = "tokyonight"
+            [themes.palette]
+            background = "#1f2335"
+            foreground = "#c0caf5"
+            black = "#414868"
+            red = "#f7768e"
+            green = "#9ece6a"
+            yellow = "#e0af68"
+            blue = "#2ac3de"
+            magenta = "#bb9af7"
+            cyan = "#7dcfff"
+            white = "#eee8d5"
+            bright_black = "#24283b"
+            bright_red = "#ff4499"
+            bright_green = "#73daca"
+            bright_yellow = "#657b83"
+            bright_blue = "#839496"
+            bright_magenta = "#ff007c"
+            bright_cyan = "#93a1a1"
+            bright_white = "#fdf6e3"
+
+            [[themes]]
+            name = "catppuccin_latte"
+            [themes.palette]
+            background = "#eff1f5"
+            foreground = "#4c4f69"
+            black = "#5c5f77"
+            red = "#d20f39"
+            green = "#40a02b"
+            yellow = "#df8e1d"
+            blue = "#1e66f5"
+            magenta = "#ea76cb"
+            cyan = "#179299"
+            white = "#acb0be"
+            bright_black = "#6c6f85"
+            bright_red = "#de293e"
+            bright_green = "#49af3d"
+            bright_yellow = "#eea02d"
+            bright_blue = "#456eff"
+            bright_magenta = "#fe85d8"
+            bright_cyan = "#2d9fa8"
+            bright_white = "#bcc0cc"
+
+            [[themes]]
+            name = "catppuccin_frappe"
+            [themes.palette]
+            background = "#303446"
+            foreground = "#c6d0f5"
+            black = "#51576d"
+            red = "#e78284"
+            green = "#a6d189"
+            yellow = "#e5c890"
+            blue = "#8caaee"
+            magenta = "#f4b8e4"
+            cyan = "#81c8be"
+            white = "#a5adce"
+            bright_black = "#626880"
+            bright_red = "#e67172"
+            bright_green = "#8ec772"
+            bright_yellow = "#d9ba73"
+            bright_blue = "#7b9ef0"
+            bright_magenta = "#f2a4db"
+            bright_cyan = "#5abfb5"
+            bright_white = "#b5bfe2"
+
+            [[themes]]
+            name = "catppuccin_macchiato"
+            [themes.palette]
+            background = "#24273a"
+            foreground = "#cad3f5"
+            black = "#494d64"
+            red = "#ed8796"
+            green = "#a6da95"
+            yellow = "#eed49f"
+            blue = "#8aadf4"
+            magenta = "#f5bde6"
+            cyan = "#8bd5ca"
+            white = "#a5adcb"
+            bright_black = "#5b6078"
+            bright_red = "#ec7486"
+            bright_green = "#8ccf7f"
+            bright_yellow = "#e1c682"
+            bright_blue = "#78a1f6"
+            bright_magenta = "#f2a9dd"
+            bright_cyan = "#63cbc0"
+            bright_white = "#b8c0e0"
+
+            [[themes]]
+            name = "catppuccin_mocha"
+            [themes.palette]
+            background = "#1e1e2e"
+            foreground = "#cdd6f4"
+            black = "#45475a"
+            red = "#f38ba8"
+            green = "#a6e3a1"
+            yellow = "#f9e2af"
+            blue = "#89b4fa"
+            magenta = "#f5c2e7"
+            cyan = "#94e2d5"
+            white = "#a6adc8"
+            bright_black = "#585b70"
+            bright_red = "#f37799"
+            bright_green = "#89d88b"
+            bright_yellow = "#ebd391"
+            bright_blue = "#74a8fc"
+            bright_magenta = "#f2aede"
+            bright_cyan = "#6bd7ca"
+            bright_white = "#bac2de"
+          '';
+        };
       };
     };
   };
