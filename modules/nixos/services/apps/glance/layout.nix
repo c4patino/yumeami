@@ -32,11 +32,6 @@ in {
           search-engine = "google";
           bangs = [
             {
-              title = "youtube";
-              shortcut = "!yt";
-              url = "https://www.youtube.com/results?search_query={QUERY}";
-            }
-            {
               title = "nixpkgs";
               shortcut = "!np";
               url = "https://search.nixos.org/packages?channel=unstable&query={QUERY}";
@@ -45,6 +40,16 @@ in {
               title = "nixopts";
               shortcut = "!no";
               url = "https://search.nixos.org/options?channel=unstable&query={QUERY}";
+            }
+            {
+              title = "home-manager";
+              shortcut = "!hm";
+              url = "https://home-manager-options.extranix.com/?release=master&query={QUERY}";
+            }
+            {
+              title = "youtube";
+              shortcut = "!yt";
+              url = "https://www.youtube.com/results?search_query={QUERY}";
             }
             {
               title = "arxiv";
