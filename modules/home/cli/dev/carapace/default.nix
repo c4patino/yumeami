@@ -6,17 +6,16 @@
 }: let
   inherit (lib) mkIf mkEnableOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.cli.dev.zoxide";
+  base = "${namespace}.cli.dev.carapace";
   cfg = getAttrByNamespace config base;
 in {
   options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "zoxide";
+    enable = mkEnableOption "carapace";
   };
 
   config = mkIf cfg.enable {
-    programs.zoxide = {
+    programs.carapace = {
       enable = true;
-      options = ["--cmd cd"];
     };
   };
 }

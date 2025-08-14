@@ -28,10 +28,8 @@ in {
         ["arisu" "chibi" "kokoro" "shiori"]
         |> map (h: "${ssh}/${h}/id_ed25519.pub");
 
-      shell = pkgs.zsh;
+      shell = pkgs.bash;
     };
-
-    programs.zsh = enabled;
 
     sops = let
       inherit (config.users.users) c4patino;
