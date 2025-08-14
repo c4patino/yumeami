@@ -25,9 +25,10 @@ in {
     ${namespace} = {
       cli = {
         dev = {
+          carapace = enabled;
           fzf = enabled;
+          nushell = enabled;
           zoxide = enabled;
-          zsh = enabled;
         };
 
         media = {

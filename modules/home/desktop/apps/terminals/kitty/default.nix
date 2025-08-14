@@ -19,7 +19,6 @@ in {
 
     programs.kitty = mkIf cfg.enable {
       enable = true;
-      shellIntegration.enableZshIntegration = true;
       font = {
         name = "MesloLGM Nerd Font Mono";
         size = 14;

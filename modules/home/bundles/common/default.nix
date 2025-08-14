@@ -58,5 +58,9 @@ in {
         NH_FLAKE = "${config.home.homeDirectory}/dotfiles";
       };
     };
+
+    programs.bash.initExtra = ''
+      . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+    '';
   };
 }
