@@ -28,6 +28,7 @@ in {
           carapace = enabled;
           fzf = enabled;
           nushell = enabled;
+          starship = enabled;
           zoxide = enabled;
         };
 
