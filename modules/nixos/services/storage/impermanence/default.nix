@@ -48,15 +48,11 @@ in {
       users.c4patino = {
         directories = [
           ".android"
-          "Android"
-
           ".cache/direnv"
           ".cache/spotify"
           ".cache/spotify-player"
           ".cache/vivaldi"
-
           ".conan2"
-
           ".config/Google"
           ".config/JetBrains"
           ".config/Postman"
@@ -66,6 +62,7 @@ in {
           ".config/autostart"
           ".config/gh"
           ".config/libreoffice"
+          ".config/nushell"
           ".config/obs-studio"
           ".config/obsidian"
           ".config/opencode"
@@ -76,12 +73,8 @@ in {
           ".config/teamviewer"
           ".config/variety"
           ".config/vivaldi"
-
           ".gnupg"
           ".java"
-          "Documents"
-          "dotfiles"
-
           ".local/share/Google"
           ".local/share/JetBrains"
           ".local/share/PrismLauncher"
@@ -95,18 +88,19 @@ in {
           ".local/share/racket"
           ".local/share/zoxide"
           ".local/share/zsh"
-
           ".pm2"
-          ".steam"
           ".stack"
+          ".steam"
           ".vim"
+          ".zotero"
+          "Android"
+          "Documents"
           "Obsidian"
           "Pictures"
           "Programming"
           "VirtualBox VMs"
-
-          ".zotero"
           "Zotero"
+          "dotfiles"
         ];
 
         files = [
