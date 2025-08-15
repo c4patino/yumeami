@@ -31,8 +31,8 @@ in {
       bash = {
         enable = true;
         initExtra = ''
-          if [[ $- == *i* ]] && [[ -z "$NU_VERSION" ]]; then
-            exec bash -c ${pkgs.nushell}/bin/nu
+          if [[ $- == *i* ]]; then
+            exec ${pkgs.nushell}/bin/nu
           fi
         '';
       };
