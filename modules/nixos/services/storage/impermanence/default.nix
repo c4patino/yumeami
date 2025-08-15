@@ -95,7 +95,6 @@ in {
           ".zotero"
           "Android"
           "Documents"
-          "Obsidian"
           "Pictures"
           "Programming"
           "VirtualBox VMs"
