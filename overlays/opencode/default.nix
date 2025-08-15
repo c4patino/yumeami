@@ -1,33 +1,29 @@
 {...}: final: prev: {
   opencode = prev.opencode.overrideAttrs (oldAttrs: let
-    version = "0.3.110";
+    version = "0.5.4";
     src = final.fetchFromGitHub {
       owner = "sst";
       repo = "opencode";
       rev = "v${version}";
-      hash = "sha256-EM44FkMPPkRChuLcNEEK3n4dLc5uqnX7dHROsZXyr58=";
+      hash = "sha256-sQ1le6/OJb22Kehjj4glUsavHE08u0e2I7h8lW9MO9E=";
     };
-    vendorHash = "sha256-/YxvM+HZM4aRqcjUiSX0D1DhhMJkmLdh7G4+fPqtnic=";
     nodeModulesHash =
       {
-        "aarch64-darwin" = "sha256-TAeFDsHGFJnUyp20ec+Rxp4t1FrWKfbtnxsE8PnLS0o=";
-        "aarch64-linux" = "sha256-F056MWf2dNAO21ezEvWg689WUibtz4Q4mcSuDuSY5EM=";
-        "x86_64-darwin" = "sha256-AN1Ha/les1ByJGfVkLDibfxjPouC0tAZ//EN3vDi1Hc=";
-        "x86_64-linux" = "sha256-XIRV1QrgRHnpJyrgK9ITxH61dve7nWfVoCPs3Tc8nuU=";
+        "aarch64-darwin" = "sha256-/s6eAI1VJ0kXrxP5yTi+jwNqHBCRcoltJC86AT7nVdI=";
+        "aarch64-linux" = "sha256-aG5e5HMcxO9P7ciZ9cg8uY1rxDpTOKdR31z0L2d9dxY=";
+        "x86_64-darwin" = "sha256-jkAFmTb+cTO/B7a7MgaKqOzZI3QPkM3uW2RULnBcxSI=";
+        "x86_64-linux" = "sha256-ql4qcMtuaRwSVVma3OeKkc9tXhe21PWMMko3W3JgpB0=";
       }.${
         final.system
       };
   in {
     inherit version src;
 
-    # Patch the inner buildGoModule (tui)
     tui = oldAttrs.tui.overrideAttrs (_: {
       inherit src version;
-      modRoot = "packages/tui";
-      vendorHash = vendorHash;
+      vendorHash = "sha256-jINbGug/SPGBjsXNsC9X2r5TwvrOl5PJDL+lrOQP69Q=";
     });
 
-    # Patch the node_modules derivation
     node_modules = oldAttrs.node_modules.overrideAttrs (_: {
       inherit version src;
       outputHash = nodeModulesHash;
