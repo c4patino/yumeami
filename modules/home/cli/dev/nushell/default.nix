@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   pkgs,
@@ -19,7 +18,13 @@ in {
     programs = {
       nushell = {
         enable = true;
-        configFile.source = inputs.dotfiles + "/.config/nushell/config.nu";
+        configFile.text = ''
+          $env.config = {
+              buffer_editor: "nvim"
+              edit_mode: "vi"
+              show_banner: false
+          }
+        '';
 
         shellAliases = {
           shutdown = "sudo shutdown";
