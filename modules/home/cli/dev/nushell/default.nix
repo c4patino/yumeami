@@ -36,8 +36,10 @@ in {
       bash = {
         enable = true;
         initExtra = ''
-          if [[ $- == *i* ]]; then
-            exec ${pkgs.nushell}/bin/nu
+          if [[ -n "$PROMPT_COMMAND" ]]; then
+              PROMPT_COMMAND="$PROMPT_COMMAND; exec ${pkgs.nushell}/bin/nu; unset PROMPT_COMMAND"
+          else
+              PROMPT_COMMAND='exec ${pkgs.nushell}/bin/nu; unset PROMPT_COMMAND'
           fi
         '';
       };
