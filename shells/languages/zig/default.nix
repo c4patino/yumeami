@@ -17,8 +17,6 @@ pkgs.mkShell {
     lldb
   ];
 
-  shell = pkgs.zsh;
-
   shellHook = ''
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${pkgs.libGL}/lib
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${pkgs.glib.out}/lib
