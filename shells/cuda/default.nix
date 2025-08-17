@@ -16,6 +16,4 @@ pkgs.mkShell {
   shellHook = ''
     export CUDA_ROOT="${pkgs.cudaPackages.cudatoolkit}"
   '';
-
-  shell = pkgs.zsh;
 }

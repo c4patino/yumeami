@@ -27,8 +27,6 @@ pkgs.mkShell {
     lcov
   ];
 
-  shell = pkgs.zsh;
-
   shellHook = ''
     export LIBRARY_PATH="${pkgs.libgcc}/lib:$LIBRARY_PATH";
     export LIBRARY_PATH="${pkgs.glibc}/lib:$LIBRARY_PATH";

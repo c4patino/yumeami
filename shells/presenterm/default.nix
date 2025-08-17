@@ -19,6 +19,4 @@ pkgs.mkShell {
   packages = with pkgs; [
     presenterm
   ];
-
-  shell = pkgs.zsh;
 }

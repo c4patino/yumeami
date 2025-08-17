@@ -11,6 +11,4 @@ pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     texliveFull
   ];
-
-  shell = pkgs.zsh;
 }
