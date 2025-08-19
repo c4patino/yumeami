@@ -26,6 +26,10 @@ in {
           }
         '';
 
+        plugins = with pkgs.nushellPlugins; [
+          polars
+        ];
+
         shellAliases = {
           shutdown = "sudo shutdown";
           reboot = "sudo reboot";
