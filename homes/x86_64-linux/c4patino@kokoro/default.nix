@@ -35,6 +35,8 @@ in {
     desktop.services.brightnessctl = enabled;
   };
 
+  programs.kitty.font.size = 14;
+
   wayland.windowManager.hyprland.settings.monitor = [
     "eDP-1, 1920x1080@60, 0x0, 1"
     ", preferred, auto-left, 1"
