@@ -37,6 +37,8 @@ in {
     };
   };
 
+  programs.kitty.font.size = 14;
+
   wayland.windowManager.hyprland.settings.monitor = [
     "DP-4, 2560x1440@120, 0x0, 1"
     "DP-5, 2560x1440@120, -2560x0, 1"
