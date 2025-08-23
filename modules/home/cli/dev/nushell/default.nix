@@ -24,6 +24,27 @@ in {
               edit_mode: "vi"
               show_banner: false
           }
+
+          # gitignore.io command
+          def _gitignoreio_list [] {
+            http get https://www.toptal.com/developers/gitignore/api/list
+            | str replace -a "\n" ","
+            | split row ","
+            | str trim
+            | where {|x| $x != ""}
+          }
+
+          def "nu-complete gi" [] { _gitignoreio_list }
+
+          def gi [...args: string@"nu-complete gi"] {
+            if ($args | length) > 0 and $args.0 == "list" {
+              do { _gitignoreio_list }
+            }
+
+            # Join templates with commas and fetch .gitignore
+            let joined = ($args | str join ",")
+            http get $"https://www.toptal.com/developers/gitignore/api/($joined)"
+          }
         '';
 
         plugins = with pkgs.nushellPlugins; [
