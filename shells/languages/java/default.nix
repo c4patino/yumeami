@@ -8,6 +8,10 @@
     },
 }:
 pkgs.mkShell {
+  nativeBuildInputs = with pkgs; [
+    maven
+  ];
+
   buildInputs = with pkgs; [
     jdk23
   ];
