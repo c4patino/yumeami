@@ -16,28 +16,37 @@ in {
   config = mkIf cfg.enable {
     programs.ssh = {
       enable = true;
-      controlMaster = "auto";
-      controlPath = "/tmp/ssh_%r@%h:%p";
-      controlPersist = "2h";
       matchBlocks = {
-        github = {
-          hostname = "github.com";
-          user = "git";
+        "*" = {
+          addKeysToAgent = "no";
+          compression = false;
+          controlMaster = "auto";
+          controlPath = "/tmp/ssh_%r@%h:%p";
+          controlPersist = "2h";
+          forwardAgent = false;
+          hashKnownHosts = false;
+          serverAliveCountMax = 3;
+          serverAliveInterval = 0;
+          userKnownHostsFile = "~/.ssh/known_hosts";
         };
-        forgejo = {
+        "forgejo" = {
           hostname = "git.yumeami.sh";
           user = "forgejo";
           port = 2222;
         };
-        swan = {
+        "github" = {
+          hostname = "github.com";
+          user = "git";
+        };
+        "swan" = {
           hostname = "swan.unl.edu";
           user = "c4patino";
         };
-        swan-xfer = {
+        "swan-xfer" = {
           hostname = "swan-xfer.unl.edu";
           user = "c4patino";
         };
-        nuros = {
+        "nuros" = {
           hostname = "nuros.unl.edu";
           user = "cpatino2";
         };
