@@ -70,7 +70,7 @@ in {
       };
 
       carapace.enableNushellIntegration = (getAttrByNamespace config "${namespace}.cli.dev.carapace").enable;
-      direnv.enableZshIntegration = (getAttrByNamespace config "${namespace}.cli.dev.direnv").enable;
+      direnv.enableNushellIntegration = (getAttrByNamespace config "${namespace}.cli.dev.direnv").enable;
       starship.enableNushellIntegration = (getAttrByNamespace config "${namespace}.cli.dev.starship").enable;
       yazi.enableNushellIntegration = (getAttrByNamespace config "${namespace}.cli.media.yazi").enable;
       zoxide.enableNushellIntegration = (getAttrByNamespace config "${namespace}.cli.dev.zoxide").enable;
