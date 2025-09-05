@@ -4,7 +4,6 @@
 
     devshell.url = "github:numtide/devshell";
     stylix.url = "github:danth/stylix";
-    anyrun.url = "github:Kirottu/anyrun";
     impermanence.url = "github:nix-community/impermanence";
     xremap.url = "github:xremap/nix-flake";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
