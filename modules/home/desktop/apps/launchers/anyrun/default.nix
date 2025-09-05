@@ -1,10 +1,8 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   pkgs,
-  system,
   ...
 }: let
   inherit (lib) mkIf mkEnableOption getExe;
@@ -25,12 +23,6 @@ in {
     programs.anyrun = {
       enable = true;
       config = {
-        plugins = with inputs.anyrun.packages.${system}; [
-          applications
-          dictionary
-          websearch
-        ];
-
         width = {fraction = 0.3;};
         hideIcons = false;
         ignoreExclusiveZones = false;
