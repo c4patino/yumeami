@@ -23,6 +23,12 @@ in {
     programs.anyrun = {
       enable = true;
       config = {
+        plugins = [
+          "${pkgs.anyrun}/lib/libapplications.so"
+          "${pkgs.anyrun}/lib/libdictionary.so"
+          "${pkgs.anyrun}/lib/libwebsearch.so"
+        ];
+
         width = {fraction = 0.3;};
         hideIcons = false;
         ignoreExclusiveZones = false;
