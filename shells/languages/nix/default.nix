@@ -1,13 +1,9 @@
 {
-  pkgs ?
-    import <nixpkgs> {
-      config = {
-        allowUnfree = true;
-        cudaSupport = true;
-      };
-    },
+  pkgs,
+  mkShell,
+  ...
 }:
-pkgs.mkShell {
+mkShell {
   packages = with pkgs; [
     alejandra
     nix-prefetch-scripts
