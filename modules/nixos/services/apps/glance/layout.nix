@@ -52,6 +52,11 @@ in {
               url = "https://www.youtube.com/results?search_query={QUERY}";
             }
             {
+              title = "github";
+              shortcut = "!gh";
+              url = "https://github.com/{QUERY}";
+            }
+            {
               title = "arxiv";
               shortcut = "!ar";
               url = "https://arxiv.org/search/?query={QUERY}&searchtype=all&abstracts=show&order=-announced_date_first&size=50";
