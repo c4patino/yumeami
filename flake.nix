@@ -56,5 +56,9 @@
           title = "yumeami";
         };
       };
+
+      alias = {
+        shells.default = "yumeami";
+      };
     };
 }
