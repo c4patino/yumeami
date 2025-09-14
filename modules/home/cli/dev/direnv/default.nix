@@ -20,8 +20,8 @@ in {
       nix-direnv.enable = true;
     };
 
-    xdg.configFile."direnv/direnvrc" = {
-      source = inputs.dotfiles + "/.config/direnv/direnvrc";
-    };
+    # xdg.configFile."direnv/direnvrc" = {
+    #   source = inputs.dotfiles + "/.config/direnv/direnvrc";
+    # };
   };
 }
