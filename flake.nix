@@ -59,6 +59,7 @@
 
       alias = {
         shells.default = "yumeami";
+        templates.default = "devshell";
       };
     };
 }
