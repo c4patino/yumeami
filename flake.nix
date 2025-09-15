@@ -1,6 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    treefmt-nix.url = "github:numtide/treefmt-nix";
 
     devshell.url = "github:numtide/devshell";
     stylix.url = "github:danth/stylix";
@@ -43,7 +44,6 @@
       channels-config = {
         allowUnfree = true;
         cudaSupport = true;
-
         permittedInsecurePackages = [
           "mono-5.20.1.34"
         ];
@@ -60,6 +60,17 @@
       alias = {
         shells.default = "yumeami";
         templates.default = "devshell";
+      };
+
+      outputs-builder = channels: let
+        treefmtConfig = {...}: {
+          projectRootFile = "flake.nix";
+          programs.alejandra.enable = true;
+          programs.stylua.enable = true;
+        };
+        treefmtEval = inputs.treefmt-nix.lib.evalModule (channels.nixpkgs) (treefmtConfig {pkgs = channels.nixpkgs;});
+      in {
+        formatter = treefmtEval.config.build.wrapper;
       };
     };
 }
