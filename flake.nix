@@ -65,9 +65,12 @@
       outputs-builder = channels: let
         treefmtConfig = {...}: {
           projectRootFile = "flake.nix";
-          programs.alejandra.enable = true;
-          programs.stylua.enable = true;
+          programs = {
+            alejandra.enable = true;
+            stylua.enable = true;
+          };
         };
+
         treefmtEval = inputs.treefmt-nix.lib.evalModule (channels.nixpkgs) (treefmtConfig {pkgs = channels.nixpkgs;});
       in {
         formatter = treefmtEval.config.build.wrapper;
