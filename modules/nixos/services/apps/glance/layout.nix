@@ -140,41 +140,22 @@ in {
               widgets = [
                 searchWidget
                 {
-                  type = "split-column";
+                  type = "group";
+                  collapse-after = 5;
                   widgets = [
                     {
-                      type = "group";
-                      collapse-after = 5;
-                      widgets = [
+                      type = "hacker-news";
+                      sort-by = "top";
+                      extra-sort-by = "engagement";
+                      collapse-after = 9;
+                    }
+                    {
+                      type = "rss";
+                      collapse-after = 9;
+                      feeds = [
                         {
-                          type = "reddit";
-                          subreddit = "nixos";
-                          collapse-after = 8;
-                          show-thumbnails = true;
-                        }
-                        {
-                          type = "reddit";
-                          subreddit = "ProgrammerHumor";
-                          collapse-after = 8;
-                          show-thumbnails = true;
-                        }
-                        {
-                          type = "reddit";
-                          subreddit = "selfhosted";
-                          collapse-after = 8;
-                          show-thumbnails = true;
-                        }
-                        {
-                          type = "reddit";
-                          subreddit = "PoliticalHumor";
-                          collapse-after = 8;
-                          show-thumbnails = true;
-                        }
-                        {
-                          type = "reddit";
-                          subreddit = "Bogleheads";
-                          collapse-after = 8;
-                          show-thumbnails = true;
+                          title = "New York Times";
+                          url = "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml";
                         }
                       ];
                     }
@@ -256,18 +237,34 @@ in {
                   collapse-after = 5;
                   widgets = [
                     {
-                      type = "hacker-news";
-                      sort-by = "top";
-                      extra-sort-by = "engagement";
+                      type = "reddit";
+                      subreddit = "nixos";
+                      collapse-after = 5;
+                      show-thumbnails = true;
                     }
                     {
-                      type = "rss";
-                      feeds = [
-                        {
-                          title = "New York Times";
-                          url = "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml";
-                        }
-                      ];
+                      type = "reddit";
+                      subreddit = "ProgrammerHumor";
+                      collapse-after = 5;
+                      show-thumbnails = true;
+                    }
+                    {
+                      type = "reddit";
+                      subreddit = "selfhosted";
+                      collapse-after = 5;
+                      show-thumbnails = true;
+                    }
+                    {
+                      type = "reddit";
+                      subreddit = "PoliticalHumor";
+                      collapse-after = 5;
+                      show-thumbnails = true;
+                    }
+                    {
+                      type = "reddit";
+                      subreddit = "Bogleheads";
+                      collapse-after = 5;
+                      show-thumbnails = true;
                     }
                   ];
                 }
