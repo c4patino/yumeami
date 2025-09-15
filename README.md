@@ -83,6 +83,39 @@ To customize a configuration for your own use:
 - **Kitty terminal**: Customized themes and keybindings
 - **Zoxide**: Enhanced terminal navigation with zoxide
 
+## Formatter Setup
+
+This project uses [treefmt-nix](https://github.com/numtide/treefmt-nix) to orchestrate formatters for Nix and Lua files:
+
+- **alejandra** for Nix
+- **stylua** for Lua
+
+### Usage
+
+#### Format all files
+
+```sh
+nix fmt
+```
+
+#### Check formatting (for CI or local validation)
+
+```sh
+nix flake check
+```
+
+### Configuration
+
+Formatters are configured in `flake.nix` and `treefmt.nix`.
+
+- To add more formatters, edit `treefmt.nix` and update the `programs` section.
+
+### Troubleshooting
+
+If you encounter issues, ensure your Nix version is up to date (2.25+ recommended).
+
+For more info, see [treefmt-nix documentation](https://github.com/numtide/treefmt-nix).
+
 ## Usage
 
 ### Rebuilding Your System
