@@ -35,12 +35,14 @@ in {
           }
 
           def "nu-complete gi" [] {
-            _gitignoreio_list
+            let fixed = ["list"]
+            let templates = _gitignoreio_list
+            $fixed ++ $templates
           }
 
           def gi [...args: string@"nu-complete gi"] {
-            if ($args | length) > 0 and $args.0 == "list" {
-              do { _gitignoreio_list }
+            if ($args | where {|x| $x == "list"} | length) > 0 {
+              return (_gitignoreio_list)
             }
 
             # Join templates with commas and fetch .gitignore
