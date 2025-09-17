@@ -35,24 +35,27 @@ in {
       inherit (config.users.users) c4patino;
     in {
       secrets = {
-        "master-password" = {owner = c4patino.name;};
+        "cachix/default" = {owner = c4patino.name;};
+        "cachix/github" = {owner = c4patino.name;};
+
+        "cloudflare" = {owner = c4patino.name;};
 
         "forgejo" = {owner = c4patino.name;};
 
         "github/auth" = {owner = c4patino.name;};
+        "github/nixpkgs-update" = {owner = c4patino.name;};
         "github/runner" = {owner = c4patino.name;};
         "github/runner-oasys" = {owner = c4patino.name;};
-        "github/nixpkgs-update" = {owner = c4patino.name;};
 
-        "tailscale/api/actions" = {owner = c4patino.name;};
-        "tailscale/auth/machines" = {owner = c4patino.name;};
-        "tailscale/auth/tsdproxy" = {owner = c4patino.name;};
-
-        "cloudflare" = {owner = c4patino.name;};
+        "master-password" = {owner = c4patino.name;};
 
         "pypi" = {owner = c4patino.name;};
 
         "rustypaste" = {owner = c4patino.name;};
+
+        "tailscale/api/actions" = {owner = c4patino.name;};
+        "tailscale/auth/machines" = {owner = c4patino.name;};
+        "tailscale/auth/tsdproxy" = {owner = c4patino.name;};
       };
 
       age.keyFile = let
