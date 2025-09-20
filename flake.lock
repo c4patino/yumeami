@@ -1543,11 +1543,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1755823884,
-        "narHash": "sha256-vzLoTm3AjjC5vAxJ4AlRk3582R0Hrm5iF8ikSb2nWqw=",
+        "lastModified": 1758401259,
+        "narHash": "sha256-ychx76+8jILZdMj4rRMF2H1KMEULq7ntySoK3ooCn9Y=",
         "owner": "c4patino",
         "repo": "yumevim-nix",
-        "rev": "44f27bde2cb6017d5b1cca32f14de7f7d6fee5c9",
+        "rev": "ee6a8521eb35bc97d61c6e5faf02c0e585338343",
         "type": "github"
       },
       "original": {
