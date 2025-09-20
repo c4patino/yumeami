@@ -29,16 +29,20 @@ in {
           "${pkgs.anyrun}/lib/libwebsearch.so"
         ];
 
+        x = {fraction = 0.5;};
+        y = {fraction = 0.3;};
         width = {fraction = 0.3;};
         hideIcons = false;
         ignoreExclusiveZones = false;
         layer = "overlay";
-        hidePluginInfo = false;
+        hidePluginInfo = true;
         closeOnClick = false;
         showResultsImmediately = false;
+        maxEntries = null;
       };
 
       extraCss = builtins.readFile (compileSCSS "style" ./style.scss);
+
       extraConfigFiles = {
         "dictionary.ron".text = ''
           Config(
