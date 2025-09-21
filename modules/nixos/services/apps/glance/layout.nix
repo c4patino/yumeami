@@ -66,6 +66,36 @@ in {
               shortcut = "!gs";
               url = "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C28&q={QUERY}";
             }
+            {
+              title = "wikipedia";
+              shortcut = "!wiki";
+              url = "https://en.wikipedia.org/wiki/Special:Search?search={QUERY}";
+            }
+            {
+              title = "reddit";
+              shortcut = "!r";
+              url = "https://www.reddit.com/search/?q={QUERY}";
+            }
+            {
+              title = "pypi";
+              shortcut = "!py";
+              url = "https://pypi.org/search/?q={QUERY}";
+            }
+            {
+              title = "npm";
+              shortcut = "!js";
+              url = "https://www.npmjs.com/search?q={QUERY}";
+            }
+            {
+              title = "crates.io";
+              shortcut = "!rs";
+              url = "https://crates.io/search?q={QUERY}";
+            }
+            {
+              title = "maven";
+              shortcut = "!mvn";
+              url = "https://mvnrepository.com/search?q={QUERY}";
+            }
           ];
         };
         sidebar = {
