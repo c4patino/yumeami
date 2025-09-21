@@ -176,6 +176,7 @@ in {
                     "UCaSCt8s_4nfkRglWCvNSDrg" # CodeAesthetic
                     "UC9-y-6csu5WGm29I7JiwpnA" # Computerphile
                     "UCiGFu5PErgAg07tUHTLd7Xw" # Daily Dose Of Neuro & Vedal
+                    "UCYeiozh-4QwuC1sjgCmB92w" # DevOps Toolbox
                     "UCjJjavV8vOmu49a3vxPaWtQ" # Dylan Beattie
                     "UCT7H_xchRHaT9zr5GalIZVA" # Evan Edinger
                     "UCODHrzPMGbNv67e84WDZhQQ" # fern
