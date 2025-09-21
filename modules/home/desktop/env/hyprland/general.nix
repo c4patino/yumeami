@@ -75,8 +75,6 @@ in {
 
         master.new_status = "master";
 
-        gestures.workspace_swipe = false;
-
         ecosystem.no_update_news = true;
 
         misc = {
