@@ -4,10 +4,11 @@
     treefmt-nix.url = "github:numtide/treefmt-nix";
 
     devshell.url = "github:numtide/devshell";
-    stylix.url = "github:danth/stylix";
     impermanence.url = "github:nix-community/impermanence";
-    xremap.url = "github:xremap/nix-flake";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+    stylix.url = "github:danth/stylix";
+    walker.url = "github:abenz1267/walker";
+    xremap.url = "github:xremap/nix-flake";
 
     home-manager = {
       url = "github:nix-community/home-manager";
