@@ -19,7 +19,6 @@ in {
       desktop = {
         env = {
           gdm = enabled;
-          hyprland = enabled;
           x11 = enabled;
         };
       };
