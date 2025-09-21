@@ -16,7 +16,7 @@ in {
   config = mkIf cfg.enable {
     ${namespace} = {
       desktop = {
-        apps.launchers.launcher = "walker";
+        apps.launchers.launcher = "anyrun";
 
         env = {
           eww = enabled;
