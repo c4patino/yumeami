@@ -46,7 +46,7 @@ in {
             }
 
             # Join templates with commas and fetch .gitignore
-            let joined = ($args | str join ",")
+            let joined = ($args | sort | str join ",")
             http get $"https://www.toptal.com/developers/gitignore/api/($joined)"
           }
 
