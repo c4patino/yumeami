@@ -41,6 +41,8 @@ in {
 
         "ctrl+shift+<" = "move_tab -1";
         "ctrl+shift+>" = "move_tab +1";
+
+        "ctrl+shift+y" = "next_layout";
       };
 
       extraConfig = ''
