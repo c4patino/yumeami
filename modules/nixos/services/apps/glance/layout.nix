@@ -198,9 +198,11 @@ in {
                     "UCYO_jab_esuFRV4b17AJtAw" # 3Blue1Brown
                     "UC7kIy8fZavEni8Gzl8NLjOQ" # Alex O'Connor
                     "UCkbwOi_U5CBkevtlVhuzWnA" # Backend Banter
+                    "UC3nPaf5MeeDTHA2JN7clidg" # Bellular News
                     "UC5--wS0Ljbin1TjWQX6eafA" # bigboxSWE
                     "UCYI-TL0LoFRl1gFnnUFwdow" # Better Software Conference
                     "UC9Z1XWw1kmnvOOFsj6Bzy2g" # Blackthornprod
+                    "UCld68syR8Wi-GY_n4CaoJGA" # Brodie Robertson
                     "UC415bOPUcGSamy543abLmRA" # Cleo Abram
                     "UC0e3QhIYukixgh5VVpKHH9Q" # CodeBullet
                     "UCaSCt8s_4nfkRglWCvNSDrg" # CodeAesthetic
@@ -214,6 +216,7 @@ in {
                     "UCqJ-Xo29CKyLTjn6z2XwYAw" # Game Maker's Toolkit
                     "UCG1uayRlzz3ahT8ISRdyw7Q" # Genetically Modified Skeptic
                     "UClHVl2N3jPEbkNJVx-ItQIQ" # HealthyGamerGG
+                    "UCmGSJVG3mCRXVOP4yZrU1Dw" # Johnny Harris
                     "UCsXVk37bltHxD1rDPwtNM8Q" # Kurzgesagt – In a Nutshell
                     "UCpa-Zb0ZcQjTCPP1Dx_1M8Q" # LegalEagle
                     "UC6biysICWOJ-C3P4Tyeggzg" # Low Level
