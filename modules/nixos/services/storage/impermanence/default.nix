@@ -88,6 +88,7 @@ in {
           ".local/share/racket"
           ".local/share/zoxide"
           ".local/share/zsh"
+          ".m2"
           ".pm2"
           ".stack"
           ".steam"
