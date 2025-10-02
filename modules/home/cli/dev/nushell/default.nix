@@ -52,8 +52,13 @@ in {
 
           # take command
           def take [path: string] {
-              mkdir $path
-              cd $path
+            mkdir $path
+            cd $path
+          }
+
+          # secret copy command
+          def sc [path: string] {
+            open /run/secrets/$path | wl-copy
           }
         '';
 
