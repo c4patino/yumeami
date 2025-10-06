@@ -1620,11 +1620,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1759437131,
-        "narHash": "sha256-iHpaSiaXxF9vetGy8914KRQN4hxCCm0DIEk2OpFtzuM=",
+        "lastModified": 1759783844,
+        "narHash": "sha256-le2b5jA+BaXJvooDTvR5k50TFMnWkavevOYtQ4C2llo=",
         "owner": "c4patino",
         "repo": "yumevim-nix",
-        "rev": "b2be1042df86103f4463aa01f7898a91cc1a5a74",
+        "rev": "7215f8ba49d95f31ef4d9af0008588e1a05471cb",
         "type": "github"
       },
       "original": {
