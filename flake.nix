@@ -70,6 +70,11 @@
             alejandra.enable = true;
             stylua.enable = true;
           };
+          settings = {
+            global.excludes = [
+              "inputs/**"
+            ];
+          };
         };
 
         treefmtEval = inputs.treefmt-nix.lib.evalModule (channels.nixpkgs) (treefmtConfig {pkgs = channels.nixpkgs;});
