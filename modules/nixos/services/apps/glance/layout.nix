@@ -195,19 +195,22 @@ in {
                   type = "videos";
                   include-shorts = false;
                   channels = [
+                    # keep-sorted start by_regex=^.*#\s*(.*)$ case=no
                     "UCYO_jab_esuFRV4b17AJtAw" # 3Blue1Brown
                     "UC7kIy8fZavEni8Gzl8NLjOQ" # Alex O'Connor
                     "UCkbwOi_U5CBkevtlVhuzWnA" # Backend Banter
                     "UC3nPaf5MeeDTHA2JN7clidg" # Bellular News
-                    "UC5--wS0Ljbin1TjWQX6eafA" # bigboxSWE
                     "UCYI-TL0LoFRl1gFnnUFwdow" # Better Software Conference
+                    "UC5--wS0Ljbin1TjWQX6eafA" # bigboxSWE
                     "UC9Z1XWw1kmnvOOFsj6Bzy2g" # Blackthornprod
                     "UCld68syR8Wi-GY_n4CaoJGA" # Brodie Robertson
                     "UC415bOPUcGSamy543abLmRA" # Cleo Abram
-                    "UC0e3QhIYukixgh5VVpKHH9Q" # CodeBullet
                     "UCaSCt8s_4nfkRglWCvNSDrg" # CodeAesthetic
+                    "UC0e3QhIYukixgh5VVpKHH9Q" # CodeBullet
                     "UC9-y-6csu5WGm29I7JiwpnA" # Computerphile
+                    "UCSpFnDQr88xCZ80N-X7t0nQ" # Corridor Crew
                     "UCiGFu5PErgAg07tUHTLd7Xw" # Daily Dose Of Neuro & Vedal
+                    "UCNzszbnvQeFzObW0ghk0Ckw" # Dave's Garage
                     "UCYeiozh-4QwuC1sjgCmB92w" # DevOps Toolbox
                     "UCjJjavV8vOmu49a3vxPaWtQ" # Dylan Beattie
                     "UCT7H_xchRHaT9zr5GalIZVA" # Evan Edinger
@@ -216,6 +219,7 @@ in {
                     "UCqJ-Xo29CKyLTjn6z2XwYAw" # Game Maker's Toolkit
                     "UCG1uayRlzz3ahT8ISRdyw7Q" # Genetically Modified Skeptic
                     "UClHVl2N3jPEbkNJVx-ItQIQ" # HealthyGamerGG
+                    "UCFQMO-YL87u-6Rt8hIVsRjA" # Hello Future Me
                     "UCmGSJVG3mCRXVOP4yZrU1Dw" # Johnny Harris
                     "UCsXVk37bltHxD1rDPwtNM8Q" # Kurzgesagt – In a Nutshell
                     "UCpa-Zb0ZcQjTCPP1Dx_1M8Q" # LegalEagle
@@ -229,13 +233,16 @@ in {
                     "UCMnULQ6F6kLDAHxofDWIbrw" # Pirate Software
                     "UC0VTA6PQH7nKKgRO8ptMatQ" # PoliticsGirl
                     "UCMOqf8ab-42UUQIdVoKwjlQ" # Practical Engineering
+                    "UCTpmmkp1E4nmZqWPS-dl5bg" # Quanta Magazine
                     "UC1yNl2E66ZzKApQdRuTQ4tw" # Sabine Hossenfelder
                     "UCC9EjyMN_hx5NdctLBx5X7w" # Scammer Payback
                     "UCSju5G2aFaWMqn-_0YBtq5A" # Stand-up Maths
                     "UCEIwxahdLz7bap-VDs9h35A" # Steve Mould
                     "UCIxwcmTDBLniq6m7T3p_30Q" # Storytime With Jeff
                     "UCusb0SpT8elBJdbcEJS_l2A" # Tale Foundry
+                    "UCl_dlV_7ofr4qeP1drJQ-qg" # Tantacrul
                     "UCFAiFyGs6oDiF1Nf-rRJpZA" # Technoblade
+                    "UC1VLQPn9cYSqx8plbk9RxxQ" # The Action Lab
                     "UCxVPH8W2ayMey1-b0SY8rBQ" # The Coding Sloth
                     "UCRHXUZ0BxbkU2MYZgsuFgkQ" # The Spiffing Brit
                     "UCbRP3c757lWg9M-U7TyEkXA" # Theo - t3․gg
@@ -247,6 +254,7 @@ in {
                     "UCHnyfMqiRRG1u-2MsSQLbXA" # Veritasium
                     "UConVfxXodg78Tzh5nNu85Ew" # Welch Labs
                     "UCudx6plmpbs5WtWvsvu-EdQ" # Zeltik
+                    # keep-sorted end
                   ];
                 }
               ];

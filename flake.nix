@@ -68,6 +68,7 @@
           projectRootFile = "flake.nix";
           programs = {
             alejandra.enable = true;
+            keep-sorted.enable = true;
             stylua.enable = true;
           };
           settings = {
