@@ -209,6 +209,7 @@ in {
                     "UC0e3QhIYukixgh5VVpKHH9Q" # CodeBullet
                     "UC9-y-6csu5WGm29I7JiwpnA" # Computerphile
                     "UCSpFnDQr88xCZ80N-X7t0nQ" # Corridor Crew
+                    "UCCsREoj8rSRkEvxWqxr74rQ" # Cybernews
                     "UCiGFu5PErgAg07tUHTLd7Xw" # Daily Dose Of Neuro & Vedal
                     "UCNzszbnvQeFzObW0ghk0Ckw" # Dave's Garage
                     "UCYeiozh-4QwuC1sjgCmB92w" # DevOps Toolbox
