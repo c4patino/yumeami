@@ -58,7 +58,10 @@ in {
 
           # secret copy command
           def sc [path: string] {
-            open /run/secrets/$path | wl-copy
+            ["/run/secrets" ($path)]
+            | path join
+            | open
+            | wl-copy
           }
         '';
 
