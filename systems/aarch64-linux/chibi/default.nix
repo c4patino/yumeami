@@ -51,5 +51,5 @@ in {
     hostId = "9245f27e";
   };
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "25.05";
 }

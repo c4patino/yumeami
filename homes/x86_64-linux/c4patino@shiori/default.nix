@@ -12,5 +12,5 @@ in {
     };
   };
 
-  home.stateVersion = "25.11";
+  home.stateVersion = "25.05";
 }
