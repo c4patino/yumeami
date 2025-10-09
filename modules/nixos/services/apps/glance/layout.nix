@@ -213,6 +213,7 @@ in {
                     "UCiGFu5PErgAg07tUHTLd7Xw" # Daily Dose Of Neuro & Vedal
                     "UCNzszbnvQeFzObW0ghk0Ckw" # Dave's Garage
                     "UCYeiozh-4QwuC1sjgCmB92w" # DevOps Toolbox
+                    "UCWQaM7SpSECp9FELz-cHzuQ" # Dreams of Code
                     "UCjJjavV8vOmu49a3vxPaWtQ" # Dylan Beattie
                     "UCT7H_xchRHaT9zr5GalIZVA" # Evan Edinger
                     "UCODHrzPMGbNv67e84WDZhQQ" # fern
