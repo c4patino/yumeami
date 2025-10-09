@@ -32,6 +32,10 @@ in {
       metrics = {
         hyperfine = enabled;
       };
+
+      tools = {
+        presenterm = enabled;
+      };
     };
 
     desktop.services.brightnessctl = enabled;
