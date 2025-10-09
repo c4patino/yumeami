@@ -33,25 +33,6 @@ in {
         glance = enabled;
       };
 
-      ci = {
-        gitea-runner = {
-          enable = true;
-          runners."default" = {instances = 1;};
-        };
-
-        github-runner = let
-          inherit (config.sops) secrets;
-        in {
-          enable = true;
-          runners = {
-            "oasys-mas" = {
-              tokenFile = secrets."github/runner-oasys".path;
-              url = "https://github.com/oasys-mas";
-            };
-          };
-        };
-      };
-
       networking = {
         httpd = enabled;
       };
