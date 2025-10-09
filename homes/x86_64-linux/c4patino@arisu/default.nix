@@ -24,12 +24,15 @@ in {
       access = {
         bitwarden = enabled;
       };
+
       dev = {
         leetcode = enabled;
       };
+
       media = {
         spotify = enabled;
       };
+
       metrics = {
         hyperfine = enabled;
         nvtop = enabled;
