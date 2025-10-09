@@ -18,7 +18,7 @@ in {
     ${namespace} = {
       desktop = {
         env = {
-          gdm = enabled;
+          greetd = enabled;
           hyprland = enabled;
           x11 = enabled;
         };
