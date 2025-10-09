@@ -37,6 +37,10 @@ in {
         hyperfine = enabled;
         nvtop = enabled;
       };
+
+      tools = {
+        presenterm = enabled;
+      };
     };
   };
 
