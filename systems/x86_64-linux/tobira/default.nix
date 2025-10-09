@@ -17,8 +17,11 @@ in {
     bundles = {
       common = enabled;
     };
+
     services = {
-      networking.httpd = enabled;
+      networking = {
+        httpd = enabled;
+      };
     };
   };
 
