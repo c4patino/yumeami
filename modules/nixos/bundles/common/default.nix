@@ -104,6 +104,17 @@ in {
       ];
     };
 
+    boot = {
+      consoleLogLevel = 0;
+      kernelParams = [
+        "quiet"
+        "splash"
+        "rd.system.show_status=false"
+        "rd.udev.log_level=3"
+        "udev.log_priority=3"
+      ];
+    };
+
     environment.systemPackages = with pkgs; [
       cachix
       home-manager
