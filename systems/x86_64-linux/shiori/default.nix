@@ -17,21 +17,32 @@ in {
     bundles = {
       common = enabled;
     };
+
     services = {
       apps = {
         forgejo = enabled;
         vaultwarden = enabled;
       };
+
       ci = {
         gitea-runner = {
           enable = true;
           runners."default" = {instances = 1;};
         };
       };
-      metrics.grafana = enabled;
-      networking.httpd = enabled;
-      storage.samba.mounts = {
-        "shared" = "arisu";
+
+      metrics = {
+        grafana = enabled;
+      };
+
+      networking = {
+        httpd = enabled;
+      };
+
+      storage = {
+        samba.mounts = {
+          "shared" = "arisu";
+        };
       };
     };
   };

@@ -24,9 +24,11 @@ in {
       access = {
         bitwarden = enabled;
       };
+
       dev = {
         leetcode = enabled;
       };
+
       metrics = {
         hyperfine = enabled;
       };

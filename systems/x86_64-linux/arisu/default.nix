@@ -22,13 +22,17 @@ in {
       common = enabled;
       desktop = enabled;
     };
+
     desktop.apps.teamviewer = enabled;
+
     hardware.nvidia = enabled;
+
     services = {
       apps = {
         rustypaste = enabled;
         glance = enabled;
       };
+
       ci = {
         gitea-runner = {
           enable = true;
@@ -47,7 +51,11 @@ in {
           };
         };
       };
-      networking.httpd = enabled;
+
+      networking = {
+        httpd = enabled;
+      };
+
       storage = {
         nfs.mounts = {
           "slurm" = "chibi";

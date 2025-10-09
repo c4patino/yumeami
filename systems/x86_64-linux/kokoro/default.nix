@@ -18,13 +18,24 @@ in {
       common = enabled;
       desktop = enabled;
     };
-    desktop.apps.teamviewer = enabled;
+
+    desktop = {
+      apps = {
+        teamviewer = enabled;
+      };
+    };
+
     hardware = {
       battery = enabled;
       xremap = enabled;
     };
-    services.storage.samba.mounts = {
-      "shared" = "arisu";
+
+    services = {
+      storage = {
+        samba.mounts = {
+          "shared" = "arisu";
+        };
+      };
     };
   };
 
