@@ -6,7 +6,7 @@
 mkShell {
   buildInputs = with pkgs; [
     poetry
-    python312Full
+    python312
     python312Packages.virtualenv
   ];
 

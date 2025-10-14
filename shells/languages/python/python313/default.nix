@@ -6,12 +6,12 @@
 mkShell {
   buildInputs = with pkgs; [
     poetry
-    python311
-    python311Packages.virtualenv
+    python313
+    python313Packages.virtualenv
   ];
 
   packages = with pkgs; [
-    python311Packages.debugpy
+    python313Packages.debugpy
     yapf
   ];
 
