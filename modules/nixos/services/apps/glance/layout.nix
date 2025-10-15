@@ -222,6 +222,7 @@ in {
                     "UCG1uayRlzz3ahT8ISRdyw7Q" # Genetically Modified Skeptic
                     "UClHVl2N3jPEbkNJVx-ItQIQ" # HealthyGamerGG
                     "UCFQMO-YL87u-6Rt8hIVsRjA" # Hello Future Me
+                    "UCGeYShtGwQx9JO9CLFxGEBQ" # History of Everything Podcast
                     "UCf-U0uPVQZtcqXUWa_Hl4Mw" # Into the Shadows
                     "UCmGSJVG3mCRXVOP4yZrU1Dw" # Johnny Harris
                     "UCsXVk37bltHxD1rDPwtNM8Q" # Kurzgesagt – In a Nutshell
