@@ -17,20 +17,22 @@ in {
     programs.git = {
       enable = true;
       lfs = enabled;
-      userName = "C4 Patino";
-      userEmail = "c4patino@gmail.com";
 
-      extraConfig = {
-        user.signingkey = "~/.ssh/id_ed25519.pub";
-        init.defaultBranch = "main";
-        pull.rebase = true;
-        fetch.prune = true;
+      settings = {
+        user = {
+          name = "C4 Patino";
+          email = "c4patino@gmail.com";
+          signingkey = "~/.ssh/id_ed25519.pub";
+        };
 
-        maintenance.auto = true;
-        core.editor = "nvim";
         commit.gpgsign = true;
-        gpg.format = "ssh";
+        core.editor = "nvim";
         diff.colorMoved = "zebra";
+        fetch.prune = true;
+        gpg.format = "ssh";
+        init.defaultBranch = "main";
+        maintenance.auto = true;
+        pull.rebase = true;
       };
 
       ignores = [
