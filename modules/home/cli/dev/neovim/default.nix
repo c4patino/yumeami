@@ -17,7 +17,7 @@ in {
 
   config = mkIf cfg.enable {
     home = {
-      packages = [inputs.yumevim-nix.packages.${system}.default];
+      packages = [inputs.yumevim-nix.packages.${system}.full];
       sessionVariables.EDITOR = "nvim";
     };
   };
