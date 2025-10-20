@@ -345,6 +345,13 @@ in {
                     }
                     {
                       type = "repository";
+                      title = "dqc-r-and-s";
+                      repository = "cseseniordesign/dqc-r-and-s";
+                      token = getIn "github.glance-cseseniordesign" secrets;
+                      commits-limit = 2;
+                    }
+                    {
+                      type = "repository";
                       title = "nixpkgs";
                       repository = "nixos/nixpkgs";
                       token = getIn "github.glance" secrets;
