@@ -1,5 +1,4 @@
 {
-  config,
   inputs,
   lib,
   namespace,
@@ -29,8 +28,8 @@ in {
 
     services = {
       apps = {
-        rustypaste = enabled;
         glance = enabled;
+        rustypaste = enabled;
       };
 
       networking = {

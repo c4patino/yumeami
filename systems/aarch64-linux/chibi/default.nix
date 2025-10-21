@@ -22,8 +22,10 @@ in {
         ntfy = enabled;
         uptime-kuma = enabled;
       };
+
       networking = {
         blocky = enabled;
+        cloudflared = enabled;
         httpd = enabled;
         unbound = enabled;
       };

@@ -27,14 +27,17 @@ in {
               IP = "100.127.93.17";
             };
           };
+
           network-services = {
             paste = {
               host = "arisu";
               port = 5100;
+              public = true;
             };
             dash = {
               host = "arisu";
               port = 5150;
+              public = true;
             };
 
             monitor = {
@@ -44,21 +47,25 @@ in {
             ntfy = {
               host = "chibi";
               port = 5201;
+              public = true;
             };
 
             git = {
               host = "shiori";
               port = 5300;
+              public = true;
             };
             vault = {
               host = "shiori";
               port = 5400;
+              public = true;
             };
             grafana = {
               host = "shiori";
               port = 5500;
             };
           };
+
           unbound.dnsHost = "chibi";
         };
       };

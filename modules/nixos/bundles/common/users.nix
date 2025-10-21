@@ -38,7 +38,9 @@ in {
         "cachix/default" = {owner = c4patino.name;};
         "cachix/github" = {owner = c4patino.name;};
 
-        "cloudflare" = {owner = c4patino.name;};
+        "cloudflare/token" = {owner = c4patino.name;};
+        "cloudflare/tunnel/certificate" = {owner = c4patino.name;};
+        "cloudflare/tunnel/credentials" = {owner = c4patino.name;};
 
         "forgejo" = {owner = c4patino.name;};
 
