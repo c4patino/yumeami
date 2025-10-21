@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf mkEnableOption mapAttrsToList listToAttrs replaceStrings mkMerge concatStringsSep filterAttrs;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn resolveHostIP;
   inherit (config.networking) hostName;
   base = "${namespace}.services.networking.httpd";
   cfg = getAttrByNamespace config base;
@@ -17,7 +17,7 @@
   mkLocalhostConfig = name: service: let
     p = toString service.port;
   in ''
-    # --- ${name} (subdomain access) ---
+    # --- ${name} (localhost access) ---
     RewriteCond %{HTTP_HOST} ^${name}\.localhost$ [NC]
     RewriteRule ^/(.*) http://localhost:${p}/$1 [P,L]
     ProxyPassReverse / http://localhost:${p}/
@@ -29,6 +29,7 @@
   }: name: service: let
     ssl = "${crypt}/ssl/${hostName}";
     p = toString service.port;
+    host = resolveHostIP networkingCfg.devices service.host;
 
     certs = replaceStrings ["*"] ["wildcard"] domain;
     sslConfig =
@@ -58,8 +59,8 @@
           # --- ${name} (subdomain access) ---
           RewriteEngine On
           ProxyPreserveHost On
-          ProxyPass / http://localhost:${p}/
-          ProxyPassReverse / http://localhost:${p}/
+          ProxyPass / http://${host}:${p}/
+          ProxyPassReverse / http://${host}:${p}/
         '';
       }
       // sslConfig;
@@ -76,6 +77,17 @@ in {
       extraModules = ["proxy" "proxy_http" "rewrite"];
 
       virtualHosts = mkMerge [
+        {
+          "_default_" = {
+            acmeRoot = null;
+            documentRoot = "/var/empty";
+            extraConfig = ''
+              RewriteEngine On
+              RewriteRule ^ - [R=404,L]
+            '';
+          };
+        }
+
         {
           "localhost" = let
             localhostProxyConfig =
