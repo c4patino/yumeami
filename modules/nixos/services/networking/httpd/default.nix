@@ -115,6 +115,14 @@ in {
             useSSL = true;
           })
           |> listToAttrs)
+
+        (mkIf networkingCfg.cloudflared.enable (networkingCfg.network-services
+          |> filterAttrs (_: svc: svc.public)
+          |> mapAttrsToList (mkVirtualHost {
+            domain = "*.cpatino.com";
+            useSSL = false;
+          })
+          |> listToAttrs))
       ];
     };
 
