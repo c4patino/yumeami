@@ -16,7 +16,10 @@ in {
   config = mkIf cfg.enable {
     ${namespace} = {
       desktop = {
-        apps.launchers.launcher = "walker";
+        apps = {
+          launchers.launcher = "walker";
+          tools.obs = enabled;
+        };
 
         env = {
           eww = enabled;

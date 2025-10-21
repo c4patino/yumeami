@@ -5,14 +5,20 @@
   config,
   lib,
   modulesPath,
+  pkgs,
   ...
 }: {
   imports = [(modulesPath + "/installer/scan/not-detected.nix")];
 
+  boot = {
+  };
+
   boot.initrd.availableKernelModules = ["xhci_pci" "thunderbolt" "uas" "usb_storage" "sd_mod" "sdhci_pci"];
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-intel"];
-  boot.extraModulePackages = [];
+  boot.extraModulePackages = with pkgs.linuxPackages; [
+    v4l2loopback
+  ];
 
   services.logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
 
