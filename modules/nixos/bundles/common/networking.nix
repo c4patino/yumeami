@@ -42,7 +42,6 @@ in {
             dash = {
               host = "shiori";
               port = 5150;
-              public = true;
             };
             git = {
               host = "shiori";
