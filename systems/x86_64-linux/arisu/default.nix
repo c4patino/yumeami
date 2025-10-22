@@ -27,15 +27,6 @@ in {
     hardware.nvidia = enabled;
 
     services = {
-      apps = {
-        glance = enabled;
-        rustypaste = enabled;
-      };
-
-      networking = {
-        httpd = enabled;
-      };
-
       storage = {
         nfs.mounts = {
           "slurm" = "chibi";

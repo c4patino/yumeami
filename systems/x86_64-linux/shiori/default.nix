@@ -21,6 +21,8 @@ in {
     services = {
       apps = {
         forgejo = enabled;
+        glance = enabled;
+        rustypaste = enabled;
         vaultwarden = enabled;
       };
 

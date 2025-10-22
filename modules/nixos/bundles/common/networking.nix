@@ -29,17 +29,6 @@ in {
           };
 
           network-services = {
-            paste = {
-              host = "arisu";
-              port = 5100;
-              public = true;
-            };
-            dash = {
-              host = "arisu";
-              port = 5150;
-              public = true;
-            };
-
             monitor = {
               host = "chibi";
               port = 5200;
@@ -50,19 +39,29 @@ in {
               public = true;
             };
 
+            dash = {
+              host = "shiori";
+              port = 5150;
+              public = true;
+            };
             git = {
               host = "shiori";
               port = 5300;
+              public = true;
+            };
+            grafana = {
+              host = "shiori";
+              port = 5500;
+            };
+            paste = {
+              host = "shiori";
+              port = 5100;
               public = true;
             };
             vault = {
               host = "shiori";
               port = 5400;
               public = true;
-            };
-            grafana = {
-              host = "shiori";
-              port = 5500;
             };
           };
 
