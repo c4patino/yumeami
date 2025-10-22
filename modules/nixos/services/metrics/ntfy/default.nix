@@ -21,8 +21,10 @@ in {
     services.ntfy-sh = {
       enable = true;
       settings = {
-        base-url = "http://ntfy.yumeami.sh:${toString port}";
+        base-url = "http://ntfy.yumeami.sh";
+        upstream-base-url = "https://ntfy.sh";
         listen-http = ":${toString port}";
+        behind-proxy = true;
       };
     };
 
