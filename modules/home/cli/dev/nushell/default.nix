@@ -50,12 +50,6 @@ in {
             http get $"https://www.toptal.com/developers/gitignore/api/($joined)"
           }
 
-          # take command
-          def take [path: string] {
-            mkdir $path
-            cd $path
-          }
-
           # secret copy command
           def sc [path: string] {
             ["/run/secrets" ($path)]
