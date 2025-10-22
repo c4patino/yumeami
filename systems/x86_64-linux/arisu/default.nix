@@ -27,6 +27,9 @@ in {
     hardware.nvidia = enabled;
 
     services = {
+      networking = {
+        httpd = enabled;
+      };
       storage = {
         nfs.mounts = {
           "slurm" = "chibi";

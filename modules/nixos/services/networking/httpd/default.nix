@@ -76,14 +76,31 @@ in {
 
       extraModules = ["proxy" "proxy_http" "rewrite"];
 
+      extraConfig = ''
+        ErrorDocument 400 /400.html
+        ErrorDocument 401 /401.html
+        ErrorDocument 403 /403.html
+        ErrorDocument 404 /404.html
+        ErrorDocument 500 /500.html
+      '';
+
       virtualHosts = mkMerge [
         {
           "_default_" = {
             acmeRoot = null;
             documentRoot = "/var/empty";
+
+            servedDirs = [
+              {
+                dir = "/var/www/error";
+                urlPath = "/";
+              }
+            ];
+
             extraConfig = ''
               RewriteEngine On
-              RewriteRule ^ - [R=404,L]
+              RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500)\.html$
+              RewriteRule ^ - [L,R=404]
             '';
           };
         }
@@ -98,12 +115,21 @@ in {
             acmeRoot = null;
             serverAliases = ["*.localhost"];
             documentRoot = "/var/empty";
+
+            servedDirs = [
+              {
+                dir = "/var/www/error";
+                urlPath = "/";
+              }
+            ];
+
             extraConfig = ''
               UseCanonicalName Off
+
               RewriteEngine On
               ${localhostProxyConfig}
-
-              RewriteRule ^ - [R=404,L]
+              RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500)\.html$
+              RewriteRule ^ - [L,R=404]
             '';
           };
         }
@@ -141,6 +167,8 @@ in {
 
     networking.firewall.allowedTCPPorts = [80 443];
 
-    ${namespace}.services.storage.impermanence.folders = ["/var/www"];
+    systemd.tmpfiles.rules = [
+      "L+ /var/www 555 root root - ${inputs.dotfiles + "/httpd"}"
+    ];
   };
 }
