@@ -37,7 +37,7 @@ in {
 
       settings = {
         server = let
-          url = "git.yumeami.sh";
+          url = "git.cpatino.com";
         in {
           DOMAIN = url;
           ROOT_URL = "https://${url}/";
