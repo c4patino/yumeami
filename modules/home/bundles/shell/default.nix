@@ -19,7 +19,6 @@ in {
       dust
       ripgrep
       ripgrep-all
-      wiki-tui
     ];
 
     ${namespace} = {
