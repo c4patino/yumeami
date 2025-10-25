@@ -51,6 +51,7 @@ in {
 
         networking = {
           network-manager = enabled;
+          openssh = enabled;
           tailscale = enabled;
         };
 
