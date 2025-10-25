@@ -23,10 +23,6 @@ in {
           certificateFile = secrets."cloudflare/tunnel/certificate".path;
           credentialsFile = secrets."cloudflare/tunnel/credentials".path;
 
-          # ingress = {
-          #   "*.cpatino.com" = "http://localhost:80";
-          # };
-
           default = "http://localhost:80";
         };
       };
