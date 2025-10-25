@@ -3,6 +3,7 @@
   inputs,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf mkEnableOption filterAttrs attrNames head mkForce;
@@ -28,6 +29,7 @@ in {
   config = mkIf cfg.enable {
     services.forgejo = {
       enable = true;
+      package = pkgs.forgejo;
 
       stateDir = "/var/lib/forgejo";
 
