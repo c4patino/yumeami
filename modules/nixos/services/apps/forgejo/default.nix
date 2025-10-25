@@ -68,6 +68,8 @@ in {
       };
     };
 
+    networking.firewall.allowedTCPPorts = [2222];
+
     ${namespace}.services.storage.impermanence.folders = ["/var/lib/forgejo"];
   };
 }
