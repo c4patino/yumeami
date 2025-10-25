@@ -42,8 +42,6 @@ in {
           DOMAIN = url;
           ROOT_URL = "https://${url}/";
           HTTP_PORT = port;
-          SSH_PORT = 2222;
-          START_SSH_SERVER = true;
         };
 
         ui = {
