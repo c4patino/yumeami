@@ -29,7 +29,9 @@ in {
       ci = {
         gitea-runner = {
           enable = true;
-          runners."default" = {instances = 1;};
+          runners."default" = {
+            instances = 1;
+          };
         };
       };
 

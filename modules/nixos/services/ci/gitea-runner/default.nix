@@ -32,15 +32,15 @@ in {
             };
             url = mkOption {
               type = str;
-              default = "https://git.yumeami.sh";
+              default = "https://git.cpatino.com";
               description = "URL of the repository for which to add the self-hosted runner.";
             };
             labels = mkOption {
               type = listOf str;
               default = [
-                "ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:act-22.04"
+                "ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:act-latest"
+                "ubuntu-24.04:docker://ghcr.io/catthehacker/ubuntu:act-24.04"
                 "ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04"
-                "ubuntu-20.04:docker://ghcr.io/catthehacker/ubuntu:act-20.04"
               ];
               description = "Set of labels to apply to the runner instance.";
             };
