@@ -62,6 +62,7 @@ in {
           "forgejo"
           "grafana"
           "vaultwarden"
+          "terraform"
         ];
         compression = "zstd";
         compressionLevel = 4;
