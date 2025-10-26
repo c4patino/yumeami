@@ -51,5 +51,17 @@ in {
     };
 
     networking.firewall.allowedTCPPorts = [port];
+
+    systemd.services.vaultwarden = let
+      dbHost =
+        pgCfg.databases
+        |> filterAttrs (host: dbs: elem "vaultwarden" dbs)
+        |> attrNames
+        |> head;
+    in
+      mkIf (dbHost == config.networking.hostName) {
+        after = ["postgresql.service"];
+        requires = ["postgresql.service"];
+      };
   };
 }
