@@ -68,7 +68,10 @@ in {
       };
     };
 
-    networking.firewall.allowedTCPPorts = [2222];
+    systemd.services.forgejo = mkIf (dbHost == hostName) {
+      after = ["postgresql.service"];
+      requires = ["postgresql.service"];
+    };
 
     ${namespace}.services.storage.impermanence.folders = ["/var/lib/forgejo"];
   };
