@@ -2,6 +2,7 @@
   config,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
@@ -19,8 +20,12 @@ in {
       xwayland.enable = true;
     };
 
-    environment.sessionVariables = {
-      NIXOS_OZONE_WL = "1";
+    xdg.portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-hyprland
+      ];
     };
   };
 }
