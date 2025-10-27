@@ -179,11 +179,11 @@
     "dotfiles": {
       "flake": false,
       "locked": {
-        "lastModified": 1761185022,
-        "narHash": "sha256-SABEm3rOGNy8IXuccUAV/xzJfGaDhuwDk0KNK9WCZE4=",
+        "lastModified": 1761621337,
+        "narHash": "sha256-Rn9aXPdzVZ8mmF297/duI5XpCKbA/SfwmkS0Nw8JAVI=",
         "owner": "c4patino",
         "repo": "dotfiles",
-        "rev": "0aff829c0ff6e7ae7530fc4dbcbca8a0a6ba849c",
+        "rev": "de12d2261fa026858852ee54c3b2726dea9bd9ca",
         "type": "github"
       },
       "original": {
