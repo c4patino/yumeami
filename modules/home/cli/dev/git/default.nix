@@ -2,6 +2,7 @@
   config,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
@@ -14,39 +15,56 @@ in {
   };
 
   config = mkIf cfg.enable {
-    programs.git = {
-      enable = true;
-      lfs = enabled;
+    programs = {
+      git = {
+        enable = true;
+        lfs = enabled;
 
-      settings = {
-        user = {
-          name = "C4 Patino";
-          email = "c4patino@gmail.com";
-          signingkey = "~/.ssh/id_ed25519.pub";
+        settings = {
+          commit.gpgsign = true;
+          core = {
+            pager = "delta";
+            editor = "nvim";
+          };
+          delta = {
+            dark = true;
+            hyperlinks = true;
+            line-numbers = true;
+            navigate = true;
+            side-by-side = true;
+          };
+          diff.colorMoved = "zebra";
+          fetch.prune = true;
+          gpg.format = "ssh";
+          init.defaultBranch = "main";
+          interactive.diffFilter = "delta --color-only";
+          maintenance.auto = true;
+          merge.conflictStyle = "zdiff3";
+          pull.rebase = true;
+          user = {
+            name = "C4 Patino";
+            email = "c4patino@gmail.com";
+            signingkey = "~/.ssh/id_ed25519.pub";
+          };
         };
 
-        commit.gpgsign = true;
-        core.editor = "nvim";
-        diff.colorMoved = "zebra";
-        fetch.prune = true;
-        gpg.format = "ssh";
-        init.defaultBranch = "main";
-        maintenance.auto = true;
-        pull.rebase = true;
+        ignores = [
+          ".direnv"
+          ".env"
+          ".env.local"
+          ".envrc"
+          ".git"
+          ".pnpm-store"
+          ".venv"
+          "AGENTS.md"
+        ];
       };
 
-      ignores = [
-        ".direnv"
-        ".env"
-        ".env.local"
-        ".envrc"
-        ".git"
-        ".pnpm-store"
-        ".venv"
-        "AGENTS.md"
-      ];
+      gh.enable = true;
     };
 
-    programs.gh = enabled;
+    home.packages = with pkgs; [
+      delta
+    ];
   };
 }
