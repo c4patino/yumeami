@@ -30,11 +30,6 @@ in {
           serverAliveInterval = 0;
           userKnownHostsFile = "~/.ssh/known_hosts";
         };
-        "forgejo" = {
-          hostname = "git.yumeami.sh";
-          user = "forgejo";
-          port = 2222;
-        };
         "github" = {
           hostname = "github.com";
           user = "git";
