@@ -25,8 +25,8 @@ in {
       openssh.authorizedKeys.keyFiles = let
         ssh = "${inputs.self}/secrets/crypt/ssh";
       in
-        ["arisu" "chibi" "kokoro" "shiori"]
-        |> map (h: "${ssh}/${h}/id_ed25519.pub");
+        ["c4patino@arisu" "c4patino@chibi" "c4patino@kokoro" "c4patino@shiori"]
+        |> map (profile: "${ssh}/${profile}/id_ed25519.pub");
 
       shell = pkgs.bash;
     };

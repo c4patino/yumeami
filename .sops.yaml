@@ -12,4 +12,19 @@ creation_rules:
         - *c4patino_kokoro
         - *c4patino_chibi
         - *c4patino_shiori
-
+  - path_regex: secrets/sops/arisu.yaml
+    key_groups:
+      - age:
+        - *c4patino_arisu
+  - path_regex: secrets/sops/kokoro.yaml
+    key_groups:
+      - age:
+        - *c4patino_kokoro
+  - path_regex: secrets/sops/chibi.yaml
+    key_groups:
+      - age:
+        - *c4patino_chibi
+  - path_regex: secrets/sops/shiori.yaml
+    key_groups:
+      - age:
+        - *c4patino_shiori
