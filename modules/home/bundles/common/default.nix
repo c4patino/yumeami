@@ -7,7 +7,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption;
+  inherit (lib) mkIf mkEnableOption listToAttrs flatten;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
   base = "${namespace}.bundles.common";
   cfg = getAttrByNamespace config base;
@@ -38,10 +38,7 @@ in {
 
       file = let
         crypt = "${inputs.self}/secrets/crypt/";
-        name = config.snowfallorg.user.name;
       in {
-        # ".ssh/id_ed25519".source = "${crypt}/ssh/${name}@${host}/id_ed25519";
-        # ".ssh/id_ed25519.pub".source = "${crypt}/ssh/${name}@${host}/id_ed25519.pub";
         ".config/sops/age/keys.txt".source = "${crypt}/age/${host}/keys.txt";
         ".config/rustypaste/config.toml".source = "${crypt}/rustypaste/client.toml";
       };
@@ -58,6 +55,42 @@ in {
         NH_FLAKE = "${config.home.homeDirectory}/dotfiles";
       };
     };
+
+    sops.secrets = let
+      inherit (config.snowfallorg) user;
+      keyObj = extraAttrs: key: [
+        {
+          name = "gpg/${key}/private";
+          value =
+            {
+              path = "${user.home.directory}/.gnupg/${key}.private.asc";
+              mode = "0700";
+            }
+            // extraAttrs;
+        }
+        {
+          name = "gpg/${key}/public";
+          value =
+            {
+              path = "${user.home.directory}/.gnupg/${key}.public.asc";
+              mode = "0700";
+            }
+            // extraAttrs;
+        }
+      ];
+
+      emails =
+        ["c4patino@gmail.com" "cpatino2@nebraska.edu" "cpatino8605@gmail.com"]
+        |> map (keyObj {})
+        |> flatten;
+
+      users =
+        ["c4patino"]
+        |> map (keyObj {sopsFile = "${inputs.self}/secrets/sops/${host}.yaml";})
+        |> flatten;
+    in
+      (users ++ emails)
+      |> listToAttrs;
 
     programs.bash.initExtra = ''
       . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
