@@ -59,7 +59,6 @@ in {
           ca = enabled;
           gnupg = enabled;
           polkit = enabled;
-          sops = enabled;
         };
 
         storage = {
