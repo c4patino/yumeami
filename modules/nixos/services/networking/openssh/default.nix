@@ -17,7 +17,7 @@ in {
     services.openssh = {
       enable = true;
 
-      settings.StrictModes = false;
+      settings.X11Forwarding = true;
 
       hostKeys = let
         inherit (config.sops) secrets;
