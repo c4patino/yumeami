@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   ...
@@ -23,7 +22,10 @@ in {
       settings = {
         HOST = "0.0.0.0";
         PORT = "${toString port}";
-        NODE_EXTRA_CA_CERTS = "${inputs.self}/secrets/crypt/ssl/ca.crt";
+        NODE_EXTRA_CA_CERTS = let
+          inherit (config.sops) secrets;
+        in
+          secrets."ssl/ca/cert".path;
       };
     };
 
