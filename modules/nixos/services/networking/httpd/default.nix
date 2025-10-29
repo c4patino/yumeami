@@ -170,5 +170,25 @@ in {
     systemd.tmpfiles.rules = [
       "L+ /var/www 555 root root - ${inputs.dotfiles + "/httpd"}"
     ];
+
+    sops.secrets = let
+      inherit (config.networking) hostName;
+      inherit (config.users.users) wwwrun;
+    in
+      [
+        "ssl/wildcard_cpatino_com/cert"
+        "ssl/wildcard_cpatino_com/key"
+        "ssl/wildcard_yumeami_sh/cert"
+        "ssl/wildcard_yumeami_sh/key"
+      ]
+      |> map (name: {
+        inherit name;
+        value = {
+          sopsFile = "${inputs.self}/secrets/sops/${hostName}.yaml";
+          owner = wwwrun.name;
+          group = wwwrun.group;
+        };
+      })
+      |> listToAttrs;
   };
 }

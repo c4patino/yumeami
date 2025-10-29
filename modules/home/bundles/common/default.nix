@@ -21,7 +21,6 @@ in {
       cli = {
         access = {
           crypt = enabled;
-          sops = enabled;
           ssh = enabled;
         };
 
@@ -41,8 +40,8 @@ in {
         crypt = "${inputs.self}/secrets/crypt/";
         name = config.snowfallorg.user.name;
       in {
-        ".ssh/id_ed25519".source = "${crypt}/ssh/${name}@${host}/id_ed25519";
-        ".ssh/id_ed25519.pub".source = "${crypt}/ssh/${name}@${host}/id_ed25519.pub";
+        # ".ssh/id_ed25519".source = "${crypt}/ssh/${name}@${host}/id_ed25519";
+        # ".ssh/id_ed25519.pub".source = "${crypt}/ssh/${name}@${host}/id_ed25519.pub";
         ".config/sops/age/keys.txt".source = "${crypt}/age/${host}/keys.txt";
         ".config/rustypaste/config.toml".source = "${crypt}/rustypaste/client.toml";
       };

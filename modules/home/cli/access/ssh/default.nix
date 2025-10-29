@@ -1,5 +1,7 @@
 {
   config,
+  host,
+  inputs,
   lib,
   namespace,
   ...
@@ -46,6 +48,19 @@ in {
           hostname = "nuros.unl.edu";
           user = "cpatino2";
         };
+      };
+    };
+
+    sops.secrets = let
+      inherit (config.snowfallorg) user;
+    in {
+      "ssh/${user.name}/private" = {
+        path = "${user.home.directory}/.ssh/id_ed25519";
+        sopsFile = "${inputs.self}/secrets/sops/${host}.yaml";
+      };
+      "ssh/${user.name}/public" = {
+        path = "${user.home.directory}/.ssh/id_ed25519.pub";
+        sopsFile = "${inputs.self}/secrets/sops/${host}.yaml";
       };
     };
   };

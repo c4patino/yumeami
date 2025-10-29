@@ -1,10 +1,11 @@
 {
   config,
+  inputs,
   lib,
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption;
+  inherit (lib) mkIf mkEnableOption listToAttrs;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.services.networking.openssh";
   cfg = getAttrByNamespace config base;
@@ -33,5 +34,22 @@ in {
         }
       ];
     };
+
+    sops.secrets = let
+      inherit (config.networking) hostName;
+    in
+      [
+        "ssh/server/private_ed25519"
+        "ssh/server/private_rsa"
+        "ssh/server/public_ed25519"
+        "ssh/server/public_rsa"
+      ]
+      |> map (name: {
+        inherit name;
+        value = {
+          sopsFile = "${inputs.self}/secrets/sops/${hostName}.yaml";
+        };
+      })
+      |> listToAttrs;
   };
 }

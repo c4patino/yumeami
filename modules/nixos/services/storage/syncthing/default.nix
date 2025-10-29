@@ -5,7 +5,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkEnableOption mkOption mkIf mapAttrs mapAttrs';
+  inherit (lib) types mkEnableOption mkOption mkIf mapAttrs mapAttrs' listToAttrs;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.syncthing";
@@ -62,6 +62,22 @@ in {
           cfg.shares |> mapAttrs' mkShare;
       };
     };
+
+    sops.secrets = let
+      inherit (config.networking) hostName;
+      sopsFolder = "${inputs.self}/secrets/sops";
+    in
+      [
+        "ssl/syncthing/cert"
+        "ssl/syncthing/key"
+      ]
+      |> map (name: {
+        inherit name;
+        value = {
+          sopsFile = "${sopsFolder}/${hostName}.yaml";
+        };
+      })
+      |> listToAttrs;
 
     systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
   };
