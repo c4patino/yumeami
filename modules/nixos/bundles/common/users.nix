@@ -5,9 +5,7 @@
   namespace,
   pkgs,
   ...
-}:
-with lib;
-with lib.${namespace}; let
+}: let
   inherit (lib) mkIf;
   inherit (lib.${namespace}) getAttrByNamespace;
   inherit (config.networking) hostName;
@@ -35,6 +33,8 @@ in {
       inherit (config.users.users) c4patino;
     in {
       secrets = {
+        "ssl/ca/cert" = {};
+
         "cachix/default" = {owner = c4patino.name;};
         "cachix/github" = {owner = c4patino.name;};
 

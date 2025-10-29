@@ -27,17 +27,17 @@
     domain,
     useSSL,
   }: name: service: let
-    ssl = "${crypt}/ssl/${hostName}";
-    p = toString service.port;
+    inherit (config.sops) secrets;
     host = resolveHostIP networkingCfg.devices service.host;
+    p = toString service.port;
 
-    certs = replaceStrings ["*"] ["wildcard"] domain;
+    certs = replaceStrings ["*" "."] ["wildcard" "_"] domain;
     sslConfig =
       if useSSL
       then {
         forceSSL = true;
-        sslServerKey = "${ssl}/${certs}.key";
-        sslServerCert = "${ssl}/${certs}.crt";
+        sslServerCert = secrets."ssl/${certs}/cert".path;
+        sslServerKey = secrets."ssl/${certs}/key".path;
       }
       else {};
   in {

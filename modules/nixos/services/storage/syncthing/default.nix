@@ -29,15 +29,15 @@ in {
 
   config = mkIf cfg.enable {
     services.syncthing = let
-      ssl = "${inputs.self}/secrets/crypt/ssl/${hostName}";
+      inherit (config.sops) secrets;
     in {
       enable = true;
       dataDir = "/mnt/syncthing/";
       user = "c4patino";
       group = "syncthing";
 
-      key = "${ssl}/syncthing.key";
-      cert = "${ssl}/syncthing.crt";
+      cert = secrets."ssl/syncthing/cert".path;
+      key = secrets."ssl/syncthing/key".path;
 
       settings = {
         devices = let
