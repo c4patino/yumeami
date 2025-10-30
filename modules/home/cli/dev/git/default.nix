@@ -41,6 +41,7 @@ in {
           maintenance.auto = true;
           merge.conflictStyle = "zdiff3";
           pull.rebase = true;
+          push.autoSetupRemote = true;
           user = {
             name = "C4 Patino";
             email = "c4patino@gmail.com";
