@@ -38,18 +38,7 @@ in {
       database.type = mkIf (dbHost == hostName) "postgres";
 
       settings = {
-        server = let
-          url = "git.cpatino.com";
-        in {
-          DOMAIN = url;
-          ROOT_URL = "https://${url}/";
-          HTTP_PORT = port;
-        };
-
-        ui = {
-          DEFAULT_THEME = "forgejo-dark";
-          SHOW_USER_EMAIL = true;
-        };
+        actions.ENABLED = true;
 
         database = {
           DB_TYPE = mkForce "postgres";
@@ -62,9 +51,22 @@ in {
             |> getIn "postgresql.forgejo";
         };
 
+        ui = {
+          DEFAULT_THEME = "forgejo-dark";
+          SHOW_USER_EMAIL = true;
+        };
+
+        server = let
+          url = "git.cpatino.com";
+        in {
+          DOMAIN = url;
+          ROOT_URL = "https://${url}/";
+          HTTP_PORT = port;
+        };
+
         service.DISABLE_REGISTRATION = true;
 
-        actions.ENABLED = true;
+        webhook.ALLOWED_HOST_LIST = "external,loopback";
       };
     };
 

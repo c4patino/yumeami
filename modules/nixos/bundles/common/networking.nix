@@ -62,6 +62,10 @@ in {
               port = 5400;
               public = true;
             };
+            woodpecker = {
+              host = "shiori";
+              port = 5301;
+            };
           };
 
           unbound.dnsHost = "chibi";

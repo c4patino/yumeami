@@ -22,11 +22,23 @@ in {
       desktop = enabled;
     };
 
-    desktop.apps.teamviewer = enabled;
+    desktop = {
+      apps = {
+        teamviewer = enabled;
+      };
+    };
 
-    hardware.nvidia = enabled;
+    hardware = {
+      nvidia = enabled;
+    };
 
     services = {
+      ci = {
+        woodpecker.runners.primary = {
+          enable = true;
+          capacity = 1;
+        };
+      };
       storage = {
         nfs.mounts = {
           "slurm" = "chibi";
