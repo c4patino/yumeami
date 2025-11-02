@@ -33,6 +33,14 @@ in {
             instances = 1;
           };
         };
+
+        woodpecker = {
+          enable = true;
+          runners.primary = {
+            enable = true;
+            capacity = 1;
+          };
+        };
       };
 
       metrics = {
