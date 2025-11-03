@@ -36,7 +36,6 @@ in {
       ci = {
         woodpecker.runners.primary = {
           enable = true;
-          capacity = 1;
         };
       };
       storage = {

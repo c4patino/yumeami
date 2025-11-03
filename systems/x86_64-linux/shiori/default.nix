@@ -38,7 +38,7 @@ in {
           enable = true;
           runners.primary = {
             enable = true;
-            capacity = 1;
+            capacity = 4;
           };
         };
       };
