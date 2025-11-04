@@ -62,6 +62,7 @@ in {
           DOMAIN = url;
           ROOT_URL = "https://${url}/";
           HTTP_PORT = port;
+          SSH_DOMAIN = "git.yumeami.sh";
         };
 
         service.DISABLE_REGISTRATION = true;
