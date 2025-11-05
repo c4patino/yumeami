@@ -53,7 +53,7 @@ in {
 
   config = mkIf cfg.enable {
     services.gitea-actions-runner = {
-      package = pkgs.forgejo-actions-runner;
+      package = pkgs.forgejo-runner;
 
       instances = let
         mkRunnerConfig = {
