@@ -30,7 +30,7 @@ in {
         gitea-runner = {
           enable = true;
           runners."default" = {
-            instances = 1;
+            instances = 4;
           };
         };
 
