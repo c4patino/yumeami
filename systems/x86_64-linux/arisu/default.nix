@@ -34,6 +34,10 @@ in {
 
     services = {
       ci = {
+        gitea-runner = {
+          enable = true;
+          runners."default" = {};
+        };
         woodpecker.runners.primary = {
           enable = true;
         };
