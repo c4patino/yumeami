@@ -35,14 +35,15 @@ in {
       secrets = {
         "ssl/ca/cert" = {};
 
+        "forgejo/gpg/private" = {owner = c4patino.name;};
+        "forgejo/gpg/public" = {owner = c4patino.name;};
+
         "cachix/default" = {owner = c4patino.name;};
         "cachix/github" = {owner = c4patino.name;};
 
         "cloudflare/token" = {owner = c4patino.name;};
         "cloudflare/tunnel/certificate" = {owner = c4patino.name;};
         "cloudflare/tunnel/credentials" = {owner = c4patino.name;};
-
-        "forgejo" = {owner = c4patino.name;};
 
         "github/auth" = {owner = c4patino.name;};
         "github/nixpkgs-update" = {owner = c4patino.name;};
