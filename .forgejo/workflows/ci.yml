@@ -1,0 +1,50 @@
+name: ci
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  nix-fmt:
+    runs-on: docker
+    container:
+      image: nixos/nix:latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v5.0.0
+      - name: setup git identity
+        run: |
+          git config --global user.name "forgejo-actions-bot"
+          git config --global user.email "actions@forgejo.local"
+      - name: import gpg key
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: |
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          KEYID=$(gpg --list-secret-keys --with-colons | awk -F: '/^sec/{print $5;exit}')
+          git config --global user.signingkey "$KEYID"
+          git config --global commit.gpgsign true
+          echo "default-cache-ttl 3600" >> ~/.gnupg/gpg-agent.conf
+          echo RELOADAGENT | gpg-connect-agent
+      - name: run nix fmt
+        run: nix fmt
+      - name: check for changes
+        id: git_status
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+      - name: commit and push changes
+        if: steps.git_status.outputs.changed == 'true'
+        env:
+          TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+          GITEA_SERVER: git.cpatino.com
+          GITEA_REPO: c4patino/yumeami
+        run: |
+          git add -A
+          git commit -S -m "style: autoformatting all files with treefmt"
+          git push "https://forgejo:${TOKEN}@${GITEA_SERVER}/${GITEA_REPO}.git" HEAD:main
