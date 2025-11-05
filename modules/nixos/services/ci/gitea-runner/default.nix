@@ -69,7 +69,7 @@ in {
               else "${hostName}-${name}";
             tokenFile =
               if runner.tokenFile == null
-              then secrets."forgejo".path
+              then secrets."forgejo/token".path
               else runner.tokenFile;
             url = runner.url;
             labels = runner.labels ++ optional nvdaCfg.enable "gpu";
@@ -88,6 +88,12 @@ in {
         |> concatLists
         |> map mkRunnerConfig
         |> listToAttrs;
+    };
+
+    sops.secrets = {
+      "forgejo/gpg/private" = {};
+      "forgejo/gpg/public" = {};
+      "forgejo/token" = {};
     };
   };
 }
