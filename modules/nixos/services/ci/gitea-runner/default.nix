@@ -38,6 +38,7 @@ in {
             labels = mkOption {
               type = listOf str;
               default = [
+                "nixos-latest:docker://nixos/nix:latest"
                 "ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:act-latest"
                 "ubuntu-24.04:docker://ghcr.io/catthehacker/ubuntu:act-24.04"
                 "ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04"
