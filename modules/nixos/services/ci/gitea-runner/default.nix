@@ -74,6 +74,11 @@ in {
               else runner.tokenFile;
             url = runner.url;
             labels = runner.labels ++ optional nvdaCfg.enable "gpu";
+
+            settings.cache = {
+              enabled = true;
+              dir = "";
+            };
           };
         };
       in
@@ -96,5 +101,7 @@ in {
       "forgejo/gpg/public" = {};
       "forgejo/token" = {};
     };
+
+    networking.firewall.trustedInterfaces = ["docker0" "podman1"];
   };
 }
