@@ -40,6 +40,8 @@ in {
       settings = {
         actions.ENABLED = true;
 
+        badges.ENABLED = true;
+
         database = {
           DB_TYPE = mkForce "postgres";
           HOST = mkForce "${resolveHostIP networkCfg.devices dbHost}:5600";
