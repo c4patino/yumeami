@@ -8,6 +8,8 @@
 }: let
   inherit (lib) mkIf mkEnableOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (config.users) users groups;
+  inherit (config.sops) secrets;
   base = "${namespace}.services.apps.rustypaste";
   cfg = getAttrByNamespace config base;
 
@@ -29,13 +31,13 @@ in {
       wantedBy = ["multi-user.target"];
 
       environment = {
-        AUTH_TOKENS_FILE = config.sops.secrets."rustypaste/auth".path;
-        DELETE_TOKENS_FILE = config.sops.secrets."rustypaste/delete".path;
+        AUTH_TOKENS_FILE = secrets."rustypaste/auth".path;
+        DELETE_TOKENS_FILE = secrets."rustypaste/delete".path;
         CONFIG = "/etc/rustypaste/rustypaste.toml";
       };
 
       serviceConfig = {
-        User = config.users.users.rustypaste.name;
+        User = users.rustypaste.name;
 
         WorkingDirectory = "/var/lib/rustypaste";
         StateDirectory = "rustypaste";
@@ -64,18 +66,18 @@ in {
     };
 
     systemd.tmpfiles.rules = mkIf cfg.enable [
-      "d /var/lib/rustypaste 2750 ${config.users.users.rustypaste.name} ${config.users.users.rustypaste.group} -"
+      "d /var/lib/rustypaste 2750 ${users.rustypaste.name} ${users.rustypaste.group} -"
     ];
 
     sops.secrets = mkIf (cfg.enable || cfg.client.enable) {
       "rustypaste/auth" = {
-        name = mkIf cfg.enable config.users.users.rustypaste.name;
-        group = config.users.groups.rustypaste.name;
+        owner = mkIf cfg.enable users.rustypaste.name;
+        group = groups.rustypaste.name;
         mode = "0440";
       };
       "rustypaste/delete" = {
-        name = mkIf cfg.enable config.users.users.rustypaste.name;
-        group = config.users.groups.rustypaste.name;
+        owner = mkIf cfg.enable users.rustypaste.name;
+        group = groups.rustypaste.name;
         mode = "0440";
       };
     };
