@@ -27,5 +27,10 @@ in {
         };
       };
     };
+
+    sops.secrets = {
+      "cloudflare/tunnel/certificate" = {};
+      "cloudflare/tunnel/credentials" = {};
+    };
   };
 }

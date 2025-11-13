@@ -19,18 +19,16 @@ in {
       desktop = enabled;
     };
 
-    desktop = {
-      apps = {
-        teamviewer = enabled;
-      };
-    };
-
     hardware = {
       battery = enabled;
       xremap = enabled;
     };
 
     services = {
+      apps = {
+        rustypaste.client = enabled;
+      };
+
       storage = {
         samba.mounts = {
           "shared" = "arisu";

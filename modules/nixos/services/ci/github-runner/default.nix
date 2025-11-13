@@ -59,6 +59,11 @@ in {
     in
       cfg.runners |> mapAttrs' mkRunnerConfig;
 
+    sops.secrets = {
+      "github/runner" = {};
+      "github/runner-oasys" = {};
+    };
+
     ${namespace}.services.storage.impermanence.folders = ["/var/lib/github-runner"];
   };
 }

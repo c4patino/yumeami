@@ -24,7 +24,6 @@ in {
 
     ${namespace} = {
       cli.dev = {
-        devenv = enabled;
         direnv = enabled;
         git = enabled;
         lazygit = enabled;
