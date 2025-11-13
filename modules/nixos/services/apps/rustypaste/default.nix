@@ -10,16 +10,18 @@
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.services.apps.rustypaste";
   cfg = getAttrByNamespace config base;
-  userCfg = config.users.users;
 
   port = 5100;
 in {
   options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "rustypaste";
+    enable = mkEnableOption "rustypaste server";
+    client = {
+      enable = mkEnableOption "rustypaste client";
+    };
   };
 
   config = {
-    environment.systemPackages = with pkgs; [rustypaste-cli];
+    environment.systemPackages = mkIf cfg.client.enable (with pkgs; [rustypaste-cli]);
 
     systemd.services.rustypaste = mkIf cfg.enable {
       description = "rustypaste";
@@ -27,11 +29,13 @@ in {
       wantedBy = ["multi-user.target"];
 
       environment = {
+        AUTH_TOKENS_FILE = config.sops.secrets."rustypaste/auth".path;
+        DELETE_TOKENS_FILE = config.sops.secrets."rustypaste/delete".path;
         CONFIG = "/etc/rustypaste/rustypaste.toml";
       };
 
       serviceConfig = {
-        User = userCfg.rustypaste.name;
+        User = config.users.users.rustypaste.name;
 
         WorkingDirectory = "/var/lib/rustypaste";
         StateDirectory = "rustypaste";
@@ -42,13 +46,13 @@ in {
       };
     };
 
-    users = mkIf cfg.enable {
-      users.rustypaste = {
+    users = {
+      users.rustypaste = mkIf cfg.enable {
         isSystemUser = true;
         group = "rustypaste";
       };
 
-      groups.rustypaste = {};
+      groups.rustypaste = mkIf (cfg.enable || cfg.client.enable) {};
     };
 
     environment.etc."rustypaste/rustypaste.toml" = mkIf cfg.enable {
@@ -60,8 +64,21 @@ in {
     };
 
     systemd.tmpfiles.rules = mkIf cfg.enable [
-      "d /var/lib/rustypaste 2750 rustypaste rustypaste -"
+      "d /var/lib/rustypaste 2750 ${config.users.users.rustypaste.name} ${config.users.users.rustypaste.group} -"
     ];
+
+    sops.secrets = mkIf (cfg.enable || cfg.client.enable) {
+      "rustypaste/auth" = {
+        name = mkIf cfg.enable config.users.users.rustypaste.name;
+        group = config.users.groups.rustypaste.name;
+        mode = "0440";
+      };
+      "rustypaste/delete" = {
+        name = mkIf cfg.enable config.users.users.rustypaste.name;
+        group = config.users.groups.rustypaste.name;
+        mode = "0440";
+      };
+    };
 
     networking.firewall.allowedTCPPorts = mkIf cfg.enable [port];
 

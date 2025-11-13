@@ -15,7 +15,16 @@ in {
     users.users.c4patino = {
       isNormalUser = true;
       description = "C4 Patino";
-      extraGroups = ["networkmanager" "wheel" "vboxusers" "docker" "podman" "syncthing" "dialout"];
+      extraGroups = [
+        "dialout"
+        "docker"
+        "networkmanager"
+        "podman"
+        "rustypaste"
+        "syncthing"
+        "vboxusers"
+        "wheel"
+      ];
 
       hashedPassword = "$6$XM5h391mH33WIoAy$xkeSzw/ootPPZbvHEqSguZDyB4gAeTMcjy1aRXcXcQWFkS1/SRPK27VgEYC.vYvdZLYWALZtpdEzWAfwT4VCM1";
 
@@ -35,30 +44,7 @@ in {
       secrets = {
         "ssl/ca/cert" = {};
 
-        "forgejo/gpg/private" = {owner = c4patino.name;};
-        "forgejo/gpg/public" = {owner = c4patino.name;};
-
-        "cachix/default" = {owner = c4patino.name;};
-        "cachix/github" = {owner = c4patino.name;};
-
-        "cloudflare/token" = {owner = c4patino.name;};
-        "cloudflare/tunnel/certificate" = {owner = c4patino.name;};
-        "cloudflare/tunnel/credentials" = {owner = c4patino.name;};
-
-        "github/auth" = {owner = c4patino.name;};
-        "github/nixpkgs-update" = {owner = c4patino.name;};
-        "github/runner" = {owner = c4patino.name;};
-        "github/runner-oasys" = {owner = c4patino.name;};
-
         "master-password" = {owner = c4patino.name;};
-
-        "pypi" = {owner = c4patino.name;};
-
-        "rustypaste" = {owner = c4patino.name;};
-
-        "tailscale/api/actions" = {owner = c4patino.name;};
-        "tailscale/auth/machines" = {owner = c4patino.name;};
-        "tailscale/auth/tsdproxy" = {owner = c4patino.name;};
       };
 
       age.keyFile = let

@@ -33,6 +33,10 @@ in {
     };
 
     services = {
+      apps = {
+        rustypaste.client = enabled;
+      };
+
       ci = {
         gitea-runner = {
           enable = true;
@@ -42,10 +46,12 @@ in {
           enable = true;
         };
       };
+
       storage = {
         nfs.mounts = {
           "slurm" = "chibi";
         };
+
         samba = {
           enable = true;
           shares = ["shared"];
