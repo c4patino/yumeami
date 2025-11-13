@@ -72,6 +72,7 @@ in {
             enable = true;
             devices = {
               arisu = "7W2TB7D-VZZEDAP-Q2LTH7S-LUF3JOC-472P4FX-ZUQX4SG-CLPTTK6-RVUP6QQ";
+              arisu-windows = "";
               kokoro = "7ADRQXW-IB3IMNR-QCT4EXQ-4BON25I-4EFPOW6-AVJNUZK-TEDMDZQ-RH37RAB";
               chibi = "HBLTAF3-GJ7G6XS-ER6IMAZ-CY2UI7S-6BG3N3S-GF4TDIC-7USNXW7-M6TWJQU";
               shiori = "BT76CBG-CZLKV2Q-S2ZGSPB-OC3KE66-HAHLDZ6-5W7GOOI-YNF6AXO-FU3N6AQ";
