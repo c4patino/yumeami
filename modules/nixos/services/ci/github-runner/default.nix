@@ -38,6 +38,8 @@ in {
 
   config = mkIf cfg.enable {
     services.github-runners = let
+      inherit (config.users.users) github-runner;
+
       mkRunnerConfig = name: runner: {
         name = "${hostName}-${name}";
         value = {
@@ -50,18 +52,56 @@ in {
             then secrets."github/runner".path
             else runner.tokenFile;
           url = runner.url;
-          extraPackages = with pkgs; [openssl docker];
+          extraPackages = with pkgs; let
+            gtar = pkgs.runCommandNoCC "gtar" {} ''
+              mkdir -p $out/bin
+              ln -s ${lib.getExe pkgs.gnutar} $out/bin/gtar
+            '';
+          in [
+            nix
+            cachix
+
+            coreutils
+            docker
+            gh
+            jq
+            nodejs_20
+            openssl
+            which
+
+            gtar
+          ];
           extraLabels = ["nix"] ++ optional nvdaCfg.enable "gpu";
-          user = "root";
-          group = "root";
+          user = github-runner.name;
+          group = github-runner.group;
         };
       };
     in
       cfg.runners |> mapAttrs' mkRunnerConfig;
 
-    sops.secrets = {
-      "github/runner" = {};
-      "github/runner-oasys" = {};
+    sops.secrets = let
+      inherit (config.users.users) github-runner;
+    in {
+      "github/runner" = {
+        owner = github-runner.name;
+        group = github-runner.group;
+      };
+      "github/runner-oasys" = {
+        owner = github-runner.name;
+        group = github-runner.group;
+      };
+      "github/runner-cseseniordesign" = {
+        owner = github-runner.name;
+        group = github-runner.group;
+      };
+    };
+
+    users = {
+      users.github-runner = {
+        isSystemUser = true;
+        group = "github-runner";
+      };
+      groups.github-runner = {};
     };
 
     ${namespace}.services.storage.impermanence.folders = ["/var/lib/github-runner"];

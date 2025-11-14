@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   lib,
   namespace,
@@ -33,7 +34,15 @@ in {
             instances = 4;
           };
         };
-
+        github-runner = {
+          enable = true;
+          runners = {
+            "dqc-r-and-s" = {
+              url = "https://github.com/cseseniordesign/dqc-r-and-s";
+              tokenFile = config.sops.secrets."github/runner-cseseniordesign".path;
+            };
+          };
+        };
         woodpecker = {
           enable = true;
           runners.primary = {
