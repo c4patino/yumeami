@@ -7,7 +7,7 @@ on:
 
 jobs:
   nix-fmt:
-    runs-on: docker
+    runs-on: nixos-latest
     container:
       image: nixos/nix:latest
     steps:
