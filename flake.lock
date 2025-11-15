@@ -1656,11 +1656,11 @@
         "treefmt-nix": "treefmt-nix_3"
       },
       "locked": {
-        "lastModified": 1762354760,
-        "narHash": "sha256-uSBSZwOnpt2zq4+KMEFjsW65nH4LLCDQjthHbBNOlDg=",
+        "lastModified": 1763277477,
+        "narHash": "sha256-fuy2JnMoqon33Q099qpeQAA43e+y6nvu3H3NgcIlEtM=",
         "owner": "c4patino",
         "repo": "yumevim-nix",
-        "rev": "a85a5670b1e16ba3808ce8620b6031a36f7befa5",
+        "rev": "72b0111237cd95deabfd2c73a4234920d64b2459",
         "type": "github"
       },
       "original": {
