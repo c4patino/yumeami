@@ -70,6 +70,7 @@
             alejandra.enable = true;
             keep-sorted.enable = true;
             stylua.enable = true;
+            terraform.enable = true;
           };
           settings = {
             global.excludes = [
