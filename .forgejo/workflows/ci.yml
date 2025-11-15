@@ -8,8 +8,6 @@ on:
 jobs:
   nix-fmt:
     runs-on: nixos-latest
-    container:
-      image: nixos/nix:latest
     steps:
       - name: set up nix
         run: |
@@ -19,7 +17,6 @@ jobs:
       - name: restore and save nix store
         uses: https://github.com/nix-community/cache-nix-action@v6.1.3
         with:
-          nix_path: nixpkgs=channel:nixos-unstable
           primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
           restore-prefixes-first-match: nix-${{ runner.os }}-
           gc-max-store-size: 1G
@@ -37,11 +34,10 @@ jobs:
       - name: import gpg key
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         run: |
           nix-env -iA nixpkgs.gawk nixpkgs.gnupg
 
-          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import || true
           KEYID=$(gpg --list-secret-keys --with-colons | awk -F: '/^sec/{print $5;exit}')
           git config --global user.signingkey "$KEYID"
           git config --global commit.gpgsign true
