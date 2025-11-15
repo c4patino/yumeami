@@ -28,6 +28,10 @@ in {
 
       docker = {
         enable = true;
+        rootless = {
+          enable = true;
+          setSocketVariable = true;
+        };
         daemon.settings = {
           hosts = ["unix:///var/run/docker.sock" "tcp://0.0.0.0:2376"];
           runtimes = {

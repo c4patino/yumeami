@@ -38,6 +38,8 @@ in {
 
   config = mkIf cfg.enable {
     services.github-runners = let
+      inherit (config.users.users) github-runner;
+
       mkRunnerConfig = name: runner: {
         name = "${hostName}-${name}";
         value = {
@@ -50,18 +52,41 @@ in {
             then secrets."github/runner".path
             else runner.tokenFile;
           url = runner.url;
-          extraPackages = with pkgs; [openssl docker];
+          extraPackages = with pkgs; let
+            gtar = pkgs.runCommandNoCC "gtar" {} ''
+              mkdir -p $out/bin
+              ln -s ${lib.getExe pkgs.gnutar} $out/bin/gtar
+            '';
+          in [
+            nix
+            cachix
+
+            awscli2
+            coreutils
+            docker
+            gh
+            gtar
+            jq
+            nodejs_20
+            openssl
+            unzip
+            which
+          ];
           extraLabels = ["nix"] ++ optional nvdaCfg.enable "gpu";
-          user = "root";
-          group = "root";
+          user = github-runner.name;
+          group = github-runner.group;
         };
       };
     in
       cfg.runners |> mapAttrs' mkRunnerConfig;
 
-    sops.secrets = {
-      "github/runner" = {};
-      "github/runner-oasys" = {};
+    users = {
+      users.github-runner = {
+        isSystemUser = true;
+        group = "github-runner";
+        extraGroups = ["docker" "podman"];
+      };
+      groups.github-runner = {};
     };
 
     ${namespace}.services.storage.impermanence.folders = ["/var/lib/github-runner"];
