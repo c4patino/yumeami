@@ -1,9 +1,11 @@
 {
+  config,
   inputs,
   lib,
   namespace,
   ...
 }: let
+  inherit (lib) listToAttrs;
   inherit (lib.${namespace}) enabled;
 in {
   imports = [
@@ -33,7 +35,15 @@ in {
             instances = 4;
           };
         };
-
+        github-runner = {
+          enable = true;
+          runners = {
+            "cseseniordesign" = {
+              url = "https://github.com/cseseniordesign/dqc-r-and-s";
+              tokenFile = config.sops.secrets."github/runner-cseseniordesign".path;
+            };
+          };
+        };
         woodpecker = {
           enable = true;
           runners.primary = {
@@ -58,6 +68,22 @@ in {
       };
     };
   };
+
+  sops.secrets = let
+    inherit (config.users.users) github-runner;
+  in
+    [
+      "github/runner"
+      "github/runner-cseseniordesign"
+    ]
+    |> map (secret: {
+      name = secret;
+      value = {
+        owner = github-runner.name;
+        group = github-runner.group;
+      };
+    })
+    |> listToAttrs;
 
   networking = {
     hostName = "shiori";
