@@ -39,9 +39,9 @@ in {
               type = listOf str;
               default = [
                 "nixos-latest:docker://nixos/nix:latest"
-                "ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:act-latest"
-                "ubuntu-24.04:docker://ghcr.io/catthehacker/ubuntu:act-24.04"
-                "ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04"
+                "ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:full-latest"
+                "ubuntu-24.04:docker://ghcr.io/catthehacker/ubuntu:full-24.04"
+                "ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:full-22.04"
               ];
               description = "Set of labels to apply to the runner instance.";
             };
