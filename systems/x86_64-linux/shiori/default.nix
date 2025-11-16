@@ -40,6 +40,7 @@ in {
           runners = {
             "cseseniordesign" = {
               url = "https://github.com/cseseniordesign/dqc-r-and-s";
+              instances = 4;
             };
           };
         };
