@@ -42,6 +42,14 @@ in {
           enable = true;
           runners."default" = {};
         };
+        github-runner = {
+          enable = true;
+          runners = {
+            "cseseniordesign" = {
+              url = "https://github.com/cseseniordesign/dqc-r-and-s";
+            };
+          };
+        };
         woodpecker.runners.primary = {
           enable = true;
         };
