@@ -40,7 +40,6 @@ in {
           runners = {
             "cseseniordesign" = {
               url = "https://github.com/cseseniordesign/dqc-r-and-s";
-              tokenFile = config.sops.secrets."github/runner-cseseniordesign".path;
             };
           };
         };
@@ -68,22 +67,6 @@ in {
       };
     };
   };
-
-  sops.secrets = let
-    inherit (config.users.users) github-runner;
-  in
-    [
-      "github/runner"
-      "github/runner-cseseniordesign"
-    ]
-    |> map (secret: {
-      name = secret;
-      value = {
-        owner = github-runner.name;
-        group = github-runner.group;
-      };
-    })
-    |> listToAttrs;
 
   networking = {
     hostName = "shiori";

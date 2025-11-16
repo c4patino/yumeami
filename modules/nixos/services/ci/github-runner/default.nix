@@ -89,6 +89,15 @@ in {
       groups.github-runner = {};
     };
 
+    sops.secrets = let
+      inherit (config.users.users) github-runner;
+    in {
+      "github/runner" = {
+        owner = github-runner.name;
+        group = github-runner.group;
+      };
+    };
+
     ${namespace}.services.storage.impermanence.folders = ["/var/lib/github-runner"];
   };
 }
