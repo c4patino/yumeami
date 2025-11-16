@@ -15,6 +15,8 @@ in {
   };
 
   config = mkIf cfg.enable {
+    services.spotifyd.enable = true;
+
     home = {
       packages = with pkgs; [spotify-player];
 
@@ -34,10 +36,10 @@ in {
             playback_refresh_duration_in_ms = 0
             page_size_in_rows = 20
             enable_media_control = false
-            enable_streaming = "Always"
-            enable_notify = true
             enable_cover_image_cache = true
-            notify_streaming_only = false
+            enable_notify = true
+            enable_streaming = "Always"
+            notify_streaming_only = true
             default_device = "spotify-player"
             play_icon = "▶"
             pause_icon = "❚❚"
