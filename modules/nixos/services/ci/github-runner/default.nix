@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) types mkEnableOption mkOption mkIf optional mapAttrs';
+  inherit (lib) types mkEnableOption mkOption mkIf;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   inherit (config.networking) hostName;
   inherit (config.sops) secrets;
@@ -20,6 +20,11 @@ in {
         description = "Definition of runners to enable to the device";
         type = attrsOf (submodule {
           options = {
+            instances = mkOption {
+              type = types.int;
+              default = 1;
+              description = "Number of instances of the runner to spawn for this configuration.";
+            };
             tokenFile = mkOption {
               type = nullOr path;
               default = null;
@@ -39,12 +44,21 @@ in {
   config = mkIf cfg.enable {
     services.github-runners = let
       inherit (config.users.users) github-runner;
+      inherit (lib) attrValues concatLists genList listToAttrs mapAttrs optional replicate;
+      inherit (builtins) stringLength concatStringsSep;
 
-      mkRunnerConfig = name: runner: {
-        name = "${hostName}-${name}";
+      padIndex = idx: concatStringsSep "" (replicate (3 - stringLength (toString idx)) "0") + toString idx;
+
+      mkRunnerConfig = {
+        index,
+        name,
+        runner,
+        count,
+      }: {
+        name = "${hostName}-${name}-${padIndex index}";
         value = {
           enable = true;
-          name = hostName;
+          name = "${hostName}-${padIndex index}";
           replace = true;
           ephemeral = true;
           tokenFile =
@@ -78,7 +92,18 @@ in {
         };
       };
     in
-      cfg.runners |> mapAttrs' mkRunnerConfig;
+      cfg.runners
+      |> mapAttrs (name: runner:
+        genList (idx: {
+          index = idx;
+          name = name;
+          runner = runner;
+        })
+        runner.instances)
+      |> attrValues
+      |> concatLists
+      |> map mkRunnerConfig
+      |> listToAttrs;
 
     users = {
       users.github-runner = {
