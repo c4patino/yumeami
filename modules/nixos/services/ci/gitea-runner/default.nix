@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) types mkIf mkEnableOption mkOption genList mapAttrs optional attrValues concatLists listToAttrs;
+  inherit (lib) types mkIf mkEnableOption mkOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   inherit (config.sops) secrets;
   inherit (config.networking) hostName;
@@ -56,12 +56,16 @@ in {
       package = pkgs.forgejo-runner;
 
       instances = let
+        inherit (lib) attrValues concatLists genList listToAttrs mapAttrs optional replicate;
+        inherit (builtins) stringLength concatStringsSep;
+
+        padIndex = idx: concatStringsSep "" (replicate (3 - stringLength (toString idx)) "0") + toString idx;
         mkRunnerConfig = {
           index,
           name,
           runner,
         }: {
-          name = "${name}-${toString index}";
+          name = "${name}-${padIndex index}";
           value = {
             enable = true;
             name =
