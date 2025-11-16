@@ -53,7 +53,6 @@ in {
         index,
         name,
         runner,
-        count,
       }: {
         name = "${hostName}-${name}-${padIndex index}";
         value = {
