@@ -51,6 +51,7 @@ in {
           ".cache/direnv"
           ".cache/spotify"
           ".cache/spotify-player"
+          ".cache/spotifyd"
           ".cache/thunderbird"
           ".cache/vivaldi"
           ".conan2"
