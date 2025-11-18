@@ -15,8 +15,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.spotifyd.enable = true;
-
     home = {
       packages = with pkgs; [spotify-player];
 
