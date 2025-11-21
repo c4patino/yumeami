@@ -174,21 +174,34 @@ in {
     sops.secrets = let
       inherit (config.networking) hostName;
       inherit (config.users.users) wwwrun;
+
+      global =
+        [
+          "ssl/wildcard_cpatino_com/cert"
+          "ssl/wildcard_cpatino_com/key"
+        ]
+        |> map (name: {
+          inherit name;
+          value = {
+            owner = wwwrun.name;
+            group = wwwrun.group;
+          };
+        });
+
+      hostSpecific =
+        [
+          "ssl/wildcard_yumeami_sh/cert"
+          "ssl/wildcard_yumeami_sh/key"
+        ]
+        |> map (name: {
+          inherit name;
+          value = {
+            sopsFile = "${inputs.self}/secrets/sops/${hostName}.yaml";
+            owner = wwwrun.name;
+            group = wwwrun.group;
+          };
+        });
     in
-      [
-        "ssl/wildcard_cpatino_com/cert"
-        "ssl/wildcard_cpatino_com/key"
-        "ssl/wildcard_yumeami_sh/cert"
-        "ssl/wildcard_yumeami_sh/key"
-      ]
-      |> map (name: {
-        inherit name;
-        value = {
-          sopsFile = "${inputs.self}/secrets/sops/${hostName}.yaml";
-          owner = wwwrun.name;
-          group = wwwrun.group;
-        };
-      })
-      |> listToAttrs;
+      listToAttrs (global ++ hostSpecific);
   };
 }
