@@ -16,7 +16,7 @@
       inherit (config.snowfallorg) user;
     in {
       age.keyFile = let
-        crypt = "/persist/${user.home.directory}/dotfiles/secrets/crypt";
+        crypt = "${user.home.directory}/dotfiles/secrets/crypt";
       in "${crypt}/age/${host}/keys.txt";
 
       defaultSopsFile = "${inputs.self}/secrets/sops/secrets.yaml";
