@@ -28,7 +28,7 @@ in {
         server = {
           verbosity = 1;
 
-          interface = "0.0.0.0";
+          interface = "127.0.0.1";
           port = port;
 
           do-ip4 = true;
@@ -54,19 +54,18 @@ in {
 
           access-control = [
             "127.0.0.0/8 allow"
-            "0.0.0.0/0 allow"
             "::1 allow"
             "100.64.0.0/10 allow"
             "fd7a:115c:a1e0::/48 allow"
           ];
 
           private-address = [
-            "192.168.0.0/16"
-            "169.254.0.0/16"
-            "172.16.0.0/12"
-            "10.0.0.0/8"
-            "fd00::/8"
-            "fe80::/10"
+            "10.0.0.0/8" # private LAN (class A)
+            "172.16.0.0/12" # private LAN (class B)
+            "192.168.0.0/16" # private LAN (class C)
+            "169.254.0.0/16" # link-local
+            "fd00::/8" # private LAN
+            "fe80::/10" # link-local
           ];
         };
 
@@ -88,8 +87,5 @@ in {
         ];
       };
     };
-
-    networking.firewall.allowedTCPPorts = [port 853];
-    networking.firewall.allowedUDPPorts = [port 853];
   };
 }
