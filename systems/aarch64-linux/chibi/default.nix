@@ -48,6 +48,11 @@ in {
     };
   };
 
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+  };
+
   networking = {
     hostName = "chibi";
     hostId = "9245f27e";
