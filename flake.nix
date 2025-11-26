@@ -67,6 +67,11 @@
         templates.default = "devshell";
       };
 
+      templates = {
+        devenv.description = "devenv development environment";
+        devshell.description = "nixpkgs mkshell development environment";
+      };
+
       outputs-builder = channels: let
         treefmtConfig = {...}: {
           projectRootFile = "flake.nix";
