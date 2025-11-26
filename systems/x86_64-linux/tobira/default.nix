@@ -25,6 +25,11 @@ in {
     };
   };
 
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+  };
+
   networking = {
     hostName = "shiori";
     hostId = "asdfas";
