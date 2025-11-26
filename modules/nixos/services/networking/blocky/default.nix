@@ -36,6 +36,7 @@ in {
             "tcp+udp:127.0.0.1:54"
           ];
         };
+
         blocking = {
           loading = {
             strategy = "fast";
@@ -119,7 +120,7 @@ in {
       };
     };
 
-    networking.firewall.allowedTCPPorts = [port 4000];
+    networking.firewall.allowedTCPPorts = [port];
     networking.firewall.allowedUDPPorts = [port];
   };
 }
