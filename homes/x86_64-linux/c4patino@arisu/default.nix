@@ -52,5 +52,5 @@ in {
     ", preferred, auto-left, 1"
   ];
 
-  home.stateVersion = "25.05";
+  home.stateVersion = "25.11";
 }

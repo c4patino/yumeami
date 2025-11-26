@@ -78,5 +78,5 @@ in {
     loader.grub.theme = inputs.dotfiles + "/vimix/4k";
   };
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 }

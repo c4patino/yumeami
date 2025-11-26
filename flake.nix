@@ -1,42 +1,43 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    treefmt-nix.url = "github:numtide/treefmt-nix";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-25.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     devshell.url = "github:numtide/devshell";
     impermanence.url = "github:nix-community/impermanence";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
     stylix.url = "github:danth/stylix";
+    treefmt-nix.url = "github:numtide/treefmt-nix";
     walker.url = "github:abenz1267/walker";
     xremap.url = "github:xremap/nix-flake";
 
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     disko = {
       url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    snowfall-lib = {
-      url = "github:songpola/snowfallorg-lib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    yumevim-nix = {
-      url = "github:c4patino/yumevim-nix";
+    snowfall-lib = {
+      url = "git+https://git.cpatino.com/c4patino/snowfallorg-lib?ref=main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    yumevim-nix = {
+      url = "git+https://git.cpatino.com/c4patino/yumevim-nix?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     dotfiles = {
-      url = "github:c4patino/dotfiles";
+      url = "git+https://git.cpatino.com/c4patino/dotfiles?ref=main";
       flake = false;
     };
   };
