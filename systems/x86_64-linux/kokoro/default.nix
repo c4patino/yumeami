@@ -47,5 +47,5 @@ in {
     loader.grub.theme = inputs.dotfiles + "/vimix/1080p";
   };
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 }
