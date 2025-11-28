@@ -1,11 +1,9 @@
 {
-  config,
   inputs,
   lib,
   namespace,
   ...
 }: let
-  inherit (lib) listToAttrs;
   inherit (lib.${namespace}) enabled;
 in {
   imports = [
