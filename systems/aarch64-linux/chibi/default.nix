@@ -41,9 +41,16 @@ in {
             }
           ];
         };
-        samba.mounts = {
-          "shared" = "arisu";
+
+        samba = {
+          mounts = {
+            "shared" = "arisu";
+          };
         };
+
+        impermanence.folders = [
+          "/mnt/nfs/slurm"
+        ];
       };
     };
   };

@@ -64,6 +64,10 @@ in {
           enable = true;
           shares = ["shared"];
         };
+
+        impermanence.folders = [
+          "/mnt/samba/shared"
+        ];
       };
     };
   };
