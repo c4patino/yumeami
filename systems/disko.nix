@@ -82,7 +82,6 @@ in {
             type = "zfs_fs";
             mountpoint = "/";
             options = {
-              mountpoint = "legacy";
               relatime = "on";
             };
           };
@@ -98,7 +97,6 @@ in {
             type = "zfs_fs";
             mountpoint = "/nix";
             options = {
-              mountpoint = "legacy";
               atime = "off";
             };
           };
