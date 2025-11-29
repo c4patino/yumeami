@@ -5,7 +5,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkIf mkEnableOption mkOption mapAttrs' mkMerge;
+  inherit (lib) types mkIf mkEnableOption mkOption mapAttrs' mkMerge map;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP readJsonOrEmpty getIn;
   inherit (config.users) users;
   base = "${namespace}.services.storage.samba";
@@ -94,5 +94,9 @@ in {
       enable = true;
       openFirewall = true;
     };
+
+    ${namespace}.services.storage.impermanence.folders = mkIf (cfg.enable && cfg.shares != []) (
+      ["/var/lib/samba"] ++ (cfg.shares |> map (s: "/mnt/samba/${s}"))
+    );
   };
 }

@@ -1,8 +1,4 @@
-{
-  namespace,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   boot.supportedFilesystems = ["ntfs" "zfs" "nfs"];
 
   services.davfs2.enable = true;
@@ -16,13 +12,4 @@
       NFS = "/mnt/nfs";
     };
   };
-
-  ${namespace}.services.storage.impermanence.folders = [
-    "/mnt/nfs"
-    "/mnt/samba"
-    "/mnt/syncthing"
-
-    "/var/lib/nfs"
-    "/var/lib/samba"
-  ];
 }
