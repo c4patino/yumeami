@@ -72,7 +72,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = mkIf (cfg.enable && cfg.shares != []) (
-      ["/mnt/nfs" "/var/lib/nfs"] ++ (cfg.shares |> map (s: "/mnt/nfs/${s.name}"))
+      ["/var/lib/nfs"] ++ (cfg.shares |> map (s: "/mnt/nfs/${s.name}"))
     );
 
     networking.firewall.allowedTCPPorts = mkIf cfg.enable [2049];
