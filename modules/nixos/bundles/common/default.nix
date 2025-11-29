@@ -123,6 +123,7 @@ in {
 
     environment.systemPackages = with pkgs; [
       cachix
+      git
       home-manager
       nh
       nix-output-monitor
