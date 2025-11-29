@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkOption mkEnableOption types mapAttrs' mkMerge filterAttrs;
+  inherit (lib) mkIf mkOption mkEnableOption types mapAttrs' mkMerge filterAttrs listToAttrs;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP;
   base = "${namespace}.services.ci.woodpecker";
   cfg = getAttrByNamespace config base;
@@ -109,13 +109,23 @@ in {
     };
 
     sops.secrets = let
-      owner = config.users.users.woodpecker.name;
-      group = config.users.users.woodpecker.group;
-    in {
-      "woodpecker/forgejo/client" = {inherit owner group;};
-      "woodpecker/forgejo/secret" = {inherit owner group;};
-      "woodpecker/agents/secret" = {inherit owner group;};
-    };
+      mkSecret = s: {
+        name = s;
+        value = {
+          owner = config.users.users.woodpecker.name;
+          group = config.users.users.woodpecker.group;
+        };
+      };
+    in
+      [
+        "woodpecker/forgejo/client"
+        "woodpecker/forgejo/secret"
+        "woodpecker/github/client"
+        "woodpecker/github/secret"
+        "woodpecker/agents/secret"
+      ]
+      |> map mkSecret
+      |> listToAttrs;
 
     systemd.services = let
       User = config.users.users.woodpecker.name;
