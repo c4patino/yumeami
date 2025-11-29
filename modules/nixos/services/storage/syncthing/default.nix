@@ -5,7 +5,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkEnableOption mkOption mkIf mapAttrs mapAttrs' listToAttrs;
+  inherit (lib) types mkEnableOption mkOption mkIf mapAttrs mapAttrs' listToAttrs map;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.syncthing";
@@ -80,5 +80,9 @@ in {
       |> listToAttrs;
 
     systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
+
+    ${namespace}.services.storage.impermanence.folders = mkIf cfg.enable (
+      ["/mnt/syncthing"] ++ (builtins.attrNames cfg.shares |> map (k: "/mnt/syncthing/${k}"))
+    );
   };
 }

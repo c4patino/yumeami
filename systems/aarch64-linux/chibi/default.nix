@@ -47,10 +47,6 @@ in {
             "shared" = "arisu";
           };
         };
-
-        impermanence.folders = [
-          "/mnt/nfs/slurm"
-        ];
       };
     };
   };

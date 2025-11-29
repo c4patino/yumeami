@@ -4,7 +4,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkOption mkEnableOption mkIf mapAttrs' concatStringsSep;
+  inherit (lib) types mkOption mkEnableOption mkIf mapAttrs' concatStringsSep map;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP;
   base = "${namespace}.services.storage.nfs";
   cfg = getAttrByNamespace config base;
@@ -70,6 +70,10 @@ in {
         |> map mapMountToPermissions
         |> concatStringsSep "\n";
     };
+
+    ${namespace}.services.storage.impermanence.folders = mkIf (cfg.enable && cfg.shares != []) (
+      ["/mnt/nfs" "/var/lib/nfs"] ++ (cfg.shares |> map (s: "/mnt/nfs/${s.name}"))
+    );
 
     networking.firewall.allowedTCPPorts = mkIf cfg.enable [2049];
   };
