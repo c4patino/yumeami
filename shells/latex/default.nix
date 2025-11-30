@@ -1,13 +1,8 @@
 {
-  pkgs ?
-    import <nixpkgs> {
-      config = {
-        allowUnfree = true;
-        cudaSupport = true;
-      };
-    },
+  pkgs,
+  mkShell,
 }:
-pkgs.mkShell {
+mkShell {
   nativeBuildInputs = with pkgs; [
     texliveFull
   ];
