@@ -49,7 +49,6 @@
 
       channels-config = {
         allowUnfree = true;
-        cudaSupport = true;
         permittedInsecurePackages = [
           "mono-5.20.1.34"
         ];
