@@ -6,11 +6,14 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    stylix = {
+      url = "github:nix-community/stylix/release-25.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     devshell.url = "github:numtide/devshell";
     impermanence.url = "github:nix-community/impermanence";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
-    stylix.url = "github:danth/stylix";
     treefmt-nix.url = "github:numtide/treefmt-nix";
     walker.url = "github:abenz1267/walker";
     xremap.url = "github:xremap/nix-flake";
