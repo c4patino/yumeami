@@ -56,46 +56,45 @@ in {
       package = pkgs.forgejo-runner;
 
       instances = let
-        inherit (lib) attrValues concatLists genList listToAttrs mapAttrs optional replicate;
+        inherit (lib) concatLists genList listToAttrs mapAttrsToList optional replicate imap0;
         inherit (builtins) stringLength concatStringsSep;
 
         padIndex = idx: concatStringsSep "" (replicate (3 - stringLength (toString idx)) "0") + toString idx;
-        mkRunnerConfig = {
-          index,
-          name,
-          runner,
-        }: {
-          name = "${name}-${padIndex index}";
+
+        mkRunnerConfig = inst: {
+          name = "${inst.name}-${padIndex inst.perGroupIndex}";
           value = {
             enable = true;
             name =
-              if name == "default"
+              if inst.name == "default"
               then hostName
-              else "${hostName}-${name}";
+              else "${hostName}-${inst.name}";
             tokenFile =
-              if runner.tokenFile == null
+              if inst.runner.tokenFile == null
               then secrets."forgejo/token".path
-              else runner.tokenFile;
-            url = runner.url;
-            labels = runner.labels ++ optional nvdaCfg.enable "gpu";
+              else inst.runner.tokenFile;
+            url = inst.runner.url;
+            labels = inst.runner.labels ++ optional nvdaCfg.enable "gpu";
 
             settings.cache = {
               enabled = true;
               dir = "";
+              host = "";
+              port = 0;
             };
           };
         };
       in
         cfg.runners
-        |> mapAttrs (name: runner:
+        |> mapAttrsToList (name: runner:
           genList (idx: {
-            index = idx;
             name = name;
             runner = runner;
+            perGroupIndex = idx;
           })
           runner.instances)
-        |> attrValues
         |> concatLists
+        |> imap0 (globalIndex: inst: inst // {inherit globalIndex;})
         |> map mkRunnerConfig
         |> listToAttrs;
     };
