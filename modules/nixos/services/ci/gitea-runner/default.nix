@@ -56,13 +56,10 @@ in {
       package = pkgs.forgejo-runner;
 
       instances = let
-        inherit (lib) concatLists listToAttrs mapAttrsToList optional replicate imap0;
-        inherit (builtins) stringLength concatStringsSep;
-
-        padIndex = idx: concatStringsSep "" (replicate (3 - stringLength (toString idx)) "0") + toString idx;
+        inherit (lib) concatLists listToAttrs mapAttrsToList optional imap0;
 
         mkRunnerConfig = inst: {
-          name = "${inst.name}-${padIndex inst.perGroupIndex}";
+          name = "${inst.name}";
           value = {
             enable = true;
             name =
@@ -84,7 +81,12 @@ in {
                 dir = "/var/cache/forgejo-runner/actions";
               };
 
-              runner.capacity = inst.runner.capacity;
+              runner = {
+                capacity = inst.runner.capacity;
+                envs = {
+                  "USER" = "runner";
+                };
+              };
 
               container = {
                 network = "bridge";
