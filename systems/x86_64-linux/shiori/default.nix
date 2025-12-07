@@ -30,7 +30,7 @@ in {
         gitea-runner = {
           enable = true;
           runners."default" = {
-            instances = 4;
+            capacity = 4;
           };
         };
         github-runner = {

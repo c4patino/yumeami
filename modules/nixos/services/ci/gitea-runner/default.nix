@@ -20,10 +20,10 @@ in {
         description = "Definition of runners to enable to the device";
         type = attrsOf (submodule {
           options = {
-            instances = mkOption {
+            capacity = mkOption {
               type = int;
               default = 1;
-              description = "Number of instances of the runner to spawn for this configuration.";
+              description = "Maximum number of concurrent jobs for this runner.";
             };
             tokenFile = mkOption {
               type = nullOr path;
@@ -56,7 +56,7 @@ in {
       package = pkgs.forgejo-runner;
 
       instances = let
-        inherit (lib) concatLists genList listToAttrs mapAttrsToList optional replicate imap0;
+        inherit (lib) concatLists listToAttrs mapAttrsToList optional replicate imap0;
         inherit (builtins) stringLength concatStringsSep;
 
         padIndex = idx: concatStringsSep "" (replicate (3 - stringLength (toString idx)) "0") + toString idx;
@@ -76,23 +76,32 @@ in {
             url = inst.runner.url;
             labels = inst.runner.labels ++ optional nvdaCfg.enable "gpu";
 
-            settings.cache = {
-              enabled = true;
-              dir = "";
-              host = "";
-              port = 0;
+            settings = {
+              log.level = "info";
+
+              cache = {
+                enabled = true;
+                dir = "/var/cache/forgejo-runner/actions";
+              };
+
+              runner.capacity = inst.runner.capacity;
+
+              container = {
+                network = "bridge";
+                privileged = false;
+              };
             };
           };
         };
       in
         cfg.runners
-        |> mapAttrsToList (name: runner:
-          genList (idx: {
+        |> mapAttrsToList (name: runner: [
+          {
             name = name;
             runner = runner;
-            perGroupIndex = idx;
-          })
-          runner.instances)
+            perGroupIndex = 0;
+          }
+        ])
         |> concatLists
         |> imap0 (globalIndex: inst: inst // {inherit globalIndex;})
         |> map mkRunnerConfig
