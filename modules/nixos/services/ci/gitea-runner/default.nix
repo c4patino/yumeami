@@ -56,22 +56,22 @@ in {
       package = pkgs.forgejo-runner;
 
       instances = let
-        inherit (lib) concatLists listToAttrs mapAttrsToList optional imap0;
+        inherit (lib) mapAttrsToList listToAttrs optional;
 
-        mkRunnerConfig = inst: {
-          name = "${inst.name}";
+        mkRunnerConfig = name: runner: {
+          name = name;
           value = {
             enable = true;
             name =
-              if inst.name == "default"
+              if name == "default"
               then hostName
-              else "${hostName}-${inst.name}";
+              else "${hostName}-${name}";
             tokenFile =
-              if inst.runner.tokenFile == null
+              if runner.tokenFile == null
               then secrets."forgejo/token".path
-              else inst.runner.tokenFile;
-            url = inst.runner.url;
-            labels = inst.runner.labels ++ optional nvdaCfg.enable "gpu";
+              else runner.tokenFile;
+            url = runner.url;
+            labels = runner.labels ++ optional nvdaCfg.enable "gpu";
 
             settings = {
               log.level = "info";
@@ -82,7 +82,7 @@ in {
               };
 
               runner = {
-                capacity = inst.runner.capacity;
+                capacity = runner.capacity;
                 envs = {
                   "USER" = "runner";
                 };
@@ -97,16 +97,7 @@ in {
         };
       in
         cfg.runners
-        |> mapAttrsToList (name: runner: [
-          {
-            name = name;
-            runner = runner;
-            perGroupIndex = 0;
-          }
-        ])
-        |> concatLists
-        |> imap0 (globalIndex: inst: inst // {inherit globalIndex;})
-        |> map mkRunnerConfig
+        |> mapAttrsToList mkRunnerConfig
         |> listToAttrs;
     };
 
