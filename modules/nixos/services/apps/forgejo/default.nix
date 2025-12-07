@@ -73,6 +73,12 @@ in {
       };
     };
 
+    systemd.services.forgejo = {
+      serviceConfig = {
+        RestartSec = "1s";
+      };
+    };
+
     ${namespace}.services.storage.impermanence.folders = ["/var/lib/forgejo"];
   };
 }

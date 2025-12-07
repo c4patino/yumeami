@@ -60,5 +60,11 @@ in {
         ];
       };
     };
+
+    systemd.services.grafana = {
+      serviceConfig = {
+        RestartSec = lib.mkForce "1s";
+      };
+    };
   };
 }
