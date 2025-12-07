@@ -73,11 +73,6 @@ in {
       };
     };
 
-    systemd.services.forgejo = mkIf (dbHost == hostName) {
-      after = ["postgresql.service"];
-      requires = ["postgresql.service"];
-    };
-
     ${namespace}.services.storage.impermanence.folders = ["/var/lib/forgejo"];
   };
 }
