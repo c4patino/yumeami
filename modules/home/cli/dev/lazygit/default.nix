@@ -14,6 +14,14 @@ in {
   };
 
   config = mkIf cfg.enable {
-    programs.lazygit.enable = true;
+    programs.lazygit = {
+      enable = true;
+
+      settings = {
+        git = {
+          overrideGpg = true;
+        };
+      };
+    };
   };
 }
