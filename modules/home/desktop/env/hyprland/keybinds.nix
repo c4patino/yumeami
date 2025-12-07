@@ -25,11 +25,6 @@ in {
       "$menu" = menuCmd;
 
       bind = [
-        # System
-        ", F8, exec, playerctl previous"
-        ", F9, exec, playerctl play-pause"
-        ", F10, exec, playerctl next"
-
         # General
         "$mainMod, T, exec, $terminal"
         "$mainMod, R, exec, $menu"
@@ -40,7 +35,6 @@ in {
         "$mainMod, P, pseudo,"
         "$mainMod, S, togglesplit,"
 
-        "$mainMod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
         "$mainMod, Home, exec, sh -c 'grim -g \"$(slurp -d)\" ~/Downloads/$(date +%Y-%m-%d-%H%M%S).png'"
 
         # Scratchpad
@@ -82,22 +76,28 @@ in {
         "$mainMod SHIFT, 8, movetoworkspace, 8"
         "$mainMod SHIFT, 9, movetoworkspace, 9"
         "$mainMod SHIFT, 0, movetoworkspace, 10"
+
+        # System
+        ", F8, exec, playerctl previous"
+        ", F9, exec, playerctl play-pause"
+        ", F10, exec, playerctl next"
+      ];
+
+      bindl = [
+        ", F1, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+      ];
+
+      bindle = [
+        ", F2, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        ", F3, exec, wpctl set-volume -l 1.2 @DEFAULT_AUDIO_SINK@ 5%+"
+        ", F4, exec, wpctl set-mute -l 1.2 @DEFAULT_AUDIO_SOURCE@ toggle"
+        ", F5, exec, brightnessctl s 2%-"
+        ", F6, exec, brightnessctl s +2%"
       ];
 
       bindm = [
         "$mainMod, mouse:272, movewindow"
         "$mainMod, mouse:273, resizewindow"
-      ];
-
-      bindle = [
-        ", F2, exec, brightnessctl s 2%-"
-        ", F3, exec, brightnessctl s +2%"
-        ", F6, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        ", F7, exec, wpctl set-volume -l 1.2 @DEFAULT_AUDIO_SINK@ 5%+"
-      ];
-
-      bindl = [
-        ", F5, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
       ];
     };
   };
