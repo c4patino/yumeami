@@ -85,12 +85,12 @@ in {
 
       bindl = [
         ", F1, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", F4, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
       ];
 
       bindle = [
         ", F2, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        ", F3, exec, wpctl set-volume -l 1.2 @DEFAULT_AUDIO_SINK@ 5%+"
-        ", F4, exec, wpctl set-mute -l 1.2 @DEFAULT_AUDIO_SOURCE@ toggle"
+        ", F3, exec, wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+"
         ", F5, exec, brightnessctl s 2%-"
         ", F6, exec, brightnessctl s +2%"
       ];
