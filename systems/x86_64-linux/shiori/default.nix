@@ -22,6 +22,7 @@ in {
       apps = {
         forgejo = enabled;
         glance = enabled;
+        grafana = enabled;
         rustypaste = enabled;
         vaultwarden = enabled;
       };
@@ -49,10 +50,6 @@ in {
             capacity = 4;
           };
         };
-      };
-
-      metrics = {
-        grafana = enabled;
       };
 
       networking = {

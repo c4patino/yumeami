@@ -8,7 +8,7 @@
 }: let
   inherit (lib) mkIf mkEnableOption attrNames filterAttrs elem head;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP readJsonOrEmpty getIn;
-  base = "${namespace}.services.metrics.grafana";
+  base = "${namespace}.services.apps.grafana";
   cfg = getAttrByNamespace config base;
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";

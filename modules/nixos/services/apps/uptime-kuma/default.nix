@@ -7,7 +7,7 @@
   inherit (lib) mkIf mkEnableOption mkForce;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   inherit (config.users) users;
-  base = "${namespace}.services.metrics.uptime-kuma";
+  base = "${namespace}.services.apps.uptime-kuma";
   cfg = getAttrByNamespace config base;
 
   port = 5200;

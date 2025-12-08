@@ -18,7 +18,7 @@ in {
       common = enabled;
     };
     services = {
-      metrics = {
+      apps = {
         ntfy = enabled;
         uptime-kuma = enabled;
       };
