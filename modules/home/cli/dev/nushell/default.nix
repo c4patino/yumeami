@@ -85,9 +85,12 @@ in {
         ];
 
         shellAliases = {
-          shutdown = "sudo shutdown";
-          reboot = "sudo reboot";
           rsyncp = "rsync -P -ahvz";
+
+          reboot = "sudo reboot";
+          shutdown = "sudo shutdown";
+
+          gloga = "git log --oneline --decorate --graph --all";
         };
       };
 
