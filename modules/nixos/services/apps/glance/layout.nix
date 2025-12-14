@@ -343,17 +343,17 @@ in {
                     }
                     {
                       type = "repository";
-                      title = "oasys-experiments";
-                      repository = "c4patino/oasys-experiments";
+                      title = "yumevim-nix";
+                      repository = "c4patino/yumevim-nix";
                       token = getIn "github.glance" secrets;
                       commits-limit = 8;
                     }
                     {
                       type = "repository";
-                      title = "free-range-zoo";
-                      repository = "oasys-mas/dev-free-range-zoo";
-                      token = getIn "github.glance-oasys" secrets;
-                      commits-limit = 3;
+                      title = "dotfiles";
+                      repository = "c4patino/dotfiles";
+                      token = getIn "github.glance" secrets;
+                      commits-limit = 8;
                     }
                     {
                       type = "repository";
