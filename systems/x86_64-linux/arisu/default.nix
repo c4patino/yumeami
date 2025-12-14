@@ -48,6 +48,13 @@ in {
             "cseseniordesign" = {
               url = "https://github.com/cseseniordesign/dqc-r-and-s";
             };
+            "free-range-zoo" = {
+              url = "https://github.com/oasys-mas/free-range-zoo";
+            };
+            "dev-free-range-zoo" = {
+              url = "https://github.com/oasys-mas/dev-free-range-zoo";
+              instances = 2;
+            };
           };
         };
         woodpecker.runners.primary = {
