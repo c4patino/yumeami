@@ -24,10 +24,10 @@ in {
       };
 
       networking = {
-        blocky = enabled;
-        cloudflared = enabled;
+        # blocky = enabled;
+        # cloudflared = enabled;
         httpd = enabled;
-        unbound = enabled;
+        # unbound = enabled;
       };
 
       storage = {

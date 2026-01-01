@@ -53,7 +53,10 @@ in {
       };
 
       networking = {
+        blocky = enabled;
+        cloudflared = enabled;
         httpd = enabled;
+        unbound = enabled;
       };
 
       storage = {

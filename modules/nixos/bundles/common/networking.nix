@@ -74,7 +74,7 @@ in {
             };
           };
 
-          unbound.dnsHost = "chibi";
+          unbound.dnsHost = "shiori";
         };
       };
     };
