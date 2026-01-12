@@ -10,6 +10,8 @@ in {
       common = enabled;
       shell = enabled;
     };
+
+    cli.dev.neovim.variant = "minimal";
   };
 
   home.stateVersion = "25.11";

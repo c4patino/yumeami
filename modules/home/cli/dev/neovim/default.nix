@@ -14,9 +14,9 @@ in {
   options = mkOptionsWithNamespace base (with lib.types; {
     enable = mkEnableOption "neovim";
     variant = mkOption {
-      type = enum ["minimal" "full"];
+      type = enum ["minimal" "default" "full"];
       description = "variation of yumevim to install";
-      default = "full";
+      default = "default";
     };
   });
 
