@@ -39,6 +39,8 @@ in {
     };
 
     desktop.services.brightnessctl = enabled;
+
+    cli.dev.neovim.variant = "full";
   };
 
   programs.kitty.font.size = 14;

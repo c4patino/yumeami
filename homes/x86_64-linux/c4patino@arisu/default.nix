@@ -42,6 +42,8 @@ in {
         presenterm = enabled;
       };
     };
+
+    cli.dev.neovim.variant = "full";
   };
 
   programs.kitty.font.size = 14;
