@@ -19,14 +19,18 @@ in {
     cli.dev.neovim.variant = "minimal";
   };
 
-  home.packages = with pkgs; [
-    cachix
-    git
-    home-manager
-    nh
-    nix-output-monitor
-    nvd
-  ];
+  home = {
+    packages = with pkgs; [
+      cachix
+      git
+      home-manager
+      nh
+      nix-output-monitor
+      nvd
+    ];
 
-  home.stateVersion = "25.11";
+    stateVersion = "25.11";
+  };
+
+  nix.settings.experimental-features = ["nix-command" "flakes" "pipe-operators"];
 }
