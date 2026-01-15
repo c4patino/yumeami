@@ -11,7 +11,7 @@ in {
     bundles = {
       common = disabled;
 
-      development = disabled;
+      development = enabled;
       shell = enabled;
     };
 
