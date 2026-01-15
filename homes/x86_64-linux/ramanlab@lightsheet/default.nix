@@ -1,6 +1,7 @@
 {
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib.${namespace}) disabled enabled;
@@ -17,6 +18,15 @@ in {
 
     cli.dev.neovim.variant = "minimal";
   };
+
+  home.packages = with pkgs; [
+    cachix
+    git
+    home-manager
+    nh
+    nix-output-monitor
+    nvd
+  ];
 
   home.stateVersion = "25.11";
 }
