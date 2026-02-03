@@ -14,7 +14,10 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.tailscale.enable = true;
+    services.tailscale = {
+      enable = true;
+      useRoutingFeatures = "server";
+    };
 
     ${namespace}.services.storage.impermanence.folders = ["/var/lib/tailscale"];
   };
