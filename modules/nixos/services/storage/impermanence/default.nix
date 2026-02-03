@@ -88,6 +88,8 @@ in {
           ".local/share/racket"
           ".local/share/zoxide"
           ".local/share/zsh"
+          ".local/state/lazygit"
+          ".local/state/opencode"
           ".m2"
           ".pm2"
           ".stack"
