@@ -4,6 +4,7 @@
   pkgs,
   ...
 }: let
+  inherit (lib) mkForce;
   inherit (lib.${namespace}) disabled enabled;
 in {
   imports = [./stylix.nix];
@@ -30,6 +31,11 @@ in {
     ];
 
     stateVersion = "25.11";
+  };
+
+  programs.bash = {
+    enable = mkForce false;
+    initExtra = mkForce "";
   };
 
   nix.settings = {
