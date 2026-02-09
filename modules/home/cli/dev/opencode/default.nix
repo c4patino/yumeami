@@ -19,8 +19,10 @@ in {
     home = {
       packages = with pkgs; [opencode];
 
-      file.".config/opencode" = {
-        source = inputs.dotfiles + "/.config/opencode";
+      file = {
+        ".config/opencode/opencode.json".source = inputs.dotfiles + "/.config/opencode/opencode.json";
+        ".config/opencode/agent".source = inputs.dotfiles + "/.config/opencode/agent";
+        ".config/opencode/command".source = inputs.dotfiles + "/.config/opencode/command";
       };
     };
   };
