@@ -53,6 +53,16 @@ in {
             |> getIn "postgresql.forgejo";
         };
 
+        git = {
+          TIMEOUT_DEFAULT = 360;
+          TIMEOUT_MIGRATE = 1800;
+          TIMEOUT_MIRROR = 1800;
+          TIMEOUT_CLONE = 300;
+          TIMEOUT_PULL = 300;
+          TIMEOUT_GC = 60;
+          TIMEOUT_GREP = 2;
+        };
+
         ui = {
           DEFAULT_THEME = "forgejo-dark";
           SHOW_USER_EMAIL = true;
