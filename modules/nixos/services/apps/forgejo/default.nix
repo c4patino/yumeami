@@ -53,14 +53,14 @@ in {
             |> getIn "postgresql.forgejo";
         };
 
-        git = {
-          TIMEOUT_DEFAULT = 360;
-          TIMEOUT_MIGRATE = 1800;
-          TIMEOUT_MIRROR = 1800;
-          TIMEOUT_CLONE = 300;
-          TIMEOUT_PULL = 300;
-          TIMEOUT_GC = 60;
-          TIMEOUT_GREP = 2;
+        "git.timeout" = {
+          DEFAULT = 360;
+          CLONE = 300;
+          GC = 60;
+          GREP = 2;
+          MIGRATE = 3600;
+          MIRROR = 3600;
+          PULL = 300;
         };
 
         ui = {
