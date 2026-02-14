@@ -57,8 +57,8 @@ in {
             };
           };
         };
-        woodpecker.runners.primary = {
-          enable = true;
+        woodpecker.runners = {
+          primary.enable = true;
         };
       };
 
