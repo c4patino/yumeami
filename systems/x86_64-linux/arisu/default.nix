@@ -35,6 +35,19 @@ in {
     services = {
       apps = {
         rustypaste.client = enabled;
+
+        servarr = {
+          jellyfin = enabled;
+          ombi = enabled;
+
+          prowlarr = enabled;
+          radarr = enabled;
+          sonarr = enabled;
+          lidarr = enabled;
+          bazarr = enabled;
+        };
+
+        qbittorrent = enabled;
       };
 
       ci = {
@@ -60,6 +73,10 @@ in {
         woodpecker.runners = {
           primary.enable = true;
         };
+      };
+
+      networking = {
+        httpd = enabled;
       };
 
       storage = {

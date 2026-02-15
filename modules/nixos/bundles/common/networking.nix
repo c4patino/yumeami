@@ -35,6 +35,38 @@ in {
           };
 
           network-services = {
+            jellyfin = {
+              host = "arisu";
+              port = 8096;
+              internal = true;
+            };
+            ombi = {
+              host = "arisu";
+              port = 5000;
+              internal = true;
+            };
+
+            radarr = {
+              host = "arisu";
+              port = 7878;
+            };
+            sonarr = {
+              host = "arisu";
+              port = 8989;
+            };
+            lidarr = {
+              host = "arisu";
+              port = 8686;
+            };
+            bazarr = {
+              host = "arisu";
+              port = 6767;
+            };
+            prowlarr = {
+              host = "arisu";
+              port = 9696;
+            };
+
             monitor = {
               host = "chibi";
               port = 5200;
