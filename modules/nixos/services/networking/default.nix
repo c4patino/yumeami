@@ -35,7 +35,12 @@ in {
           options.public = mkOption {
             type = bool;
             default = false;
-            description = "Whether the service should be publicly accessible.";
+            description = "Whether the service should be publicly accessible over *.cpatino.com.";
+          };
+          options.internal = mkOption {
+            type = bool;
+            default = false;
+            description = "Whether the service should be internally accessible over *.yumeami.sh.";
           };
         });
         default = {};

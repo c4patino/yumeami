@@ -135,7 +135,7 @@ in {
         }
 
         (networkingCfg.network-services
-          |> filterAttrs (_: svc: svc.host == hostName)
+          |> filterAttrs (_: svc: svc.host == hostName && svc.internal)
           |> mapAttrsToList (mkVirtualHost {
             domain = "*.yumeami.sh";
             useSSL = true;
