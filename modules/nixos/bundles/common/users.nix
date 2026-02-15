@@ -18,6 +18,7 @@ in {
       extraGroups = [
         "dialout"
         "docker"
+        "jellyfin"
         "networkmanager"
         "podman"
         "rustypaste"
