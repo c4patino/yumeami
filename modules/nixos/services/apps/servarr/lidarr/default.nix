@@ -16,7 +16,6 @@ in {
   config = mkIf cfg.enable {
     services.lidarr = {
       enable = true;
-      openFirewall = true;
     };
 
     systemd.services.lidarr.serviceConfig = let

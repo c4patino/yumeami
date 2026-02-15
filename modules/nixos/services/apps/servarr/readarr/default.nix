@@ -16,7 +16,6 @@ in {
   config = mkIf cfg.enable {
     services.readarr = {
       enable = true;
-      openFirewall = true;
     };
 
     systemd.services.readarr.serviceConfig = let

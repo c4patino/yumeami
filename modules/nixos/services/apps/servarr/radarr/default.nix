@@ -16,7 +16,6 @@ in {
   config = mkIf cfg.enable {
     services.radarr = {
       enable = true;
-      openFirewall = true;
     };
 
     systemd.services.radarr.serviceConfig = let
