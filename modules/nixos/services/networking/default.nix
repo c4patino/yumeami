@@ -24,23 +24,25 @@ in {
       };
       network-services = mkOption {
         type = attrsOf (submodule {
-          options.host = mkOption {
-            type = str;
-            description = "Name of the device which is hosting the service";
-          };
-          options.port = mkOption {
-            type = port;
-            description = "Local port of the service";
-          };
-          options.public = mkOption {
-            type = bool;
-            default = false;
-            description = "Whether the service should be publicly accessible over *.cpatino.com.";
-          };
-          options.internal = mkOption {
-            type = bool;
-            default = false;
-            description = "Whether the service should be internally accessible over *.yumeami.sh.";
+          options = {
+            host = mkOption {
+              type = str;
+              description = "Name of the device which is hosting the service";
+            };
+            port = mkOption {
+              type = port;
+              description = "Local port of the service";
+            };
+            public = mkOption {
+              type = bool;
+              default = false;
+              description = "Whether the service should be publicly accessible over *.cpatino.com.";
+            };
+            internal = mkOption {
+              type = bool;
+              default = false;
+              description = "Whether the service should be internally accessible over *.yumeami.sh.";
+            };
           };
         });
         default = {};
