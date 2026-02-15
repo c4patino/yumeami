@@ -22,6 +22,7 @@ in {
     ${namespace}.services.storage.impermanence.folders = let
       jellyfinUser = config.users.users.jellyfin;
     in [
+      "/mnt/jellyfin"
       {
         directory = "/var/lib/jellyfin";
         user = jellyfinUser.name;
