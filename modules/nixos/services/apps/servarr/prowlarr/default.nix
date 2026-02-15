@@ -16,7 +16,6 @@ in {
   config = mkIf cfg.enable {
     services.prowlarr = {
       enable = true;
-      openFirewall = true;
     };
 
     systemd.services.prowlarr.serviceConfig = let

@@ -16,7 +16,6 @@ in {
   config = mkIf cfg.enable {
     services.autobrr = {
       enable = true;
-      openFirewall = true;
     };
 
     systemd.services.autobrr.serviceConfig = let

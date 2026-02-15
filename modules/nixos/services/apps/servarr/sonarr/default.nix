@@ -16,7 +16,6 @@ in {
   config = mkIf cfg.enable {
     services.sonarr = {
       enable = true;
-      openFirewall = true;
     };
 
     systemd.services.sonarr.serviceConfig = let

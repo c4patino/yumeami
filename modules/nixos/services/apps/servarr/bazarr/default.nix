@@ -16,7 +16,6 @@ in {
   config = mkIf cfg.enable {
     services.bazarr = {
       enable = true;
-      openFirewall = true;
     };
 
     systemd.services.bazarr.serviceConfig = let
