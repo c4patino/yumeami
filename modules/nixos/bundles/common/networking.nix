@@ -38,6 +38,7 @@ in {
             monitor = {
               host = "chibi";
               port = 5200;
+              internal = true;
             };
             ntfy = {
               host = "chibi";
@@ -48,6 +49,7 @@ in {
             dash = {
               host = "shiori";
               port = 5150;
+              internal = true;
             };
             git = {
               host = "shiori";
@@ -57,6 +59,7 @@ in {
             grafana = {
               host = "shiori";
               port = 5500;
+              internal = true;
             };
             paste = {
               host = "shiori";
@@ -71,6 +74,7 @@ in {
             woodpecker = {
               host = "shiori";
               port = 5301;
+              internal = true;
             };
           };
 
