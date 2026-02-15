@@ -18,9 +18,31 @@ in {
     mkOptionsWithNamespace base {
       enable = mkEnableOption "impermanence";
       folders = mkOption {
-        type = listOf str;
+        type = listOf (either str (submodule {
+          options = {
+            directory = mkOption {
+              type = str;
+              description = "Directory path to persist";
+            };
+            user = mkOption {
+              type = nullOr str;
+              default = null;
+              description = "User owning the directory";
+            };
+            group = mkOption {
+              type = nullOr str;
+              default = null;
+              description = "Group owning the directory";
+            };
+            mode = mkOption {
+              type = nullOr str;
+              default = null;
+              description = "Permissions mode for the directory";
+            };
+          };
+        }));
         default = [];
-        description = "List of root folders to persist";
+        description = "List of folders to persist";
       };
     };
 
