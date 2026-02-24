@@ -19,7 +19,6 @@ in {
 
     cli.dev = {
       nushell = mkForce disabled;
-      zsh = enabled;
 
       neovim.variant = "minimal";
     };
@@ -36,6 +35,11 @@ in {
     ];
 
     stateVersion = "25.11";
+  };
+
+  programs.bash = {
+    enable = mkForce false;
+    initExtra = mkForce "";
   };
 
   nix.settings = {
