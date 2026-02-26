@@ -37,11 +37,6 @@ in {
     stateVersion = "25.11";
   };
 
-  programs.bash = {
-    enable = mkForce false;
-    initExtra = mkForce "";
-  };
-
   nix.settings = {
     experimental-features = ["nix-command" "flakes" "pipe-operators"];
 
