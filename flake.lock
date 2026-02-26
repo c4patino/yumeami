@@ -1060,11 +1060,11 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1771195725,
-        "narHash": "sha256-MnuGy5q7a9fvzMojiPCYmAxKN05aJcWn2r6kpAkg9FI=",
+        "lastModified": 1772146705,
+        "narHash": "sha256-X3r+38qfEFv1hLfjL/h0gHbu4xFufOdSgWZJAvwvqxQ=",
         "ref": "main",
-        "rev": "e7a7a638b5c6be1b2c51c2a493e9ac004fa3ab8b",
-        "revCount": 94,
+        "rev": "42bdb37dcf9c62c158058e3bcd39ff9d8d014d56",
+        "revCount": 95,
         "type": "git",
         "url": "https://git.cpatino.com/c4patino/yumevim-nix"
       },
