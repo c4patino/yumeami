@@ -61,10 +61,19 @@ in {
       };
     };
 
-    systemd.services.grafana = {
-      serviceConfig = {
-        RestartSec = lib.mkForce "1s";
+    systemd.services.grafana = let
+      dbHost =
+        pgCfg.databases
+        |> filterAttrs (host: dbs: elem "grafana" dbs)
+        |> attrNames
+        |> head;
+    in
+      mkIf (dbHost == config.networking.hostName) {
+        after = ["postgresql.service" "pgbouncer.service"];
+        requires = ["postgresql.service" "pgbouncer.service"];
+        serviceConfig = {
+          RestartSec = lib.mkForce "1s";
+        };
       };
-    };
   };
 }

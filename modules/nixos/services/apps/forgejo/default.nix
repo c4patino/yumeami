@@ -83,11 +83,16 @@ in {
       };
     };
 
-    systemd.services.forgejo = {
-      serviceConfig = {
-        RestartSec = "1s";
+    systemd.services.forgejo = let
+      inherit (config.networking) hostName;
+    in
+      mkIf (dbHost == hostName) {
+        after = ["postgresql.service" "pgbouncer.service"];
+        requires = ["postgresql.service" "pgbouncer.service"];
+        serviceConfig = {
+          RestartSec = "1s";
+        };
       };
-    };
 
     ${namespace}.services.storage.impermanence.folders = ["/var/lib/forgejo"];
   };
