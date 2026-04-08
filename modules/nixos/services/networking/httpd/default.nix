@@ -106,6 +106,32 @@ in {
         }
 
         {
+          "_default_" = let
+            inherit (config.sops) secrets;
+          in {
+            acmeRoot = null;
+            documentRoot = "/var/empty";
+
+            servedDirs = [
+              {
+                dir = "/var/www/error";
+                urlPath = "/";
+              }
+            ];
+
+            extraConfig = ''
+              RewriteEngine On
+              RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500)\.html$
+              RewriteRule ^ - [L,R=404]
+            '';
+
+            forceSSL = true;
+            sslServerCert = secrets."ssl/wildcard_cpatino_com/cert".path;
+            sslServerKey = secrets."ssl/wildcard_cpatino_com/key".path;
+          };
+        }
+
+        {
           "localhost" = let
             localhostProxyConfig =
               networkingCfg.network-services
