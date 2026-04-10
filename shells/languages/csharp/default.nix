@@ -9,7 +9,7 @@ mkShell {
     (with dotnetCorePackages;
       combinePackages [
         sdk_9_0_1xx
-        sdk_8_0_3xx
+        sdk_8_0_1xx
       ])
   ];
 
