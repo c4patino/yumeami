@@ -1,0 +1,41 @@
+%===============================================================================
+%  PREAMBLE
+%===============================================================================
+\documentclass{turabian-researchpaper}
+
+\usepackage[utf8]{inputenc}
+\usepackage{csquotes, ellipsis}
+
+\usepackage[pass, letterpaper]{geometry}
+
+\usepackage[authordate,backend=biber,sorting=nty]{biblatex-chicago}
+\ExecuteBibliographyOptions[jurisdiction,legal,legislation]{skipbib=false}
+\addbibresource{works-cited.bib}
+
+\usepackage{hyperref}
+
+\title{}
+\subtitle{}
+\author{}
+\course{}
+\date{\today}
+
+%===============================================================================
+%  MAIN DOCUMENT
+%===============================================================================
+\begin{document}
+
+\maketitle
+
+%===============================================================================
+%  Main Text
+%===============================================================================
+
+\section{Introduction}
+
+%===============================================================================
+%  Bibliography
+%===============================================================================
+\printbibliography
+
+\end{document}
