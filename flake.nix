@@ -73,6 +73,9 @@
       templates = {
         devenv.description = "devenv development environment";
         devshell.description = "nixpkgs mkshell development environment";
+
+        latex-chicago.description = "latex chicago paper template";
+        latex-ieee.description = "latex ieee paper template";
       };
 
       outputs-builder = channels: let
