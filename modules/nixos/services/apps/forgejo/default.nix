@@ -42,6 +42,13 @@ in {
 
         badges.ENABLED = true;
 
+        "cron.git_gc_repos" = {
+          ENABLED = true;
+          RUN_AT_START = true;
+          SCHEDULE = "@every 48h";
+          TIMEOUT = "5m";
+        };
+
         database = {
           DB_TYPE = mkForce "postgres";
           HOST = mkForce "${resolveHostIP networkCfg.devices dbHost}:5600";
