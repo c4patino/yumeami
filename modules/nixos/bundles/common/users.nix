@@ -51,7 +51,7 @@ in {
       };
 
       age.keyFile = let
-        crypt = "/persist/${c4patino.home}/dotfiles/secrets/crypt";
+        crypt = "/persist${c4patino.home}/dotfiles/secrets/crypt";
       in
         mkDefault "${crypt}/age/${hostName}/keys.txt";
     };
