@@ -42,7 +42,7 @@ in {
 
   networking = {
     hostName = "kokoro";
-    hostId = "f927bba2";
+    hostId = "41f4c357";
   };
 
   boot = {
