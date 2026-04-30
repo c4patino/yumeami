@@ -15,9 +15,13 @@ in {
   };
 
   config = mkIf cfg.enable {
-    programs.hyprland = {
-      enable = true;
-      xwayland.enable = true;
+    programs = {
+      hyprland = {
+        enable = true;
+        xwayland.enable = true;
+      };
+
+      dconf.enable = true;
     };
 
     xdg.portal = {
