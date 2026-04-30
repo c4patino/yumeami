@@ -10,7 +10,10 @@ in {
     ./hardware-configuration.nix
 
     inputs.disko.nixosModules.default
-    (import ../../disko.nix {main = "/dev/nvme0n1";})
+    (import ../../disko.nix {
+      main = "/dev/nvme0n1";
+      size = "768G";
+    })
   ];
 
   ${namespace} = {
