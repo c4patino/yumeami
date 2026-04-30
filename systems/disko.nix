@@ -1,6 +1,7 @@
 {
   main ? throw "Primary device not defined",
   extras ? [],
+  size ? "100%",
   ...
 }: let
   mainDisk = {
@@ -34,7 +35,7 @@
           };
           root = {
             name = "root";
-            size = "100%";
+            size = size;
             content = {
               type = "zfs";
               pool = "zroot";
