@@ -124,11 +124,11 @@
     "dotfiles": {
       "flake": false,
       "locked": {
-        "lastModified": 1776018513,
-        "narHash": "sha256-BD89bNFd+1HuyaCskBs5BEg6LLABmakGddBsR4C5ExY=",
+        "lastModified": 1777525747,
+        "narHash": "sha256-aV0Z1EQJQfKPDct0UwuU2jr9/qU7GMdgOIDwN1QsmU0=",
         "ref": "main",
-        "rev": "90e9e6ea2caf90d027fb495f6c95b449ae8beb11",
-        "revCount": 94,
+        "rev": "fcf1cfba46db44fa3760c8aa19053c6dea7434ee",
+        "revCount": 95,
         "type": "git",
         "url": "https://git.cpatino.com/c4patino/dotfiles"
       },
@@ -275,11 +275,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1772408722,
-        "narHash": "sha256-rHuJtdcOjK7rAHpHphUb1iCvgkU3GpfvicLMwwnfMT0=",
+        "lastModified": 1769996383,
+        "narHash": "sha256-AnYjnFWgS49RlqX7LrC4uA+sCCDBj0Ry/WOJ5XWAsa0=",
         "owner": "hercules-ci",
         "repo": "flake-parts",
-        "rev": "f20dc5d9b8027381c474144ecabc9034d6a839a3",
+        "rev": "57928607ea566b5db3ad13af0e57e921e6b12381",
         "type": "github"
       },
       "original": {
@@ -649,11 +649,11 @@
         "systems": "systems_6"
       },
       "locked": {
-        "lastModified": 1776079266,
-        "narHash": "sha256-JXxmLRI18Ne4VAUzZKeVqjtMOWT6uWHk12jJQ+7UWgA=",
+        "lastModified": 1770388595,
+        "narHash": "sha256-0NvpmDqFcJAtRFJE3RDZWnN7PDJBZutoDtN+Cl8a3DY=",
         "owner": "nix-community",
         "repo": "nixvim",
-        "rev": "306d2772d6647b7cde8388318042f5b95c2ce2b8",
+        "rev": "51abc532525e486176f9a7b24b17908c60017b54",
         "type": "github"
       },
       "original": {
@@ -979,11 +979,11 @@
         "nixpkgs": "nixpkgs_8"
       },
       "locked": {
-        "lastModified": 1775636079,
-        "narHash": "sha256-pc20NRoMdiar8oPQceQT47UUZMBTiMdUuWrYu2obUP0=",
+        "lastModified": 1770228511,
+        "narHash": "sha256-wQ6NJSuFqAEmIg2VMnLdCnUc0b7vslUohqqGGD+Fyxk=",
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "rev": "790751ff7fd3801feeaf96d7dc416a8d581265ba",
+        "rev": "337a4fe074be1042a35086f15481d763b8ddc0e7",
         "type": "github"
       },
       "original": {
@@ -1060,11 +1060,11 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1776096413,
-        "narHash": "sha256-N4mwpsGCc8uEgpT7i1I7syLdKmdPO56eyW+kjp5KJSU=",
+        "lastModified": 1772164223,
+        "narHash": "sha256-kBLJgyNTSzi5tHfOXDNug7Vt/l2m2zXZnvn3C4WfDiI=",
         "ref": "main",
-        "rev": "366b16efde58a4bbb39ea0949e604e73a921d3b1",
-        "revCount": 97,
+        "rev": "99999b577c47e1db04e92752a884c4fc163e8c58",
+        "revCount": 95,
         "type": "git",
         "url": "https://git.cpatino.com/c4patino/yumevim-nix"
       },

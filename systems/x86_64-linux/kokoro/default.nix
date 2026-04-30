@@ -47,7 +47,7 @@ in {
 
   boot = {
     binfmt.emulatedSystems = ["aarch64-linux"];
-    loader.grub.theme = inputs.dotfiles + "/vimix/1080p";
+    loader.grub.theme = inputs.dotfiles + "/vimix/2k";
   };
 
   system.stateVersion = "25.11";
