@@ -46,7 +46,7 @@ in {
   programs.kitty.font.size = 14;
 
   wayland.windowManager.hyprland.settings.monitor = [
-    "eDP-1, 1920x1080@60, 0x0, 1"
+    "eDP-1, 2880x1800@60, 0x0, 1.5"
     ", preferred, auto-left, 1"
   ];
 
