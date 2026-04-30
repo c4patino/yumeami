@@ -55,17 +55,17 @@ cd ~/dotfiles
 
 # Partition and format drives using disko
 # Replace <device> with your disk device (e.g., sda, nvme0n1)
-sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
-    --mode disko ~/dotfiles/system/hosts/disko.nix \
+sudo nix --experimental-features "flakes nix-command pipe-operators" run github:nix-community/disko -- \
     --mode disko ~/dotfiles/systems/disko.nix \
     --arg main '"/dev/<device>"'
+zfs snapshot zroot/root@blank
 
 # Copy configuration to the persistent storage
 sudo cp ~/dotfiles /mnt/persist
 
 # Install NixOS with the configuration for your system
-# Replace <system-name> with one of: arisu, kokoro, shiori, chibi
-sudo nixos-install --root /mnt --flake ~/dotfiles#<system-name> --option extra-experimental-features pipe-operators
+# Replace <system-name> with one of: arisu, kokoro, shiori, chibi, tobira
+sudo nixos-install --root /mnt --flake ~/dotfiles#<system-name> --option extra-experimental-features "flakes nix-command pipe-operators"
 ```
 
 ## Customization
