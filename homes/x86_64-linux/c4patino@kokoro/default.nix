@@ -47,7 +47,7 @@ in {
 
   wayland.windowManager.hyprland.settings.monitor = [
     "eDP-1, 2880x1800@60, 0x0, 1.5"
-    ", preferred, auto-left, 1"
+    ", preferred, auto-right, 1"
   ];
 
   home.stateVersion = "25.11";
