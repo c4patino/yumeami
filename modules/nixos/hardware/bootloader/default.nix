@@ -14,11 +14,14 @@ in {
   };
 
   config = mkIf cfg.enable {
-    boot.loader.grub = {
-      enable = true;
-      efiSupport = true;
-      efiInstallAsRemovable = true;
-      useOSProber = true;
+    boot.loader = {
+      grub = {
+        enable = true;
+        efiSupport = true;
+        device = "nodev";
+      };
+
+      efi.canTouchEfiVariables = true;
     };
   };
 }

@@ -61,5 +61,7 @@ in {
     hostId = "9245f27e";
   };
 
+  boot.loader.grub.efiInstallAsRemovable = true;
+
   system.stateVersion = "25.11";
 }
