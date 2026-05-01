@@ -1,6 +1,8 @@
 {...}: final: prev: {
   vivaldi = (prev.vivaldi.override
     {
+      proprietaryCodecs = true;
+      enableWidevine = true;
       commandLineArgs = final.lib.concatStringsSep " " [
         "--ozone-platform=wayland"
         "--enable-features=UseOzonePlatform"
