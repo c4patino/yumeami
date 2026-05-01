@@ -1,68 +1,116 @@
 {pkgs, ...}:
 pkgs.writeShellScriptBin "format-drive" ''
-  if [  "$#" -ne 2 ]; then
-      echo "[ERROR] Usage: format-drive <drive-name> <filesystem>"
-      echo "[INFO]: <filesystem> can either be 'ntfs' or 'ext4'"
-      exit 1
+  set -euo pipefail
+
+  MODE="soft"
+
+  DRIVE=""
+  FS=""
+
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      --mode)
+        MODE="$2"
+        shift 2
+        ;;
+      -*)
+        echo "[ ERROR ]: Unknown flag: $1"
+        exit 1
+        ;;
+      *)
+        if [ -z $DRIVE ]; then
+          DRIVE="$1"
+        elif [ -z "$FS" ]; then
+          FS="$1"
+        else
+          echo "[ ERROR ] Too many arguments"
+        fi
+        shift
+        ;;
+    esac
+  done
+
+  if [ -z "$DRIVE" ] || [ -z "$FS" ]; then
+    echo "[ ERROR ] Usage: format-drive [--mode soft|full] <drive> <filesystem>"
+    echo "[ INFO ] Filesystems: ntfs | ext4 | fat32"
+    exit 1
   fi
 
-  DRIVE=$1
-  FILESYSTEM=$2
-
-  echo "[INFO] Starting format process for drive: $DRIVE"
-
-  if ! lsblk | grep -q $DRIVE; then
-      echo "[ERROR] Device $DRIVE not found"
-      exit 1
+  DEV="/dev/$DRIVE"
+  if [ ! -b "$DEV" ]; then
+    echo "[ ERROR ] Device $DEV not found or not a block device"
+    exit 1
   fi
-  echo "[INFO] Drive $DRIVE found"
 
-  echo "[INFO] Performing full disk format (overwriting with zeros) on /dev/$DRIVE"
-  sudo dd if=/dev/zero of=/dev/$DRIVE bs=1M status=progress
-  echo "[INFO] Successfully overwrote /dev/$DRIVE with zeros"
+  echo "[ INFO ] Target: $DEV"
+  echo "[ INFO ] Mode: $MODE (default: soft)"
 
-  echo "[INFO] Create partition table on /dev/$DRIVE"
-  sudo ${pkgs.parted}/bin/parted /dev/$DRIVE --script mklabel gpt
-  if [ $? -ne 0 ]; then
-      echo "[ERROR] Failed to create partition table on /dev/$DRIVE"
-      exit 1
-  fi
-  echo "[INFO] Successfully created partition table on /dev/$DRIVE"
+  echo "[ WARN ] This will erase data on $DEV"
+  read -r -p "Type YES to continue: " CONFIRM
+  [ "$CONFIRM" = "YES" ] || exit 0
 
-  echo "[INFO] Creating primary partition on /dev/$DRIVE"
-  sudo ${pkgs.parted}/bin/parted -a optimal /dev/$DRIVE --script mkpart primary 0% 100%
-  if [ $? -ne 0 ]; then
-      echo "[ERROR] Failed to create partition on /dev/$DRIVE"
-      exit 1
-  fi
-  echo "[INFO] Successfully created partition on /dev/$DRIVE"
+  echo "[ INFO ] Unmounting partitions..."
+  umount "''${DEV}"* 2>/dev/null || true
 
-  if [[ "$DRIVE" =~ nvme ]]; then
-      PARTITION="''${DRIVE}p1"
+  if [ "$MODE" = "full" ]; then
+    echo "[ INFO ] FULL WIPE: overwriting entire disk with zeros..."
+    sudo dd if=/dev/zero of="$DEV" bs=4M status=progress conv=fsync || true
+  elif [ "$MODE" = "soft" ]; then
+    echo "[ INFO ] SOFT WIPE: clearing filesystem signatures..."
+    sudo wipefs -a "$DEV"
   else
-      PARTITION="''${DRIVE}1"
+    echo "[ ERROR ] Invalid mode: $MODE (use soft or full)"
+    exit 1
   fi
 
-  if [ "$FILESYSTEM" == "ntfs" ]; then
-      echo "[INFO] Formatting partition $PARTITION with NTFS"
-      sudo ${pkgs.ntfs3g}/bin/mkfs.ntfs -f /dev/$PARTITION
-      if [ $? -ne 0 ]; then
-          echo "[ERROR] Failed to format partition $PARTITION with NTFS"
-          exit 1
-      fi
-      echo "[INFO] Successfully formatted partition $PARTITION with NTFS"
-  elif [ "$FILESYSTEM" == "ext4" ]; then
-      echo "[INFO] Formatting partition $PARTITION with EXT4"
-      sudo ${pkgs.e2fsprogs}/bin/mkfs.ext4 /dev/$PARTITION
-      if [ $? -ne 0 ]; then
-          echo "[ERROR] Failed to format partition $PARTITION with EXT4"
-          exit 1
-      fi
-      echo "[INFO] Successfully formatted partition $PARTITION with EXT4"
-  else
-      echo "[ERROR] Invalid filesystem type specified. Use 'ntfs' or 'ext4'."
+  echo "[ INFO ] Creating GPT partition table..."
+  sudo ${pkgs.parted}/bin/parted -s "$DEV" mklabel gpt
+
+  case "$FS" in
+    fat32)
+      PART_TYPE="fat32"
+      PART_FLAGS="msftdata"
+      ;;
+    ntfs)
+      PART_TYPE="ntfs"
+      PART_FLAGS="msftdata"
+      ;;
+    ext4)
+      PART_TYPE="ext4"
+      PART_FLAGS=""
+      ;;
+    *)
+      echo "[ ERROR ] Unsupported filesystem: $FS"
       exit 1
+      ;;
+  esac
+
+  echo "[ INFO ] Creating partition..."
+  sudo ${pkgs.parted}/bin/parted -s "$DEV" mkpart primary "$PART_TYPE" 1MiB 100%
+  if [ -n "$PART_FLAGS" ]; then
+    sudo ${pkgs.parted}/bin/parted -s "$DEV" set 1 "$PART_FLAGS" on
   fi
 
-  echo "[INFO] Format process completed successfully"
+  PARTITION=$(lsblk -lnpo NAME "$DEV" | tail -n 1)
+  echo "[ INFO ] Partition: $PARTITION"
+
+  sudo ${pkgs.parted}/bin/partprobe "$DEV"
+
+  case "$FS" in
+    ntfs)
+      sudo ${pkgs.ntfs3g}/bin/mkfs.ntfs -f "$PARTITION"
+      ;;
+    ext4)
+      sudo ${pkgs.e2fsprogs}/bin/mkfs.ext4 -F "$PARTITION"
+      ;;
+    fat32)
+      sudo ${pkgs.dosfstools}/bin/mkfs.vfat -F 32 "$PARTITION"
+      ;;
+    *)
+      echo "[ ERROR ] Unsupported filesystem: $FS"
+      exit 1
+      ;;
+  esac
+
+  echo "[ INFO ] Done successfully"
 ''
