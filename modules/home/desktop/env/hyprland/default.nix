@@ -29,26 +29,30 @@ in {
       xwayland.enable = true;
 
       settings.env = [
-        "CLUTTER_BACKEND,wayland"
-        "GBM_BACKEND,nvidia-drm"
-        "GDK_BACKEND,wayland,x11,*"
-        "GTK_USE_PORTAL,1"
-        "HYPRCURSOR_SIZE,24"
-        "LIBVA_DRIVER_NAME,nvidia"
-        "NIXOS_OZONE_WL,1"
-        "QT_QPA_PlATFORM,wayland;xcb"
-        "SDLVIDEODRIVER,wayland"
-        "XCURSOR_SIZE,24"
-        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
-
-        "QT_AUTO_SCREEN_SCALE_FACTOR,1"
-        "QT_QPA_PLATFORMTHEME,qt5ct"
-        "QT_QPA_PLATFORM,wayland;xcb"
-        "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
-
+        "XDG_SESSION_TYPE,wayland"
         "XDG_CURRENT_DESKTOP,Hyprland"
         "XDG_SESSION_DESKTOP,Hyprland"
-        "XDG_SESSION_TYPE,wayland"
+        "NIXOS_OZONE_WL,1"
+
+        "GDK_BACKEND,wayland,x11,*"
+        "GDK_SCALE,2"
+        "GDK_DPI_SCALE,2"
+        "GTK_USE_PORTAL,1"
+
+        "QT_QPA_PLATFORM,wayland;xcb"
+        "QT_AUTO_SCREEN_SCALE_FACTOR,1"
+        "QT_QPA_PLATFORMTHEME,qt5ct"
+        "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
+
+        "SDLVIDEODRIVER,wayland"
+        "CLUTTER_BACKEND,wayland"
+
+        "GBM_BACKEND,nvidia-drm"
+        "LIBVA_DRIVER_NAME,nvidia"
+        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+
+        "XCURSOR_SIZE,24"
+        "HYPRCURSOR_SIZE,24"
       ];
     };
   };
