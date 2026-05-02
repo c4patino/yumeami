@@ -10,12 +10,18 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot.initrd.availableKernelModules = ["xhci_pci"];
-  boot.initrd.kernelModules = [];
-  boot.kernelModules = [];
-  boot.kernelParams = ["cgroup_enable=memory" "swapaccount=1"];
-  boot.extraModulePackages = [];
-  boot.initrd.systemd.tpm2.enable = false;
+  boot = {
+    kernelModules = [];
+    kernelParams = ["cgroup_enable=memory" "swapaccount=1"];
+    extraModulePackages = [];
+
+    initrd = {
+      availableKernelModules = ["xhci_pci"];
+      kernelModules = [];
+
+      systemd.tpm2.enable = false;
+    };
+  };
 
   swapDevices = [];
 
