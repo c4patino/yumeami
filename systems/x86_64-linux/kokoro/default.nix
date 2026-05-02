@@ -24,6 +24,7 @@ in {
 
     hardware = {
       battery = enabled;
+      camera = enabled;
       fingerprint = enabled;
       xremap = enabled;
     };
