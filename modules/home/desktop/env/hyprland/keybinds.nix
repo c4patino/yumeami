@@ -81,6 +81,7 @@ in {
         ", F8, exec, playerctl previous"
         ", F9, exec, playerctl play-pause"
         ", F10, exec, playerctl next"
+        ", F12, exec, sh -c 'systemctl --user is-active imx471-webcam && systemctl --user stop imx471-webcam || systemctl --user start imx471-webcam'"
       ];
 
       bindl = [
