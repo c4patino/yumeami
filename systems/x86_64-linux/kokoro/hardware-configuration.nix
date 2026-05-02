@@ -25,6 +25,9 @@
     imx471
     v4l2loopback
   ];
+  boot.extraModprobeConfig = ''
+    options v4l2loopback devices=1 video_nr=0 card_label="IMX471 Virtual Camera" exclusive_caps=1
+  '';
 
   services.logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
 
