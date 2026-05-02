@@ -16,8 +16,13 @@
   boot.initrd.availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod"];
   boot.initrd.kernelModules = [];
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelModules = ["kvm-intel"];
+  boot.kernelModules = [
+    "imx471"
+    "kvm-intel"
+    "v4l2loopback"
+  ];
   boot.extraModulePackages = with pkgs.linuxPackages_latest; [
+    imx471
     v4l2loopback
   ];
 
