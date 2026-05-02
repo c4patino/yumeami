@@ -23,6 +23,7 @@ in {
         "podman"
         "rustypaste"
         "syncthing"
+        "systemd-journal"
         "vboxusers"
         "wheel"
       ];
