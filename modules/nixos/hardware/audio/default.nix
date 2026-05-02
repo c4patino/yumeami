@@ -23,10 +23,23 @@ in {
 
       jack.enable = true;
 
-      wireplumber.enable = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
 
-      alsa.enable = true;
-      alsa.support32Bit = true;
+      wireplumber = {
+        enable = true;
+        extraConfig = {
+          "10-libcamera" = {
+            "wireplumber.profiles" = {
+              main = {
+                "monitor.libcamera" = "required";
+              };
+            };
+          };
+        };
+      };
     };
   };
 }
