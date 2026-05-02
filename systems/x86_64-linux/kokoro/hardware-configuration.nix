@@ -13,25 +13,38 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot.initrd.availableKernelModules = ["xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod"];
-  boot.initrd.kernelModules = [];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelModules = [
-    "imx471"
-    "kvm-intel"
-    "v4l2loopback"
-  ];
-  boot.extraModulePackages = with pkgs.linuxPackages_latest; [
-    imx471
-    v4l2loopback
-  ];
-  boot.extraModprobeConfig = ''
-    options v4l2loopback devices=1 video_nr=0 card_label="IMX471 Virtual Camera" exclusive_caps=1
-  '';
+  boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
+    kernelModules = [
+      "imx471"
+      "kvm-intel"
+      "v4l2loopback"
+    ];
+    extraModulePackages = with pkgs.linuxPackages_latest; [
+      imx471
+      v4l2loopback
+    ];
+    extraModprobeConfig = ''
+      options v4l2loopback devices=1 video_nr=0 card_label="IMX471 Virtual Camera" exclusive_caps=1
+    '';
+
+    initrd = {
+      availableKernelModules = [
+        "nvme"
+        "sd_mod"
+        "thunderbolt"
+        "usb_storage"
+        "xhci_pci"
+      ];
+      kernelModules = [];
+    };
+  };
 
   services.logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.npu.enable = true;
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel = {
+    npu.enable = true;
+    updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  };
 }
