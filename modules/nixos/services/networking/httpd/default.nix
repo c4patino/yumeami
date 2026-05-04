@@ -33,6 +33,8 @@
     host = resolveHostIP networkingCfg.devices service.host;
     p = toString service.port;
 
+    miasma = networkingCfg.network-services.miasma;
+
     certs = replaceStrings ["*" "."] ["wildcard" "_"] domain;
     sslConfig =
       if useSSL
@@ -48,7 +50,10 @@
       then ''
         AddOutputFilterByType SUBSTITUTE text/html
         SubstituteMaxLineLength 30m
-        Substitute 's|</body>|<a href="${miasmaCfg.linkPrefix}" style="display:none" aria-hidden="true" tabindex="-1">Amazing high quality data here!</a></body>|i'
+        Substitute 's|</body>|<a href="${miasmaCfg.linkPrefix}/" style="display:none" aria-hidden="true" tabindex="-1">Amazing high quality data here!</a></body>|i'
+
+        ProxyPass ${miasmaCfg.linkPrefix} http://${resolveHostIP networkingCfg.devices miasma.host}:${toString miasma.port}/
+        ProxyPassReverse ${miasmaCfg.linkPrefix} http://${resolveHostIP networkingCfg.devices miasma.host}:${toString miasma.port}/
       ''
       else "";
 
@@ -75,13 +80,14 @@
           RequestHeader set X-Forwarded-Port "443"
           RequestHeader set X-Forwarded-For %{REMOTE_ADDR}s
 
+          RewriteEngine On
+          ProxyPreserveHost On
+
           ${honeypotConfig}
 
           ${robotsConfig}
 
           # --- ${name} (subdomain access) ---
-          RewriteEngine On
-          ProxyPreserveHost On
           ProxyPass / http://${host}:${p}/
           ProxyPassReverse / http://${host}:${p}/
         '';
@@ -111,9 +117,6 @@ in {
         ErrorDocument 403 /403.html
         ErrorDocument 404 /404.html
         ErrorDocument 500 /500.html
-
-        ProxyPass ${miasmaCfg.linkPrefix} http://miasma.yumeami.sh/
-        ProxyPassReverse ${miasmaCfg.linkPrefix} http://miasma.yumeami.sh/
       '';
 
       virtualHosts = mkMerge [
