@@ -77,6 +77,7 @@ in {
 
       networking = {
         httpd = enabled;
+        miasma = enabled;
       };
 
       storage = {
