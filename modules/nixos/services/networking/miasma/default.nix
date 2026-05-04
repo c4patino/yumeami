@@ -18,7 +18,7 @@ in {
       enable = mkEnableOption "miasma";
       host = mkOption {
         type = str;
-        default = "localhost";
+        default = "0.0.0.0";
         description = "Host address to bind to";
       };
       linkPrefix = mkOption {
@@ -45,7 +45,7 @@ in {
         StateDirectory = "miasma";
         ReadWritePaths = "/var/lib/miasma";
 
-        ExecStart = "${pkgs.miasma}/bin/miasma -p ${toString port} --link-prefix ${cfg.linkPrefix}";
+        ExecStart = "${pkgs.miasma}/bin/miasma --host ${cfg.host} --port ${toString port} --link-prefix ${cfg.linkPrefix}";
       };
     };
 
