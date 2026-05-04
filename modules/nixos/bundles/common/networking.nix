@@ -63,6 +63,12 @@ in {
           host = "arisu";
           port = 9696;
         };
+        miasma = {
+          host = "arisu";
+          port = 9999;
+          internal = true;
+          public = true;
+        };
 
         monitor = {
           host = "chibi";
