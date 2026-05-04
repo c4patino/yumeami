@@ -11,6 +11,7 @@
   base = "${namespace}.services.networking.httpd";
   cfg = getAttrByNamespace config base;
   networkingCfg = getAttrByNamespace config "${namespace}.services.networking";
+  miasmaCfg = getAttrByNamespace config "${namespace}.services.networking.miasma";
 
   crypt = "${inputs.self}/secrets/crypt";
 
@@ -26,6 +27,7 @@
   mkVirtualHost = {
     domain,
     useSSL,
+    injectHoneypot ? false,
   }: name: service: let
     inherit (config.sops) secrets;
     host = resolveHostIP networkingCfg.devices service.host;
@@ -40,6 +42,23 @@
         sslServerKey = secrets."ssl/${certs}/key".path;
       }
       else {};
+
+    honeypotConfig =
+      if injectHoneypot
+      then ''
+        AddOutputFilterByType SUBSTITUTE text/html
+        SubstituteMaxLineLength 30m
+        Substitute 's|</body>|<a href="${miasmaCfg.linkPrefix}" style="display:none" aria-hidden="true" tabindex="-1">Amazing high quality data here!</a></body>|i'
+      ''
+      else "";
+
+    robotsConfig =
+      if injectHoneypot
+      then ''
+        ProxyPass /robots.txt !
+        Alias /robots.txt ${inputs.dotfiles}/httpd/robots/${name}.txt
+      ''
+      else "";
   in {
     name = replaceStrings ["*"] [name] domain;
     value =
@@ -55,6 +74,10 @@
           RequestHeader set X-Forwarded-Proto "https"
           RequestHeader set X-Forwarded-Port "443"
           RequestHeader set X-Forwarded-For %{REMOTE_ADDR}s
+
+          ${honeypotConfig}
+
+          ${robotsConfig}
 
           # --- ${name} (subdomain access) ---
           RewriteEngine On
@@ -74,7 +97,13 @@ in {
     services.httpd = {
       enable = true;
 
-      extraModules = ["proxy" "proxy_http" "rewrite"];
+      extraModules = [
+        "filter"
+        "proxy"
+        "proxy_http"
+        "rewrite"
+        "substitute"
+      ];
 
       extraConfig = ''
         ErrorDocument 400 /400.html
@@ -82,6 +111,9 @@ in {
         ErrorDocument 403 /403.html
         ErrorDocument 404 /404.html
         ErrorDocument 500 /500.html
+
+        ProxyPass ${miasmaCfg.linkPrefix} http://miasma.yumeami.sh/
+        ProxyPassReverse ${miasmaCfg.linkPrefix} http://miasma.yumeami.sh/
       '';
 
       virtualHosts = mkMerge [
@@ -173,6 +205,7 @@ in {
           |> mapAttrsToList (mkVirtualHost {
             domain = "*.cpatino.com";
             useSSL = false;
+            injectHoneypot = true;
           })
           |> listToAttrs))
       ];
