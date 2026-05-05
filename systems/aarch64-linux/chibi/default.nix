@@ -4,6 +4,7 @@
   namespace,
   ...
 }: let
+  inherit (lib) mkForce;
   inherit (lib.${namespace}) enabled;
 in {
   imports = [
@@ -61,7 +62,10 @@ in {
     hostId = "9245f27e";
   };
 
-  boot.loader.grub.efiInstallAsRemovable = true;
+  boot.loader = {
+    efi.canTouchEfiVariables = mkForce false;
+    grub.efiInstallAsRemovable = true;
+  };
 
   system.stateVersion = "25.11";
 }
