@@ -58,9 +58,6 @@ in {
         github-runner = {
           enable = true;
           runners = {
-            "cseseniordesign" = {
-              url = "https://github.com/cseseniordesign/unl_sdp-wsg-data-watch";
-            };
             "free-range-zoo" = {
               url = "https://github.com/oasys-mas/free-range-zoo";
             };
