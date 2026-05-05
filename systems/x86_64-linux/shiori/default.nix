@@ -34,15 +34,6 @@ in {
             capacity = 4;
           };
         };
-        github-runner = {
-          enable = true;
-          runners = {
-            "cseseniordesign" = {
-              url = "https://github.com/cseseniordesign/unl_sdp-wsg-data-watch";
-              instances = 4;
-            };
-          };
-        };
         woodpecker = {
           enable = true;
           runners.primary = {
