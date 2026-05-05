@@ -19,6 +19,7 @@ in {
       (import ./clock.nix {inherit pkgs;})
       (import ./format-drive.nix {inherit pkgs;})
       (import ./generate-gpg-keys.nix {inherit pkgs;})
+      (import ./generate-ssh-keys.nix {inherit pkgs;})
       (import ./get-music-cover.nix {inherit pkgs;})
       (import ./scratchpad.nix {inherit pkgs;})
     ];
