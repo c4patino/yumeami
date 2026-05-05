@@ -80,7 +80,7 @@ in {
       ];
 
       emails =
-        ["c4patino@gmail.com" "cpatino2@nebraska.edu" "cpatino8605@gmail.com"]
+        ["c4patino@gmail.com" "cpatino2@nebraska.edu" "cpatino8605@gmail.com" "cpatino@wustl.edu"]
         |> map (keyObj {})
         |> flatten;
 
