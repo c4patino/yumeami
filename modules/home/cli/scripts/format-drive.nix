@@ -2,6 +2,21 @@
 pkgs.writeShellScriptBin "format-drive" ''
   set -euo pipefail
 
+  usage() {
+    echo "Usage: format-drive [OPTIONS] <drive> <filesystem>"
+    echo ""
+    echo "Format a drive with the specified filesystem."
+    echo ""
+    echo "OPTIONS:"
+    echo "  -m, --mode <mode>    Format mode: soft (default) or full"
+    echo "  -h, --help           Show this help message"
+    echo ""
+    echo "ARGUMENTS:"
+    echo "  <drive>              Drive name (e.g., sdb, nvme0n1)"
+    echo "  <filesystem>        Filesystem: ntfs | ext4 | fat32"
+    exit 1
+  }
+
   MODE="soft"
 
   DRIVE=""
@@ -9,21 +24,25 @@ pkgs.writeShellScriptBin "format-drive" ''
 
   while [ "$#" -gt 0 ]; do
     case "$1" in
-      --mode)
+      -m|--mode)
         MODE="$2"
         shift 2
         ;;
+      -h|--help)
+        usage
+        ;;
       -*)
         echo "[ ERROR ]: Unknown flag: $1"
-        exit 1
+        usage
         ;;
       *)
-        if [ -z $DRIVE ]; then
+        if [ -z "$DRIVE" ]; then
           DRIVE="$1"
         elif [ -z "$FS" ]; then
           FS="$1"
         else
           echo "[ ERROR ] Too many arguments"
+          usage
         fi
         shift
         ;;
@@ -31,9 +50,7 @@ pkgs.writeShellScriptBin "format-drive" ''
   done
 
   if [ -z "$DRIVE" ] || [ -z "$FS" ]; then
-    echo "[ ERROR ] Usage: format-drive [--mode soft|full] <drive> <filesystem>"
-    echo "[ INFO ] Filesystems: ntfs | ext4 | fat32"
-    exit 1
+    usage
   fi
 
   DEV="/dev/$DRIVE"
