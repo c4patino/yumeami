@@ -372,17 +372,17 @@ in {
                         {
                           title = "forgejo";
                           icon = "si:forgejo";
-                          url = "https://git.yumeami.sh";
+                          url = "https://git.cpatino.com";
                         }
                         {
                           title = "vaultwarden";
                           icon = "si:vaultwarden";
-                          url = "https://vault.yumeami.sh";
+                          url = "https://vault.cpatino.com";
                         }
                         {
                           title = "rustypaste";
                           icon = "si:pastebin";
-                          url = "https://paste.yumeami.sh";
+                          url = "https://paste.cpatino.com";
                         }
                         {
                           title = "uptime-kuma";
