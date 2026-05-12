@@ -1,10 +1,16 @@
 {
-  pkgs,
   config,
   lib,
+  namespace,
+  pkgs,
   ...
-}: {
-  config = lib.mkIf config.yazi.enable {
+}: let
+  inherit (lib) mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace;
+  base = "${namespace}.cli.media.yazi";
+  cfg = getAttrByNamespace config base;
+in {
+  config = mkIf cfg.enable {
     programs.yazi.settings = {
       open.rules = [
         {

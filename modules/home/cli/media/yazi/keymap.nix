@@ -1,13 +1,16 @@
 {
   config,
   lib,
+  namespace,
   ...
 }: let
   inherit (lib) mkIf;
-  cfg = config.yazi;
+  inherit (lib.${namespace}) getAttrByNamespace;
+  base = "${namespace}.cli.media.yazi";
+  cfg = getAttrByNamespace config base;
 in {
   config = mkIf cfg.enable {
-    programs.yazi.keymap = {
+    programs.yazi.settings.keymap = {
       mgr.keymap = [
         {
           on = ["<Esc>"];
