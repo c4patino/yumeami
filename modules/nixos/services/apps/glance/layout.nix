@@ -392,7 +392,7 @@ in {
                         {
                           title = "ntfy";
                           icon = "si:ntfy";
-                          url = "https://ntfy.yumeami.sh";
+                          url = "https://ntfy.cpatino.com";
                         }
                         {
                           title = "grafana";
