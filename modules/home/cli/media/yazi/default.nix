@@ -4,12 +4,17 @@
   namespace,
   pkgs,
   ...
-}: let
+} @ args: let
   inherit (lib) mkIf mkEnableOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
   base = "${namespace}.cli.media.yazi";
   cfg = getAttrByNamespace config base;
 in {
+  imports = [
+    (import ./keymap.nix args)
+    (import ./openers.nix args)
+  ];
+
   options = mkOptionsWithNamespace base {
     enable = mkEnableOption "yazi";
   };
@@ -28,7 +33,7 @@ in {
       settings = {
         log = enabled;
 
-        manager = {
+        mgr = {
           ratio = [1 3 3];
           sort_by = "natural";
           sort_reverse = false;
