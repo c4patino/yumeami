@@ -37,7 +37,10 @@ in {
         "GDK_BACKEND,wayland,x11,*"
         "GDK_SCALE,2"
         "GDK_DPI_SCALE,2"
+
         "GTK_USE_PORTAL,1"
+        "GTK_THEME,adw-gtk3-dark"
+        "GTK_APPLICATION_PREFER_DARK_THEME,1"
 
         "QT_QPA_PLATFORM,wayland;xcb"
         "QT_AUTO_SCREEN_SCALE_FACTOR,1"
