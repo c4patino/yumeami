@@ -8,7 +8,7 @@
 in {
   config = mkIf cfg.enable {
     programs.yazi.keymap = {
-      manager.keymap = [
+      mgr.keymap = [
         {
           on = ["<Esc>"];
           run = "escape";
