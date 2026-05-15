@@ -6,12 +6,16 @@
   ...
 }: let
   inherit (lib) mkIf mkEnableOption mapAttrsToList listToAttrs replaceStrings mkMerge concatStringsSep filterAttrs;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn resolveHostIP;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn resolveHostIP flattenHostServices;
   inherit (config.networking) hostName;
+
   base = "${namespace}.services.networking.httpd";
   cfg = getAttrByNamespace config base;
   networkingCfg = getAttrByNamespace config "${namespace}.services.networking";
   miasmaCfg = getAttrByNamespace config "${namespace}.services.networking.miasma";
+
+  networkServices = networkingCfg.network-services;
+  networkServicesFlat = flattenHostServices networkServices;
 
   crypt = "${inputs.self}/secrets/crypt";
 
@@ -28,12 +32,10 @@
     domain,
     useSSL,
     injectHoneypot ? false,
-  }: name: service: let
+  }: host: name: service: let
     inherit (config.sops) secrets;
-    host = resolveHostIP networkingCfg.devices service.host;
+    hostIP = resolveHostIP networkingCfg.devices host;
     p = toString service.port;
-
-    miasma = networkingCfg.network-services.miasma;
 
     certs = replaceStrings ["*" "."] ["wildcard" "_"] domain;
     sslConfig =
@@ -44,6 +46,8 @@
         sslServerKey = secrets."ssl/${certs}/key".path;
       }
       else {};
+
+    miasma = networkServicesFlat.miasma;
 
     honeypotConfig =
       if injectHoneypot
@@ -88,8 +92,8 @@
           ${robotsConfig}
 
           # --- ${name} (subdomain access) ---
-          ProxyPass / http://${host}:${p}/
-          ProxyPassReverse / http://${host}:${p}/
+          ProxyPass / http://${hostIP}:${p}/
+          ProxyPassReverse / http://${hostIP}:${p}/
         '';
       }
       // sslConfig;
@@ -169,7 +173,7 @@ in {
         {
           "localhost" = let
             localhostProxyConfig =
-              networkingCfg.network-services
+              networkServices.${hostName}
               |> mapAttrsToList mkLocalhostConfig
               |> concatStringsSep "\n";
           in {
@@ -195,22 +199,32 @@ in {
           };
         }
 
-        (networkingCfg.network-services
-          |> filterAttrs (_: svc: svc.host == hostName && svc.internal)
-          |> mapAttrsToList (mkVirtualHost {
-            domain = "*.yumeami.sh";
-            useSSL = true;
-          })
+        (networkServices.${hostName}
+          |> filterAttrs (_: svc: svc.internal)
+          |> mapAttrsToList (name: svc:
+            (mkVirtualHost {
+              domain = "*.yumeami.sh";
+              useSSL = true;
+            })
+            hostName
+            name
+            svc)
           |> listToAttrs)
 
-        (mkIf networkingCfg.cloudflared.enable (networkingCfg.network-services
+        (mkIf networkingCfg.cloudflared.enable (
+          networkServicesFlat
           |> filterAttrs (_: svc: svc.public)
-          |> mapAttrsToList (mkVirtualHost {
-            domain = "*.cpatino.com";
-            useSSL = false;
-            injectHoneypot = true;
-          })
-          |> listToAttrs))
+          |> mapAttrsToList (name: svc:
+            (mkVirtualHost {
+              domain = "*.cpatino.com";
+              useSSL = false;
+              injectHoneypot = true;
+            })
+            svc.host
+            name
+            svc)
+          |> listToAttrs
+        ))
       ];
     };
 

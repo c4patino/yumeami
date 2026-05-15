@@ -4,24 +4,17 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkIf mkEnableOption mkOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.services.networking.unbound";
-  cfg = getAttrByNamespace config base;
+  inherit (lib) mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasServices flattenHostServices getServicePort;
+  inherit (config.networking) hostName;
 
-  port = 54;
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  networkServices = flattenHostServices networkCfg.network-services;
+
+  isEnabled = hostHasServices networkCfg.network-services hostName;
+  port = getServicePort networkServices "unbound" 54;
 in {
-  options = with types;
-    mkOptionsWithNamespace base {
-      enable = mkEnableOption "unbound";
-      dnsHost = mkOption {
-        type = nullOr str;
-        description = "Hostname target for other devices will reach out to as a DNS server.";
-        default = null;
-      };
-    };
-
-  config = mkIf cfg.enable {
+  config = mkIf isEnabled {
     services.unbound = {
       enable = true;
       settings = {

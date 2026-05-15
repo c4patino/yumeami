@@ -5,17 +5,20 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption mkOption types;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib) mkIf mkOption types;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace hostHasServices flattenHostServices getServicePort;
+  inherit (config.networking) hostName;
 
   base = "${namespace}.services.networking.miasma";
   cfg = getAttrByNamespace config base;
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  networkServices = flattenHostServices networkCfg.network-services;
 
-  port = 9999;
+  isEnabled = hostHasServices networkCfg.network-services hostName;
+  port = getServicePort networkServices "miasma" 9999;
 in {
   options = with types;
     mkOptionsWithNamespace base {
-      enable = mkEnableOption "miasma";
       host = mkOption {
         type = str;
         default = "0.0.0.0";
@@ -28,7 +31,7 @@ in {
       };
     };
 
-  config = mkIf cfg.enable {
+  config = mkIf isEnabled {
     systemd.services.miasma = {
       description = "Trap AI web scrapers in an endless poison pit";
       wantedBy = ["multi-user.target"];
