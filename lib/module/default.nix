@@ -127,7 +127,7 @@ with lib; rec {
   resolveHostIP = devices: node:
     if builtins.hasAttr node devices
     then devices.${node}.IP
-    else builtins.throw "Host '${node}' does not exist in the devices configuration.";
+    else throw "Host '${node}' does not exist in the devices configuration.";
 
   ## Check for configuration conflicts between mount and share declarations.
   ##
