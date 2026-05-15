@@ -73,9 +73,6 @@ in {
             port = 5201;
             public = true;
           };
-          blocky = {
-            port = 53;
-          };
         };
 
         shiori = {
@@ -103,10 +100,15 @@ in {
             port = 5301;
             internal = true;
           };
+
+          blocky = {
+            port = 53;
+          };
+          unbound = {
+            port = 54;
+          };
         };
       };
-
-      unbound.dnsHost = "shiori";
     };
   };
 }

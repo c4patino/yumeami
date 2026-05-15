@@ -5,19 +5,17 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption mapAttrsToList listToAttrs;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP;
-  base = "${namespace}.services.networking.blocky";
-  cfg = getAttrByNamespace config base;
+  inherit (lib) mkIf mapAttrsToList listToAttrs;
+  inherit (lib.${namespace}) getAttrByNamespace resolveHostIP flattenHostServices hostHasServices getServicePort;
+  inherit (config.networking) hostName;
+
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  networkServices = flattenHostServices networkCfg.network-services;
 
-  port = 53;
+  isEnabled = hostHasServices networkCfg.network-services hostName;
+  port = getServicePort networkServices "blocky" 53;
 in {
-  options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "blocky";
-  };
-
-  config = mkIf cfg.enable {
+  config = mkIf isEnabled {
     services.blocky = {
       enable = true;
       settings = {
@@ -110,7 +108,7 @@ in {
         customDNS = {
           customTTL = "1h";
           mapping =
-            networkCfg.network-services
+            networkServices
             |> mapAttrsToList (name: svc: {
               name = "${name}.yumeami.sh";
               value = resolveHostIP networkCfg.devices svc.host;
