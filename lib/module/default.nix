@@ -182,4 +182,61 @@ with lib; rec {
         else null;
   in
     go attrs path;
+
+  ## Convert a host-first service map into a flat service->attrs map.
+  ##
+  ## Input:  { hostName = { serviceName = { ... }; ... }; ... }
+  ## Output: { serviceName = { host = hostName; ... }; ... }
+  ##
+  ## @param hostServices  Attribute set mapping host names to their service maps.
+  ## @return              Flattened map with service names as keys, augmented with host.
+  ## @throws              If duplicate service names exist across different hosts.
+  flattenHostServices = hostServices: let
+    perHostEntries =
+      mapAttrsToList (
+        host: services:
+          mapAttrsToList (
+            svcName: svc: {
+              name = svcName;
+              value = svc // {host = host;};
+            }
+          )
+          services
+      )
+      hostServices;
+
+    flattenedList = concatLists perHostEntries;
+    flattenedAttrs = listToAttrs flattenedList;
+  in
+    if length flattenedList != length (attrNames flattenedAttrs)
+    then throw "flattenHostServices: duplicate service names across hosts detected"
+    else flattenedAttrs;
+
+  ## Check if a host has any services defined in the network-services config.
+  ##
+  ## @param networkServices The network-services attribute set (host-first shape).
+  ## @param hostName         The hostname to check.
+  ## @return                 true if the host has any services defined, false otherwise.
+  hostHasServices = networkServices: hostName:
+    networkServices ? ${hostName}
+    && networkServices.${hostName} != {};
+
+  ## Check if a host has a specific service defined in the network-services config.
+  ##
+  ## @param networkServices The network-services attribute set (host-first shape).
+  ## @param hostName         The hostname to check.
+  ## @param serviceName      The service name to check for.
+  ## @return                 true if the host has the specific service defined, false otherwise.
+  hostHasService = networkServices: hostName: serviceName:
+    networkServices ? ${hostName}
+    && networkServices.${hostName} ? ${serviceName};
+
+  ## Get the port for a service from the flattened network-services map.
+  ##
+  ## @param networkServicesFlat The flattened network-services map (from flattenHostServices).
+  ## @param serviceName         The name of the service.
+  ## @param defaultPort         The default port to use if not specified in network-services.
+  ## @return                    The port (either from config or default).
+  getServicePort = networkServicesFlat: serviceName: defaultPort:
+    networkServicesFlat.${serviceName}.port or defaultPort;
 }
