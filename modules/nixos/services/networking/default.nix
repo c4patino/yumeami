@@ -23,15 +23,11 @@ in {
         });
       };
       network-services = mkOption {
-        type = attrsOf (submodule {
+        type = attrsOf (attrsOf (submodule {
           options = {
-            host = mkOption {
-              type = str;
-              description = "Name of the device which is hosting the service";
-            };
             port = mkOption {
               type = port;
-              description = "Local port of the service";
+              description = "Local port of the service. If not specified, the module's default is used.";
             };
             public = mkOption {
               type = bool;
@@ -44,9 +40,9 @@ in {
               description = "Whether the service should be internally accessible over *.yumeami.sh.";
             };
           };
-        });
+        }));
         default = {};
-        description = "Set of apps to reverse-proxy using Apache, keyed by service name.";
+        description = "Mapping of hosts to their services: networking-services.<host>.<service> = { port, internal, public }.";
       };
       gateways = mkOption {
         type = listOf str;

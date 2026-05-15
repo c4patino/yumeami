@@ -33,83 +33,76 @@ in {
       };
 
       network-services = {
-        jellyfin = {
-          host = "arisu";
-          port = 8096;
-          internal = true;
-        };
-        ombi = {
-          host = "arisu";
-          port = 5000;
-          internal = true;
-        };
-        radarr = {
-          host = "arisu";
-          port = 7878;
-        };
-        sonarr = {
-          host = "arisu";
-          port = 8989;
-        };
-        lidarr = {
-          host = "arisu";
-          port = 8686;
-        };
-        bazarr = {
-          host = "arisu";
-          port = 6767;
-        };
-        prowlarr = {
-          host = "arisu";
-          port = 9696;
-        };
-        miasma = {
-          host = "arisu";
-          port = 9999;
-          internal = true;
-          public = true;
+        arisu = {
+          jellyfin = {
+            port = 8096;
+            internal = true;
+          };
+          ombi = {
+            port = 5000;
+            internal = true;
+          };
+          radarr = {
+            port = 7878;
+          };
+          sonarr = {
+            port = 8989;
+          };
+          lidarr = {
+            port = 8686;
+          };
+          bazarr = {
+            port = 6767;
+          };
+          prowlarr = {
+            port = 9696;
+          };
+          miasma = {
+            port = 9999;
+            internal = true;
+            public = true;
+          };
         };
 
-        monitor = {
-          host = "chibi";
-          port = 5200;
-          internal = true;
-        };
-        ntfy = {
-          host = "chibi";
-          port = 5201;
-          public = true;
+        chibi = {
+          monitor = {
+            port = 5200;
+            internal = true;
+          };
+          ntfy = {
+            port = 5201;
+            public = true;
+          };
+          blocky = {
+            port = 53;
+          };
         };
 
-        dash = {
-          host = "shiori";
-          port = 5150;
-          internal = true;
-        };
-        git = {
-          host = "shiori";
-          port = 5300;
-          public = true;
-        };
-        grafana = {
-          host = "shiori";
-          port = 5500;
-          internal = true;
-        };
-        paste = {
-          host = "shiori";
-          port = 5100;
-          public = true;
-        };
-        vault = {
-          host = "shiori";
-          port = 5400;
-          public = true;
-        };
-        woodpecker = {
-          host = "shiori";
-          port = 5301;
-          internal = true;
+        shiori = {
+          dash = {
+            port = 5150;
+            internal = true;
+          };
+          git = {
+            port = 5300;
+            public = true;
+          };
+          grafana = {
+            port = 5500;
+            internal = true;
+          };
+          paste = {
+            port = 5100;
+            public = true;
+          };
+          vault = {
+            port = 5400;
+            public = true;
+          };
+          woodpecker = {
+            port = 5301;
+            internal = true;
+          };
         };
       };
 
