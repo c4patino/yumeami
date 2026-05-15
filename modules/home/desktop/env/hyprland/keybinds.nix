@@ -11,18 +11,16 @@
 
   launcherCfg = getAttrByNamespace config "${namespace}.desktop.apps.launchers";
   launcher = launcherCfg.launcher;
-  menuCmd =
-    if launcher == "anyrun"
-    then "GSK_RENDERER=ngl anyrun"
-    else if launcher == "walker"
-    then "walker"
-    else "";
 in {
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings = {
       "$mainMod" = "SUPER";
       "$terminal" = "kitty";
-      "$menu" = menuCmd;
+      "$menu" =
+        {
+          "anyrun" = "GSK_RENDERER=ngl anyrun";
+          "walker" = "walker";
+        }."${launcher}" or "";
 
       bind = [
         # General
