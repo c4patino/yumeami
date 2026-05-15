@@ -131,12 +131,12 @@ with lib; rec {
 
   ## Check for configuration conflicts between mount and share declarations.
   ##
-  ## @param shares   A list of folder names that are shared.
-  ## @param hostName The name of the current host.
-  ## @param folder   The folder being mounted or shared.
-  ## @param host     The host the folder is being mounted from.
-  ## @return         Null if valid; throws an error if a conflict is detected.
-  ## @throws         If the host is self-mounting or if the folder appears in both shares and mounts.
+  ## @param shares    A list of folder names that are shared.
+  ## @param hostName  The name of the current host.
+  ## @param folder    The folder being mounted or shared.
+  ## @param host      The host the folder is being mounted from.
+  ## @return          Null if valid; throws an error if a conflict is detected.
+  ## @throws          If the host is self-mounting or if the folder appears in both shares and mounts.
   checkHostMountConflict = {
     shares,
     hostName,
