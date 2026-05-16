@@ -5,10 +5,11 @@
   ...
 }: let
   inherit (lib) types mkOption optional optionalString concatStringsSep;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP flattenHostServices getServiceHost;
+
   base = "${namespace}.services.networking";
   cfg = getAttrByNamespace config base;
-  dnsCfg = getAttrByNamespace config "${base}.unbound";
+  networkServices = flattenHostServices cfg.network-services;
 in {
   options = with types;
     mkOptionsWithNamespace base {
@@ -54,13 +55,13 @@ in {
     networking.resolvconf = {
       enable = true;
       extraConfig = let
-        ip =
-          if dnsCfg.dnsHost != null
-          then resolveHostIP cfg.devices dnsCfg.dnsHost
+        unboundIP =
+          if networkServices ? unbound
+          then resolveHostIP cfg.devices (getServiceHost networkServices "unbound")
           else null;
-        allDns = optional (ip != null) ip ++ ["1.1.1.1" "8.8.8.8" "100.100.100.100"];
+        allDns = optional (unboundIP != null) unboundIP ++ ["1.1.1.1" "8.8.8.8" "100.100.100.100"];
       in ''
-        ${optionalString (ip != null) "name_servers=${ip}"}
+        ${optionalString (unboundIP != null) "name_servers=${unboundIP}"}
         search_domains="tail8b9fd9.ts.net"
         name_servers="${concatStringsSep " " allDns}"
       '';
