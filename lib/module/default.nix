@@ -234,9 +234,17 @@ with lib; rec {
   ## Get the port for a service from the flattened network-services map.
   ##
   ## @param networkServicesFlat The flattened network-services map (from flattenHostServices).
-  ## @param serviceName         The name of the service.
-  ## @param defaultPort         The default port to use if not specified in network-services.
+  ## @param serviceName          The name of the service.
+  ## @param defaultPort          The default port to use if not specified in network-services.
   ## @return                    The port (either from config or default).
   getServicePort = networkServicesFlat: serviceName: defaultPort:
     networkServicesFlat.${serviceName}.port or defaultPort;
+
+  ## Get the host for a service from the flattened network-services map.
+  ##
+  ## @param networkServicesFlat The flattened network-services map (from flattenHostServices).
+  ## @param serviceName          The name of the service.
+  ## @return                    The host name where the service is defined.
+  getServiceHost = networkServicesFlat: serviceName:
+    networkServicesFlat.${serviceName}.host;
 }
