@@ -5,22 +5,21 @@
   namespace,
   ...
 } @ args: let
-  inherit (lib) mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.services.apps.glance";
-  cfg = getAttrByNamespace config base;
+  inherit (lib) mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService flattenHostServices getServicePort;
+  inherit (config.networking) hostName;
 
-  port = 5150;
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  networkServices = flattenHostServices networkCfg.network-services;
+
+  isEnabled = hostHasService networkCfg.network-services hostName "dash";
+  port = getServicePort networkServices "dash" 5150;
 in {
   imports = [
     (import ./layout.nix args)
   ];
 
-  options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "glance";
-  };
-
-  config = mkIf cfg.enable {
+  config = mkIf isEnabled {
     services.glance = {
       enable = true;
       openFirewall = true;

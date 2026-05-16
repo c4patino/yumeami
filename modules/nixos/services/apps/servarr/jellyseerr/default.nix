@@ -4,16 +4,14 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkEnableOption mkForce mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.services.apps.servarr.jellyseerr";
-  cfg = getAttrByNamespace config base;
-in {
-  options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "jellyseerr";
-  };
+  inherit (lib) mkForce mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService;
+  inherit (config.networking) hostName;
 
-  config = mkIf cfg.enable {
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  isEnabled = hostHasService networkCfg.network-services hostName "jellyseerr";
+in {
+  config = mkIf isEnabled {
     services.jellyseerr = {
       enable = true;
       openFirewall = true;

@@ -19,14 +19,6 @@ in {
     };
 
     services = {
-      apps = {
-        forgejo = enabled;
-        glance = enabled;
-        grafana = enabled;
-        rustypaste = enabled;
-        vaultwarden = enabled;
-      };
-
       ci = {
         gitea-runner = {
           enable = true;
@@ -34,20 +26,15 @@ in {
             capacity = 4;
           };
         };
-        woodpecker = {
+        woodpecker.runners.primary = {
           enable = true;
-          runners.primary = {
-            enable = true;
-            capacity = 4;
-          };
+          capacity = 4;
         };
       };
 
       networking = {
-        blocky = enabled;
         cloudflared = enabled;
         httpd = enabled;
-        unbound = enabled;
       };
 
       storage = {

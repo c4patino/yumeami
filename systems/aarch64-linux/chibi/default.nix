@@ -19,16 +19,8 @@ in {
       common = enabled;
     };
     services = {
-      apps = {
-        ntfy = enabled;
-        uptime-kuma = enabled;
-      };
-
       networking = {
-        # blocky = enabled;
-        # cloudflared = enabled;
         httpd = enabled;
-        # unbound = enabled;
       };
 
       storage = {

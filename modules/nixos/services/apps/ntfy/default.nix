@@ -7,17 +7,16 @@
 with lib;
 with lib.${namespace}; let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.services.apps.ntfy";
-  cfg = getAttrByNamespace config base;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService flattenHostServices getServicePort;
+  inherit (config.networking) hostName;
 
-  port = 5201;
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  networkServices = flattenHostServices networkCfg.network-services;
+
+  isEnabled = hostHasService networkCfg.network-services hostName "ntfy";
+  port = getServicePort networkServices "ntfy" 5201;
 in {
-  options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "ntfy";
-  };
-
-  config = mkIf cfg.enable {
+  config = mkIf isEnabled {
     services.ntfy-sh = {
       enable = true;
       settings = {

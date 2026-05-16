@@ -4,13 +4,15 @@
   lib,
   namespace,
   ...
-}:
-with lib;
-with lib.${namespace}; let
-  base = "${namespace}.services.apps.glance";
-  cfg = getAttrByNamespace config base;
+}: let
+  inherit (lib) mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace getIn readJsonOrEmpty hostHasService;
+  inherit (config.networking) hostName;
+
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  isEnabled = hostHasService networkCfg.network-services hostName "dash";
 in {
-  config = mkIf cfg.enable {
+  config = mkIf isEnabled {
     services.glance.settings = {
       branding = {
         app-name = "dash";
