@@ -4,16 +4,14 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.services.apps.servarr.jellyfin";
-  cfg = getAttrByNamespace config base;
-in {
-  options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "jellyfin";
-  };
+  inherit (lib) mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService;
+  inherit (config.networking) hostName;
 
-  config = mkIf cfg.enable {
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  isEnabled = hostHasService networkCfg.network-services hostName "jellyfin";
+in {
+  config = mkIf isEnabled {
     services.jellyfin = {
       enable = true;
       openFirewall = true;

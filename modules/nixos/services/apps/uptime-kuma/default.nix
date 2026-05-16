@@ -4,19 +4,18 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption mkForce;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib) mkIf mkForce;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService flattenHostServices getServicePort;
   inherit (config.users) users;
-  base = "${namespace}.services.apps.uptime-kuma";
-  cfg = getAttrByNamespace config base;
+  inherit (config.networking) hostName;
 
-  port = 5200;
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  networkServices = flattenHostServices networkCfg.network-services;
+
+  isEnabled = hostHasService networkCfg.network-services hostName "monitor";
+  port = getServicePort networkServices "monitor" 5200;
 in {
-  options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "uptime-kuma";
-  };
-
-  config = mkIf cfg.enable {
+  config = mkIf isEnabled {
     services.uptime-kuma = {
       enable = true;
       settings = {

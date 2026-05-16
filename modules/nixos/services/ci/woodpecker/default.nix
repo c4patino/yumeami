@@ -6,17 +6,24 @@
   ...
 }: let
   inherit (lib) mkIf mkOption mkEnableOption types mapAttrs' mkMerge filterAttrs listToAttrs;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP hostHasService flattenHostServices getServicePort;
+  inherit (config.networking) hostName;
+
   base = "${namespace}.services.ci.woodpecker";
   cfg = getAttrByNamespace config base;
-  networkingCfg = getAttrByNamespace config "${namespace}.services.networking";
 
-  port = 5301;
-  gprcPort = 5302;
+  networkingCfg = getAttrByNamespace config "${namespace}.services.networking";
+  networkServices = networkingCfg.network-services;
+  networkServicesFlat = flattenHostServices networkServices;
+
+  woodpeckerHost = networkServicesFlat.woodpecker.host;
+
+  isEnabled = hostHasService networkServices hostName "woodpecker";
+  port = getServicePort networkServicesFlat "woodpecker" 5301;
+  gprcPort = port + 1;
 in {
   options = with types;
     mkOptionsWithNamespace base {
-      enable = mkEnableOption "woodpecker";
       runners = mkOption {
         description = "Definition of runners to enable to the device";
         type = attrsOf (submodule {
@@ -42,7 +49,7 @@ in {
     services = let
       inherit (config.sops) secrets;
     in {
-      woodpecker-server = mkIf cfg.enable {
+      woodpecker-server = mkIf isEnabled {
         enable = true;
         environment = {
           WOODPECKER_HOST = "https://woodpecker.yumeami.sh";
@@ -71,7 +78,7 @@ in {
             environment = {
               WOODPECKER_SERVER = let
                 woodpeckerIP =
-                  networkingCfg.network-services.woodpecker.host
+                  woodpeckerHost
                   |> resolveHostIP networkingCfg.devices;
               in "${woodpeckerIP}:${toString gprcPort}";
               WOODPECKER_AGENT_SECRET_FILE =
@@ -97,7 +104,8 @@ in {
           };
         };
       in
-        cfg.runners |> mapAttrs' mkRunnerCfg;
+        cfg.runners
+        |> mapAttrs' mkRunnerCfg;
     };
 
     users = {
@@ -131,10 +139,9 @@ in {
       User = config.users.users.woodpecker.name;
       Group = config.users.users.woodpecker.group;
       inherit (config.networking) hostName;
-      woodpeckerHost = networkingCfg.network-services.woodpecker.host;
     in
       mkMerge [
-        (mkIf cfg.enable {
+        (mkIf isEnabled {
           woodpecker-server = {
             serviceConfig = {inherit User Group;};
           };

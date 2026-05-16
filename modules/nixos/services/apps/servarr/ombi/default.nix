@@ -4,16 +4,14 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkEnableOption mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.services.apps.servarr.ombi";
-  cfg = getAttrByNamespace config base;
-in {
-  options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "ombi";
-  };
+  inherit (lib) mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService;
+  inherit (config.networking) hostName;
 
-  config = mkIf cfg.enable {
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  isEnabled = hostHasService networkCfg.network-services hostName "ombi";
+in {
+  config = mkIf isEnabled {
     services.ombi = {
       enable = true;
       openFirewall = true;

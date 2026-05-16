@@ -6,20 +6,19 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption filterAttrs attrNames head elem;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn resolveHostIP;
-  base = "${namespace}.services.apps.vaultwarden";
-  cfg = getAttrByNamespace config base;
+  inherit (lib) mkIf filterAttrs attrNames head elem;
+  inherit (lib.${namespace}) getAttrByNamespace readJsonOrEmpty getIn resolveHostIP hostHasService flattenHostServices getServicePort;
+  inherit (config.networking) hostName;
+
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
+
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  networkServices = flattenHostServices networkCfg.network-services;
 
-  port = 5400;
+  isEnabled = hostHasService networkCfg.network-services hostName "vault";
+  port = getServicePort networkServices "vault" 5400;
 in {
-  options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "vaultwarden";
-  };
-
-  config = mkIf cfg.enable {
+  config = mkIf isEnabled {
     services.vaultwarden = {
       enable = true;
       package = pkgs.vaultwarden-postgresql;

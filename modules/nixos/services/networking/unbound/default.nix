@@ -5,13 +5,13 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasServices flattenHostServices getServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService flattenHostServices getServicePort;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
   networkServices = flattenHostServices networkCfg.network-services;
 
-  isEnabled = hostHasServices networkCfg.network-services hostName;
+  isEnabled = hostHasService networkCfg.network-services hostName "unbound";
   port = getServicePort networkServices "unbound" 54;
 in {
   config = mkIf isEnabled {

@@ -6,27 +6,24 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption filterAttrs attrNames head mkForce;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP readJsonOrEmpty getIn;
+  inherit (lib) mkIf filterAttrs attrNames head mkForce;
+  inherit (lib.${namespace}) getAttrByNamespace resolveHostIP readJsonOrEmpty getIn hostHasService flattenHostServices getServicePort;
   inherit (config.networking) hostName;
-  base = "${namespace}.services.apps.forgejo";
-  cfg = getAttrByNamespace config base;
-  pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
-  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  networkServices = flattenHostServices networkCfg.network-services;
+
+  pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
   dbHost =
     pgCfg.databases
     |> filterAttrs (host: dbs: lib.elem "forgejo" dbs)
     |> attrNames
     |> head;
 
-  port = 5300;
+  isEnabled = hostHasService networkCfg.network-services hostName "git";
+  port = getServicePort networkServices "git" 5300;
 in {
-  options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "forgejo";
-  };
-
-  config = mkIf cfg.enable {
+  config = mkIf isEnabled {
     services.forgejo = {
       enable = true;
       package = pkgs.forgejo;
