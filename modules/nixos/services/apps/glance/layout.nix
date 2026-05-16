@@ -7,10 +7,10 @@
 }:
 with lib;
 with lib.${namespace}; let
-  base = "${namespace}.services.apps.glance";
-  cfg = getAttrByNamespace config base;
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  isEnabled = hostHasService networkCfg.network-services hostName "dash";
 in {
-  config = mkIf cfg.enable {
+  config = mkIf isEnabled {
     services.glance.settings = {
       branding = {
         app-name = "dash";

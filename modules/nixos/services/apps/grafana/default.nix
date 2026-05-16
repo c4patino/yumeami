@@ -6,20 +6,19 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption attrNames filterAttrs elem head;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP readJsonOrEmpty getIn;
-  base = "${namespace}.services.apps.grafana";
-  cfg = getAttrByNamespace config base;
+  inherit (lib) mkIf attrNames filterAttrs elem head;
+  inherit (lib.${namespace}) getAttrByNamespace resolveHostIP readJsonOrEmpty getIn hostHasService flattenHostServices getServicePort;
+  inherit (config.networking) hostName;
+
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
+
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  networkServices = flattenHostServices networkCfg.network-services;
 
-  port = 5500;
+  isEnabled = hostHasService networkCfg.network-services hostName "grafana";
+  port = getServicePort networkServices "grafana" 5500;
 in {
-  options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "Grafana";
-  };
-
-  config = mkIf cfg.enable {
+  config = mkIf isEnabled {
     services.grafana = {
       enable = true;
       settings = {
