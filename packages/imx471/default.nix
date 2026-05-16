@@ -13,7 +13,7 @@ stdenv.mkDerivation {
   src = fetchFromGitHub {
     owner = "BenBJD";
     repo = "imx471-dkms";
-    rev = "main";
+    rev = "293a166ead7b9cc3d602cafc221b6028f970d3b5";
     hash = "sha256-nekc4j6k8UJx0oOwBep93yMkFehK5qE67zjZmcUyVck=";
   };
 
