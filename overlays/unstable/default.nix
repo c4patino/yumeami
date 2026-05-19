@@ -3,5 +3,6 @@
     (channels.nixpkgs-unstable)
     opencode
     presenterm
+    vaultwarden
     ;
 }
