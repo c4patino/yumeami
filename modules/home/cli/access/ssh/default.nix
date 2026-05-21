@@ -24,7 +24,7 @@ in {
           addKeysToAgent = "no";
           compression = false;
           controlMaster = "auto";
-          controlPath = "/tmp/ssh_%r@%h:%p";
+          controlPath = "/tmp/ssh_%r@%h:%p-%n";
           controlPersist = "2h";
           forwardAgent = false;
           hashKnownHosts = false;
