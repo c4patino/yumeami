@@ -69,7 +69,7 @@ in {
           impermanence = enabled;
           postgresql = {
             databases = {
-              shiori = ["grafana" "forgejo" "vaultwarden" "terraform"];
+              tsuki = ["grafana" "forgejo" "vaultwarden" "terraform"];
             };
           };
           syncthing = {
