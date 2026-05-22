@@ -58,7 +58,7 @@ cd ~/dotfiles
 sudo nix --experimental-features "flakes nix-command pipe-operators" run github:nix-community/disko -- \
     --mode disko ~/dotfiles/systems/disko.nix \
     --arg main '"/dev/<device>"'
-zfs snapshot zroot/root@blank
+sudo zfs snapshot zroot/root@blank
 
 # Copy configuration to the persistent storage
 sudo cp ~/dotfiles /mnt/persist
