@@ -125,10 +125,38 @@ pkgs.writeShellScriptBin "generate-ssl-certs" ''
 
     "${pkgs.openssl}/bin/openssl" genrsa -out "$tempdir/server.key" "$bits"
 
+    # Wildcard certs must use SANs. Some clients also reject wildcard CNs,
+    # so use the apex as CN and put both names in subjectAltName.
+    cn="$domain"
+    declare -a sans
+    if [[ "$domain" == "*."* ]]; then
+      apex="''${domain#*.}"
+      cn="$apex"
+      sans+=("$apex" "$domain")
+    else
+      sans+=("$domain")
+    fi
+
+    extfile="$tempdir/openssl-ext.cnf"
+    {
+      echo "[v3_req]"
+      echo "basicConstraints = critical,CA:FALSE"
+      echo "keyUsage = critical,digitalSignature,keyEncipherment"
+      echo "extendedKeyUsage = serverAuth,clientAuth"
+      echo "subjectAltName = @alt_names"
+      echo ""
+      echo "[alt_names]"
+      i=1
+      for name in "''${sans[@]}"; do
+        echo "DNS.$i = $name"
+        i=$((i + 1))
+      done
+    } > "$extfile"
+
     "${pkgs.openssl}/bin/openssl" req -new \
       -key "$tempdir/server.key" \
       -out "$tempdir/server.csr" \
-      -subj "/CN=$domain"
+      -subj "/CN=$cn"
 
     ca_crt="$ca_path/ca.crt"
     ca_key="$ca_path/ca.key"
@@ -139,7 +167,11 @@ pkgs.writeShellScriptBin "generate-ssl-certs" ''
       exit 1
     fi
 
-    touch "$ca_srl"
+    # OpenSSL expects the serial file to contain a valid (hex) integer.
+    # An empty file causes `a2i_ASN1_INTEGER:short line`.
+    if [[ ! -s "$ca_srl" ]]; then
+      echo 01 > "$ca_srl"
+    fi
 
     "${pkgs.openssl}/bin/openssl" x509 -req \
       -in "$tempdir/server.csr" \
@@ -148,7 +180,10 @@ pkgs.writeShellScriptBin "generate-ssl-certs" ''
       -CAserial "$ca_srl" \
       -CAcreateserial \
       -out "$cert_file" \
-      -days "$days"
+      -days "$days" \
+      -sha256 \
+      -extfile "$extfile" \
+      -extensions v3_req
 
     cat "$cert_file" "$ca_crt" > "$fullchain_file"
 
