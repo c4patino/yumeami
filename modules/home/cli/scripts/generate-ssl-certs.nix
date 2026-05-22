@@ -12,6 +12,7 @@ pkgs.writeShellScriptBin "generate-ssl-certs" ''
     echo "  -e, --email <email>     Email for Let's Encrypt (required if no --ca-path)"
     echo "  -o, --output <dir>      Output directory (default: current directory)"
     echo "  -c, --ca-path <dir>     Path to CA directory (contains ca.crt, ca.key, ca.srl)"
+    echo "      --syncthing         Generate Syncthing-style self-signed cert/key (outputs: cert, key)"
     echo "  -b, --bits <bits>       Key bits for CA signing (default: 4096)"
     echo "  -t, --days <days>       Validity days for CA signing (default: 365)"
     echo "  -h, --help              Show this help message"
@@ -22,6 +23,7 @@ pkgs.writeShellScriptBin "generate-ssl-certs" ''
   email=""
   output="."
   ca_path=""
+  syncthing="false"
   bits="4096"
   days="365"
 
@@ -42,6 +44,10 @@ pkgs.writeShellScriptBin "generate-ssl-certs" ''
       -c|--ca-path)
         ca_path="$2"
         shift 2
+        ;;
+      --syncthing)
+        syncthing="true"
+        shift
         ;;
       -b|--bits)
         bits="$2"
@@ -66,19 +72,60 @@ pkgs.writeShellScriptBin "generate-ssl-certs" ''
     usage
   fi
 
-  key_file="$output/''${domain}.key"
-  cert_file="$output/''${domain}.crt"
-  fullchain_file="$output/''${domain}.fullchain.pem"
+  if [[ "$syncthing" == "true" ]]; then
+    key_file="$output/syncthing.key"
+    cert_file="$output/syncthing.cert"
+  else
+    key_file="$output/''${domain}.key"
+    cert_file="$output/''${domain}.crt"
+    fullchain_file="$output/''${domain}.fullchain.pem"
+  fi
 
   mkdir -p "$output"
+
+  if [[ "$syncthing" == "true" ]]; then
+    if [[ -n "$ca_path" ]]; then
+      echo "Error: --syncthing cannot be used with --ca-path"
+      exit 1
+    fi
+    if [[ -n "$email" ]]; then
+      echo "Error: --syncthing does not use Let's Encrypt; remove --email"
+      exit 1
+    fi
+
+    # Syncthing-style (minimal):
+    # - self-signed
+    # - ECDSA P-384
+    # - Subject/Issuer: O=Syncthing, CN=<domain>
+    # Single OpenSSL invocation (no CSR/extfile/tempdir).
+    "${pkgs.openssl}/bin/openssl" req -x509 -new \
+      -newkey ec -pkeyopt ec_paramgen_curve:secp384r1 \
+      -nodes \
+      -keyout "$key_file" \
+      -out "$cert_file" \
+      -days 7300 \
+      -subj "/O=Syncthing/CN=$domain" \
+      -addext "basicConstraints=critical,CA:FALSE" \
+      -addext "keyUsage=critical,digitalSignature,keyEncipherment" \
+      -addext "extendedKeyUsage=serverAuth,clientAuth" \
+      -addext "subjectAltName=DNS:$domain"
+
+    chmod 600 "$key_file" 2>/dev/null || true
+    chmod 644 "$cert_file" 2>/dev/null || true
+
+    echo "Generated Syncthing SSL certificate"
+    echo "  Private Key: $key_file"
+    echo "  Certificate: $cert_file"
+    exit 0
+  fi
 
   if [[ -n "$ca_path" ]]; then
     tempdir=$(mktemp -d)
     trap "rm -rf $tempdir" EXIT
 
-    openssl genrsa -out "$tempdir/server.key" "$bits"
+    "${pkgs.openssl}/bin/openssl" genrsa -out "$tempdir/server.key" "$bits"
 
-    openssl req -new \
+    "${pkgs.openssl}/bin/openssl" req -new \
       -key "$tempdir/server.key" \
       -out "$tempdir/server.csr" \
       -subj "/CN=$domain"
@@ -94,7 +141,7 @@ pkgs.writeShellScriptBin "generate-ssl-certs" ''
 
     touch "$ca_srl"
 
-    openssl x509 -req \
+    "${pkgs.openssl}/bin/openssl" x509 -req \
       -in "$tempdir/server.csr" \
       -CA "$ca_crt" \
       -CAkey "$ca_key" \
