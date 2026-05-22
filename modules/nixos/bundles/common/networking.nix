@@ -78,7 +78,7 @@ in {
           };
         };
 
-        shiori = {
+        tsuki = {
           dash = {
             port = 5150;
             internal = true;
@@ -103,7 +103,9 @@ in {
             port = 5301;
             internal = true;
           };
+        };
 
+        shiori = {
           blocky = {
             port = 53;
           };
