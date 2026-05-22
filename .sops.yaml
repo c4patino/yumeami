@@ -5,6 +5,7 @@ keys:
   - &c4patino_kokoro_windows age1qq0x7cpk5yg70htdm4dywc4glyx22c4uu78d50t8lax69f7kpp7skspslr
   - &c4patino_chibi age1r9285z8xmtj7g6alau7xp946p4fguvtd62dz05nvfgxyujhmfs7svp0uyw
   - &c4patino_shiori age185cchggrqp8v9wryj7npdvv3h2z735zamtqgchu5tltmjmpsaehsteyrpk
+  - &c4patino_tsuki age1uvdnhvu83fafnvvkfwx5e3jt7qfqppytqu0rnhwtc3ruyatrxsgqwzjvjz
 
 creation_rules:
   - path_regex: secrets/sops/secrets.yaml
@@ -16,6 +17,7 @@ creation_rules:
         - *c4patino_kokoro_windows
         - *c4patino_chibi
         - *c4patino_shiori
+        - *c4patino_tsuki
   - path_regex: secrets/sops/arisu.yaml
     key_groups:
       - age:
@@ -42,3 +44,8 @@ creation_rules:
     key_groups:
       - age:
         - *c4patino_shiori
+  - path_regex: secrets/sops/tsuki.yaml
+    key_groups:
+      - age:
+        - *c4patino_arisu
+        - *c4patino_tsuki

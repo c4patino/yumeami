@@ -30,6 +30,9 @@ in {
         shiori = {
           IP = "100.127.93.17";
         };
+        tsuki = {
+          IP = "100.71.23.30";
+        };
       };
 
       network-services = {
