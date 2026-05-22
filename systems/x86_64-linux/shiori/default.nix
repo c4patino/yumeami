@@ -17,32 +17,6 @@ in {
     bundles = {
       common = enabled;
     };
-
-    services = {
-      ci = {
-        gitea-runner = {
-          enable = true;
-          runners."default" = {
-            capacity = 4;
-          };
-        };
-        woodpecker.runners.primary = {
-          enable = true;
-          capacity = 4;
-        };
-      };
-
-      networking = {
-        cloudflared = enabled;
-        httpd = enabled;
-      };
-
-      storage = {
-        samba.mounts = {
-          "shared" = "arisu";
-        };
-      };
-    };
   };
 
   programs.nh = {
