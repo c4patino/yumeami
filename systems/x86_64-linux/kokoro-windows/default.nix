@@ -49,6 +49,8 @@ in {
   };
 
   networking = {
+    resolvconf.enable = mkForce false;
+
     hostName = "kokoro-windows";
     hostId = "98fb2503";
   };
