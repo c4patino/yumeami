@@ -16,9 +16,11 @@
     kernelModules = [
       "kvm-amd"
       "v4l2loopback"
+      "zenpower"
     ];
     extraModulePackages = with pkgs.linuxPackages; [
       v4l2loopback
+      zenpower
     ];
 
     initrd = {

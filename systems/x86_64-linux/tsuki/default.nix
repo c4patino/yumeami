@@ -7,6 +7,8 @@
   inherit (lib.${namespace}) enabled;
 in {
   imports = [
+    ./hardware-configuration.nix
+
     inputs.disko.nixosModules.default
     (import ../../disko.nix {main = "/dev/nvme0n1";})
   ];
