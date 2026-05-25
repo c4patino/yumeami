@@ -9,7 +9,7 @@ mkShell {
   ];
 
   buildInputs = with pkgs; [
-    jdk23
+    openjdk25
   ];
 
   packages = with pkgs; [
