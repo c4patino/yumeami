@@ -31,8 +31,8 @@ in {
   };
 
   networking = {
-    hostName = "shiori";
-    hostId = "asdfas";
+    hostName = "tobira";
+    hostId = "c98436c7";
   };
 
   system.stateVersion = "25.11";
