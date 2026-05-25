@@ -25,6 +25,7 @@ in {
           core = {
             pager = "delta";
             editor = "nvim";
+            fileMode = false;
           };
           delta = {
             dark = true;
