@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  nix-fmt:
+  treefmt:
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
