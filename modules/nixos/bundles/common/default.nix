@@ -81,6 +81,7 @@ in {
               kokoro-windows = "FLRGAEP-VTSACP3-JGVG6RK-GFOZI3O-3TABGTU-BVTLSS3-7NJPJIF-RY5PUQE";
               chibi = "HBLTAF3-GJ7G6XS-ER6IMAZ-CY2UI7S-6BG3N3S-GF4TDIC-7USNXW7-M6TWJQU";
               shiori = "BT76CBG-CZLKV2Q-S2ZGSPB-OC3KE66-HAHLDZ6-5W7GOOI-YNF6AXO-FU3N6AQ";
+              tsuki = "K7LWUU4-JHFZJ7Z-5XZHIVS-OR2XMGR-SVKEGJM-D6XGB4W-NN4Z7EI-LTH7CAB";
             };
             shares = {
               "shared" = ["arisu" "kokoro" "chibi" "shiori"];
