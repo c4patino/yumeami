@@ -1,4 +1,7 @@
 {
+  config,
+  host,
+  inputs,
   lib,
   namespace,
   ...
@@ -43,7 +46,31 @@ in {
     cli.dev.neovim.variant = "full";
   };
 
-  programs.kitty.font.size = 14;
+  programs = {
+    kitty.font.size = 14;
+
+    ssh.matchBlocks = {
+      "github-mutual.com" = {
+        hostname = "github.com";
+        user = "git";
+        identityFile = "~/.ssh/id_ed25519-mutualofomaha";
+        identitiesOnly = true;
+      };
+    };
+  };
+
+  sops.secrets = let
+    inherit (config.snowfallorg) user;
+  in {
+    "ssh/ceferino.patino@mutualofomaha/private" = {
+      path = "${user.home.directory}/.ssh/id_ed25519-mutualofomaha";
+      sopsFile = "${inputs.self}/secrets/sops/${host}.yaml";
+    };
+    "ssh/ceferino.patino@mutualofomaha/public" = {
+      path = "${user.home.directory}/.ssh/id_ed25519-mutualofomaha.pub";
+      sopsFile = "${inputs.self}/secrets/sops/${host}.yaml";
+    };
+  };
 
   wayland.windowManager.hyprland.settings.monitor = [
     "eDP-1, 2880x1800@60, 0x0, 1.5"
