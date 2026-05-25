@@ -65,6 +65,14 @@ in {
   sops.secrets = let
     inherit (config.snowfallorg) user;
   in {
+    "ssh/deploy-rs/private" = {
+      path = "${user.home.directory}/.ssh/id_ed25519-deploy-rs";
+      sopsFile = "${inputs.self}/secrets/sops/${host}.yaml";
+    };
+    "ssh/deploy-rs/public" = {
+      path = "${user.home.directory}/.ssh/id_ed25519-deploy-rs.pub";
+      sopsFile = "${inputs.self}/secrets/sops/${host}.yaml";
+    };
     "ssh/ceferino.patino@mutualofomaha/private" = {
       path = "${user.home.directory}/.ssh/id_ed25519-mutualofomaha";
       sopsFile = "${inputs.self}/secrets/sops/${host}.yaml";

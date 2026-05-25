@@ -102,8 +102,8 @@ in {
     };
 
     sops.secrets = {
-      "forgejo/gpg/private" = {};
-      "forgejo/gpg/public" = {};
+      "forgejo/gpg/forgejo-actions-bot/private" = {};
+      "forgejo/gpg/forgejo-actions-bot/public" = {};
       "forgejo/token" = {};
     };
 
