@@ -11,6 +11,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    deploy-rs.url = "github:serokell/deploy-rs";
     devshell.url = "github:numtide/devshell";
     impermanence.url = "github:nix-community/impermanence";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
@@ -45,10 +46,20 @@
     };
   };
 
-  outputs = inputs:
-    inputs.snowfall-lib.mkFlake {
+  outputs = {
+    snowfall-lib,
+    treefmt-nix,
+    ...
+  } @ inputs:
+    snowfall-lib.mkFlake {
       inherit inputs;
       src = ./.;
+
+      deploy =
+        (import ./deploy.nix {
+          inherit inputs;
+          inherit (inputs) self;
+        }).deploy;
 
       channels-config = {
         allowUnfree = true;
@@ -93,10 +104,13 @@
             ];
           };
         };
+        treefmtEval = treefmt-nix.lib.evalModule (channels.nixpkgs) (treefmtConfig {pkgs = channels.nixpkgs;});
 
-        treefmtEval = inputs.treefmt-nix.lib.evalModule (channels.nixpkgs) (treefmtConfig {pkgs = channels.nixpkgs;});
+        system = channels.nixpkgs.stdenv.hostPlatform.system;
       in {
         formatter = treefmtEval.config.build.wrapper;
+
+        checks = inputs.deploy-rs.lib.${system}.deployChecks inputs.self.deploy;
       };
     };
 }

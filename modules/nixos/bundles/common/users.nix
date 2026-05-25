@@ -12,35 +12,44 @@
   cfg = getAttrByNamespace config base;
 in {
   config = mkIf cfg.enable {
-    users.users.c4patino = {
-      isNormalUser = true;
-      description = "C4 Patino";
-      extraGroups = [
-        "dialout"
-        "docker"
-        "jellyfin"
-        "networkmanager"
-        "podman"
-        "rustypaste"
-        "syncthing"
-        "systemd-journal"
-        "vboxusers"
-        "wheel"
-      ];
+    users.users = {
+      c4patino = {
+        isNormalUser = true;
+        description = "C4 Patino";
+        extraGroups = [
+          "dialout"
+          "docker"
+          "jellyfin"
+          "networkmanager"
+          "podman"
+          "rustypaste"
+          "syncthing"
+          "systemd-journal"
+          "vboxusers"
+          "wheel"
+        ];
 
-      hashedPassword = "$6$XM5h391mH33WIoAy$xkeSzw/ootPPZbvHEqSguZDyB4gAeTMcjy1aRXcXcQWFkS1/SRPK27VgEYC.vYvdZLYWALZtpdEzWAfwT4VCM1";
+        hashedPassword = "$6$XM5h391mH33WIoAy$xkeSzw/ootPPZbvHEqSguZDyB4gAeTMcjy1aRXcXcQWFkS1/SRPK27VgEYC.vYvdZLYWALZtpdEzWAfwT4VCM1";
 
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM9p///8yD0yoKcbgALS46ieFaJufxBcGtA2UWc6A8fv c4patino@arisu"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOpxYvrVLIttrmEKOUYlTPHHoIhToXvAwp2J9K4a+g+B c4patino@arisu-windows"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAzmJKNI3fT2nCXODsHTC3jvjXnAxHFdKdF7mQRnRrJD c4patino@kokoro"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIj2f9WyR0lEZ16fszVju8XdGLb0a7wsgUZclTIslQx+ c4patino@kokoro-windows"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDzsxorrFOF5Eq0ABSXRMh/WZwxSxs1hCMG8RnbMF6yv c4patino@chibi"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDlOHQEPIDtc8ffn1g7fmrUGvYnKGgX4f2dQYaQ5HbV4 c4patino@shiori"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFCQww3/93dUGOr471IznJadCaIhKWPSQJM8dsRdZ1cw c4patino@tsuki"
-      ];
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM9p///8yD0yoKcbgALS46ieFaJufxBcGtA2UWc6A8fv c4patino@arisu"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOpxYvrVLIttrmEKOUYlTPHHoIhToXvAwp2J9K4a+g+B c4patino@arisu-windows"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAzmJKNI3fT2nCXODsHTC3jvjXnAxHFdKdF7mQRnRrJD c4patino@kokoro"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIj2f9WyR0lEZ16fszVju8XdGLb0a7wsgUZclTIslQx+ c4patino@kokoro-windows"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDzsxorrFOF5Eq0ABSXRMh/WZwxSxs1hCMG8RnbMF6yv c4patino@chibi"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDlOHQEPIDtc8ffn1g7fmrUGvYnKGgX4f2dQYaQ5HbV4 c4patino@shiori"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFCQww3/93dUGOr471IznJadCaIhKWPSQJM8dsRdZ1cw c4patino@tsuki"
+        ];
 
-      shell = pkgs.bash;
+        shell = pkgs.bash;
+      };
+
+      root = {
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAT34sYOLKwCWKGztVtOHmhjVarCPm71it2WjJVKj3Ew deploy-rs@arisu"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAHTgDfXm/iX/5x9Y64+S9zrLoTooR2/9AaiY9/E+TPd deploy-rs@kokoro"
+        ];
+      };
     };
 
     sops = let
