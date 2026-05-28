@@ -11,23 +11,39 @@
   cfg = getAttrByNamespace config base;
 in {
   config = mkIf cfg.enable {
-    wayland.windowManager.hyprland = {
-      settings = {
-        exec-once = [
-          "dbus-update-activation-environment --systmd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
+    wayland.windowManager.hyprland.settings = {
+      on = {
+        _args = [
+          "hyprland.start"
+          (lib.generators.mkLuaInline ''
+            function()
+              hl.exec_cmd("systemctl --user start ${pkgs.hyprpolkitagent}/bin/hyprpolkitagent")
+            end
+          '')
         ];
+      };
 
+      config = {
         general = {
           gaps_in = 5;
           gaps_out = 20;
 
           border_size = 2;
-          "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-          "col.inactive_border" = "rgba(595959aa)";
-          resize_on_border = false;
+          "col.active_border" = {
+            colors = [
+              "rgba(33ccffee)"
+              "rgba(00ff99ee)"
+            ];
 
-          allow_tearing = false;
+            angle = 45;
+          };
+          "col.inactive_border" = {
+            colors = [
+              "rgba(595959aa)"
+            ];
+
+            angle = 45;
+          };
 
           layout = "dwindle";
         };
@@ -49,33 +65,16 @@ in {
 
         animations = {
           enabled = true;
-
-          bezier = [
-            "fastBezier, 0.05, 1.1, 0.2, 1.0"
-            "linear, 0.0, 0.0, 1.0, 1.0"
-            "liner, 1, 1, 1, 1"
-          ];
-
-          animation = [
-            "windows, 1, 7, fastBezier, slide"
-            "windowsOut, 1, 7, fastBezier, slide"
-            "border, 1, 10, fastBezier"
-            "fade, 1, 7, fastBezier"
-            "workspaces, 1, 6, fastBezier"
-            "border, 1, 1, liner"
-            "borderangle, 1, 40, liner, loop"
-            "borderangle, 1, 100, linear, loop"
-          ];
         };
 
         dwindle = {
-          pseudotile = true;
           preserve_split = true;
         };
 
-        master.new_status = "master";
-
-        ecosystem.no_update_news = true;
+        xwayland = {
+          enabled = true;
+          force_zero_scaling = true;
+        };
 
         misc = {
           disable_hyprland_logo = true;
@@ -83,10 +82,54 @@ in {
           key_press_enables_dpms = false;
         };
 
-        xwayland = {
-          force_zero_scaling = true;
+        input.touchpad.disable_while_typing = true;
+
+        ecosystem = {
+          no_update_news = true;
+          no_donation_nag = true;
         };
       };
+
+      curve = let
+        mkBezier = name: x0: y0: x1: y1: {
+          _args = [
+            name
+            {
+              type = "bezier";
+              points = [
+                [x0 y0]
+                [x1 y1]
+              ];
+            }
+          ];
+        };
+      in [
+        (mkBezier "fastBezier" 0.05 1.1 0.2 1.0)
+        (mkBezier "linear" 0.0 0.0 1.0 1.0)
+        (mkBezier "liner" 1 1 1 1)
+      ];
+
+      animation = let
+        mkAnimation = leaf: enabled: speed: bezier: style:
+          {
+            inherit leaf enabled speed bezier;
+          }
+          // lib.optionalAttrs (style != null) {
+            inherit style;
+          };
+
+        mkAnimation' = leaf: speed: bezier: style:
+          mkAnimation leaf true speed bezier style;
+      in [
+        (mkAnimation' "windows" 7 "fastBezier" "slide")
+        (mkAnimation' "windowsOut" 7 "fastBezier" "slide")
+        (mkAnimation' "border" 10 "fastBezier" null)
+        (mkAnimation' "fade" 7 "fastBezier" null)
+        (mkAnimation' "workspaces" 6 "fastBezier" null)
+        (mkAnimation' "border" 1 "liner" null)
+        (mkAnimation' "borderangle" 40 "liner" "loop")
+        (mkAnimation' "borderangle" 100 "linear" "loop")
+      ];
     };
   };
 }

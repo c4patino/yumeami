@@ -21,42 +21,56 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [hyprpicker hyprpaper];
+    home.packages = with pkgs; [
+      hyprpicker
+      hyprpaper
+    ];
 
     wayland.windowManager.hyprland = {
       enable = true;
       systemd.enable = true;
       xwayland.enable = true;
+      configType = "lua";
 
-      settings.env = [
-        "XDG_SESSION_TYPE,wayland"
-        "XDG_CURRENT_DESKTOP,Hyprland"
-        "XDG_SESSION_DESKTOP,Hyprland"
-        "NIXOS_OZONE_WL,1"
+      settings.env = let
+        env = name: value: {
+          _args = [name (toString value)];
+        };
 
-        "GDK_BACKEND,wayland,x11,*"
-        "GDK_SCALE,2"
-        "GDK_DPI_SCALE,2"
+        mkEnv = attrs:
+          attrs
+          |> builtins.mapAttrs env
+          |> builtins.attrValues;
+      in
+        mkEnv {
+          "XDG_SESSION_TYPE" = "wayland";
+          "XDG_CURRENT_DESKTOP" = "Hyprland";
+          "XDG_SESSION_DESKTOP" = "Hyprland";
+          "NIXOS_OZONE_WL" = "1";
 
-        "GTK_USE_PORTAL,1"
-        "GTK_THEME,adw-gtk3-dark"
-        "GTK_APPLICATION_PREFER_DARK_THEME,1"
+          "GDK_BACKEND" = "wayland,x11,*";
+          "GDK_SCALE" = "2";
+          "GDK_DPI_SCALE" = "2";
 
-        "QT_QPA_PLATFORM,wayland;xcb"
-        "QT_AUTO_SCREEN_SCALE_FACTOR,1"
-        "QT_QPA_PLATFORMTHEME,qt5ct"
-        "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
+          "GTK_USE_PORTAL" = "1";
+          "GTK_THEME" = "adw-gtk3-dark";
+          "GTK_APPLICATION_PREFER_DARK_THEME" = "1";
 
-        "SDLVIDEODRIVER,wayland"
-        "CLUTTER_BACKEND,wayland"
+          "QT_QPA_PLATFORM" = "wayland;xcb";
+          "QT_AUTO_SCREEN_SCALE_FACTOR" = "1";
+          "QT_QPA_PLATFORMTHEME" = "qt5ct";
+          "QT_WAYLAND_DISABLE_WINDOWDECORATION" = "1";
 
-        "GBM_BACKEND,nvidia-drm"
-        "LIBVA_DRIVER_NAME,nvidia"
-        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+          "SDLVIDEODRIVER" = "wayland";
+          "CLUTTER_BACKEND" = "wayland";
 
-        "XCURSOR_SIZE,24"
-        "HYPRCURSOR_SIZE,24"
-      ];
+          "GBM_BACKEND" = "nvidia-drm";
+          "LIBVA_DRIVER_NAME" = "nvidia";
+          "__GLX_VENDOR_LIBRARY_NAME" = "nvidia";
+
+          "XCURSOR_SIZE" = "24";
+          "HYPRCURSOR_SIZE" = "24";
+        };
     };
   };
 }

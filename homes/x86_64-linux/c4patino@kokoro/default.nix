@@ -81,8 +81,18 @@ in {
   };
 
   wayland.windowManager.hyprland.settings.monitor = [
-    "eDP-1, 2880x1800@60, 0x0, 1.5"
-    ", preferred, auto-right, 1"
+    {
+      output = "eDP-1";
+      mode = "2880x1800@60";
+      position = "0x0";
+      scale = "1.5";
+    }
+    {
+      output = "";
+      mode = "preferred";
+      position = "auto-right";
+      scale = "1";
+    }
   ];
 
   home.stateVersion = "26.05";
