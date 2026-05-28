@@ -65,6 +65,9 @@ in {
             then secrets."github/runner".path
             else runner.tokenFile;
           url = runner.url;
+          nodeRuntimes = [
+            "node24"
+          ];
           extraPackages = with pkgs; let
             gtar = pkgs.runCommandNoCC "gtar" {} ''
               mkdir -p $out/bin
@@ -80,7 +83,7 @@ in {
             gh
             gtar
             jq
-            nodejs_20
+            nodejs_24
             openssl
             unzip
             which
