@@ -50,6 +50,19 @@ in {
           };
         };
 
+        includes = [
+          {
+            condition = "gitdir:~/Programming/moo/";
+            contents = {
+              user = {
+                name = "Ceferino Patino";
+                email = "ceferino.patino@mutualofomaha.com";
+                signingkey = "~/.ssh/id_ed25519-mutualofomaha.pub";
+              };
+            };
+          }
+        ];
+
         ignores = [
           ".direnv"
           ".env"
