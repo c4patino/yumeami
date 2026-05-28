@@ -45,7 +45,7 @@
       };
     };
   };
-  extraDisks = builtins.listToAttrs (builtins.map (d: {
+  extraDisks = builtins.listToAttrs (map (d: {
       name = d;
       value = {
         device = d;

@@ -4,7 +4,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption;
+  inherit (lib) mkIf mkEnableOption mkForce;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.hardware.bootloader";
   cfg = getAttrByNamespace config base;
@@ -18,7 +18,7 @@ in {
       grub = {
         enable = true;
         efiSupport = true;
-        device = "nodev";
+        devices = mkForce ["nodev"];
       };
 
       efi.canTouchEfiVariables = true;
