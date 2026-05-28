@@ -5,7 +5,7 @@
 }:
 mkShell {
   nativeBuildInputs = with pkgs; [
-    nodePackages.pnpm
+    pnpm
   ];
 
   buildInputs = with pkgs; [
