@@ -52,6 +52,8 @@ in {
         };
 
         panels.enable_alpha = true;
+
+        security.secret_key = "SW2YcwTIb9zpOOhoPsMm";
       };
 
       provision = {
