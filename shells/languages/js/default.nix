@@ -14,7 +14,7 @@ mkShell {
   ];
 
   packages = with pkgs; [
-    nodePackages.prettier
+    prettier
     prettierd
     vscode-js-debug
   ];
