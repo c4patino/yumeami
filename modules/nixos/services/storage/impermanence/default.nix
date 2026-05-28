@@ -5,7 +5,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkIf mkEnableOption mkOption mkAfter concatLists;
+  inherit (lib) types mkIf mkEnableOption mkOption concatLists;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.services.storage.impermanence";
   cfg = getAttrByNamespace config base;
@@ -49,9 +49,20 @@ in {
   config = mkIf cfg.enable {
     fileSystems."/persist".neededForBoot = true;
 
-    boot.initrd.postResumeCommands = mkAfter ''
-      zfs rollback -r zroot/root@blank
-    '';
+    boot.initrd.systemd.services.rollback = {
+      description = "Rollback ZFS root to blank snapshot";
+      wantedBy = ["initrd.target"];
+      after = ["zfs-import-zroot.service"];
+      before = ["sysroot.mount"];
+      path = [config.boot.zfs.package];
+
+      unitConfig.DefaultDependencies = "no";
+      serviceConfig.Type = "oneshot";
+
+      script = ''
+        zfs rollback -r zroot/root@blank
+      '';
+    };
 
     environment.persistence."/persist" = {
       hideMounts = true;

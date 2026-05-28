@@ -1,5 +1,9 @@
 {pkgs, ...}: {
-  boot.supportedFilesystems = ["ntfs" "zfs" "nfs"];
+  boot = {
+    supportedFilesystems = ["ntfs" "zfs" "nfs"];
+
+    zfs.forceImportRoot = false;
+  };
 
   services.davfs2.enable = true;
 
