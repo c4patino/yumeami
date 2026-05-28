@@ -21,13 +21,16 @@ in {
       rofi
     ];
 
-    wayland.windowManager.hyprland = {
-      settings = {
-        exec-once = [
-          "wl-paste --type text --watch cliphist store"
-          "wl-paste --type image --watch cliphist store"
-        ];
-      };
+    wayland.windowManager.hyprland.settings.on = {
+      _args = [
+        "hyprland.start"
+        (lib.generators.mkLuaInline ''
+          function()
+            hl.exec_cmd("wl-paste --type text --watch cliphist store")
+            hl.exec_cmd("wl-paste --type image --watch cliphist store")
+          end
+        '')
+      ];
     };
   };
 }

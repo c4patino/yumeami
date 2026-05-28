@@ -13,91 +13,113 @@
   launcher = launcherCfg.launcher;
 in {
   config = mkIf cfg.enable {
-    wayland.windowManager.hyprland.settings = {
-      "$mainMod" = "SUPER";
-      "$terminal" = "kitty";
-      "$menu" =
+    wayland.windowManager.hyprland.settings = let
+      mainMod = "SUPER";
+
+      menu =
         {
-          "anyrun" = "GSK_RENDERER=ngl anyrun";
-          "walker" = "walker";
+          anyrun = "GSK_RENDERER=ngl anyrun";
+          walker = "walker";
         }."${launcher}" or "";
 
-      bind = [
-        # General
-        "$mainMod, T, exec, $terminal"
-        "$mainMod, R, exec, $menu"
-        "$mainMod, Q, killactive,"
-        "$mainMod ALT, Q, exit,"
-        "$mainMod, V, togglefloating,"
-        "$mainMod, F, fullscreen,"
-        "$mainMod, P, pseudo,"
-        "$mainMod, S, togglesplit,"
+      lua = lib.generators.mkLuaInline;
 
-        "$mainMod, Home, exec, sh -c 'grim -g \"$(slurp -d)\" ~/Downloads/$(date +%Y-%m-%d-%H%M%S).png'"
+      bind = keys: dispatcher: {
+        _args = [keys dispatcher];
+      };
 
-        # Scratchpad
-        "ALT, S, exec, scratchpad"
-        "ALT SHIFT, S, movetoworkspace, special:magic"
+      bindFlags = keys: dispatcher: flags: {
+        _args = [keys dispatcher flags];
+      };
 
-        # Window focus
-        "$mainMod, h, movefocus, l"
-        "$mainMod, l, movefocus, r"
-        "$mainMod, k, movefocus, u"
-        "$mainMod, j, movefocus, d"
+      exec = cmd: lua "hl.dsp.exec_cmd(${builtins.toJSON cmd})";
 
-        # Window position
-        "$mainMod SHIFT, h, movewindow, l"
-        "$mainMod SHIFT, l, movewindow, r"
-        "$mainMod SHIFT, k, movewindow, u"
-        "$mainMod SHIFT, j, movewindow, d"
+      dsp = expr: lua "hl.dsp.${expr}";
+    in {
+      bind =
+        [
+          # General
+          (bind "${mainMod} + T" (exec "kitty"))
+          (bind "${mainMod} + R" (exec menu))
+          (bind "${mainMod} + Q" (dsp "window.close()"))
+          (bind "${mainMod} + ALT + Q" (dsp "exit()"))
+          (bind "${mainMod} + V" (dsp "window.float({ action = \"toggle\" })"))
+          (bind "${mainMod} + F" (dsp "window.fullscreen()"))
+          (bind "${mainMod} + S" (dsp "layout(\"togglesplit\")"))
+          (bind "${mainMod} + P" (dsp "window.pseudo()"))
 
-        # Switch workspaces with mainMod + [0-9]
-        "$mainMod, 1, workspace, 1"
-        "$mainMod, 2, workspace, 2"
-        "$mainMod, 3, workspace, 3"
-        "$mainMod, 4, workspace, 4"
-        "$mainMod, 5, workspace, 5"
-        "$mainMod, 6, workspace, 6"
-        "$mainMod, 7, workspace, 7"
-        "$mainMod, 8, workspace, 8"
-        "$mainMod, 9, workspace, 9"
-        "$mainMod, 0, workspace, 10"
+          (bind "${mainMod} + Home" (exec "sh -c 'grim -g \"$(slurp -d)\" ~/Downloads/$(date +%Y-%m-%d-%H%M%S).png'"))
 
-        # Move active window to a workspace with mainMod + SHIFT + [0-9]
-        "$mainMod SHIFT, 1, movetoworkspace, 1"
-        "$mainMod SHIFT, 2, movetoworkspace, 2"
-        "$mainMod SHIFT, 3, movetoworkspace, 3"
-        "$mainMod SHIFT, 4, movetoworkspace, 4"
-        "$mainMod SHIFT, 5, movetoworkspace, 5"
-        "$mainMod SHIFT, 6, movetoworkspace, 6"
-        "$mainMod SHIFT, 7, movetoworkspace, 7"
-        "$mainMod SHIFT, 8, movetoworkspace, 8"
-        "$mainMod SHIFT, 9, movetoworkspace, 9"
-        "$mainMod SHIFT, 0, movetoworkspace, 10"
+          # Scratchpad
+          (bind "ALT + S" (dsp "workspace.toggle_special(\"magic\")"))
+          (bind "ALT + SHIFT + S" (dsp "window.move({ workspace = \"special:magic\" })"))
 
-        # System
-        ", F8, exec, playerctl previous"
-        ", F9, exec, playerctl play-pause"
-        ", F10, exec, playerctl next"
-        ", F12, exec, sh -c 'systemctl --user is-active imx471-webcam && systemctl --user stop imx471-webcam || systemctl --user start imx471-webcam'"
-      ];
+          # Window Focus
+          (bind "${mainMod} + h" (dsp "focus({ direction = \"l\" })"))
+          (bind "${mainMod} + l" (dsp "focus({ direction = \"r\" })"))
+          (bind "${mainMod} + k" (dsp "focus({ direction = \"u\" })"))
+          (bind "${mainMod} + j" (dsp "focus({ direction = \"d\" })"))
 
-      bindl = [
-        ", F1, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        ", F4, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-      ];
+          # Window Position
+          (bind "${mainMod} + SHIFT + h" (dsp "window.move({ direction = \"l\" })"))
+          (bind "${mainMod} + SHIFT + l" (dsp "window.move({ direction = \"r\" })"))
+          (bind "${mainMod} + SHIFT + k" (dsp "window.move({ direction = \"u\" })"))
+          (bind "${mainMod} + SHIFT + j" (dsp "window.move({ direction = \"d\" })"))
 
-      bindle = [
-        ", F2, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        ", F3, exec, wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+"
-        ", F5, exec, brightnessctl s 2%-"
-        ", F6, exec, brightnessctl s +2%"
-      ];
+          (bindFlags "F1" (exec "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle") {
+            locked = true;
+          })
+          (bindFlags "F2" (exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-") {
+            locked = true;
+            repeating = true;
+          })
+          (bindFlags "F3" (exec "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+") {
+            locked = true;
+            repeating = true;
+          })
+          (bindFlags "F4" (exec "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle") {
+            locked = true;
+          })
 
-      bindm = [
-        "$mainMod, mouse:272, movewindow"
-        "$mainMod, mouse:273, resizewindow"
-      ];
+          (bindFlags "F5" (exec "brightnessctl s 2%-") {
+            locked = true;
+            repeating = true;
+          })
+          (bindFlags "F6" (exec "brightnessctl s +2%") {
+            locked = true;
+            repeating = true;
+          })
+
+          (bind "F8" (exec "playerctl previous"))
+          (bind "F9" (exec "playerctl play-pause"))
+          (bind "F10" (exec "playerctl next"))
+          (bind "F12" (exec ''sh -c 'systemctl --user is-active imx471-webcam && systemctl --user stop imx471-webcam || systemctl --user start imx471-webcam''))
+
+          (bindFlags "${mainMod} + mouse:272" (dsp "window.drag()") {
+            mouse = true;
+          })
+          (bindFlags "${mainMod} + mouse:273" (dsp "window.resize()") {
+            mouse = true;
+          })
+        ]
+        ++ (
+          10
+          |> builtins.genList (i: let
+            key =
+              if i == 9
+              then "0"
+              else toString (i + 1);
+
+            ws =
+              if i == 9
+              then "10"
+              else toString (i + 1);
+          in [
+            (bind "${mainMod} + ${key}" (dsp "focus({ workspace = ${ws}; })"))
+            (bind "${mainMod} + SHIFT + ${key}" (dsp "window.move({ workspace = ${ws}; })"))
+          ])
+          |> builtins.concatLists
+        );
     };
   };
 }

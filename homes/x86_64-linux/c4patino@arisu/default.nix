@@ -84,9 +84,22 @@ in {
   };
 
   wayland.windowManager.hyprland.settings.monitor = [
-    "DP-4, 2560x1440@120, 0x0, 1"
-    "DP-5, 2560x1440@120, -2560x0, 1"
-    ", preferred, auto-left, 1"
+    {
+      output = "DP-4";
+      mode = "2560x1440@120";
+      position = "0x0";
+    }
+    {
+      output = "DP-4";
+      mode = "2560x1440@120";
+      position = "-2560x0";
+    }
+    {
+      output = "";
+      mode = "preferred";
+      position = "auto-left";
+      scale = "1";
+    }
   ];
 
   home.stateVersion = "26.05";
