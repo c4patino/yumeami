@@ -45,8 +45,8 @@ in {
             }
             {
               title = "home-manager";
-              shortcut = "!hm";
-              url = "https://home-manager-options.extranix.com/?release=master&query={QUERY}";
+              shortcut = "!ho";
+              url = "https://search.nixos.org/options?channel=unstable&query={QUERY}&source=home_manager";
             }
             {
               title = "youtube";
@@ -56,7 +56,7 @@ in {
             {
               title = "github";
               shortcut = "!gh";
-              url = "https://github.com/{QUERY}";
+              url = "https://github.com/search?q={QUERY}";
             }
             {
               title = "arxiv";
