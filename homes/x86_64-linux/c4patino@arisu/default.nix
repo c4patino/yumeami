@@ -52,12 +52,12 @@ in {
   programs = {
     kitty.font.size = 14;
 
-    ssh.matchBlocks = {
+    ssh.settings = {
       "github-mutual.com" = {
-        hostname = "github.com";
-        user = "git";
-        identityFile = "~/.ssh/id_ed25519-mutualofomaha";
-        identitiesOnly = true;
+        HostName = "github.com";
+        User = "git";
+        IdentityFile = "~/.ssh/id_ed25519-mutualofomaha";
+        IdentitiesOnly = true;
       };
     };
   };
