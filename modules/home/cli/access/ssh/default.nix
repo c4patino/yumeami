@@ -19,34 +19,34 @@ in {
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;
-      matchBlocks = {
+      settings = {
         "*" = {
-          addKeysToAgent = "no";
-          compression = false;
-          controlMaster = "auto";
-          controlPath = "/tmp/ssh_%r@%h:%p-%n";
-          controlPersist = "2h";
-          forwardAgent = false;
-          hashKnownHosts = false;
-          serverAliveCountMax = 3;
-          serverAliveInterval = 0;
-          userKnownHostsFile = "~/.ssh/known_hosts";
+          AddKeysToAgent = "no";
+          Compression = false;
+          ControlMaster = "auto";
+          ControlPath = "/tmp/ssh_%r@%h:%p-%n";
+          ControlPersist = "2h";
+          ForwardAgent = false;
+          HashKnownHosts = false;
+          ServerAliveCountMax = 3;
+          ServerAliveInterval = 0;
+          UserKnownHostsFile = "~/.ssh/known_hosts";
         };
         "github" = {
-          hostname = "github.com";
-          user = "git";
+          HostName = "github.com";
+          User = "git";
         };
         "swan" = {
-          hostname = "swan.unl.edu";
-          user = "c4patino";
+          HostName = "swan.unl.edu";
+          User = "c4patino";
         };
         "swan-xfer" = {
-          hostname = "swan-xfer.unl.edu";
-          user = "c4patino";
+          HostName = "swan-xfer.unl.edu";
+          User = "c4patino";
         };
         "nuros" = {
-          hostname = "nuros.unl.edu";
-          user = "cpatino2";
+          HostName = "nuros.unl.edu";
+          User = "cpatino2";
         };
       };
     };
