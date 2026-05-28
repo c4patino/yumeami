@@ -50,6 +50,19 @@ in {
           };
         };
 
+        includes = [
+          {
+            condition = "gitdir:~/Programming/komorebi/";
+            contents = {
+              user = {
+                name = "Ceferino Patino";
+                email = "ceferino.patino@komorebi.com";
+                signingkey = "~/.ssh/id_ed25519-komorebi.pub";
+              };
+            };
+          }
+        ];
+
         ignores = [
           ".direnv"
           ".env"
