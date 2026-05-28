@@ -22,7 +22,6 @@ in {
       (import ./generate-ssh-keys.nix {inherit pkgs;})
       (import ./generate-ssl-certs.nix {inherit pkgs;})
       (import ./get-music-cover.nix {inherit pkgs;})
-      (import ./scratchpad.nix {inherit pkgs;})
     ];
   };
 }

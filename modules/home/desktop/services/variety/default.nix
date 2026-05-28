@@ -28,9 +28,16 @@ in {
       };
     };
 
-    wayland.windowManager.hyprland.settings. exec-once = [
-      "swaybg &"
-      "variety &"
-    ];
+    wayland.windowManager.hyprland.settings.on = {
+      _args = [
+        "hyprland.start"
+        (lib.generators.mkLuaInline ''
+          function()
+            hl.exec_cmd("swaybg")
+            hl.exec_cmd("variety")
+          end
+        '')
+      ];
+    };
   };
 }
