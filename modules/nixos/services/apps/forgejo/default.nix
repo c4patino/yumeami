@@ -67,6 +67,12 @@ in {
           PULL = 300;
         };
 
+        repository = {
+          ENABLE_PUSH_CREATE_USER = true;
+          ENABLE_PUSH_CREATE_ORG = true;
+          DEFAULT_PUSH_CREATE_PRIVATE = true;
+        };
+
         ui = {
           DEFAULT_THEME = "forgejo-dark";
           SHOW_USER_EMAIL = true;
