@@ -4,18 +4,17 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkEnableOption mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.services.apps.qbittorrent";
-  cfg = getAttrByNamespace config base;
+  inherit (lib) mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService getServicePort flattenHostServices;
+  inherit (config.networking) hostName;
 
-  port = 9000;
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  networkServices = flattenHostServices networkCfg.network-services;
+
+  isEnabled = hostHasService networkCfg.network-services hostName "qbittorrent";
+  port = getServicePort networkServices "qbittorrent" 9000;
 in {
-  options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "qbittorrent";
-  };
-
-  config = mkIf cfg.enable {
+  config = mkIf isEnabled {
     services.qbittorrent = {
       enable = true;
       openFirewall = true;

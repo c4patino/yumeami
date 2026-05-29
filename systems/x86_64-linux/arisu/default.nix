@@ -38,8 +38,6 @@ in {
     services = {
       apps = {
         rustypaste.client = enabled;
-
-        qbittorrent = enabled;
       };
 
       ci = {
