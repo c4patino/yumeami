@@ -41,8 +41,8 @@ in {
             port = 8096;
             internal = true;
           };
-          ombi = {
-            port = 5000;
+          seerr = {
+            port = 5055;
             internal = true;
           };
           radarr = {

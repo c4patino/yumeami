@@ -9,38 +9,38 @@
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
-  isEnabled = hostHasService networkCfg.network-services hostName "jellyseerr";
+  isEnabled = hostHasService networkCfg.network-services hostName "seerr";
 in {
   config = mkIf isEnabled {
-    services.jellyseerr = {
+    services.seerr = {
       enable = true;
       openFirewall = true;
     };
 
-    systemd.services.jellyseerr.serviceConfig = let
-      jellyseerrUser = config.users.users.jellyseerr;
+    systemd.services.seerr.serviceConfig = let
+      seerrUser = config.users.users.seerr;
     in {
       DynamicUser = mkForce false;
-      User = jellyseerrUser.name;
-      Group = jellyseerrUser.group;
+      User = seerrUser.name;
+      Group = seerrUser.group;
     };
 
     users = {
-      users.jellyseerr = {
+      users.seerr = {
         isSystemUser = true;
-        group = "jellyseerr";
+        group = "seerr";
       };
 
-      groups.jellyseerr = {};
+      groups.seerr = {};
     };
 
     ${namespace}.services.storage.impermanence.folders = let
-      jellyseerrUser = config.users.users.jellyseerr;
+      seerrUser = config.users.users.seerr;
     in [
       {
-        directory = "/var/lib/jellyseerr";
-        user = jellyseerrUser.name;
-        group = jellyseerrUser.group;
+        directory = "/var/lib/seerr";
+        user = seerrUser.name;
+        group = seerrUser.group;
         mode = "700";
       }
     ];
