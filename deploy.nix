@@ -15,16 +15,8 @@
       hostname = "arisu";
       system = "x86_64-linux";
     };
-    arisu-windows = {
-      hostname = "arisu-windows";
-      system = "x86_64-linux";
-    };
     kokoro = {
       hostname = "kokoro";
-      system = "x86_64-linux";
-    };
-    kokoro-windows = {
-      hostname = "kokoro-windows";
       system = "x86_64-linux";
     };
     shiori = {
