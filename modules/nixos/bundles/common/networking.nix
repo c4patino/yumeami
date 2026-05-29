@@ -60,6 +60,9 @@ in {
           prowlarr = {
             port = 9696;
           };
+          qbittorrent = {
+            port = 9000;
+          };
           miasma = {
             port = 9999;
             internal = true;
