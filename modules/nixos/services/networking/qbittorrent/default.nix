@@ -3,6 +3,7 @@
   inputs,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf;
@@ -12,52 +13,133 @@
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
   networkServices = flattenHostServices networkCfg.network-services;
 
+  uid = 980;
+  gid = 975;
+
   isEnabled = hostHasService networkCfg.network-services hostName "qbittorrent";
   port = getServicePort networkServices "qbittorrent" 9000;
   torrentingPort = 23345;
 in {
   config = mkIf isEnabled {
-    services = {
-      qbittorrent = {
-        enable = true;
-        openFirewall = true;
+    containers.qbittorrent = {
+      autoStart = true;
+      restartIfChanged = true;
+      ephemeral = true;
 
-        webuiPort = port;
-        torrentingPort = torrentingPort;
+      enableTun = true;
+      privateNetwork = true;
+      hostAddress = "192.168.100.1";
+      localAddress = "192.168.100.2";
 
-        serverConfig = {
-          BitTorrent.Session = {
-            Interface = "tun0";
-            InterfaceName = "tun0";
-            BTProtocol = "UTP";
-          };
-
-          LegalNotice.Accepted = true;
-          Preferences = {
-            WebUI = {
-              Username = "c4patino";
-              Password_PBKDF2 = "@ByteArray(rCUYopB8giM6MP/g7F3+dQ==:Y7igij6jhBLHiSg9irzHMOCzfr67aH9xsrpUHnHt9CeBcsVP0xpacy0AXTokpINAtoFcX7TATVANdJNUAlsVeA==)";
-            };
-            General.Locale = "en";
-          };
+      bindMounts = {
+        "/etc/openvpn/config" = {
+          hostPath = "${inputs.self}/secrets/crypt/openvpn/us10326.nordvpn.com.udp.ovpn";
+        };
+        "/run/secrets/openvpn" = {
+          hostPath = config.sops.secrets."openvpn".path;
+        };
+        "/var/lib/qBittorrent" = {
+          hostPath = "/var/lib/qBittorrent";
+          isReadOnly = false;
         };
       };
 
-      openvpn = {
-        restartAfterSleep = true;
-        servers = {
-          default = {
-            autoStart = true;
+      config = {
+        services = {
+          qbittorrent = {
+            enable = true;
+            openFirewall = true;
 
-            config = "config ${inputs.self}/secrets/crypt/openvpn/us10326.nordvpn.com.udp.ovpn";
-            authUserPass = config.sops.secrets."openvpn".path;
+            webuiPort = port;
+            torrentingPort = torrentingPort;
+
+            serverConfig = {
+              BitTorrent.Session = {
+                Interface = "tun0";
+                InterfaceName = "tun0";
+                BTProtocol = "UTP";
+              };
+
+              LegalNotice.Accepted = true;
+              Preferences = {
+                WebUI = {
+                  Username = "c4patino";
+                  Password_PBKDF2 = "@ByteArray(rCUYopB8giM6MP/g7F3+dQ==:Y7igij6jhBLHiSg9irzHMOCzfr67aH9xsrpUHnHt9CeBcsVP0xpacy0AXTokpINAtoFcX7TATVANdJNUAlsVeA==)";
+                };
+                General.Locale = "en";
+              };
+            };
+          };
+          openvpn = {
+            restartAfterSleep = true;
+            servers = {
+              default = {
+                autoStart = true;
+
+                config = "config /etc/openvpn/config";
+                authUserPass = "/run/secrets/openvpn";
+              };
+            };
           };
         };
+
+        systemd.services = {
+          qbittorrent = {
+            bindsTo = ["openvpn-default.service"];
+            after = ["openvpn-default.service"];
+          };
+          openvpn-default = {
+            upholds = ["qbittorrent.service"];
+          };
+        };
+
+        users = {
+          users.qbittorrent = {
+            inherit uid;
+            isSystemUser = true;
+            group = "qbittorrent";
+          };
+
+          groups.qbittorrent = {
+            inherit gid;
+          };
+        };
+
+        networking.firewall = {
+          allowedTCPPorts = [port];
+          allowedUDPPorts = [torrentingPort];
+        };
+
+        system.stateVersion = "26.05";
+      };
+    };
+
+    systemd.services.qbittorrent-localhost-proxy = {
+      wantedBy = ["multi-user.target"];
+      after = ["container@qbittorrent.service"];
+      requires = ["container@qbittorrent.service"];
+
+      serviceConfig = {
+        ExecStart = "${pkgs.socat}/bin/socat TCP-LISTEN:${toString port},fork,bind=0.0.0.0,reuseaddr TCP:192.168.100.2:${toString port}";
+        Restart = "always";
+        RestartSec = 2;
       };
     };
 
     sops.secrets = {
       "openvpn" = {};
+    };
+
+    users = {
+      users.qbittorrent = {
+        inherit uid;
+        isSystemUser = true;
+        group = "qbittorrent";
+      };
+
+      groups.qbittorrent = {
+        inherit gid;
+      };
     };
 
     ${namespace}.services.storage.impermanence.folders = let
@@ -71,6 +153,18 @@ in {
       }
     ];
 
-    networking.firewall.allowedUDPPorts = [torrentingPort];
+    networking = {
+      nat = {
+        enable = true;
+
+        internalInterfaces = ["ve-qbittorrent"];
+        externalInterface = "wlp7s0";
+      };
+
+      firewall = {
+        allowedTCPPorts = [port];
+        allowedUDPPorts = [torrentingPort];
+      };
+    };
   };
 }
