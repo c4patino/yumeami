@@ -67,13 +67,15 @@ in {
       };
 
       storage = {
-        nfs.mounts = {
-          "slurm" = "chibi";
-        };
-
         samba = {
           enable = true;
           shares = ["shared"];
+        };
+        nfs.mounts = {
+          slurm = {
+            host = "chibi";
+            folder = "/mnt/nfs/slurm";
+          };
         };
       };
     };
