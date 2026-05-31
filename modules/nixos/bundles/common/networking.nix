@@ -67,11 +67,6 @@ in {
           qbittorrent = {
             port = 9000;
           };
-          miasma = {
-            port = 9999;
-            internal = true;
-            public = true;
-          };
         };
 
         chibi = {
@@ -118,6 +113,11 @@ in {
           };
           unbound = {
             port = 54;
+          };
+          miasma = {
+            port = 9999;
+            internal = true;
+            public = true;
           };
         };
       };
