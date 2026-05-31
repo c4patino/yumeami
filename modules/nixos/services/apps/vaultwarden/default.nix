@@ -23,6 +23,9 @@ in {
       enable = true;
       package = pkgs.vaultwarden-postgresql;
       dbBackend = "postgresql";
+
+      environmentFile = config.sops.secrets."vaultwarden".path;
+
       config = {
         DOMAIN = "https://vault.yumeami.sh";
 
@@ -65,5 +68,9 @@ in {
           RestartSec = "1s";
         };
       };
+
+    sops.secrets = {
+      "vaultwarden" = {};
+    };
   };
 }
