@@ -22,6 +22,7 @@ in {
       DynamicUser = mkForce false;
       User = sonarrUser.name;
       Group = sonarrUser.group;
+      UMask = mkForce "0002";
     };
 
     users = {
