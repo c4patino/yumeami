@@ -13,29 +13,31 @@ in {
     ${namespace}.services.networking = {
       devices = {
         arisu = {
-          IP = "100.117.106.23";
+          ip = "100.117.106.23";
         };
         arisu-windows = {
-          IP = "100.72.5.107";
+          ip = "100.72.5.107";
         };
         kokoro = {
-          IP = "100.69.45.111";
+          ip = "100.69.45.111";
         };
         kokoro-windows = {
-          IP = "100.115.3.6";
+          ip = "100.115.3.6";
         };
         chibi = {
-          IP = "100.101.224.25";
+          ip = "100.101.224.25";
         };
         shiori = {
-          IP = "100.127.93.17";
+          ip = "100.127.93.17";
+          gateway = true;
         };
         tsuki = {
-          IP = "100.71.23.30";
+          ip = "100.71.23.30";
+        };
+        nas = {
+          ip = "100.98.174.68";
         };
       };
-
-      gateways = ["shiori"];
 
       network-services = {
         arisu = {

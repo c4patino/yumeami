@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf mkEnableOption mapAttrsToList listToAttrs replaceStrings mkMerge concatStringsSep filterAttrs;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP flattenHostServices;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP isGateway flattenHostServices;
   inherit (config.networking) hostName;
 
   base = "${namespace}.services.networking.httpd";
@@ -192,7 +192,7 @@ in {
             svc)
           |> listToAttrs)
 
-        (mkIf (builtins.elem hostName networkingCfg.gateways) (
+        (mkIf (isGateway networkingCfg.devices hostName) (
           networkServicesFlat
           |> filterAttrs (_: svc: svc.public)
           |> mapAttrsToList (name: svc:

@@ -17,9 +17,16 @@ in {
         description = "Mapping of device names to their hostnames and IPs.";
         default = {};
         type = attrsOf (submodule {
-          options.IP = mkOption {
-            type = str;
-            description = "The IP address of the device.";
+          options = {
+            ip = mkOption {
+              type = str;
+              description = "The ip address of the device.";
+            };
+            gateway = mkOption {
+              type = bool;
+              default = false;
+              description = "Whether the device should serve as a public gateway.";
+            };
           };
         });
       };
