@@ -5,12 +5,12 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace;
+  inherit (lib.${namespace}) getAttrByNamespace isGateway;
   inherit (config.networking) hostName;
 
   cfg = getAttrByNamespace config "${namespace}.services.networking";
 in {
-  config = mkIf (builtins.elem hostName cfg.gateways) {
+  config = mkIf (isGateway cfg.devices hostName) {
     security.acme = {
       acceptTerms = true;
       defaults = {

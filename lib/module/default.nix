@@ -126,7 +126,18 @@ with lib; rec {
   ## @throws        If the node is not defined in the devices set.
   resolveHostIP = devices: node:
     if builtins.hasAttr node devices
-    then devices.${node}.IP
+    then devices.${node}.ip
+    else throw "Host '${node}' does not exist in the devices configuration.";
+
+  ## Return whether a given host is a gateway from a devices attribute set.
+  ##
+  ## @param devices A set mapping hostnames to their configuration (must include `IP`).
+  ## @param node    The hostname to resolve.
+  ## @return        The IP address for the given node.
+  ## @throws        If the node is not defined in the devices set.
+  isGateway = devices: node:
+    if builtins.hasAttr node devices
+    then devices.${node}.gateway
     else throw "Host '${node}' does not exist in the devices configuration.";
 
   ## Check for configuration conflicts between mount and share declarations.
