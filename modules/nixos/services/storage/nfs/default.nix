@@ -35,20 +35,38 @@ in {
         description = "List of the folder paths to share via NFS.";
       };
       mounts = mkOption {
-        type = attrsOf str;
+        type = attrsOf (submodule {
+          options.host = mkOption {
+            type = str;
+            description = "Target host to mount from.";
+          };
+          options.folder = mkOption {
+            type = str;
+            description = "Remote folder path on the NFS server.";
+          };
+          options.mountPath = mkOption {
+            type = nullOr str;
+            default = null;
+            description = "Local mount path. If null, defaults to /mnt/nfs/{name}.";
+          };
+        });
         default = {};
-        description = "Set of folder paths to mount via NFS with the target host.";
+        description = "Set of NFS mounts with custom configuration.";
       };
     };
 
   config = {
     fileSystems = let
-      mapFolderToMount = folder: host: let
-        hostIP = resolveHostIP networkCfg.devices host;
+      mapFolderToMount = name: mntCfg: let
+        hostIP = resolveHostIP networkCfg.devices mntCfg.host;
+        localPath =
+          if mntCfg.mountPath != null
+          then mntCfg.mountPath
+          else "/mnt/nfs/${name}";
       in {
-        name = "/mnt/nfs/${folder}";
+        name = localPath;
         value = {
-          device = "${hostIP}:/mnt/nfs/${folder}";
+          device = "${hostIP}:${mntCfg.folder}";
           fsType = "nfs";
         };
       };
