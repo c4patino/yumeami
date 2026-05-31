@@ -34,12 +34,6 @@ in {
             }
           ];
         };
-
-        samba = {
-          mounts = {
-            "shared" = "arisu";
-          };
-        };
       };
     };
   };
