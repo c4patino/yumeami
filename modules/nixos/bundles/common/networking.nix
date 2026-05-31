@@ -35,6 +35,8 @@ in {
         };
       };
 
+      gateways = ["shiori"];
+
       network-services = {
         arisu = {
           jellyfin = {
