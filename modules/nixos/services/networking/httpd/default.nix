@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf mkEnableOption mapAttrsToList listToAttrs replaceStrings mkMerge concatStringsSep filterAttrs;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn resolveHostIP flattenHostServices;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP flattenHostServices;
   inherit (config.networking) hostName;
 
   base = "${namespace}.services.networking.httpd";
@@ -16,8 +16,6 @@
 
   networkServices = networkingCfg.network-services;
   networkServicesFlat = flattenHostServices networkServices;
-
-  crypt = "${inputs.self}/secrets/crypt";
 
   mkLocalhostConfig = name: service: let
     p = toString service.port;
@@ -31,6 +29,7 @@
   mkVirtualHost = {
     domain,
     useSSL,
+    enableAcme ? false,
     injectHoneypot ? false,
   }: host: name: service: let
     inherit (config.sops) secrets;
@@ -40,11 +39,20 @@
     certs = replaceStrings ["*" "."] ["wildcard" "_"] domain;
     sslConfig =
       if useSSL
-      then {
-        forceSSL = true;
-        sslServerCert = secrets."ssl/${certs}/cert".path;
-        sslServerKey = secrets."ssl/${certs}/key".path;
-      }
+      then
+        {
+          forceSSL = true;
+        }
+        // (
+          if enableAcme
+          then {
+            useACMEHost = certs;
+          }
+          else {
+            sslServerCert = secrets."ssl/${certs}/cert".path;
+            sslServerKey = secrets."ssl/${certs}/key".path;
+          }
+        )
       else {};
 
     miasma = networkServicesFlat.miasma;
@@ -126,7 +134,6 @@ in {
       virtualHosts = mkMerge [
         {
           "_default_" = {
-            acmeRoot = null;
             documentRoot = "/var/empty";
 
             servedDirs = [
@@ -141,32 +148,6 @@ in {
               RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500)\.html$
               RewriteRule ^ - [L,R=404]
             '';
-          };
-        }
-
-        {
-          "_default_" = let
-            inherit (config.sops) secrets;
-          in {
-            acmeRoot = null;
-            documentRoot = "/var/empty";
-
-            servedDirs = [
-              {
-                dir = "/var/www/error";
-                urlPath = "/";
-              }
-            ];
-
-            extraConfig = ''
-              RewriteEngine On
-              RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500)\.html$
-              RewriteRule ^ - [L,R=404]
-            '';
-
-            forceSSL = true;
-            sslServerCert = secrets."ssl/wildcard_cpatino_com/cert".path;
-            sslServerKey = secrets."ssl/wildcard_cpatino_com/key".path;
           };
         }
 
@@ -218,6 +199,7 @@ in {
             (mkVirtualHost {
               domain = "*.cpatino.com";
               useSSL = true;
+              enableAcme = true;
               injectHoneypot = true;
             })
             svc.host
@@ -226,19 +208,6 @@ in {
           |> listToAttrs
         ))
       ];
-    };
-
-    security.acme = {
-      acceptTerms = true;
-      defaults.email = "c4patino@gmail.com";
-      defaults = {
-        dnsProvider = "cloudflare";
-        dnsProviderConfig = let
-          secrets = readJsonOrEmpty "${crypt}/secrets.json";
-        in {
-          CF_Token = getIn secrets "cloudflare";
-        };
-      };
     };
 
     networking.firewall.allowedTCPPorts = [80 443];
@@ -250,19 +219,6 @@ in {
     sops.secrets = let
       inherit (config.networking) hostName;
       inherit (config.users.users) wwwrun;
-
-      global =
-        [
-          "ssl/wildcard_cpatino_com/cert"
-          "ssl/wildcard_cpatino_com/key"
-        ]
-        |> map (name: {
-          inherit name;
-          value = {
-            owner = wwwrun.name;
-            group = wwwrun.group;
-          };
-        });
 
       hostSpecific =
         [
@@ -278,6 +234,6 @@ in {
           };
         });
     in
-      listToAttrs (global ++ hostSpecific);
+      listToAttrs hostSpecific;
   };
 }
