@@ -17,6 +17,11 @@ in {
     bundles = {
       common = enabled;
     };
+
+    services.networking = {
+      httpd = enabled;
+      ddclient = enabled;
+    };
   };
 
   programs.nh = {
