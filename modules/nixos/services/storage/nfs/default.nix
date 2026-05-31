@@ -4,7 +4,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkOption mkEnableOption mkIf mapAttrs' concatStringsSep map;
+  inherit (lib) types mkOption mkEnableOption mkIf mapAttrs' concatStringsSep;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP;
   base = "${namespace}.services.storage.nfs";
   cfg = getAttrByNamespace config base;
