@@ -211,13 +211,13 @@ in {
             svc)
           |> listToAttrs)
 
-        (mkIf networkingCfg.cloudflared.enable (
+        (mkIf (builtins.elem hostName networkingCfg.gateways) (
           networkServicesFlat
           |> filterAttrs (_: svc: svc.public)
           |> mapAttrsToList (name: svc:
             (mkVirtualHost {
               domain = "*.cpatino.com";
-              useSSL = false;
+              useSSL = true;
               injectHoneypot = true;
             })
             svc.host
