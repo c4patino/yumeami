@@ -21,21 +21,39 @@ in {
         description = "List of folder paths to share via Samba.";
       };
       mounts = mkOption {
-        type = attrsOf str;
+        type = attrsOf (submodule {
+          options.host = mkOption {
+            type = str;
+            description = "Target host to mount from.";
+          };
+          options.folder = mkOption {
+            type = str;
+            description = "Remote folder/share name on the Samba server.";
+          };
+          options.mountPath = mkOption {
+            type = nullOr str;
+            default = null;
+            description = "Local mount path. If null, defaults to /mnt/samba/{name}.";
+          };
+        });
         default = {};
-        description = "List of the folder paths to mount via Samba and the host.";
+        description = "Set of Samba mounts with custom configuration.";
       };
     };
 
   config = {
     fileSystems = let
-      processMount = folder: host: let
-        hostIP = resolveHostIP networkCfg.devices host;
+      processMount = name: mountCfg: let
+        hostIP = resolveHostIP networkCfg.devices mountCfg.host;
+        localPath =
+          if mountCfg.mountPath != null
+          then mountCfg.mountPath
+          else "/mnt/samba/${name}";
         automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
       in {
-        name = "/mnt/samba/${folder}";
+        name = localPath;
         value = {
-          device = "//${hostIP}/${folder}";
+          device = "//${hostIP}/${mountCfg.folder}";
           fsType = "cifs";
           options = [
             "${automount_opts},credentials=/etc/samba/.credentials,uid=1000,gid=100"

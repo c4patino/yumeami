@@ -39,7 +39,10 @@ in {
 
       storage = {
         samba.mounts = {
-          "shared" = "arisu";
+          shared = {
+            host = "arisu";
+            folder = "shared";
+          };
         };
       };
     };
