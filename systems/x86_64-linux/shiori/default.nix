@@ -19,8 +19,14 @@ in {
     };
 
     services.networking = {
+      ddclient = {
+        enable = true;
+        zone = "cpatino.com";
+        domains = [
+          "*.cpatino.com"
+        ];
+      };
       httpd = enabled;
-      ddclient = enabled;
     };
   };
 
