@@ -1,7 +1,7 @@
 terraform {
   backend "pg" {
     schema_name = "yumeami_cloudflare"
-    conn_str    = "postgres://shiori:5600/terraform?sslmode=disable"
+    conn_str    = "postgres://tsuki:5600/terraform?sslmode=disable"
   }
 
   required_providers {
@@ -25,15 +25,6 @@ resource "cloudflare_zone" "main" {
   }
 }
 
-resource "cloudflare_dns_record" "wildcard_tunnel" {
-  zone_id = cloudflare_zone.main.id
-  name    = "*"
-  type    = "CNAME"
-  content = "${cloudflare_zero_trust_tunnel_cloudflared.yumeami.id}.cfargotunnel.com"
-  proxied = true
-  ttl     = 1
-}
-
 resource "cloudflare_dns_record" "root_github" {
   zone_id = cloudflare_zone.main.id
   name    = "cpatino.com"
@@ -50,11 +41,6 @@ resource "cloudflare_dns_record" "www_github" {
   content = "c4patino.github.io"
   proxied = true
   ttl     = 1
-}
-
-resource "cloudflare_zero_trust_tunnel_cloudflared" "yumeami" {
-  account_id = var.cloudflare_account_id
-  name       = "yumeami"
 }
 
 resource "cloudflare_zero_trust_access_policy" "account_ingress" {

@@ -33,7 +33,6 @@ in {
       };
 
       networking = {
-        cloudflared = enabled;
         httpd = enabled;
       };
 
