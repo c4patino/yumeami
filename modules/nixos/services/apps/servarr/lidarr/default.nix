@@ -22,6 +22,7 @@ in {
       DynamicUser = mkForce false;
       User = lidarrUser.name;
       Group = lidarrUser.group;
+      UMask = mkForce "0002";
     };
 
     users = {

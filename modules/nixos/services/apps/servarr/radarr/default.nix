@@ -22,6 +22,7 @@ in {
       DynamicUser = mkForce false;
       User = radarrUser.name;
       Group = radarrUser.group;
+      UMask = mkForce "0002";
     };
 
     users = {

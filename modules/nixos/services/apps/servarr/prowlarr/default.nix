@@ -22,6 +22,7 @@ in {
       DynamicUser = mkForce false;
       User = prowlarrUser.name;
       Group = prowlarrUser.group;
+      UMask = mkForce "0002";
     };
 
     users = {

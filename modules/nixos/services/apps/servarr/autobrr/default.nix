@@ -22,6 +22,7 @@ in {
       DynamicUser = mkForce false;
       User = autobrrUser.name;
       Group = autobrrUser.group;
+      UMask = mkForce "0002";
     };
 
     users = {
