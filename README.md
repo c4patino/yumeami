@@ -11,14 +11,14 @@ refining an existing setup, ゆめあみ brings what I believe to be the best
 practices in NixOS configuration management, unified under a single, cohesive
 structure.
 
-| System      | Architecture     | Description                                 |
-|-------------|------------------|---------------------------------------------|
-| 🧠 arisu    | `x86_64-linux`   | primary development tower, custom built     |
-| 💖 kokoro   | `x86_64-linux`   | thinkBook 15 laptop, mobile development     |
-| 🌸 shiori   | `x86_64-linux`   | always-on mini pc, quiet and stable host    |
-| 🐣 chibi    | `aarch64-linux`  | raspberry Pi 4B for hosting and local dev   |
-| 🚪 tobira   | `x86_64-linux`   | hetzner cloud VPS for outside communication |
-| ✨ hikari   | `x86_64-linux`   | custom installer iso, new systems and VMs   |
+| System      | Architecture     | Description                                      |
+|-------------|------------------|--------------------------------------------------|
+| 🧠 arisu    | `x86_64-linux`   | primary development tower, custom built          |
+| 🌙 tsuki    | `x86_64-linux`   | 4U ATX rack server, networking and core services |
+| 💖 kokoro   | `x86_64-linux`   | thinkBook 15 laptop, mobile development          |
+| 🌸 shiori   | `x86_64-linux`   | always-on mini pc, torrents and DNS services     |
+| 🐣 chibi    | `aarch64-linux`  | raspberry Pi 4B for hosting and local dev        |
+| ✨ hikari   | `x86_64-linux`   | custom installer iso, new systems and VMs        |
 
 ## Repository Structure
 
@@ -64,7 +64,7 @@ sudo zfs snapshot zroot/root@blank
 sudo cp ~/dotfiles /mnt/persist
 
 # Install NixOS with the configuration for your system
-# Replace <system-name> with one of: arisu, kokoro, shiori, chibi, tobira
+# Replace <system-name> with one of: arisu, kokoro, shiori, chibi, tsuki
 sudo nixos-install --root /mnt --flake ~/dotfiles#<system-name> --option extra-experimental-features "flakes nix-command pipe-operators"
 ```
 
