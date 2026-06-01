@@ -62,10 +62,6 @@ in {
         };
       };
 
-      networking = {
-        httpd = enabled;
-      };
-
       storage = {
         samba = {
           enable = true;

@@ -40,38 +40,6 @@ in {
       };
 
       network-services = {
-        arisu = {
-          jellyfin = {
-            port = 8096;
-            internal = true;
-          };
-          seerr = {
-            port = 5055;
-            internal = true;
-          };
-          radarr = {
-            port = 7878;
-          };
-          sonarr = {
-            port = 8989;
-          };
-          lidarr = {
-            port = 8686;
-          };
-          bazarr = {
-            port = 6767;
-          };
-          prowlarr = {
-            port = 9696;
-          };
-          autobrr = {
-            port = 7474;
-          };
-          qbittorrent = {
-            port = 9000;
-          };
-        };
-
         chibi = {
           monitor = {
             port = 5200;
@@ -94,6 +62,10 @@ in {
           };
           grafana = {
             port = 5500;
+            internal = true;
+          };
+          jellyfin = {
+            port = 8096;
             internal = true;
           };
           paste = {
@@ -121,6 +93,31 @@ in {
             port = 9999;
             internal = true;
             public = true;
+          };
+          seerr = {
+            port = 5055;
+            internal = true;
+          };
+          radarr = {
+            port = 7878;
+          };
+          sonarr = {
+            port = 8989;
+          };
+          lidarr = {
+            port = 8686;
+          };
+          bazarr = {
+            port = 6767;
+          };
+          prowlarr = {
+            port = 9696;
+          };
+          autobrr = {
+            port = 7474;
+          };
+          qbittorrent = {
+            port = 9000;
           };
         };
       };

@@ -43,6 +43,12 @@ in {
             folder = "shared";
           };
         };
+        nfs.mounts = {
+          jellyfin = {
+            host = "nas";
+            folder = "/volume1/jellyfin";
+          };
+        };
       };
     };
   };

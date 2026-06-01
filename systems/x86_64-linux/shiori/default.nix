@@ -18,15 +18,25 @@ in {
       common = enabled;
     };
 
-    services.networking = {
-      ddclient = {
-        enable = true;
-        zone = "cpatino.com";
-        domains = [
-          "*.cpatino.com"
-        ];
+    services = {
+      networking = {
+        ddclient = {
+          enable = true;
+          zone = "cpatino.com";
+          domains = [
+            "*.cpatino.com"
+          ];
+        };
+        httpd = enabled;
       };
-      httpd = enabled;
+      storage = {
+        nfs.mounts = {
+          jellyfin = {
+            host = "nas";
+            folder = "/volume1/jellyfin";
+          };
+        };
+      };
     };
   };
 
