@@ -6,6 +6,7 @@ keys:
   - &c4patino_chibi age1r9285z8xmtj7g6alau7xp946p4fguvtd62dz05nvfgxyujhmfs7svp0uyw
   - &c4patino_shiori age185cchggrqp8v9wryj7npdvv3h2z735zamtqgchu5tltmjmpsaehsteyrpk
   - &c4patino_tsuki age1uvdnhvu83fafnvvkfwx5e3jt7qfqppytqu0rnhwtc3ruyatrxsgqwzjvjz
+  - &c4patino_mutualofomaha age1988jz0qfj6m9xfenhd292tkxwyxvzhv79gkgrhm0gep353kej3yqe6zp86
   - &master age1q4c2fy5hrjg5pww86k3wsamknc67vxtfc7k5he5exndwag5fjehqv4kymv
 
 creation_rules:
@@ -20,6 +21,7 @@ creation_rules:
         - *c4patino_chibi
         - *c4patino_shiori
         - *c4patino_tsuki
+        - *c4patino_mutualofomaha
   - path_regex: secrets/sops/arisu.yaml
     key_groups:
       - age:
@@ -55,3 +57,8 @@ creation_rules:
       - age:
         - *master
         - *c4patino_tsuki
+  - path_regex: secrets/sops/mutualofomaha.yaml
+    key_groups:
+      - age:
+        - *master
+        - *c4patino_mutualofomaha

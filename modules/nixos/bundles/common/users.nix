@@ -39,6 +39,7 @@ in {
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDzsxorrFOF5Eq0ABSXRMh/WZwxSxs1hCMG8RnbMF6yv c4patino@chibi"
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDlOHQEPIDtc8ffn1g7fmrUGvYnKGgX4f2dQYaQ5HbV4 c4patino@shiori"
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFCQww3/93dUGOr471IznJadCaIhKWPSQJM8dsRdZ1cw c4patino@tsuki"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOHXANLh9+yAgVwFQuAIR8RU5q/z4sHbx2UIpo4F/ZSh c4patino@mutualofomaha"
         ];
 
         shell = pkgs.bash;
