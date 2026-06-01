@@ -34,6 +34,7 @@ in {
 
       storage = {
         impermanence = mkForce disabled;
+        syncthing = mkForce disabled;
       };
     };
   };
