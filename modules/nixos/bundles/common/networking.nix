@@ -64,6 +64,9 @@ in {
           prowlarr = {
             port = 9696;
           };
+          autobrr = {
+            port = 7474;
+          };
           qbittorrent = {
             port = 9000;
           };
