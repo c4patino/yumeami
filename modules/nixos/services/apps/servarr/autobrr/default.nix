@@ -14,6 +14,7 @@ in {
   config = mkIf isEnabled {
     services.autobrr = {
       enable = true;
+      secretFile = config.sops.secrets."autobrr".path;
     };
 
     systemd.services.autobrr.serviceConfig = let
@@ -23,6 +24,13 @@ in {
       User = autobrrUser.name;
       Group = autobrrUser.group;
       UMask = mkForce "0002";
+    };
+
+    sops.secrets = {
+      "autobrr" = {
+        owner = config.users.users.autobrr.name;
+        group = config.users.users.autobrr.group;
+      };
     };
 
     users = {
