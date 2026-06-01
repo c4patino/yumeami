@@ -32,12 +32,6 @@ in {
         group = jellyfinUser.group;
         mode = "700";
       }
-      {
-        directory = "/var/cache/jellyfin";
-        user = jellyfinUser.name;
-        group = jellyfinUser.group;
-        mode = "700";
-      }
     ];
   };
 }
