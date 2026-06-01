@@ -59,16 +59,5 @@ in {
       };
       groups.miasma = {};
     };
-
-    ${namespace}.services.storage.impermanence.folders = let
-      miasmaUser = config.users.users.miasma;
-    in [
-      {
-        directory = "/var/lib/miasma";
-        user = miasmaUser.name;
-        group = miasmaUser.group;
-        mode = "700";
-      }
-    ];
   };
 }
