@@ -24,6 +24,7 @@ in {
           {
             monitor = "";
             path = inputs.dotfiles + "/.assets/desktops";
+            timeout = 1800;
           }
         ];
       };
