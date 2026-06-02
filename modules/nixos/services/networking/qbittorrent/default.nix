@@ -57,7 +57,7 @@ in {
               BitTorrent.Session = {
                 Interface = "tun0";
                 InterfaceName = "tun0";
-                BTProtocol = "UTP";
+                BTProtocol = "Both";
               };
 
               LegalNotice.Accepted = true;
@@ -106,7 +106,7 @@ in {
         };
 
         networking.firewall = {
-          allowedTCPPorts = [port];
+          allowedTCPPorts = [port torrentingPort];
           allowedUDPPorts = [torrentingPort];
         };
 
