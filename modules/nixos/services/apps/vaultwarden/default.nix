@@ -27,7 +27,7 @@ in {
       environmentFile = config.sops.secrets."vaultwarden".path;
 
       config = {
-        DOMAIN = "https://vault.yumeami.sh";
+        DOMAIN = "https://vault.cpatino.com";
 
         SIGNUPS_ALLOWED = false;
         SIGNUPS_VERIFY = false;
