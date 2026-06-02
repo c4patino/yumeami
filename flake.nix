@@ -38,7 +38,7 @@
 
     yumevim-nix = {
       url = "git+https://git.cpatino.com/c4patino/yumevim-nix?ref=main";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     dotfiles = {
       url = "git+https://git.cpatino.com/c4patino/dotfiles?ref=main";
