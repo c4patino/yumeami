@@ -138,7 +138,7 @@ with lib; rec {
   isGateway = devices: node:
     if builtins.hasAttr node devices
     then devices.${node}.gateway
-    else throw "Host '${node}' does not exist in the devices configuration.";
+    else false;
 
   ## Check for configuration conflicts between mount and share declarations.
   ##
