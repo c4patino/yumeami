@@ -123,6 +123,7 @@ in {
           ".local/share/zsh"
           ".local/state/lazygit"
           ".local/state/opencode"
+          ".local/state/wireplumber"
           ".m2"
           ".pm2"
           ".stack"
