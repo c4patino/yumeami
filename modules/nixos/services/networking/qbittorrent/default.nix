@@ -158,7 +158,7 @@ in {
         enable = true;
 
         internalInterfaces = ["ve-qbittorrent"];
-        externalInterface = "wlp7s0";
+        externalInterface = "enp1s0";
       };
 
       firewall = {
