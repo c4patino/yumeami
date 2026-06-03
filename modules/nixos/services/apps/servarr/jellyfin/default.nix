@@ -21,12 +21,6 @@ in {
       jellyfinUser = config.users.users.jellyfin;
     in [
       {
-        directory = "/mnt/jellyfin";
-        user = jellyfinUser.name;
-        group = jellyfinUser.group;
-        mode = "2770";
-      }
-      {
         directory = "/var/lib/jellyfin";
         user = jellyfinUser.name;
         group = jellyfinUser.group;
