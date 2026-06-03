@@ -50,6 +50,11 @@ jobs:
           KEYID=$(gpg --list-secret-keys --with-colons | awk -F: '/^sec/{print $5;exit}')
           git config --global user.signingkey "$KEYID"
           git config --global commit.gpgsign true
+      - name: configure git for slow server
+        run: |
+          git config --global http.version HTTP/1.1
+          git config --global http.lowSpeedLimit 100
+          git config --global http.lowSpeedTime 600
       - name: run nix fmt
         run: nix fmt
       - name: check for changes
