@@ -53,6 +53,12 @@ in {
     "${inputs.self}/secrets/crypt/ssl/zscaler.crt"
   ];
 
+  fileSystems."/mnt/gias" = {
+    device = "//file006/GIAS";
+    fsType = "drvfs";
+    options = ["metadata" "uid=1000" "gid=100" "umask=022"];
+  };
+
   networking = {
     resolvconf.enable = mkForce false;
 
