@@ -58,6 +58,7 @@ in {
           };
           git = {
             port = 5300;
+            internal = true;
             public = true;
           };
           grafana = {
