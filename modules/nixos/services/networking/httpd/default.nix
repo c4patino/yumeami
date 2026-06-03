@@ -8,6 +8,7 @@
   inherit (lib) mkIf mkEnableOption mapAttrsToList listToAttrs replaceStrings mkMerge concatStringsSep filterAttrs;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP isGateway flattenHostServices;
   inherit (config.networking) hostName;
+  inherit (config.sops) secrets;
 
   base = "${namespace}.services.networking.httpd";
   cfg = getAttrByNamespace config base;
@@ -32,7 +33,6 @@
     enableAcme ? false,
     injectHoneypot ? false,
   }: host: name: service: let
-    inherit (config.sops) secrets;
     hostIP = resolveHostIP networkingCfg.devices host;
     p = toString service.port;
 
@@ -133,25 +133,6 @@ in {
 
       virtualHosts = mkMerge [
         {
-          "_default_" = {
-            documentRoot = "/var/empty";
-
-            servedDirs = [
-              {
-                dir = "/var/www/error";
-                urlPath = "/";
-              }
-            ];
-
-            extraConfig = ''
-              RewriteEngine On
-              RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500)\.html$
-              RewriteRule ^ - [L,R=404]
-            '';
-          };
-        }
-
-        {
           "localhost" = let
             localhostProxyConfig =
               networkServices.${hostName}
@@ -207,6 +188,73 @@ in {
             svc)
           |> listToAttrs
         ))
+
+        {
+          "_default_" = {
+            documentRoot = "/var/empty";
+
+            servedDirs = [
+              {
+                dir = "/var/www/error";
+                urlPath = "/";
+              }
+            ];
+
+            extraConfig = ''
+              RewriteEngine On
+              RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500)\.html$
+              RewriteRule ^ - [L,R=404]
+            '';
+          };
+        }
+        (
+          mkIf (isGateway networkingCfg.devices hostName)
+          {
+            "zzz-undefined.cpatino.com" = {
+              serverAliases = ["*.cpatino.com"];
+              documentRoot = "/var/empty";
+
+              servedDirs = [
+                {
+                  dir = "/var/www/error";
+                  urlPath = "/";
+                }
+              ];
+
+              extraConfig = ''
+                RewriteEngine On
+                RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500)\.html$
+                RewriteRule ^ - [L,R=404]
+              '';
+
+              forceSSL = true;
+              useACMEHost = "wildcard_cpatino_com";
+            };
+          }
+        )
+        {
+          "zzz-undefined.yumeami.sh" = {
+            serverAliases = ["*.yumeami.sh"];
+            documentRoot = "/var/empty";
+
+            servedDirs = [
+              {
+                dir = "/var/www/error";
+                urlPath = "/";
+              }
+            ];
+
+            extraConfig = ''
+              RewriteEngine On
+              RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500)\.html$
+              RewriteRule ^ - [L,R=404]
+            '';
+
+            forceSSL = true;
+            sslServerCert = secrets."ssl/wildcard_yumeami_sh/cert".path;
+            sslServerKey = secrets."ssl/wildcard_yumeami_sh/key".path;
+          };
+        }
       ];
     };
 
