@@ -1,3 +1,3 @@
 {...}: final: prev: {
-  miasma = final.callPackage ../../packages/miasma/default.nix {};
+  miasma = final.callPackage ./package.nix {};
 }
