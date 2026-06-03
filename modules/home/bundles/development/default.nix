@@ -26,6 +26,7 @@ in {
       cli.dev = {
         direnv = enabled;
         git = enabled;
+        harlequin = enabled;
         lazygit = enabled;
         neovim = enabled;
         opencode = enabled;
