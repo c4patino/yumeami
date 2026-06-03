@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mapAttrsToList listToAttrs;
+  inherit (lib) mkIf mapAttrsToList listToAttrs filterAttrs flatten;
   inherit (lib.${namespace}) getAttrByNamespace resolveHostIP flattenHostServices hostHasService getServicePort;
   inherit (config.networking) hostName;
 
@@ -108,11 +108,25 @@ in {
         customDNS = {
           customTTL = "1h";
           mapping =
-            networkServices
-            |> mapAttrsToList (name: svc: {
-              name = "${name}.yumeami.sh";
-              value = resolveHostIP networkCfg.devices svc.host;
-            })
+            [
+              (
+                networkServices
+                |> filterAttrs (_: svc: svc.internal)
+                |> mapAttrsToList (name: svc: {
+                  name = "${name}.yumeami.sh";
+                  value = resolveHostIP networkCfg.devices svc.host;
+                })
+              )
+              (
+                networkServices
+                |> filterAttrs (_: svc: svc.public)
+                |> mapAttrsToList (name: svc: {
+                  name = "${name}.cpatino.com";
+                  value = resolveHostIP networkCfg.devices hostName;
+                })
+              )
+            ]
+            |> flatten
             |> listToAttrs;
         };
       };
