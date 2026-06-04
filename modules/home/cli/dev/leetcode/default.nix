@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   pkgs,
@@ -19,9 +18,9 @@ in {
     home = {
       packages = with pkgs; [leetcode-cli];
 
-      file.".leetcode/leetcode.toml" = {
-        source = "${inputs.self}/secrets/crypt/leetcode.toml";
-      };
+      file.".leetcode/leetcode.toml".source =
+        "${config.snowfallorg.user.home.directory}/dotfiles/secrets/crypt/leetcode.toml"
+        |> config.lib.file.mkOutOfStoreSymlink;
     };
   };
 }

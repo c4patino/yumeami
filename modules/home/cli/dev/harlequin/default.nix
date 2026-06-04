@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   pkgs,
@@ -22,9 +21,11 @@ in {
       ];
 
       file = let
-        crypt = "${inputs.self}/secrets/crypt/";
+        crypt = "${config.snowfallorg.user.home.directory}/dotfiles/secrets/crypt";
       in {
-        ".config/harlequin/config.toml".source = "${crypt}/harlequin.toml";
+        ".config/harlequin/config.toml".source =
+          "${crypt}/harlequin.toml"
+          |> config.lib.file.mkOutOfStoreSymlink;
       };
     };
   };
