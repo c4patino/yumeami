@@ -3,8 +3,8 @@
   buildPythonPackage,
   fetchPypi,
   pythonAtLeast,
-  hatchling,
   duckdb,
+  hatchling,
   pyodbc,
 }:
 buildPythonPackage rec {

@@ -18,6 +18,9 @@ in {
     home = {
       packages = with pkgs; [
         harlequin
+
+        unixodbc
+        oracle-instantclient
       ];
 
       file = let
@@ -26,6 +29,18 @@ in {
         ".config/harlequin/config.toml".source =
           "${crypt}/harlequin.toml"
           |> config.lib.file.mkOutOfStoreSymlink;
+
+        ".config/odbc/.odbcinst.ini".text = ''
+          [Oracle Instant Client 21]
+          Description=Oracle ODBC driver
+          Driver=${pkgs.oracle-instantclient.lib}/lib/libsqora.so.21.1
+          FileUsage=1
+        '';
+      };
+
+      sessionVariables = {
+        ODBCSYSINI = "${config.snowfallorg.user.home.directory}/.config/odbc";
+        ODBCINSTINI = ".odbcinst.ini";
       };
     };
   };
