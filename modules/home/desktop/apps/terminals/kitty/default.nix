@@ -25,6 +25,10 @@ in {
       };
       themeFile = "tokyo_night_night";
 
+      settings = {
+        "clear_all_shortcuts" = "no";
+      };
+
       keybindings = {
         "ctrl+shift+h" = "neighboring_window left";
         "ctrl+shift+j" = "neighboring_window bottom";
