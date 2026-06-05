@@ -68,6 +68,7 @@ in {
           jellyfin = {
             port = 8096;
             internal = true;
+            public = true;
           };
           paste = {
             port = 5100;
