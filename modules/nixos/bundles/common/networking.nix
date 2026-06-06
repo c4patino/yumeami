@@ -49,6 +49,14 @@ in {
             port = 5201;
             public = true;
           };
+          grafana = {
+            port = 5500;
+            internal = true;
+          };
+          prometheus = {
+            port = 5501;
+            internal = true;
+          };
         };
 
         tsuki = {
@@ -60,10 +68,6 @@ in {
             port = 5300;
             internal = true;
             public = true;
-          };
-          grafana = {
-            port = 5500;
-            internal = true;
           };
           jellyfin = {
             port = 8096;
