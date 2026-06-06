@@ -40,7 +40,7 @@ in {
             |> attrNames
             |> head
             |> resolveHostIP networkCfg.devices;
-        in ''postgresql://vaultwarden:${getIn "postgresql.vaultwarden" secrets}@${ip}:5600/vaultwarden'';
+        in ''postgresql://vaultwarden:${getIn "postgresql.vaultwarden.password" secrets}@${ip}:5600/vaultwarden'';
 
         LOG_LEVEL = "Info";
 
