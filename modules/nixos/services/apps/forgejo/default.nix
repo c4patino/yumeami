@@ -46,6 +46,13 @@ in {
           TIMEOUT = "5m";
         };
 
+        "cron.archive_cleanup" = {
+          ENABLED = true;
+          RUN_AT_START = true;
+          SCHEDULE = "@every 2h";
+          OLDER_THAN = "6h";
+        };
+
         database = {
           DB_TYPE = mkForce "postgres";
           HOST = mkForce "${resolveHostIP networkCfg.devices dbHost}:5600";
