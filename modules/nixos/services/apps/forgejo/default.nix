@@ -54,7 +54,7 @@ in {
           PASSWD =
             "${inputs.self}/secrets/crypt/secrets.json"
             |> readJsonOrEmpty
-            |> getIn "postgresql.forgejo";
+            |> getIn "postgresql.forgejo.password";
         };
 
         "git.timeout" = {

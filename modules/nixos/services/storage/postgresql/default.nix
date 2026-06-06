@@ -1,12 +1,13 @@
 {
   config,
+  inputs,
   lib,
   namespace,
   pkgs,
   ...
 }: let
   inherit (lib) types mkIf mkOption concatStringsSep hasAttr getAttr genAttrs;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.postgresql";
   cfg = getAttrByNamespace config base;
@@ -57,7 +58,31 @@ in {
           |> map (service: {
             name = service;
             ensureDBOwnership = true;
+            ensureClauses = let
+              secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/secrets.json";
+              hash = getIn "postgresql.${service}.hash" secrets;
+            in {
+              login = true;
+              password = hash;
+            };
           });
+
+        initialScript = pkgs.writeText "init-sql-script" ''
+          CREATE OR REPLACE FUNCTION pgbouncer_lookup(IN i_username text, OUT uname text, OUT phash text)
+          RETURNS record
+          LANGUAGE sql
+          SECURITY DEFINER
+          AS $$
+            SELECT usename, passwd
+            FROM pg_shadow
+            WHERE usename = i_username;
+          $$;
+
+          REVOKE ALL ON FUNCTION pgbouncer_lookup(text) FROM PUBLIC;
+          ALTER FUNCTION pgbouncer_lookup(text) OWNER TO postgres;
+          ALTER FUNCTION pgbouncer_lookup(text) SET search_path = pg_catalog;
+          GRANT EXECUTE ON FUNCTION pgbouncer_lookup(text) TO pgbouncer_auth;
+        '';
       };
 
       postgresqlBackup = {
