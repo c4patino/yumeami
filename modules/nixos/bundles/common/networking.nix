@@ -102,12 +102,15 @@ in {
           };
           radarr = {
             port = 7878;
+            internal = true;
           };
           sonarr = {
             port = 8989;
+            internal = true;
           };
           lidarr = {
             port = 8686;
+            internal = true;
           };
           bazarr = {
             port = 6767;
