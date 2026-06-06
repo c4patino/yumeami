@@ -7,7 +7,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
-      url = "github:nix-community/stylix/master";
+      url = "github:nix-community/stylix/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -38,7 +38,7 @@
 
     yumevim-nix = {
       url = "git+https://git.cpatino.com/c4patino/yumevim-nix?ref=main";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     dotfiles = {
       url = "git+https://git.cpatino.com/c4patino/dotfiles?ref=main";
