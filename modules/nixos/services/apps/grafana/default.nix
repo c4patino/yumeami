@@ -47,7 +47,7 @@ in {
           user = "grafana";
           password = let
             secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/secrets.json";
-            grafanaPassword = pkgs.writeText "grafana-password.txt" (getIn "postgresql.grafana" secrets);
+            grafanaPassword = pkgs.writeText "grafana-password.txt" (getIn "postgresql.grafana.password" secrets);
           in "$__file{${grafanaPassword}}";
         };
 
