@@ -129,6 +129,7 @@ in {
         ErrorDocument 403 /403.html
         ErrorDocument 404 /404.html
         ErrorDocument 500 /500.html
+        ErrorDocument 503 /503.html
       '';
 
       virtualHosts = mkMerge [
@@ -155,7 +156,7 @@ in {
 
               RewriteEngine On
               ${localhostProxyConfig}
-              RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500)\.html$
+              RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500|503)\.html$
               RewriteRule ^ - [L,R=404]
             '';
           };
@@ -202,7 +203,7 @@ in {
 
             extraConfig = ''
               RewriteEngine On
-              RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500)\.html$
+              RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500|503)\.html$
               RewriteRule ^ - [L,R=404]
             '';
           };
@@ -223,7 +224,7 @@ in {
 
               extraConfig = ''
                 RewriteEngine On
-                RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500)\.html$
+                RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500|503)\.html$
                 RewriteRule ^ - [L,R=404]
               '';
 
@@ -246,7 +247,7 @@ in {
 
             extraConfig = ''
               RewriteEngine On
-              RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500)\.html$
+              RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500|503)\.html$
               RewriteRule ^ - [L,R=404]
             '';
 
