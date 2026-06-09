@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   ...
@@ -23,7 +22,7 @@ in {
         wallpaper = [
           {
             monitor = "";
-            path = inputs.dotfiles + "/.assets/desktops";
+            path = "~/.assets/desktops";
             timeout = 1800;
           }
         ];
@@ -42,8 +41,9 @@ in {
     };
 
     home.file.".assets/desktops/" = {
-      source = inputs.dotfiles + "/.assets/desktops";
-      recursive = true;
+      source =
+        "${config.snowfallorg.user.home.directory}/dotfiles/inputs/dotfiles/.assets/desktops"
+        |> config.lib.file.mkOutOfStoreSymlink;
     };
   };
 }
