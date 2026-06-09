@@ -23,8 +23,9 @@ in {
       ];
 
       file.".assets/desktops/" = {
-        source = inputs.dotfiles + "/.assets/desktops";
-        recursive = true;
+        source =
+          "${config.snowfallorg.user.home.directory}/dotfiles/inputs/dotfiles/.assets/desktops"
+          |> config.lib.file.mkOutOfStoreSymlink;
       };
     };
 
