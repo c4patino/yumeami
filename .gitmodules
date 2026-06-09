@@ -1,9 +1,6 @@
 [submodule "inputs/dotfiles"]
 	path = inputs/dotfiles
-	url = ssh://forgejo@git.yumeami.sh/c4patino/dotfiles.git
-[submodule "inputs/yumevim/lua"]
-	path = inputs/yumevim/lua
-	url = ssh://forgejo@git.yumeami.sh/c4patino/yumevim.git
-[submodule "inputs/yumevim/nix"]
-	path = inputs/yumevim/nix
-	url = ssh://forgejo@git.yumeami.sh/c4patino/yumevim-nix.git
+	url = https://git.cpatino.com/c4patino/dotfiles.git
+[submodule "inputs/yumevim-nix"]
+	path = inputs/yumevim-nix
+	url = https://git.cpatino.com/c4patino/yumevim-nix.git
