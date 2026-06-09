@@ -93,6 +93,7 @@
           RequestHeader set X-Forwarded-For %{REMOTE_ADDR}s
 
           RewriteEngine On
+          ProxyTimeout 300
           ProxyPreserveHost On
 
           ${honeypotConfig}
@@ -100,7 +101,7 @@
           ${robotsConfig}
 
           # --- ${name} (subdomain access) ---
-          ProxyPass / http://${hostIP}:${p}/
+          ProxyPass / http://${hostIP}:${p}/ connectiontimeout=30 timeout=300 retry=0
           ProxyPassReverse / http://${hostIP}:${p}/
         '';
       }
