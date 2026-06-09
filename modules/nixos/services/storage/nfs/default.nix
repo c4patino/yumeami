@@ -68,6 +68,11 @@ in {
         value = {
           device = "${hostIP}:${mntCfg.folder}";
           fsType = "nfs";
+          options = [
+            "_netdev"
+            "nofail"
+            "x-systemd.automount"
+          ];
         };
       };
     in
