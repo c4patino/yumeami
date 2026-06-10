@@ -32,9 +32,10 @@ in {
           ServerAliveInterval = 0;
           UserKnownHostsFile = "~/.ssh/known_hosts";
         };
-        "github" = {
-          HostName = "github.com";
-          User = "git";
+        "lx*" = {
+          ControlMaster = "no";
+          ControlPath = "none";
+          ControlPersist = "no";
         };
         "swan" = {
           HostName = "swan.unl.edu";
