@@ -1,6 +1,7 @@
 {
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib.${namespace}) enabled;
@@ -14,5 +15,11 @@ in {
     cli.dev.neovim.variant = "minimal";
   };
 
-  home.stateVersion = "26.05";
+  home = {
+    packages = with pkgs; [
+      nvtopPackages.amd
+    ];
+
+    stateVersion = "26.05";
+  };
 }
