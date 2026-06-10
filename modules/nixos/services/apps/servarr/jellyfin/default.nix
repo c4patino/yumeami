@@ -15,6 +15,29 @@ in {
     services.jellyfin = {
       enable = true;
       openFirewall = true;
+
+      hardwareAcceleration = {
+        enable = true;
+        type = "vaapi";
+        device = "/dev/dri/renderD128";
+      };
+
+      transcoding = {
+        enableHardwareEncoding = true;
+        throttleTranscoding = true;
+
+        hardwareDecodingCodecs = {
+          h264 = true;
+          hevc = true;
+          hevc10bit = true;
+          vp9 = true;
+          av1 = true;
+        };
+
+        hardwareEncodingCodecs = {
+          hevc = true;
+        };
+      };
     };
 
     ${namespace}.services.storage.impermanence.folders = let
