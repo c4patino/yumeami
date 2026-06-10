@@ -1,6 +1,7 @@
 {
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib.${namespace}) enabled;
@@ -35,7 +36,6 @@ in {
 
       metrics = {
         hyperfine = enabled;
-        nvtop = enabled;
       };
 
       tools = {
@@ -67,5 +67,11 @@ in {
     }
   ];
 
-  home.stateVersion = "26.05";
+  home = {
+    packages = with pkgs; [
+      nvtopPackages.nvidia
+    ];
+
+    stateVersion = "26.05";
+  };
 }
