@@ -14,23 +14,32 @@ in {
   };
 
   config = mkIf cfg.enable {
-    hardware.graphics = {
-      enable = true;
-      enable32Bit = true;
+    hardware = {
+      graphics = {
+        enable = true;
+        enable32Bit = true;
+      };
+
+      nvidia = {
+        open = false;
+        nvidiaSettings = true;
+        package = config.boot.kernelPackages.nvidiaPackages.stable;
+
+        modesetting.enable = true;
+
+        powerManagement = {
+          enable = false;
+          finegrained = false;
+        };
+      };
     };
 
     services.xserver.videoDrivers = ["nvidia"];
 
-    hardware.nvidia = {
-      modesetting.enable = true;
-      powerManagement.enable = false;
-      powerManagement.finegrained = false;
-
-      open = false;
-
-      nvidiaSettings = true;
-
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
+    environment.sessionVariables = {
+      "GBM_BACKEND" = "nvidia-drm";
+      "LIBVA_DRIVER_NAME" = "nvidia";
+      "__GLX_VENDOR_LIBRARY_NAME" = "nvidia";
     };
   };
 }

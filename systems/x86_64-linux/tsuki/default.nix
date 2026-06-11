@@ -18,6 +18,10 @@ in {
       common = enabled;
     };
 
+    hardware = {
+      amd = enabled;
+    };
+
     services = {
       ci = {
         gitea-runner = {
