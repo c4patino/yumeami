@@ -47,6 +47,11 @@ in {
               default = false;
               description = "Whether the service should be internally accessible over *.yumeami.sh.";
             };
+            websocket = mkOption {
+              type = bool;
+              default = false;
+              description = "Whether to enable websocket endpoints for the service.";
+            };
           };
         }));
         default = {};
