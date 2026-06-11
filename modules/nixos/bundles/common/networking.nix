@@ -73,6 +73,7 @@ in {
             port = 8096;
             internal = true;
             public = true;
+            websocket = true;
           };
           paste = {
             port = 5100;
