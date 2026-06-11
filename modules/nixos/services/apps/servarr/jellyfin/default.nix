@@ -16,6 +16,7 @@ in {
       enable = true;
       openFirewall = true;
 
+      forceEncodingConfig = true;
       hardwareAcceleration = {
         enable = true;
         type = "vaapi";
@@ -38,6 +39,15 @@ in {
           hevc = true;
         };
       };
+    };
+
+    users.users.jellyfin.extraGroups = [
+      "video"
+      "render"
+    ];
+
+    systemd.services.jellyfin.environment = {
+      LIBVA_DRIVER_NAME = "radeonsi";
     };
 
     ${namespace}.services.storage.impermanence.folders = let
