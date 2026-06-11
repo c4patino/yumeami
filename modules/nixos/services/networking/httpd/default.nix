@@ -5,7 +5,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption mapAttrsToList listToAttrs replaceStrings mkMerge concatStringsSep filterAttrs;
+  inherit (lib) mkIf mkEnableOption mapAttrsToList listToAttrs replaceStrings mkMerge concatStringsSep filterAttrs optionalString;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP isGateway flattenHostServices;
   inherit (config.networking) hostName;
   inherit (config.sops) secrets;
@@ -57,34 +57,25 @@
 
     miasma = networkServicesFlat.miasma;
 
-    honeypotConfig =
-      if injectHoneypot
-      then ''
-        AddOutputFilterByType SUBSTITUTE text/html
-        SubstituteMaxLineLength 30m
-        Substitute 's|</body>|<a href="${miasmaCfg.linkPrefix}/" style="display:none" aria-hidden="true" tabindex="-1">Amazing high quality data here!</a></body>|i'
+    honeypotConfig = optionalString injectHoneypot ''
+      AddOutputFilterByType SUBSTITUTE text/html
+      SubstituteMaxLineLength 30m
+      Substitute 's|</body>|<a href="${miasmaCfg.linkPrefix}/" style="display:none" aria-hidden="true" tabindex="-1">Amazing high quality data here!</a></body>|i'
 
-        ProxyPass ${miasmaCfg.linkPrefix}/ http://${resolveHostIP networkingCfg.devices miasma.host}:${toString miasma.port}/
-        ProxyPassReverse ${miasmaCfg.linkPrefix}/ http://${resolveHostIP networkingCfg.devices miasma.host}:${toString miasma.port}/
-      ''
-      else "";
+      ProxyPass ${miasmaCfg.linkPrefix}/ http://${resolveHostIP networkingCfg.devices miasma.host}:${toString miasma.port}/
+      ProxyPassReverse ${miasmaCfg.linkPrefix}/ http://${resolveHostIP networkingCfg.devices miasma.host}:${toString miasma.port}/
 
-    robotsConfig =
-      if injectHoneypot
-      then ''
-        ProxyPass /robots.txt !
-        Alias /robots.txt ${inputs.dotfiles}/httpd/robots/${name}.txt
-      ''
-      else "";
+      ProxyPass /robots.txt !
+      Alias /robots.txt ${inputs.dotfiles}/httpd/robots/${name}.txt
 
-    websocketConfig =
-      if service.websocket
-      then ''
-        # --- ${name} (websocket access) ---
-        ProxyPass /socket ws://${hostIP}:${p}/socket connectiontimeout=30 timeout=300 retry=0
-        ProxyPassReverse /socket ws://${hostIP}:${p}/socket
-      ''
-      else "";
+    '';
+
+    websocketConfig = optionalString service.websocket ''
+      # --- ${name} (websocket access) ---
+      ProxyPass /socket ws://${hostIP}:${p}/socket connectiontimeout=30 timeout=300 retry=0
+      ProxyPassReverse /socket ws://${hostIP}:${p}/socket
+
+    '';
   in {
     name = replaceStrings ["*"] [name] domain;
     value =
@@ -106,8 +97,6 @@
           ProxyPreserveHost On
 
           ${honeypotConfig}
-
-          ${robotsConfig}
 
           ${websocketConfig}
 
