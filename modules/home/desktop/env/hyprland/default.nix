@@ -64,10 +64,6 @@ in {
           "SDLVIDEODRIVER" = "wayland";
           "CLUTTER_BACKEND" = "wayland";
 
-          "GBM_BACKEND" = "nvidia-drm";
-          "LIBVA_DRIVER_NAME" = "nvidia";
-          "__GLX_VENDOR_LIBRARY_NAME" = "nvidia";
-
           "XCURSOR_SIZE" = "24";
           "HYPRCURSOR_SIZE" = "24";
         };
