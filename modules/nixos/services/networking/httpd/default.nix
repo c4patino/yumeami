@@ -64,8 +64,8 @@
         SubstituteMaxLineLength 30m
         Substitute 's|</body>|<a href="${miasmaCfg.linkPrefix}/" style="display:none" aria-hidden="true" tabindex="-1">Amazing high quality data here!</a></body>|i'
 
-        ProxyPass ${miasmaCfg.linkPrefix} http://${resolveHostIP networkingCfg.devices miasma.host}:${toString miasma.port}/
-        ProxyPassReverse ${miasmaCfg.linkPrefix} http://${resolveHostIP networkingCfg.devices miasma.host}:${toString miasma.port}/
+        ProxyPass ${miasmaCfg.linkPrefix}/ http://${resolveHostIP networkingCfg.devices miasma.host}:${toString miasma.port}/
+        ProxyPassReverse ${miasmaCfg.linkPrefix}/ http://${resolveHostIP networkingCfg.devices miasma.host}:${toString miasma.port}/
       ''
       else "";
 
@@ -74,6 +74,15 @@
       then ''
         ProxyPass /robots.txt !
         Alias /robots.txt ${inputs.dotfiles}/httpd/robots/${name}.txt
+      ''
+      else "";
+
+    websocketConfig =
+      if service.websocket
+      then ''
+        # --- ${name} (websocket access) ---
+        ProxyPass /socket ws://${hostIP}:${p}/socket connectiontimeout=30 timeout=300 retry=0
+        ProxyPassReverse /socket ws://${hostIP}:${p}/socket
       ''
       else "";
   in {
@@ -100,6 +109,8 @@
 
           ${robotsConfig}
 
+          ${websocketConfig}
+
           # --- ${name} (subdomain access) ---
           ProxyPass / http://${hostIP}:${p}/ connectiontimeout=30 timeout=300 retry=0
           ProxyPassReverse / http://${hostIP}:${p}/
@@ -120,6 +131,7 @@ in {
         "filter"
         "proxy"
         "proxy_http"
+        "proxy_wstunnel"
         "rewrite"
         "substitute"
       ];
