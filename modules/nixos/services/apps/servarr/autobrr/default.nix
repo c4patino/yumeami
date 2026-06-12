@@ -26,13 +26,24 @@ in {
       };
     };
 
-    systemd.services.autobrr.serviceConfig = let
-      autobrrUser = config.users.users.autobrr;
-    in {
-      DynamicUser = mkForce false;
-      User = autobrrUser.name;
-      Group = autobrrUser.group;
-      UMask = mkForce "0002";
+    systemd = {
+      tmpfiles.settings."10-autobrr" = let
+        configFormat = pkgs.formats.toml {};
+        autobrrConfigFile = configFormat.generate "autobrr.toml" config.services.autobrr.settings;
+      in {
+        "/var/lib/autobrr/config.toml"."L+" = {
+          argument = "${autobrrConfigFile}";
+        };
+      };
+
+      services.autobrr.serviceConfig = let
+        autobrrUser = config.users.users.autobrr;
+      in {
+        DynamicUser = mkForce false;
+        User = autobrrUser.name;
+        Group = autobrrUser.group;
+        UMask = mkForce "0002";
+      };
     };
 
     sops.secrets = {
