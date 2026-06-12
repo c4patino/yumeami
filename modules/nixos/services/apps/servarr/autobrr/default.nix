@@ -5,11 +5,14 @@
   ...
 }: let
   inherit (lib) mkForce mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService getServicePort flattenHostServices;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  networkServices = flattenHostServices networkCfg.network-services;
+
   isEnabled = hostHasService networkCfg.network-services hostName "autobrr";
+  port = getServicePort networkServices "autobrr" 7474;
 in {
   config = mkIf isEnabled {
     services.autobrr = {
@@ -42,6 +45,8 @@ in {
 
       groups.autobrr = {};
     };
+
+    networking.firewall.allowedTCPPorts = [port];
 
     ${namespace}.services.storage.impermanence.folders = let
       autobrrUser = config.users.users.autobrr;
