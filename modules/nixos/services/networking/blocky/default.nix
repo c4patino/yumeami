@@ -132,7 +132,9 @@ in {
       };
     };
 
-    networking.firewall.allowedTCPPorts = [port];
-    networking.firewall.allowedUDPPorts = [port];
+    networking.firewall = {
+      allowedTCPPorts = [port];
+      allowedUDPPorts = [port];
+    };
   };
 }
