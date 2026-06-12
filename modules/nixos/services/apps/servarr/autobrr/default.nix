@@ -2,6 +2,7 @@
   config,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib) mkForce mkIf;
@@ -18,6 +19,11 @@ in {
     services.autobrr = {
       enable = true;
       secretFile = config.sops.secrets."autobrr".path;
+
+      settings = {
+        host = "0.0.0.0";
+        port = port;
+      };
     };
 
     systemd.services.autobrr.serviceConfig = let
@@ -45,8 +51,6 @@ in {
 
       groups.autobrr = {};
     };
-
-    networking.firewall.allowedTCPPorts = [port];
 
     ${namespace}.services.storage.impermanence.folders = let
       autobrrUser = config.users.users.autobrr;
