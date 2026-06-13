@@ -104,6 +104,7 @@ in {
           seerr = {
             port = 5055;
             internal = true;
+            public = true;
           };
           radarr = {
             port = 7878;
