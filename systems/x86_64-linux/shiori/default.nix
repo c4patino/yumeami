@@ -35,6 +35,11 @@ in {
             host = "nas";
             folder = "/volume1/jellyfin";
           };
+          autobrr = {
+            host = "nas";
+            folder = "/volume1/qbittorrent";
+            mountPath = "/var/lib/qBittorrent/qBittorrent/downloads/autobrr";
+          };
         };
       };
     };

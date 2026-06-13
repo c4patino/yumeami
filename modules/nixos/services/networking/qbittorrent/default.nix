@@ -54,19 +54,61 @@ in {
             torrentingPort = torrentingPort;
 
             serverConfig = {
+              LegalNotice.Accepted = true;
+
               BitTorrent.Session = {
                 Interface = "tun0";
                 InterfaceName = "tun0";
                 BTProtocol = "Both";
+
+                Preallocation = true;
+
+                DHTEnabled = true;
+                PeXEnabled = true;
+                LSDEnabled = false;
+
+                BandwidthSchedulerEnabled = true;
+                GlobalDLSpeedLimit = 0;
+                GlobalUPSpeedLimit = 0;
+                AlternativeGlobalDLSpeedLimit = 1024;
+                AlternativeGlobalUPSpeedLimit = 1024;
+
+                DisableAutoTMMByDefault = false;
+                DisableAutoTMMTriggers = {
+                  CategorySavePathChanged = false;
+                  DefaultSavePathChanged = false;
+                };
+
+                QueueingSystemEnabled = true;
+                IgnoreSlowTorrentsForQueueing = true;
+                MaxActiveDownloads = 8;
+                MaxActiveTorrents = 64;
+                MaxActiveUploads = 64;
+
+                MaxConnections = -1;
+                MaxConnectionsPerTorrent = -1;
+                MaxUploads = -1;
+                MaxUploadsPerTorrent = -1;
               };
 
-              LegalNotice.Accepted = true;
               Preferences = {
                 WebUI = {
                   Username = "c4patino";
                   Password_PBKDF2 = "@ByteArray(rCUYopB8giM6MP/g7F3+dQ==:Y7igij6jhBLHiSg9irzHMOCzfr67aH9xsrpUHnHt9CeBcsVP0xpacy0AXTokpINAtoFcX7TATVANdJNUAlsVeA==)";
                 };
-                General.Locale = "en";
+
+                General = {
+                  Locale = "en";
+                  StatusbarExternalIPDisplayed = true;
+                };
+
+                Scheduler = {
+                  days = "Weekday";
+                  end_time = "@Variant(\0\0\0\xf\x3\xa5\xd6\x80)";
+                  start_time = "@Variant(\0\0\0\xf\x1\xee\x62\x80)";
+                };
+
+                Advanced.confirmTorrentDeletion = false;
               };
             };
           };
