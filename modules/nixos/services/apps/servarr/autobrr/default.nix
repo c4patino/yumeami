@@ -36,15 +36,48 @@ in {
         };
       };
 
-      services.autobrr.serviceConfig = let
+      services.autobrr = let
         autobrrUser = config.users.users.autobrr;
+
+        checkAutobrrSpace = pkgs.writeShellScriptBin "check-autobrr-space" ''
+          set -euo pipefail
+
+          required_space=$((250 * 1024 * 1024))
+          path="/var/lib/qBittorrent/qBittorrent/downloads/autobrr"
+
+          available_space=$(${pkgs.coreutils}/bin/df "$path" | \
+            ${pkgs.gawk}/bin/awk 'END {print $4}')
+
+          [ "$available_space" -gt "$required_space" ]
+        '';
       in {
-        DynamicUser = mkForce false;
-        User = autobrrUser.name;
-        Group = autobrrUser.group;
-        UMask = mkForce "0002";
+        path = [checkAutobrrSpace];
+        serviceConfig = {
+          DynamicUser = mkForce false;
+          User = autobrrUser.name;
+          Group = autobrrUser.group;
+          UMask = mkForce "0002";
+        };
       };
     };
+
+    environment.systemPackages = [
+      (pkgs.writeShellScriptBin "check-autobrr-space" ''
+        set -euo pipefail
+
+        required_space=$((250 * 1024 * 1024))
+        path="/var/lib/qBittorrent/qBittorrent/downloads/autobrr"
+
+        available_space=$(${pkgs.coreutils}/bin/df "$path" | \
+          ${pkgs.gawk}/bin/awk 'END {print $4}')
+
+        if [ "$available_space" -le "$required_space" ]; then
+          exit 1
+        fi
+
+        exit 0
+      '')
+    ];
 
     sops.secrets = {
       "autobrr" = {
