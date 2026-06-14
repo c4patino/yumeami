@@ -9,7 +9,7 @@
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace hostHasService flattenHostServices getServicePort;
   inherit (config.networking) hostName;
 
-  base = "${namespace}.services.networking.miasma";
+  base = "${namespace}.services.apps.miasma";
   cfg = getAttrByNamespace config base;
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
   networkServices = flattenHostServices networkCfg.network-services;
