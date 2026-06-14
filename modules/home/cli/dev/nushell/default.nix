@@ -96,6 +96,7 @@ in {
 
       bash = {
         enable = true;
+        enableCompletion = true;
         initExtra = ''
           if [[ -n "$PROMPT_COMMAND" ]]; then
               PROMPT_COMMAND="$PROMPT_COMMAND; exec ${pkgs.nushell}/bin/nu; unset PROMPT_COMMAND"
