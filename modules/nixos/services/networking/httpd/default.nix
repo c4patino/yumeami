@@ -13,7 +13,7 @@
   base = "${namespace}.services.networking.httpd";
   cfg = getAttrByNamespace config base;
   networkingCfg = getAttrByNamespace config "${namespace}.services.networking";
-  miasmaCfg = getAttrByNamespace config "${namespace}.services.networking.miasma";
+  miasmaCfg = getAttrByNamespace config "${namespace}.services.apps.miasma";
 
   networkServices = networkingCfg.network-services;
   networkServicesFlat = flattenHostServices networkServices;
