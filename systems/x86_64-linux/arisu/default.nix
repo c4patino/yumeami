@@ -25,12 +25,6 @@ in {
       desktop = enabled;
     };
 
-    desktop = {
-      apps = {
-        teamviewer = enabled;
-      };
-    };
-
     hardware = {
       nvidia = enabled;
     };
