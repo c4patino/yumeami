@@ -42,6 +42,10 @@ in {
           hostPath = "/var/lib/qBittorrent";
           isReadOnly = false;
         };
+        "/var/lib/qBittorrent/qBittorrent/downloads/autobrr" = {
+          hostPath = "/var/lib/qBittorrent/qBittorrent/downloads/autobrr";
+          isReadOnly = false;
+        };
       };
 
       config = {
@@ -127,8 +131,16 @@ in {
 
         systemd.services = {
           qbittorrent = {
-            bindsTo = ["openvpn-default.service"];
-            after = ["openvpn-default.service"];
+            requires = [
+              "var-lib-qBittorrent.mount"
+              "var-lib-qBittorrent-qBittorrent-downloads-autobrr.mount"
+            ];
+
+            after = [
+              "openvpn-default.service"
+              "var-lib-qBittorrent.mount"
+              "var-lib-qBittorrent-qBittorrent-downloads-autobrr.mount"
+            ];
           };
           openvpn-default = {
             upholds = ["qbittorrent.service"];
