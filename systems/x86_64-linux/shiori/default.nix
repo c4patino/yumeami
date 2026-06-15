@@ -35,10 +35,10 @@ in {
             host = "nas";
             folder = "/volume1/jellyfin";
           };
-          autobrr = {
+          seed = {
             host = "nas";
             folder = "/volume1/qbittorrent";
-            mountPath = "/var/lib/qBittorrent/qBittorrent/downloads/autobrr";
+            mountPath = "/var/lib/qBittorrent/qBittorrent/downloads/seed";
           };
         };
       };
