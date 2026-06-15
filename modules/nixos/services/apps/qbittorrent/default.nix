@@ -42,8 +42,8 @@ in {
           hostPath = "/var/lib/qBittorrent";
           isReadOnly = false;
         };
-        "/var/lib/qBittorrent/qBittorrent/downloads/autobrr" = {
-          hostPath = "/var/lib/qBittorrent/qBittorrent/downloads/autobrr";
+        "/var/lib/qBittorrent/qBittorrent/downloads/seed" = {
+          hostPath = "/var/lib/qBittorrent/qBittorrent/downloads/seed";
           isReadOnly = false;
         };
       };
@@ -133,13 +133,13 @@ in {
           qbittorrent = {
             requires = [
               "var-lib-qBittorrent.mount"
-              "var-lib-qBittorrent-qBittorrent-downloads-autobrr.mount"
+              "var-lib-qBittorrent-qBittorrent-downloads-seed.mount"
             ];
 
             after = [
               "openvpn-default.service"
               "var-lib-qBittorrent.mount"
-              "var-lib-qBittorrent-qBittorrent-downloads-autobrr.mount"
+              "var-lib-qBittorrent-qBittorrent-downloads-seed.mount"
             ];
           };
           openvpn-default = {
