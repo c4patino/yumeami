@@ -29,6 +29,47 @@ in {
       IdentityFile = "~/.ssh/id_ed25519-mutualofomaha";
       IdentitiesOnly = true;
     };
+    "lx*" = {
+      ControlMaster = "no";
+      ControlPath = "none";
+      ControlPersist = "no";
+    };
+    "xprn-cat" = {
+      User = "pgia100";
+      HostName = "lx122";
+    };
+    "xprn-prod" = {
+      User = "pgia100";
+      HostName = "lx185";
+    };
+    "compass-itg" = {
+      User = "pgia100";
+      HostName = "lx14988";
+    };
+    "compass-cat" = {
+      User = "pgia100";
+      HostName = "lx15031";
+    };
+    "compass-pfix" = {
+      User = "pgia100";
+      HostName = "lx15322";
+    };
+    "compass-prod" = {
+      User = "pgia100";
+      HostName = "15282";
+    };
+    "compass-compile" = {
+      User = "pgia100";
+      HostName = "lx14413";
+    };
+    "forms-nonprod" = {
+      User = "pgia100";
+      HostName = "lx21039";
+    };
+    "forms-prod" = {
+      User = "pgia100";
+      HostName = "lx147";
+    };
   };
 
   sops.secrets = let
