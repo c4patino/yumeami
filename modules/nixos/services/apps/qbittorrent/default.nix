@@ -74,8 +74,8 @@ in {
                 BandwidthSchedulerEnabled = true;
                 GlobalDLSpeedLimit = 0;
                 GlobalUPSpeedLimit = 0;
-                AlternativeGlobalDLSpeedLimit = 1024;
-                AlternativeGlobalUPSpeedLimit = 1024;
+                AlternativeGlobalDLSpeedLimit = 5120;
+                AlternativeGlobalUPSpeedLimit = 5120;
 
                 DisableAutoTMMByDefault = false;
                 DisableAutoTMMTriggers = {
