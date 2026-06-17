@@ -79,6 +79,8 @@ in {
               cache = {
                 enabled = true;
                 dir = "/var/cache/forgejo-runner/actions";
+                host = "172.17.0.1";
+                proxy_port = 37323;
               };
 
               runner = {
@@ -91,6 +93,7 @@ in {
               container = {
                 network = "bridge";
                 privileged = false;
+                docker_host = "automount";
               };
             };
           };
@@ -107,6 +110,6 @@ in {
       "forgejo/token" = {};
     };
 
-    networking.firewall.trustedInterfaces = ["docker0" "podman1"];
+    networking.firewall.allowedTCPPorts = [37323];
   };
 }
