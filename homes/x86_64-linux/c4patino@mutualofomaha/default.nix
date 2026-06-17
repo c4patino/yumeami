@@ -36,7 +36,7 @@ in {
     };
     "xprn-cat" = {
       User = "pgia100";
-      HostName = "lx122";
+      HostName = "lx201";
     };
     "xprn-prod" = {
       User = "pgia100";
@@ -56,7 +56,7 @@ in {
     };
     "compass-prod" = {
       User = "pgia100";
-      HostName = "15282";
+      HostName = "lx15282";
     };
     "compass-compile" = {
       User = "pgia100";
