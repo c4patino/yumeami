@@ -64,13 +64,15 @@ in {
         ];
 
         ignores = [
-          ".direnv"
+          ".devenv/"
+          ".direnv/"
+          ".git/"
+          ".pnpm-store/"
+          ".venv/"
+
           ".env"
           ".env.local"
           ".envrc"
-          ".git"
-          ".pnpm-store"
-          ".venv"
           "AGENTS.md"
         ];
       };
