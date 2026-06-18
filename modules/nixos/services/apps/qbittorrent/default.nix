@@ -110,8 +110,8 @@ in {
 
                 Scheduler = {
                   days = "Weekday";
-                  end_time = "@Variant(\0\0\0\xf\x3\xa5\xd6\x80)";
-                  start_time = "@Variant(\0\0\0\xf\x1\xee\x62\x80)";
+                  end_time = ''@Variant(\0\0\0\xf\x3\xa5\xd6\x80)'';
+                  start_time = ''@Variant(\0\0\0\xf\x1\xee\x62\x80)'';
                 };
 
                 Advanced.confirmTorrentDeletion = false;
