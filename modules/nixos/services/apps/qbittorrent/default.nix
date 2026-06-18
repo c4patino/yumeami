@@ -84,10 +84,12 @@ in {
                 };
 
                 QueueingSystemEnabled = true;
-                IgnoreSlowTorrentsForQueueing = true;
                 MaxActiveDownloads = 8;
-                MaxActiveTorrents = 64;
-                MaxActiveUploads = 64;
+                MaxActiveUploads = 256;
+                MaxActiveTorrents = 256;
+                IgnoreSlowTorrentsForQueueing = true;
+                SlowTorrentsDownloadRate = 5;
+                SlowTorrentsUploadRate = 5;
 
                 MaxConnections = -1;
                 MaxConnectionsPerTorrent = -1;
