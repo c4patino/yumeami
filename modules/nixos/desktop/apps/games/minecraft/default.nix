@@ -7,7 +7,7 @@
   ...
 }: let
   inherit (lib) types mkIf mkEnableOption mkOption mapAttrs mapAttrsToList flatten;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkOptAttrset;
   base = "${namespace}.desktop.apps.games.minecraft";
   cfg = getAttrByNamespace config base;
 in {
@@ -16,36 +16,14 @@ in {
   options = with types;
     mkOptionsWithNamespace base {
       enable = mkEnableOption "Minecraft Server";
-      servers = mkOption {
-        type = attrsOf (submodule {
-          options = {
-            package = mkOption {
-              type = package;
-              description = "The Minecraft server package to use.";
-            };
-
-            jvmOpts = mkOption {
-              type = str;
-              default = "-Xms4092M -Xmx4092M -XX:+UseG1GC";
-              description = "JVM options for the Minecraft server.";
-            };
-
-            serverProperties = mkOption {
-              type = attrs;
-              default = {};
-              description = "Minecraft server properties.";
-            };
-
-            whitelist = mkOption {
-              type = attrs;
-              default = {};
-              description = "Whitelist for the Minecraft server.";
-            };
-          };
-        });
-        default = {};
-        description = "Minecraft server configurations.";
-      };
+      servers = mkOptAttrset (submodule {
+        options = {
+          package = mkOpt package null "The Minecraft server package to use.";
+          jvmOpts = mkOpt str "-Xms4092M -Xmx4092M -XX:+UseG1GC" "JVM options for the Minecraft server.";
+          serverProperties = mkOpt attrs {} "Minecraft server properties.";
+          whitelist = mkOpt attrs {} "Whitelist for the Minecraft server.";
+        };
+      }) {} "Minecraft server configurations.";
     };
 
   config = mkIf cfg.enable {

@@ -5,8 +5,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkOption mkEnableOption types mapAttrs' mkMerge filterAttrs listToAttrs;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP hostHasService flattenHostServices resolveServicePort;
+  inherit (lib) mkIf mkEnableOption types mapAttrs' mkMerge filterAttrs listToAttrs;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP hostHasService flattenHostServices resolveServicePort mkOpt mkNullableOpt mkOptAttrset;
   inherit (config.networking) hostName;
 
   base = "${namespace}.services.ci.woodpecker";
@@ -24,25 +24,13 @@
 in {
   options = with types;
     mkOptionsWithNamespace base {
-      runners = mkOption {
-        description = "Definition of runners to enable to the device";
-        type = attrsOf (submodule {
-          options = {
-            enable = mkEnableOption "woodpecker runner";
-            capacity = mkOption {
-              type = int;
-              default = 1;
-              description = "Number of concurrent workflows this runner can execute.";
-            };
-            token = mkOption {
-              type = nullOr path;
-              default = null;
-              description = "Path to the agent secret token file for authentication. If null, the default secret will be used.";
-            };
-          };
-        });
-        default = {};
-      };
+      runners = mkOptAttrset (submodule {
+        options = {
+          enable = mkEnableOption "woodpecker runner";
+          capacity = mkOpt int 1 "Number of concurrent workflows this runner can execute.";
+          token = mkNullableOpt path null "Path to the agent secret token file for authentication. If null, the default secret will be used.";
+        };
+      }) {} "Definition of runners to enable to the device";
     };
 
   config = {

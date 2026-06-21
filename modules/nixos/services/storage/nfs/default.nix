@@ -4,8 +4,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkOption mkEnableOption mkIf mapAttrs' concatStringsSep;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP;
+  inherit (lib) types mkIf mkEnableOption mkOption mapAttrs' concatStringsSep;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP mkOpt mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset;
   base = "${namespace}.services.storage.nfs";
   cfg = getAttrByNamespace config base;
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -13,46 +13,20 @@ in {
   options = with types;
     mkOptionsWithNamespace base {
       enable = mkEnableOption "nfs";
-      shares = mkOption {
-        type = listOf (submodule {
-          options.name = mkOption {
-            type = str;
-            default = [];
-            description = "Folder name for the final nfs share.";
-          };
-          options.permissions = mkOption {
-            type = listOf str;
-            default = ["rw" "nohide" "insecure" "no_subtree_check"];
-            description = "List of permissions to apply to the folder";
-          };
-          options.whitelist = mkOption {
-            type = listOf str;
-            default = [];
-            description = "List of devices to whitelist on the nfs share.";
-          };
-        });
-        default = [];
-        description = "List of the folder paths to share via NFS.";
-      };
-      mounts = mkOption {
-        type = attrsOf (submodule {
-          options.host = mkOption {
-            type = str;
-            description = "Target host to mount from.";
-          };
-          options.folder = mkOption {
-            type = str;
-            description = "Remote folder path on the NFS server.";
-          };
-          options.mountPath = mkOption {
-            type = nullOr str;
-            default = null;
-            description = "Local mount path. If null, defaults to /mnt/nfs/{name}.";
-          };
-        });
-        default = {};
-        description = "Set of NFS mounts with custom configuration.";
-      };
+      shares = mkListOpt (submodule {
+        options = {
+          name = mkOpt str [] "Folder name for the final nfs share.";
+          permissions = mkListOpt str ["rw" "nohide" "insecure" "no_subtree_check"] "List of permissions to apply to the folder";
+          whitelist = mkListOpt str [] "List of devices to whitelist on the nfs share.";
+        };
+      }) [] "List of the folder paths to share via NFS.";
+      mounts = mkOptAttrset (submodule {
+        options = {
+          host = mkRequiredOpt str "Target host to mount from.";
+          folder = mkRequiredOpt str "Remote folder path on the NFS server.";
+          mountPath = mkNullableOpt str null "Local mount path. If null, defaults to /mnt/nfs/{name}.";
+        };
+      }) {} "Set of NFS mounts with custom configuration.";
     };
 
   config = {
