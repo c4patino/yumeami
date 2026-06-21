@@ -5,8 +5,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkEnableOption mkOption mkIf mapAttrs mapAttrs' listToAttrs map;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP;
+  inherit (lib) types mkEnableOption mkIf mapAttrs mapAttrs' listToAttrs map;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP mkOpt mkOptAttrset mkListOpt;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.syncthing";
   cfg = getAttrByNamespace config base;
@@ -15,16 +15,8 @@ in {
   options = with types;
     mkOptionsWithNamespace base {
       enable = mkEnableOption "Syncthing";
-      devices = mkOption {
-        type = attrsOf str;
-        default = {};
-        description = "A map of host names to their respective device IDs for Syncthing.";
-      };
-      shares = mkOption {
-        type = attrsOf (listOf str);
-        default = {};
-        description = "A map of folder names to the list of hostnames with which the folder is shared.";
-      };
+      devices = mkOptAttrset str {} "A map of host names to their respective device IDs for Syncthing.";
+      shares = mkOptAttrset (listOf str) {} "A map of folder names to the list of hostnames with which the folder is shared.";
     };
 
   config = mkIf cfg.enable {

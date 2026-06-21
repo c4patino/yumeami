@@ -4,22 +4,16 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkIf mkEnableOption mkOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib) types mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkListOpt;
   base = "${namespace}.services.networking.ddclient";
   cfg = getAttrByNamespace config base;
 in {
   options = with types;
     mkOptionsWithNamespace base {
       enable = mkEnableOption "ddclient";
-      zone = mkOption {
-        type = str;
-        description = "domain zone to enable ddclient for";
-      };
-      domains = mkOption {
-        type = listOf str;
-        description = "list of sub domains within zone to manage";
-      };
+      zone = mkOpt str "" "domain zone to enable ddclient for";
+      domains = mkListOpt str [] "list of sub domains within zone to manage";
     };
 
   config = mkIf cfg.enable {

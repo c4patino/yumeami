@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) types mkIf mkEnableOption mkOption mapAttrs' mkMerge map;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP readJsonOrEmpty getIn;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP readJsonOrEmpty getIn mkOpt mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset;
   inherit (config.users) users;
   base = "${namespace}.services.storage.samba";
   cfg = getAttrByNamespace config base;
@@ -15,30 +15,14 @@ in {
   options = with types;
     mkOptionsWithNamespace base {
       enable = mkEnableOption "Samba";
-      shares = mkOption {
-        type = listOf str;
-        default = [];
-        description = "List of folder paths to share via Samba.";
-      };
-      mounts = mkOption {
-        type = attrsOf (submodule {
-          options.host = mkOption {
-            type = str;
-            description = "Target host to mount from.";
-          };
-          options.folder = mkOption {
-            type = str;
-            description = "Remote folder/share name on the Samba server.";
-          };
-          options.mountPath = mkOption {
-            type = nullOr str;
-            default = null;
-            description = "Local mount path. If null, defaults to /mnt/samba/{name}.";
-          };
-        });
-        default = {};
-        description = "Set of Samba mounts with custom configuration.";
-      };
+      shares = mkListOpt str [] "List of folder paths to share via Samba.";
+      mounts = mkOptAttrset (submodule {
+        options = {
+          host = mkRequiredOpt str "Target host to mount from.";
+          folder = mkRequiredOpt str "Remote folder/share name on the Samba server.";
+          mountPath = mkNullableOpt str null "Local mount path. If null, defaults to /mnt/samba/{name}.";
+        };
+      }) {} "Set of Samba mounts with custom configuration.";
     };
 
   config = {

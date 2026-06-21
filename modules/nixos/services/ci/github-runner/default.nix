@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) types mkEnableOption mkOption mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkRequiredOpt mkNullableOpt mkOptAttrset;
   inherit (config.networking) hostName;
   inherit (config.sops) secrets;
   base = "${namespace}.services.ci.github-runner";
@@ -16,29 +16,13 @@ in {
   options = with types;
     mkOptionsWithNamespace base {
       enable = mkEnableOption "Github self-hosted runner";
-      runners = mkOption {
-        description = "Definition of runners to enable to the device";
-        type = attrsOf (submodule {
-          options = {
-            instances = mkOption {
-              type = types.int;
-              default = 1;
-              description = "Number of instances of the runner to spawn for this configuration.";
-            };
-            tokenFile = mkOption {
-              type = nullOr path;
-              default = null;
-              description = "Path to the token file to utilize for authentication";
-            };
-            url = mkOption {
-              type = str;
-              default = "";
-              description = "URL of the repository for which to add the self-hosted runner";
-            };
-          };
-        });
-        default = [];
-      };
+      runners = mkOptAttrset (submodule {
+        options = {
+          instances = mkOpt int 1 "Number of instances of the runner to spawn for this configuration.";
+          tokenFile = mkNullableOpt path null "Path to the token file to utilize for authentication";
+          url = mkOpt str "" "URL of the repository for which to add the self-hosted runner";
+        };
+      }) [] "Definition of runners to enable to the device";
     };
 
   config = mkIf cfg.enable {

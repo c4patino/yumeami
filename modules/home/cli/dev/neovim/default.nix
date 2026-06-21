@@ -6,18 +6,14 @@
   system,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption mkOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt;
   base = "${namespace}.cli.dev.neovim";
   cfg = getAttrByNamespace config base;
 in {
   options = mkOptionsWithNamespace base (with lib.types; {
     enable = mkEnableOption "neovim";
-    variant = mkOption {
-      type = enum ["minimal" "default" "full"];
-      description = "variation of yumevim to install";
-      default = "default";
-    };
+    variant = mkOpt (enum ["minimal" "default" "full"]) "default" "variation of yumevim to install";
   });
 
   config = mkIf cfg.enable {

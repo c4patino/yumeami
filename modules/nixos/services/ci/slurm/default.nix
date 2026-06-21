@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) types mkEnableOption mkOption mkIf groupBy mapAttrsToList attrNames mapAttrs concatStringsSep flatten;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP mkOpt mkOptAttrset mkListOpt;
   inherit (config.networking) hostName;
   base = "${namespace}.services.ci.slurm";
   cfg = getAttrByNamespace config base;
@@ -15,29 +15,13 @@ in {
   options = with types;
     mkOptionsWithNamespace base {
       enable = mkEnableOption "SLURM";
-      controlHosts = mkOption {
-        type = listOf str;
-        default = [];
-        description = "Device to use for control hosts";
-      };
-      nodeMap = mkOption {
-        description = "Mapping of node device defintitions to IPs and device configurations";
-        type = attrsOf (submodule {
-          options = {
-            partitions = mkOption {
-              type = listOf str;
-              default = [];
-              description = "List of partitions for the node";
-            };
-            configString = mkOption {
-              type = str;
-              default = "";
-              description = "Configuration string for the node capabilities";
-            };
-          };
-        });
-        default = {};
-      };
+      controlHosts = mkListOpt str [] "Device to use for control hosts";
+      nodeMap = mkOptAttrset (submodule {
+        options = {
+          partitions = mkListOpt str [] "List of partitions for the node";
+          configString = mkOpt str "" "Configuration string for the node capabilities";
+        };
+      }) {} "Mapping of node device defintitions to IPs and device configurations";
     };
 
   config = mkIf cfg.enable {

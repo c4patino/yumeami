@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) types mkIf mkEnableOption mkOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset;
   inherit (config.sops) secrets;
   inherit (config.networking) hostName;
   base = "${namespace}.services.ci.gitea-runner";
@@ -16,39 +16,19 @@ in {
   options = with types;
     mkOptionsWithNamespace base {
       enable = mkEnableOption "Gitea self-hosted runnner";
-      runners = mkOption {
-        description = "Definition of runners to enable to the device";
-        type = attrsOf (submodule {
-          options = {
-            capacity = mkOption {
-              type = int;
-              default = 1;
-              description = "Maximum number of concurrent jobs for this runner.";
-            };
-            tokenFile = mkOption {
-              type = nullOr path;
-              default = null;
-              description = "Path to the token file to utilize for authentication";
-            };
-            url = mkOption {
-              type = str;
-              default = "https://git.cpatino.com";
-              description = "URL of the repository for which to add the self-hosted runner.";
-            };
-            labels = mkOption {
-              type = listOf str;
-              default = [
-                "nixos-latest:docker://nixos/nix:latest"
-                "ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:full-latest"
-                "ubuntu-24.04:docker://ghcr.io/catthehacker/ubuntu:full-24.04"
-                "ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:full-22.04"
-              ];
-              description = "Set of labels to apply to the runner instance.";
-            };
-          };
-        });
-        default = {};
-      };
+      runners = mkOptAttrset (submodule {
+        options = {
+          capacity = mkOpt int 1 "Maximum number of concurrent jobs for this runner.";
+          tokenFile = mkNullableOpt path null "Path to the token file to utilize for authentication";
+          url = mkOpt str "https://git.cpatino.com" "URL of the repository for which to add the self-hosted runner.";
+          labels = mkListOpt str [
+            "nixos-latest:docker://nixos/nix:latest"
+            "ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:full-latest"
+            "ubuntu-24.04:docker://ghcr.io/catthehacker/ubuntu:full-24.04"
+            "ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:full-22.04"
+          ] "Set of labels to apply to the runner instance.";
+        };
+      }) {} "Definition of runners to enable to the device";
     };
 
   config = mkIf cfg.enable {

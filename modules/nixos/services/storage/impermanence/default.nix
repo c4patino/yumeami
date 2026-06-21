@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) types mkIf mkEnableOption mkOption concatLists;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkRequiredOpt mkNullableOpt mkListOpt;
   base = "${namespace}.services.storage.impermanence";
   cfg = getAttrByNamespace config base;
 in {
@@ -17,33 +17,14 @@ in {
   options = with types;
     mkOptionsWithNamespace base {
       enable = mkEnableOption "impermanence";
-      folders = mkOption {
-        type = listOf (either str (submodule {
-          options = {
-            directory = mkOption {
-              type = str;
-              description = "Directory path to persist";
-            };
-            user = mkOption {
-              type = nullOr str;
-              default = null;
-              description = "User owning the directory";
-            };
-            group = mkOption {
-              type = nullOr str;
-              default = null;
-              description = "Group owning the directory";
-            };
-            mode = mkOption {
-              type = nullOr str;
-              default = null;
-              description = "Permissions mode for the directory";
-            };
-          };
-        }));
-        default = [];
-        description = "List of folders to persist";
-      };
+      folders = mkListOpt (either str (submodule {
+        options = {
+          directory = mkRequiredOpt str "Directory path to persist";
+          user = mkNullableOpt str null "User owning the directory";
+          group = mkNullableOpt str null "Group owning the directory";
+          mode = mkNullableOpt str null "Permissions mode for the directory";
+        };
+      })) [] "List of folders to persist";
     };
 
   config = mkIf cfg.enable {
