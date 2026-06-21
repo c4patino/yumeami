@@ -6,8 +6,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) types mkIf mkOption concatStringsSep hasAttr getAttr genAttrs;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn;
+  inherit (lib) types mkIf concatStringsSep hasAttr getAttr genAttrs;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn mkOpt mkOptAttrset mkListOpt;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.postgresql";
   cfg = getAttrByNamespace config base;
@@ -17,11 +17,7 @@
 in {
   options = with types;
     mkOptionsWithNamespace base {
-      databases = mkOption {
-        type = attrsOf (listOf str);
-        default = {};
-        description = "Map of hosts to list of databases.";
-      };
+      databases = mkOptAttrset (listOf str) {} "Map of hosts to list of databases.";
     };
 
   config = mkIf (hasAttr hostName cfg.databases) {

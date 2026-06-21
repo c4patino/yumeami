@@ -5,8 +5,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkOption types;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace hostHasService resolveServicePort;
+  inherit (lib) mkIf types;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace hostHasService resolveServicePort mkOpt;
   inherit (config.networking) hostName;
 
   base = "${namespace}.services.apps.miasma";
@@ -18,16 +18,8 @@
 in {
   options = with types;
     mkOptionsWithNamespace base {
-      host = mkOption {
-        type = str;
-        default = "0.0.0.0";
-        description = "Host address to bind to";
-      };
-      linkPrefix = mkOption {
-        type = str;
-        default = "/miasma";
-        description = "prefix for self-directing links";
-      };
+      host = mkOpt str "0.0.0.0" "Host address to bind to";
+      linkPrefix = mkOpt str "/miasma" "prefix for self-directing links";
     };
 
   config = mkIf isEnabled {

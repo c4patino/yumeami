@@ -19,6 +19,19 @@ with lib; rec {
   #@ Type -> Any -> String
   mkOpt' = type: default: mkOpt type default null;
 
+  ## Create a required NixOS module option (no default).
+  ##
+  ## ```nix
+  ## lib.mkRequiredOpt nixpkgs.lib.types.str "Description of my option."
+  ## ```
+  ##
+  #@ Type -> String -> Option
+  mkRequiredOpt = type: description:
+    mkOption {
+      inherit type description;
+      default = null;
+    };
+
   ## Create a boolean NixOS module option.
   ##
   ## ```nix
@@ -36,6 +49,63 @@ with lib; rec {
   ##
   #@ Type -> Any -> String
   mkBoolOpt' = mkOpt' types.bool;
+
+  ## Create a nullable NixOS module option.
+  ##
+  ## ```nix
+  ## lib.mkNullableOpt types.str null "Description of my option."
+  ## ```
+  ##
+  #@ Type -> Any -> String
+  mkNullableOpt = type: default: description:
+    mkOpt (types.nullOr type) default description;
+
+  ## Create a nullable NixOS module option without a description.
+  ##
+  ## ```nix
+  ## lib.mkNullableOpt' types.str null
+  ## ```
+  ##
+  #@ Type -> Any -> String
+  mkNullableOpt' = type: default: mkNullableOpt type default null;
+
+  ## Create an attrsOf NixOS module option.
+  ##
+  ## ```nix
+  ## lib.mkOptAttrset types.str {} "Description of my option."
+  ## ```
+  ##
+  #@ Type -> Any -> String
+  mkOptAttrset = type: default: description:
+    mkOpt (types.attrsOf type) default description;
+
+  ## Create an attrsOf NixOS module option without a description.
+  ##
+  ## ```nix
+  ## lib.mkOptAttrset' types.str {}
+  ## ```
+  ##
+  #@ Type -> Any -> String
+  mkOptAttrset' = type: default: mkOptAttrset type default null;
+
+  ## Create a listOf NixOS module option.
+  ##
+  ## ```nix
+  ## lib.mkListOpt types.str [] "Description of my option."
+  ## ```
+  ##
+  #@ Type -> Any -> String
+  mkListOpt = type: default: description:
+    mkOpt (types.listOf type) default description;
+
+  ## Create a listOf NixOS module option without a description.
+  ##
+  ## ```nix
+  ## lib.mkListOpt' types.str []
+  ## ```
+  ##
+  #@ Type -> Any -> String
+  mkListOpt' = type: default: mkListOpt type default null;
 
   ## Quickly enable an option.
   ##
