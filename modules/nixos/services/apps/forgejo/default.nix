@@ -6,22 +6,15 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf filterAttrs attrNames head mkForce;
-  inherit (lib.${namespace}) getAttrByNamespace resolveHostIP readJsonOrEmpty getIn hostHasService flattenHostServices getServicePort;
+  inherit (lib) mkIf mkForce;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP readJsonOrEmpty getIn hostHasService resolveServicePort;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
-  networkServices = flattenHostServices networkCfg.network-services;
-
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
-  dbHost =
-    pgCfg.databases
-    |> filterAttrs (host: dbs: lib.elem "forgejo" dbs)
-    |> attrNames
-    |> head;
 
   isEnabled = hostHasService networkCfg.network-services hostName "git";
-  port = getServicePort networkServices "git" 5300;
+  port = resolveServicePort networkCfg.network-services "git" 5300;
 in {
   config = mkIf isEnabled {
     services.forgejo = {
@@ -32,7 +25,7 @@ in {
 
       lfs.enable = true;
 
-      database.type = mkIf (dbHost == hostName) "postgres";
+      database.type = "postgres";
 
       settings = {
         actions.ENABLED = true;
@@ -55,7 +48,7 @@ in {
 
         database = {
           DB_TYPE = mkForce "postgres";
-          HOST = mkForce "${resolveHostIP networkCfg.devices dbHost}:5600";
+          HOST = mkForce "${resolveDatabaseIP networkCfg.devices pgCfg.databases "forgejo"}:5600";
           NAME = "forgejo";
           USER = "forgejo";
           PASSWD =
@@ -103,7 +96,7 @@ in {
     systemd.services.forgejo = let
       inherit (config.networking) hostName;
     in
-      mkIf (dbHost == hostName) {
+      mkIf (resolveDatabaseHost pgCfg.databases "forgejo" == hostName) {
         after = ["postgresql.service" "pgbouncer.service"];
         requires = ["postgresql.service" "pgbouncer.service"];
         serviceConfig = {

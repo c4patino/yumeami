@@ -6,14 +6,13 @@
   ...
 } @ args: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService flattenHostServices getServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
-  networkServices = flattenHostServices networkCfg.network-services;
 
   isEnabled = hostHasService networkCfg.network-services hostName "dash";
-  port = getServicePort networkServices "dash" 5150;
+  port = resolveServicePort networkCfg.network-services "dash" 5150;
 in {
   imports = [
     (import ./layout.nix args)

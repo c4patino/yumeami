@@ -7,17 +7,16 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService getServicePort flattenHostServices;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
-  networkServices = flattenHostServices networkCfg.network-services;
 
   uid = 980;
   gid = 975;
 
   isEnabled = hostHasService networkCfg.network-services hostName "qbittorrent";
-  port = getServicePort networkServices "qbittorrent" 9000;
+  port = resolveServicePort networkCfg.network-services "qbittorrent" 9000;
   torrentingPort = 23345;
 in {
   config = mkIf isEnabled {

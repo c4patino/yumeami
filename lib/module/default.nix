@@ -140,6 +140,32 @@ with lib; rec {
     then devices.${node}.gateway
     else false;
 
+  ## Resolve the hostname that hosts a specific database.
+  ##
+  ## @param databases A set mapping hostnames to lists of database names.
+  ## @param dbName    The name of the database to find.
+  ## @return          The hostname where the database is hosted.
+  ## @throws          If no host is found for the given database.
+  resolveDatabaseHost = databases: dbName: let
+    matchingHosts =
+      databases
+      |> filterAttrs (host: dbs: lib.elem dbName dbs)
+      |> attrNames;
+  in
+    if matchingHosts == []
+    then throw "No host found for database '${dbName}'."
+    else builtins.head matchingHosts;
+
+  ## Resolve the IP address of the host that hosts a specific database.
+  ##
+  ## @param devices   A set mapping hostnames to their configuration (must include `ip`).
+  ## @param databases A set mapping hostnames to lists of database names.
+  ## @param dbName    The name of the database to find.
+  ## @return          The IP address of the host where the database is hosted.
+  ## @throws          If no host is found for the given database.
+  resolveDatabaseIP = devices: databases: dbName:
+    resolveHostIP devices (resolveDatabaseHost databases dbName);
+
   ## Check for configuration conflicts between mount and share declarations.
   ##
   ## @param shares    A list of folder names that are shared.
@@ -223,15 +249,6 @@ with lib; rec {
     then throw "flattenHostServices: duplicate service names across hosts detected"
     else flattenedAttrs;
 
-  ## Check if a host has any services defined in the network-services config.
-  ##
-  ## @param networkServices The network-services attribute set (host-first shape).
-  ## @param hostName         The hostname to check.
-  ## @return                 true if the host has any services defined, false otherwise.
-  hostHasServices = networkServices: hostName:
-    networkServices ? ${hostName}
-    && networkServices.${hostName} != {};
-
   ## Check if a host has a specific service defined in the network-services config.
   ##
   ## @param networkServices The network-services attribute set (host-first shape).
@@ -242,20 +259,20 @@ with lib; rec {
     networkServices ? ${hostName}
     && networkServices.${hostName} ? ${serviceName};
 
-  ## Get the port for a service from the flattened network-services map.
+  ## Resolve the port for a service from the network-services map.
   ##
-  ## @param networkServicesFlat The flattened network-services map (from flattenHostServices).
-  ## @param serviceName          The name of the service.
-  ## @param defaultPort          The default port to use if not specified in network-services.
-  ## @return                    The port (either from config or default).
-  getServicePort = networkServicesFlat: serviceName: defaultPort:
-    networkServicesFlat.${serviceName}.port or defaultPort;
+  ## @param networkServices The network-services attribute set (host-first shape).
+  ## @param serviceName     The name of the service.
+  ## @param defaultPort     The default port to use if not specified in network-services.
+  ## @return               The port (either from config or default).
+  resolveServicePort = networkServices: serviceName: defaultPort:
+    (flattenHostServices networkServices).${serviceName}.port or defaultPort;
 
-  ## Get the host for a service from the flattened network-services map.
+  ## Resolve the host for a service from the network-services map.
   ##
-  ## @param networkServicesFlat The flattened network-services map (from flattenHostServices).
-  ## @param serviceName          The name of the service.
-  ## @return                    The host name where the service is defined.
-  getServiceHost = networkServicesFlat: serviceName:
-    networkServicesFlat.${serviceName}.host;
+  ## @param networkServices The network-services attribute set (host-first shape).
+  ## @param serviceName     The name of the service.
+  ## @return               The host name where the service is defined.
+  resolveServiceHost = networkServices: serviceName:
+    (flattenHostServices networkServices).${serviceName}.host;
 }
