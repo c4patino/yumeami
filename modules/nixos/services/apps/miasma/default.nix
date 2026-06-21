@@ -6,16 +6,15 @@
   ...
 }: let
   inherit (lib) mkIf mkOption types;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace hostHasService flattenHostServices getServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace hostHasService resolveServicePort;
   inherit (config.networking) hostName;
 
   base = "${namespace}.services.apps.miasma";
   cfg = getAttrByNamespace config base;
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
-  networkServices = flattenHostServices networkCfg.network-services;
 
   isEnabled = hostHasService networkCfg.network-services hostName "miasma";
-  port = getServicePort networkServices "miasma" 9999;
+  port = resolveServicePort networkCfg.network-services "miasma" 9999;
 in {
   options = with types;
     mkOptionsWithNamespace base {

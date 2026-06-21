@@ -6,17 +6,16 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf filterAttrs attrNames head elem;
-  inherit (lib.${namespace}) getAttrByNamespace readJsonOrEmpty getIn resolveHostIP hostHasService flattenHostServices getServicePort;
+  inherit (lib) mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace readJsonOrEmpty getIn resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
   inherit (config.networking) hostName;
 
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
-  networkServices = flattenHostServices networkCfg.network-services;
 
   isEnabled = hostHasService networkCfg.network-services hostName "vault";
-  port = getServicePort networkServices "vault" 5400;
+  port = resolveServicePort networkCfg.network-services "vault" 5400;
 in {
   config = mkIf isEnabled {
     services.vaultwarden = {
@@ -34,12 +33,7 @@ in {
 
         DATABASE_URL = let
           secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/secrets.json";
-          ip =
-            pgCfg.databases
-            |> filterAttrs (host: dbs: elem "vaultwarden" dbs)
-            |> attrNames
-            |> head
-            |> resolveHostIP networkCfg.devices;
+          ip = resolveDatabaseIP networkCfg.devices pgCfg.databases "vaultwarden";
         in ''postgresql://vaultwarden:${getIn "postgresql.vaultwarden.password" secrets}@${ip}:5600/vaultwarden'';
 
         LOG_LEVEL = "Info";
@@ -55,11 +49,7 @@ in {
     networking.firewall.allowedTCPPorts = [port];
 
     systemd.services.vaultwarden = let
-      dbHost =
-        pgCfg.databases
-        |> filterAttrs (host: dbs: elem "vaultwarden" dbs)
-        |> attrNames
-        |> head;
+      dbHost = resolveDatabaseHost pgCfg.databases "vaultwarden";
     in
       mkIf (dbHost == config.networking.hostName) {
         after = ["postgresql.service" "pgbouncer.service"];

@@ -6,14 +6,14 @@
   ...
 }: let
   inherit (lib) mkIf mapAttrsToList listToAttrs filterAttrs flatten;
-  inherit (lib.${namespace}) getAttrByNamespace resolveHostIP flattenHostServices hostHasService getServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveHostIP flattenHostServices hostHasService resolveServicePort;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
   networkServices = flattenHostServices networkCfg.network-services;
 
   isEnabled = hostHasService networkCfg.network-services hostName "blocky";
-  port = getServicePort networkServices "blocky" 53;
+  port = resolveServicePort networkCfg.network-services "blocky" 53;
 in {
   config = mkIf isEnabled {
     services.blocky = {

@@ -5,15 +5,14 @@
   ...
 }: let
   inherit (lib) mkIf mkForce;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService flattenHostServices getServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort;
   inherit (config.users) users;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
-  networkServices = flattenHostServices networkCfg.network-services;
 
   isEnabled = hostHasService networkCfg.network-services hostName "monitor";
-  port = getServicePort networkServices "monitor" 5200;
+  port = resolveServicePort networkCfg.network-services "monitor" 5200;
 in {
   config = mkIf isEnabled {
     services.uptime-kuma = {
