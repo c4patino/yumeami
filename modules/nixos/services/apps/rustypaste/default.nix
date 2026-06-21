@@ -7,7 +7,7 @@
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace hostHasService flattenHostServices getServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace hostHasService resolveServicePort;
   inherit (config.users) users groups;
   inherit (config.sops) secrets;
   inherit (config.networking) hostName;
@@ -16,10 +16,9 @@
   cfg = getAttrByNamespace config base;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
-  networkServices = flattenHostServices networkCfg.network-services;
 
   isEnabled = hostHasService networkCfg.network-services hostName "paste";
-  port = getServicePort networkServices "paste" 5100;
+  port = resolveServicePort networkCfg.network-services "paste" 5100;
 in {
   options = mkOptionsWithNamespace base {
     client = {

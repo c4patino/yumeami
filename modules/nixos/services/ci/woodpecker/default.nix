@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf mkOption mkEnableOption types mapAttrs' mkMerge filterAttrs listToAttrs;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP hostHasService flattenHostServices getServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP hostHasService flattenHostServices resolveServicePort;
   inherit (config.networking) hostName;
 
   base = "${namespace}.services.ci.woodpecker";
@@ -19,7 +19,7 @@
   woodpeckerHost = networkServicesFlat.woodpecker.host;
 
   isEnabled = hostHasService networkServices hostName "woodpecker";
-  port = getServicePort networkServicesFlat "woodpecker" 5301;
+  port = resolveServicePort networkServices "woodpecker" 5301;
   gprcPort = port + 1;
 in {
   options = with types;

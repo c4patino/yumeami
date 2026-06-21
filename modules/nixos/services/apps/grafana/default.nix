@@ -6,17 +6,16 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf attrNames filterAttrs elem head;
-  inherit (lib.${namespace}) getAttrByNamespace resolveHostIP readJsonOrEmpty getIn hostHasService flattenHostServices getServicePort;
+  inherit (lib) mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP readJsonOrEmpty getIn hostHasService resolveServicePort;
   inherit (config.networking) hostName;
 
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
-  networkServices = flattenHostServices networkCfg.network-services;
 
   isEnabled = hostHasService networkCfg.network-services hostName "grafana";
-  port = getServicePort networkServices "grafana" 5500;
+  port = resolveServicePort networkCfg.network-services "grafana" 5500;
 in {
   config = mkIf isEnabled {
     services.grafana = {
@@ -36,12 +35,7 @@ in {
         database = {
           type = "postgres";
           host = let
-            ip =
-              pgCfg.databases
-              |> filterAttrs (host: dbs: elem "grafana" dbs)
-              |> attrNames
-              |> head
-              |> resolveHostIP networkCfg.devices;
+            ip = resolveDatabaseIP networkCfg.devices pgCfg.databases "grafana";
           in "${ip}:5600";
           name = "grafana";
           user = "grafana";
@@ -63,11 +57,7 @@ in {
     };
 
     systemd.services.grafana = let
-      dbHost =
-        pgCfg.databases
-        |> filterAttrs (host: dbs: elem "grafana" dbs)
-        |> attrNames
-        |> head;
+      dbHost = resolveDatabaseHost pgCfg.databases "grafana";
     in
       mkIf (dbHost == config.networking.hostName) {
         after = ["postgresql.service" "pgbouncer.service"];
