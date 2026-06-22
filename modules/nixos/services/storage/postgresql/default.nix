@@ -6,7 +6,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) types mkIf concatStringsSep hasAttr getAttr genAttrs;
+  inherit (lib) types mkIf concatStringsSep hasAttr getAttr genAttrs filter;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn mkOpt mkOptAttrset mkListOpt;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.postgresql";
@@ -20,7 +20,11 @@ in {
       databases = mkOptAttrset (listOf str) {} "Map of hosts to list of databases.";
     };
 
-  config = mkIf (hasAttr hostName cfg.databases) {
+  config = mkIf (hasAttr hostName cfg.databases) (let
+    hostDatabases = getAttr hostName cfg.databases;
+    mainServices = filter (db: !(lib.hasSuffix "-log" db)) hostDatabases;
+    logDatabases = filter (lib.hasSuffix "-log") hostDatabases;
+  in {
     services = {
       postgresql = {
         enable = true;
@@ -33,8 +37,7 @@ in {
 
         authentication = let
           permissionEntries =
-            cfg.databases
-            |> getAttr hostName
+            hostDatabases
             |> map (service: ''
               host            ${service}        ${service}      127.0.0.1/32  scram-sha-256
             '')
@@ -46,22 +49,33 @@ in {
           ${permissionEntries}
         '';
 
-        ensureDatabases = getAttr hostName cfg.databases;
+        ensureDatabases = hostDatabases;
 
         ensureUsers =
-          cfg.databases
-          |> getAttr hostName
-          |> map (service: {
-            name = service;
-            ensureDBOwnership = true;
-            ensureClauses = let
-              secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/secrets.json";
-              hash = getIn "postgresql.${service}.hash" secrets;
-            in {
-              login = true;
-              password = hash;
-            };
-          });
+          [
+            {
+              name = "pgbouncer_auth";
+              ensureClauses = let
+                secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/secrets.json";
+                hash = getIn "postgresql.pgbouncer_auth.hash" secrets;
+              in {
+                login = true;
+                password = hash;
+              };
+            }
+          ]
+          ++ (mainServices
+            |> map (service: {
+              name = service;
+              ensureDBOwnership = true;
+              ensureClauses = let
+                secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/secrets.json";
+                hash = getIn "postgresql.${service}.hash" secrets;
+              in {
+                login = true;
+                password = hash;
+              };
+            }));
 
         initialScript = pkgs.writeText "init-sql-script" ''
           CREATE OR REPLACE FUNCTION pgbouncer_lookup(IN i_username text, OUT uname text, OUT phash text)
@@ -78,6 +92,14 @@ in {
           ALTER FUNCTION pgbouncer_lookup(text) OWNER TO postgres;
           ALTER FUNCTION pgbouncer_lookup(text) SET search_path = pg_catalog;
           GRANT EXECUTE ON FUNCTION pgbouncer_lookup(text) TO pgbouncer_auth;
+
+          ${concatStringsSep "\n" (map (logDb: let
+              mainUser = lib.removeSuffix "-log" logDb;
+            in ''
+              GRANT ALL PRIVILEGES ON DATABASE "${logDb}" TO "${mainUser}";
+              ALTER DATABASE "${logDb}" OWNER TO "${mainUser}";
+            '')
+            logDatabases)}
         '';
       };
 
@@ -115,8 +137,7 @@ in {
               |> concatStringsSep "\n";
           };
           databases =
-            cfg.databases
-            |> getAttr hostName
+            hostDatabases
             |> (dbs: dbs ++ ["postgres"])
             |> (dbs: genAttrs dbs (db: "host=127.0.0.1 port=${toString port} dbname=${db}"));
         };
@@ -136,5 +157,5 @@ in {
       "/var/lib/postgresql"
       "/var/lib/pgbouncer"
     ];
-  };
+  });
 }
