@@ -41,7 +41,7 @@ in {
         checkAutobrrSpace = pkgs.writeShellScriptBin "check-autobrr-space" ''
           set -euo pipefail
 
-          required_space=$((250 * 1024 * 1024))
+          required_space=$((1024 * 1024 * 1024)) # 1 Tb
           path="/var/lib/qBittorrent/qBittorrent/downloads/autobrr"
 
           available_space=$(${pkgs.coreutils}/bin/df "$path" | \
@@ -59,24 +59,6 @@ in {
         };
       };
     };
-
-    environment.systemPackages = [
-      (pkgs.writeShellScriptBin "check-autobrr-space" ''
-        set -euo pipefail
-
-        required_space=$((250 * 1024 * 1024))
-        path="/var/lib/qBittorrent/qBittorrent/downloads/autobrr"
-
-        available_space=$(${pkgs.coreutils}/bin/df "$path" | \
-          ${pkgs.gawk}/bin/awk 'END {print $4}')
-
-        if [ "$available_space" -le "$required_space" ]; then
-          exit 1
-        fi
-
-        exit 0
-      '')
-    ];
 
     sops.secrets = {
       "autobrr" = {
