@@ -48,9 +48,9 @@ in {
           };
         };
         nfs.mounts = {
-          jellyfin = {
+          servarr = {
             host = "nas";
-            folder = "/volume1/jellyfin";
+            folder = "/volume1/servarr";
           };
         };
       };

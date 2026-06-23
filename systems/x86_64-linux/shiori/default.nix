@@ -31,14 +31,9 @@ in {
       };
       storage = {
         nfs.mounts = {
-          jellyfin = {
+          servarr = {
             host = "nas";
-            folder = "/volume1/jellyfin";
-          };
-          seed = {
-            host = "nas";
-            folder = "/volume1/qbittorrent";
-            mountPath = "/var/lib/qBittorrent/qBittorrent/downloads/seed";
+            folder = "/volume1/servarr";
           };
         };
       };
