@@ -42,7 +42,7 @@ in {
           isReadOnly = false;
         };
         "/var/lib/qBittorrent/qBittorrent/downloads/seed" = {
-          hostPath = "/var/lib/qBittorrent/qBittorrent/downloads/seed";
+          hostPath = "/mnt/nfs/servarr/torrents";
           isReadOnly = false;
         };
       };
