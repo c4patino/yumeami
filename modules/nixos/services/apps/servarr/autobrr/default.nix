@@ -42,7 +42,7 @@ in {
           set -euo pipefail
 
           required_space=$((1024 * 1024 * 1024)) # 1 Tb
-          path="/var/lib/qBittorrent/qBittorrent/downloads/autobrr"
+          path="/mnt/nfs/servarr/torrents"
 
           available_space=$(${pkgs.coreutils}/bin/df "$path" | \
             ${pkgs.gawk}/bin/awk 'END {print $4}')
