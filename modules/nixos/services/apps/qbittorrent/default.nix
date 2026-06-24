@@ -169,26 +169,21 @@ in {
       };
     };
 
-    systemd.services = {
-      "container@qbittorrent" = {
-        upholds = ["qbittorrent-localhost-proxy.service"];
-      };
+    services.qui = {
+      enable = true;
+      openFirewall = false;
+      package = pkgs.qui;
+      secretFile = config.sops.secrets."qui".path;
 
-      "qbittorrent-localhost-proxy" = {
-        wantedBy = ["multi-user.target"];
-        after = ["container@qbittorrent.service"];
-        requires = ["container@qbittorrent.service"];
-
-        serviceConfig = {
-          ExecStart = "${pkgs.socat}/bin/socat TCP-LISTEN:${toString port},fork,bind=0.0.0.0,reuseaddr TCP:192.168.100.2:${toString port}";
-          Restart = "always";
-          RestartSec = 2;
-        };
+      settings = {
+        host = "0.0.0.0";
+        port = port;
       };
     };
 
     sops.secrets = {
       "openvpn" = {};
+      "qui" = {};
     };
 
     users = {
