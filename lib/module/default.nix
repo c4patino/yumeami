@@ -88,6 +88,15 @@ with lib; rec {
   #@ Type -> Any -> String
   mkOptAttrset' = type: default: mkOptAttrset type default null;
 
+  ## Create a store path that symlinks to a path outside the Nix store.
+  ##
+  ## This is useful for mutable/decrypted files that should not be copied into
+  ## the store, matching Home Manager's mkOutOfStoreSymlink behavior.
+  mkOutOfStoreSymlink = pkgs: path:
+    pkgs.runCommandLocal "${baseNameOf path}" {} ''
+      ln -s ${lib.escapeShellArg path} $out
+    '';
+
   ## Create a listOf NixOS module option.
   ##
   ## ```nix
