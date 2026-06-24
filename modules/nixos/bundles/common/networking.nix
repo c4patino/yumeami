@@ -129,6 +129,7 @@ in {
           };
           qbittorrent = {
             port = 9000;
+            internal = true;
           };
         };
       };
