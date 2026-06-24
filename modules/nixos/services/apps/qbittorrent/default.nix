@@ -169,15 +169,21 @@ in {
       };
     };
 
-    systemd.services.qbittorrent-localhost-proxy = {
-      wantedBy = ["multi-user.target"];
-      after = ["container@qbittorrent.service"];
-      requires = ["container@qbittorrent.service"];
+    systemd.services = {
+      "container@qbittorrent" = {
+        upholds = ["qbittorrent-localhost-proxy.service"];
+      };
 
-      serviceConfig = {
-        ExecStart = "${pkgs.socat}/bin/socat TCP-LISTEN:${toString port},fork,bind=0.0.0.0,reuseaddr TCP:192.168.100.2:${toString port}";
-        Restart = "always";
-        RestartSec = 2;
+      "qbittorrent-localhost-proxy" = {
+        wantedBy = ["multi-user.target"];
+        after = ["container@qbittorrent.service"];
+        requires = ["container@qbittorrent.service"];
+
+        serviceConfig = {
+          ExecStart = "${pkgs.socat}/bin/socat TCP-LISTEN:${toString port},fork,bind=0.0.0.0,reuseaddr TCP:192.168.100.2:${toString port}";
+          Restart = "always";
+          RestartSec = 2;
+        };
       };
     };
 
