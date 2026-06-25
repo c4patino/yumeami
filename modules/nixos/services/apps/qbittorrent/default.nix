@@ -7,10 +7,11 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost hostHasService resolveServicePort resolveDatabaseIP readJsonOrEmpty getIn;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
 
   uid = 980;
   gid = 975;
@@ -18,6 +19,7 @@
   isEnabled = hostHasService networkCfg.network-services hostName "qbittorrent";
   port = resolveServicePort networkCfg.network-services "qbittorrent" 9000;
   torrentingPort = 23345;
+  dbHost = resolveDatabaseHost pgCfg.databases "qui";
 in {
   config = mkIf isEnabled {
     containers.qbittorrent = {
@@ -178,7 +180,23 @@ in {
       settings = {
         host = "0.0.0.0";
         port = port;
+
+        databaseEngine = "postgres";
+        databaseHost = resolveDatabaseIP networkCfg.devices pgCfg.databases "qui";
+        databasePort = 5600;
+        databaseName = "qui";
+        databaseUser = "qui";
+        databasePassword =
+          "${inputs.self}/secrets/crypt/secrets.json"
+          |> readJsonOrEmpty
+          |> getIn "postgresql.qui.password";
       };
+    };
+
+    systemd.services.qui = mkIf (dbHost == hostName) {
+      after = ["postgresql.service"];
+      requires = ["postgresql.service"];
+      serviceConfig.RestartSec = "1s";
     };
 
     sops.secrets = {
@@ -200,11 +218,18 @@ in {
 
     ${namespace}.services.storage.impermanence.folders = let
       qbittorrentUser = config.users.users.qbittorrent;
+      quiUser = config.users.users.qui;
     in [
       {
         directory = "/var/lib/qBittorrent";
         user = qbittorrentUser.name;
         group = qbittorrentUser.group;
+        mode = "700";
+      }
+      {
+        directory = "/var/lib/qui";
+        user = quiUser.name;
+        group = quiUser.group;
         mode = "700";
       }
     ];

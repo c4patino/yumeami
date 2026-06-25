@@ -1,18 +1,21 @@
 {
   config,
+  inputs,
   lib,
   namespace,
   pkgs,
   ...
 }: let
-  inherit (lib) mkForce mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort;
+  inherit (lib) mkForce mkIf mkMerge;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP readJsonOrEmpty getIn hostHasService resolveServicePort;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+  pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
 
   isEnabled = hostHasService networkCfg.network-services hostName "autobrr";
   port = resolveServicePort networkCfg.network-services "autobrr" 7474;
+  dbHost = resolveDatabaseHost pgCfg.databases "autobrr";
 in {
   config = mkIf isEnabled {
     services.autobrr = {
@@ -22,6 +25,17 @@ in {
       settings = {
         host = "0.0.0.0";
         port = port;
+
+        databaseType = "postgres";
+        postgresHost = resolveDatabaseIP networkCfg.devices pgCfg.databases "autobrr";
+        postgresPort = 5600;
+        postgresDatabase = "autobrr";
+        postgresUser = "autobrr";
+        postgresPass =
+          "${inputs.self}/secrets/crypt/secrets.json"
+          |> readJsonOrEmpty
+          |> getIn "postgresql.autobrr.password";
+        postgresSSLMode = "disable";
       };
     };
 
@@ -62,15 +76,23 @@ in {
 
           [ "$remaining_space" -gt "$required_space" ]
         '';
-      in {
-        path = [checkAutobrrSpace];
-        serviceConfig = {
-          DynamicUser = mkForce false;
-          User = autobrrUser.name;
-          Group = autobrrUser.group;
-          UMask = mkForce "0002";
-        };
-      };
+      in
+        mkMerge [
+          {
+            path = [checkAutobrrSpace];
+            serviceConfig = {
+              DynamicUser = mkForce false;
+              User = autobrrUser.name;
+              Group = autobrrUser.group;
+              UMask = mkForce "0002";
+            };
+          }
+          (mkIf (dbHost == hostName) {
+            after = ["postgresql.service" "pgbouncer.service"];
+            requires = ["postgresql.service" "pgbouncer.service"];
+            serviceConfig.RestartSec = "1s";
+          })
+        ];
     };
 
     sops.secrets = {
