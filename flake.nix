@@ -85,6 +85,8 @@
         devenv.description = "devenv development environment";
         devshell.description = "nixpkgs mkshell development environment";
 
+        latex-aaai.description = "latex aaai paper template";
+        latex-aamas.description = "latex aamas paper template";
         latex-chicago.description = "latex chicago paper template";
         latex-ieee.description = "latex ieee paper template";
       };
