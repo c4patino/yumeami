@@ -69,7 +69,7 @@ in {
           impermanence = enabled;
           postgresql = {
             databases = {
-              shiori = ["autobrr" "bazarr" "lidarr" "lidarr-log" "prowlarr" "prowlarr-log" "radarr" "radarr-log" "seerr" "sonarr" "sonarr-log"];
+              shiori = ["autobrr" "bazarr" "lidarr" "lidarr-log" "prowlarr" "prowlarr-log" "qui" "radarr" "radarr-log" "seerr" "sonarr" "sonarr-log"];
               tsuki = ["forgejo" "grafana" "terraform" "vaultwarden"];
             };
           };
