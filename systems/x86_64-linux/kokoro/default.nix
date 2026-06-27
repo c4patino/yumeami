@@ -30,10 +30,6 @@ in {
     };
 
     services = {
-      apps = {
-        rustypaste.client = enabled;
-      };
-
       storage = {
         samba.mounts = {
           shared = {
