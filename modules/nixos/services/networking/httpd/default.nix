@@ -70,10 +70,10 @@
 
     '';
 
-    websocketConfig = optionalString service.websocket ''
+    websocketConfig = optionalString service.websocket.enable ''
       # --- ${name} (websocket access) ---
-      ProxyPass /socket ws://${hostIP}:${p}/socket connectiontimeout=30 timeout=300 retry=0
-      ProxyPassReverse /socket ws://${hostIP}:${p}/socket
+      ProxyPass ${service.websocket.path} ws://${hostIP}:${p}${service.websocket.path} connectiontimeout=30 timeout=300 retry=0
+      ProxyPassReverse ${service.websocket.path} ws://${hostIP}:${p}${service.websocket.path}
 
     '';
   in {

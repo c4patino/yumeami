@@ -5,8 +5,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkIf mkEnableOption mkOption concatLists;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkRequiredOpt mkNullableOpt mkListOpt;
+  inherit (lib) types mkIf mkEnableOption concatLists;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkRequiredOpt mkNullableOpt mkListOpt;
   base = "${namespace}.services.storage.impermanence";
   cfg = getAttrByNamespace config base;
 in {
