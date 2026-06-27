@@ -5,16 +5,19 @@
   namespace,
   pkgs,
   ...
-}: let
-  inherit (lib) types mkIf concatStringsSep hasAttr getAttr genAttrs filter;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn mkOpt mkOptAttrset mkListOpt;
+} @ args: let
+  inherit (lib) types mkIf concatStringsSep hasAttr getAttr filter;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn mkOptAttrset;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.postgresql";
   cfg = getAttrByNamespace config base;
 
   port = 5601;
-  pgbouncerPort = 5600;
 in {
+  imports = [
+    (import ./pgbouncer.nix args)
+  ];
+
   options = with types;
     mkOptionsWithNamespace base {
       databases = mkOptAttrset (listOf str) {} "Map of hosts to list of databases.";
@@ -76,31 +79,6 @@ in {
                 password = hash;
               };
             }));
-
-        initialScript = pkgs.writeText "init-sql-script" ''
-          CREATE OR REPLACE FUNCTION pgbouncer_lookup(IN i_username text, OUT uname text, OUT phash text)
-          RETURNS record
-          LANGUAGE sql
-          SECURITY DEFINER
-          AS $$
-            SELECT usename, passwd
-            FROM pg_shadow
-            WHERE usename = i_username;
-          $$;
-
-          REVOKE ALL ON FUNCTION pgbouncer_lookup(text) FROM PUBLIC;
-          ALTER FUNCTION pgbouncer_lookup(text) OWNER TO postgres;
-          ALTER FUNCTION pgbouncer_lookup(text) SET search_path = pg_catalog;
-          GRANT EXECUTE ON FUNCTION pgbouncer_lookup(text) TO pgbouncer_auth;
-
-          ${concatStringsSep "\n" (map (logDb: let
-              mainUser = lib.removeSuffix "-log" logDb;
-            in ''
-              GRANT ALL PRIVILEGES ON DATABASE "${logDb}" TO "${mainUser}";
-              ALTER DATABASE "${logDb}" OWNER TO "${mainUser}";
-            '')
-            logDatabases)}
-        '';
       };
 
       postgresqlBackup = {
@@ -112,50 +90,42 @@ in {
         compressionLevel = 4;
         startAt = "*-*-* 23:00:00";
       };
-
-      pgbouncer = {
-        enable = true;
-        settings = {
-          pgbouncer = {
-            listen_addr = "0.0.0.0";
-            listen_port = pgbouncerPort;
-
-            default_pool_size = 10;
-            max_client_conn = 500;
-            pool_mode = "transaction";
-
-            stats_users = "pgbouncer_auth";
-
-            auth_file = config.sops.secrets."postgresql/pgbouncer/auth_file".path;
-            auth_type = "scram-sha-256";
-            auth_user = "pgbouncer_auth";
-            auth_dbname = "postgres";
-            auth_query = "SELECT uname, phash FROM pgbouncer_lookup($1)";
-
-            ignore_startup_parameters =
-              ["extra_float_digits"]
-              |> concatStringsSep "\n";
-          };
-          databases =
-            hostDatabases
-            |> (dbs: dbs ++ ["postgres"])
-            |> (dbs: genAttrs dbs (db: "host=127.0.0.1 port=${toString port} dbname=${db}"));
-        };
-      };
-    };
-
-    sops.secrets = let
-      inherit (config.users.users) pgbouncer;
-    in {
-      "postgresql/pgbouncer/auth_file" = {
-        owner = pgbouncer.name;
-        group = pgbouncer.group;
-      };
     };
 
     ${namespace}.services.storage.impermanence.folders = [
       "/var/lib/postgresql"
-      "/var/lib/pgbouncer"
     ];
+
+    systemd.services.postgresql-setup.postStart = ''
+      if [ -f "${config.services.postgresql.dataDir}/standby.signal" ]; then
+        echo "Skipping setup because PostgreSQL is in standby mode"
+        exit 0
+      fi
+
+      psql -v ON_ERROR_STOP=1 -d postgres <<'SQL'
+        CREATE OR REPLACE FUNCTION public.pgbouncer_lookup(IN i_username text, OUT uname text, OUT phash text)
+        RETURNS record
+        LANGUAGE sql
+        SECURITY DEFINER
+        AS $$
+          SELECT usename, passwd
+          FROM pg_catalog.pg_shadow
+          WHERE usename = i_username;
+        $$;
+
+        REVOKE ALL ON FUNCTION public.pgbouncer_lookup(text) FROM PUBLIC;
+        ALTER FUNCTION public.pgbouncer_lookup(text) OWNER TO postgres;
+        ALTER FUNCTION public.pgbouncer_lookup(text) SET search_path = pg_catalog;
+        GRANT EXECUTE ON FUNCTION public.pgbouncer_lookup(text) TO pgbouncer_auth;
+
+        ${concatStringsSep "\n" (map (logDb: let
+          mainUser = lib.removeSuffix "-log" logDb;
+        in ''
+          GRANT ALL PRIVILEGES ON DATABASE "${logDb}" TO "${mainUser}";
+          ALTER DATABASE "${logDb}" OWNER TO "${mainUser}";
+        '')
+        logDatabases)}
+      SQL
+    '';
   });
 }
