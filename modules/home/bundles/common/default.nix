@@ -42,9 +42,6 @@ in {
         ".config/sops/age/keys.txt".source =
           "${crypt}/age/${host}/keys.txt"
           |> config.lib.file.mkOutOfStoreSymlink;
-        ".config/rustypaste/config.toml".source =
-          "${crypt}/rustypaste/client.toml"
-          |> config.lib.file.mkOutOfStoreSymlink;
       };
 
       activation.ensureUserDirs = {

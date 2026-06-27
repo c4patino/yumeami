@@ -30,10 +30,6 @@ in {
     };
 
     services = {
-      apps = {
-        rustypaste.client = enabled;
-      };
-
       ci = {
         gitea-runner = {
           enable = true;

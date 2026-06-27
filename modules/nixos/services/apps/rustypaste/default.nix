@@ -6,30 +6,19 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace hostHasService resolveServicePort;
+  inherit (lib) mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort;
   inherit (config.users) users groups;
   inherit (config.sops) secrets;
   inherit (config.networking) hostName;
-
-  base = "${namespace}.services.apps.rustypaste";
-  cfg = getAttrByNamespace config base;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
   isEnabled = hostHasService networkCfg.network-services hostName "paste";
   port = resolveServicePort networkCfg.network-services "paste" 5100;
 in {
-  options = mkOptionsWithNamespace base {
-    client = {
-      enable = mkEnableOption "rustypaste client";
-    };
-  };
-
-  config = {
-    environment.systemPackages = mkIf cfg.client.enable (with pkgs; [rustypaste-cli]);
-
-    systemd.services.rustypaste = mkIf isEnabled {
+  config = mkIf isEnabled {
+    systemd.services.rustypaste = {
       description = "rustypaste";
 
       wantedBy = ["multi-user.target"];
@@ -53,15 +42,15 @@ in {
     };
 
     users = {
-      users.rustypaste = mkIf isEnabled {
+      users.rustypaste = {
         isSystemUser = true;
         group = "rustypaste";
       };
 
-      groups.rustypaste = mkIf (isEnabled || cfg.client.enable) {};
+      groups.rustypaste = {};
     };
 
-    environment.etc."rustypaste/rustypaste.toml" = mkIf isEnabled {
+    environment.etc."rustypaste/rustypaste.toml" = {
       source = let
         crypt = "${inputs.self}/secrets/crypt/";
       in "${crypt}/rustypaste/server.toml";
@@ -69,25 +58,25 @@ in {
       mode = "0755";
     };
 
-    systemd.tmpfiles.rules = mkIf isEnabled [
+    systemd.tmpfiles.rules = [
       "d /var/lib/rustypaste 2750 ${users.rustypaste.name} ${users.rustypaste.group} -"
     ];
 
-    sops.secrets = mkIf (isEnabled || cfg.client.enable) {
+    sops.secrets = {
       "rustypaste/auth" = {
-        owner = mkIf isEnabled users.rustypaste.name;
+        owner = users.rustypaste.name;
         group = groups.rustypaste.name;
         mode = "0440";
       };
       "rustypaste/delete" = {
-        owner = mkIf isEnabled users.rustypaste.name;
+        owner = users.rustypaste.name;
         group = groups.rustypaste.name;
         mode = "0440";
       };
     };
 
-    networking.firewall.allowedTCPPorts = mkIf isEnabled [port];
+    networking.firewall.allowedTCPPorts = [port];
 
-    ${namespace}.services.storage.impermanence.folders = mkIf isEnabled ["/var/lib/rustypaste"];
+    ${namespace}.services.storage.impermanence.folders = ["/var/lib/rustypaste"];
   };
 }

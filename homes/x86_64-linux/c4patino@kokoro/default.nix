@@ -38,6 +38,7 @@ in {
 
       tools = {
         presenterm = enabled;
+        rustypaste = enabled;
       };
     };
 
