@@ -39,6 +39,7 @@ in {
       };
 
       tools = {
+        asciinema = enabled;
         presenterm = enabled;
         rustypaste = enabled;
       };

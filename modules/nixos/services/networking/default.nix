@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) types mkOption optional optionalString concatStringsSep;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP flattenHostServices mkRequiredOpt mkBoolOpt mkOptAttrset mkListOpt;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP flattenHostServices mkRequiredOpt mkBoolOpt mkOpt mkOptAttrset mkListOpt;
 
   base = "${namespace}.services.networking";
   cfg = getAttrByNamespace config base;
@@ -24,7 +24,12 @@ in {
             port = mkRequiredOpt port "Local port of the service. If not specified, the module's default is used.";
             public = mkBoolOpt false "Whether the service should be publicly accessible over *.cpatino.com.";
             internal = mkBoolOpt false "Whether the service should be internally accessible over *.yumeami.sh.";
-            websocket = mkBoolOpt false "Whether to enable websocket endpoints for the service.";
+            websocket = mkOpt (submodule {
+              options = {
+                enable = mkBoolOpt false "Whether to enable websocket endpoints for the service.";
+                path = mkOpt str "/ws/" "WebSocket path prefix for the service.";
+              };
+            }) {} "WebSocket configuration for the service.";
           };
         }));
         default = {};

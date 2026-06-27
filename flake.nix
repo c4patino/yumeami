@@ -13,9 +13,11 @@
 
     deploy-rs.url = "github:serokell/deploy-rs";
     devshell.url = "github:numtide/devshell";
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+
+    asciinema.url = "github:asciinema/asciinema-server/main";
     impermanence.url = "github:nix-community/impermanence";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
-    treefmt-nix.url = "github:numtide/treefmt-nix";
     walker.url = "github:abenz1267/walker";
     xremap.url = "github:xremap/nix-flake";
 
