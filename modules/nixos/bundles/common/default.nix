@@ -86,6 +86,7 @@ in {
               tsuki = [
                 "forgejo"
                 "grafana"
+                "asciinema"
                 "terraform"
                 "vaultwarden"
               ];

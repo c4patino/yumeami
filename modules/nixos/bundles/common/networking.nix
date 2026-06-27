@@ -60,6 +60,11 @@ in {
         };
 
         tsuki = {
+          asciinema = {
+            port = 4000;
+            public = true;
+            websocket.enable = true;
+          };
           dash = {
             port = 5150;
             internal = true;
@@ -73,7 +78,10 @@ in {
             port = 8096;
             internal = true;
             public = true;
-            websocket = true;
+            websocket = {
+              enable = true;
+              path = "/socket";
+            };
           };
           paste = {
             port = 5100;
