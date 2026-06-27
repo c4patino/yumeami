@@ -135,8 +135,9 @@ in {
         systemd.services = {
           qbittorrent = {
             requires = [
-              "var-lib-qBittorrent.mount"
+              "openvpn-default.service"
               "var-lib-qBittorrent-qBittorrent-downloads-seed.mount"
+              "var-lib-qBittorrent.mount"
             ];
 
             after = [
