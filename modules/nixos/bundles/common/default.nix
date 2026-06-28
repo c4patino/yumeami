@@ -24,7 +24,7 @@ in {
       hardware.bootloader = enabled;
 
       services = {
-        ci = {
+        apps = {
           slurm = {
             enable = true;
             controlHosts = ["arisu" "chibi"];

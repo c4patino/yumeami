@@ -8,7 +8,7 @@
   inherit (lib) types mkEnableOption mkIf groupBy mapAttrsToList attrNames mapAttrs concatStringsSep flatten;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP mkOpt mkOptAttrset mkListOpt;
   inherit (config.networking) hostName;
-  base = "${namespace}.services.ci.slurm";
+  base = "${namespace}.services.apps.slurm";
   cfg = getAttrByNamespace config base;
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 in {

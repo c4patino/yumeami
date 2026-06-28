@@ -20,7 +20,7 @@ in {
     hardware.bootloader = mkForce disabled;
 
     services = {
-      ci = {
+      apps = {
         slurm = {
           enable = mkForce false;
         };
