@@ -30,5 +30,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     license = lib.licenses.gpl2Plus;
     mainProgram = "qui";
     platforms = ["x86_64-linux"];
+    maintainers = with lib.maintainers; [
+      c4patino
+    ];
   };
 })

@@ -35,5 +35,8 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/austin-weeks/miasma";
     license = lib.licenses.gpl3;
     platforms = lib.platforms.linux;
+    maintainers = with lib.maintainers; [
+      c4patino
+    ];
   };
 }
