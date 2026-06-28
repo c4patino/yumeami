@@ -27,7 +27,7 @@ in {
             websocket = mkOpt (submodule {
               options = {
                 enable = mkBoolOpt false "Whether to enable websocket endpoints for the service.";
-                path = mkOpt str "/ws/" "WebSocket path prefix for the service.";
+                path = mkOpt str "/ws" "WebSocket path prefix for the service.";
               };
             }) {} "WebSocket configuration for the service.";
           };
