@@ -74,6 +74,10 @@ in {
             internal = true;
             public = true;
           };
+          ignis = {
+            port = 5125;
+            internal = true;
+          };
           jellyfin = {
             port = 8096;
             internal = true;
