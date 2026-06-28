@@ -2,6 +2,7 @@
   config,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
@@ -38,5 +39,9 @@ in {
         slurp = enabled;
       };
     };
+
+    home.packages = with pkgs; [
+      rclip
+    ];
   };
 }
