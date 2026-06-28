@@ -93,6 +93,10 @@
           RequestHeader set X-Forwarded-Port "443"
           RequestHeader set X-Forwarded-For %{REMOTE_ADDR}s
 
+          Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+          Header always set Referrer-Policy "strict-origin-when-cross-origin"
+          Header always set X-Content-Type-Options "nosniff"
+
           RewriteEngine On
           ProxyTimeout 300
           ProxyPreserveHost On
@@ -119,14 +123,27 @@ in {
 
       extraModules = [
         "filter"
+        "headers"
         "proxy"
         "proxy_http"
         "proxy_wstunnel"
+        "reqtimeout"
         "rewrite"
         "substitute"
       ];
 
       extraConfig = ''
+        ServerTokens Prod
+        ServerSignature Off
+        TraceEnable Off
+
+        Timeout 30
+        RequestReadTimeout handshake=5 header=10-20,minrate=500 body=10,minrate=500
+
+        SSLProtocol -all +TLSv1.2 +TLSv1.3
+        SSLCompression Off
+        SSLSessionTickets Off
+
         ErrorDocument 400 /400.html
         ErrorDocument 401 /401.html
         ErrorDocument 403 /403.html
