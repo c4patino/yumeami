@@ -28,5 +28,12 @@ in {
           |> config.lib.file.mkOutOfStoreSymlink;
       };
     };
+
+    sops.secrets = let
+      inherit (config.snowfallorg) user;
+    in {
+      "rustypaste/auth".path = "${user.home.directory}/.config/rustypaste/auth_token";
+      "rustypaste/delete".path = "${user.home.directory}/.config/rustypaste/delete_token";
+    };
   };
 }
