@@ -72,8 +72,9 @@
 
     websocketConfig = optionalString service.websocket.enable ''
       # --- ${name} (websocket access) ---
-      ProxyPass ${service.websocket.path} ws://${hostIP}:${p}${service.websocket.path} connectiontimeout=30 timeout=300 retry=0
-      ProxyPassReverse ${service.websocket.path} ws://${hostIP}:${p}${service.websocket.path}
+      RewriteCond %{HTTP:Connection} upgrade [NC]
+      RewriteCond %{HTTP:Upgrade} websocket [NC]
+      RewriteRule ^/(.*)$ ws://${hostIP}:${p}${service.websocket.path}/$1 [P,L]
 
     '';
   in {
