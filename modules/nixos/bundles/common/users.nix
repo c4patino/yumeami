@@ -41,8 +41,6 @@ in {
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFCQww3/93dUGOr471IznJadCaIhKWPSQJM8dsRdZ1cw c4patino@tsuki"
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOHXANLh9+yAgVwFQuAIR8RU5q/z4sHbx2UIpo4F/ZSh c4patino@mutualofomaha"
         ];
-
-        shell = pkgs.bash;
       };
 
       root = {
@@ -51,6 +49,11 @@ in {
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAHTgDfXm/iX/5x9Y64+S9zrLoTooR2/9AaiY9/E+TPd deploy-rs@kokoro"
         ];
       };
+    };
+
+    programs.bash = {
+      enable = true;
+      completion.enable = true;
     };
 
     sops = let
