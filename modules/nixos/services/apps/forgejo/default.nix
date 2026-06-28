@@ -100,7 +100,7 @@ in {
         after = ["postgresql.service" "pgbouncer.service"];
         requires = ["postgresql.service" "pgbouncer.service"];
         serviceConfig = {
-          RestartSec = "1s";
+          RestartSec = "5s";
         };
       };
 
