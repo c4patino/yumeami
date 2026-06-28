@@ -17,7 +17,9 @@ in {
 
     cli = {
       tools = {
+        asciinema = enabled;
         presenterm = enabled;
+        rustypaste = enabled;
       };
     };
   };
