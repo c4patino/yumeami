@@ -44,5 +44,8 @@ stdenv.mkDerivation {
     description = "IMX471 camera driver";
     license = lib.licenses.gpl2;
     platforms = lib.platforms.linux;
+    maintainers = with lib.maintainers; [
+      c4patino
+    ];
   };
 }

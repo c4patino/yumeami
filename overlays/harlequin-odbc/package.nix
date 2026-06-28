@@ -38,6 +38,8 @@ buildPythonPackage {
     description = "Harlequin adapter for ODBC";
     homepage = "https://pypi.org/project/harlequin-odbc/";
     license = lib.licenses.mit;
-    maintainers = with lib.maintainers; [pcboy];
+    maintainers = with lib.maintainers; [
+      c4patino
+    ];
   };
 }
