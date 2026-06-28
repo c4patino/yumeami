@@ -71,12 +71,26 @@ in {
             http get $"https://www.toptal.com/developers/gitignore/api/($joined)"
           }
 
+          def copy-to-clipboard [] {
+            if ("WSL_DISTRO_NAME" in ($env | columns)) {
+              clip.exe
+            } else if (which wl-copy | is-not-empty) {
+              wl-copy
+            } else if (which xclip | is-not-empty) {
+              xclip -selection clipboard
+            } else if (which pbcopy | is-not-empty) {
+              pbcopy
+            } else {
+              error make {msg: "No clipboard utility found"}
+            }
+          }
+
           # secret copy command
           def sc [path: string] {
-            ["/run/secrets" ($path)]
+            ["/run/secrets" $path]
             | path join
             | open
-            | wl-copy
+            | copy-to-clipboard
           }
         '';
 
