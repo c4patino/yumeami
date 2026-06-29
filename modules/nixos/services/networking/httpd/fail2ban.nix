@@ -15,7 +15,7 @@ in {
         settings = {
           enabled = true;
           filter = "apache-auth";
-          logpath = "/var/log/httpd/*error_log";
+          logpath = "/var/log/httpd/error-*.log*";
           backend = "auto";
           maxretry = 5;
           findtime = 600;
@@ -28,7 +28,7 @@ in {
         settings = {
           enabled = true;
           filter = "apache-badbots";
-          logpath = "/var/log/httpd/*access_log";
+          logpath = "/var/log/httpd/access-*.log*";
           backend = "auto";
           maxretry = 5;
           findtime = 600;
@@ -41,7 +41,7 @@ in {
         settings = {
           enabled = true;
           filter = "apache-noscript";
-          logpath = "/var/log/httpd/*access_log";
+          logpath = "/var/log/httpd/access-*.log*";
           backend = "auto";
           maxretry = 5;
           findtime = 600;
@@ -54,7 +54,7 @@ in {
         settings = {
           enabled = true;
           filter = "apache-nohome";
-          logpath = "/var/log/httpd/*access_log";
+          logpath = "/var/log/httpd/access-*.log*";
           backend = "auto";
           maxretry = 5;
           findtime = 600;
@@ -67,7 +67,7 @@ in {
         settings = {
           enabled = true;
           filter = "apache-overflows";
-          logpath = "/var/log/httpd/*error_log";
+          logpath = "/var/log/httpd/error-*.log*";
           backend = "auto";
           maxretry = 5;
           findtime = 600;
