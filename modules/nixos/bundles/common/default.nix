@@ -61,6 +61,7 @@ in {
 
         security = {
           ca = enabled;
+          fail2ban = enabled;
           gnupg = enabled;
           polkit = enabled;
         };

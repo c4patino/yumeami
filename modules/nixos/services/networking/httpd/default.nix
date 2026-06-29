@@ -4,7 +4,7 @@
   lib,
   namespace,
   ...
-}: let
+} @ args: let
   inherit (lib) mkIf mkEnableOption mapAttrsToList listToAttrs replaceStrings mkMerge concatStringsSep filterAttrs optionalString;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP isGateway flattenHostServices;
   inherit (config.networking) hostName;
@@ -113,6 +113,10 @@
       // sslConfig;
   };
 in {
+  imports = [
+    (import ./fail2ban.nix args)
+  ];
+
   options = mkOptionsWithNamespace base {
     enable = mkEnableOption "Apache HTTPD";
   };
