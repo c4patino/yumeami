@@ -16,6 +16,7 @@ in {
   ${namespace} = {
     bundles = {
       common = enabled;
+      server = enabled;
     };
 
     services = {
@@ -27,7 +28,6 @@ in {
             "*.cpatino.com"
           ];
         };
-        httpd = enabled;
       };
       storage = {
         nfs.mounts = {
@@ -38,11 +38,6 @@ in {
         };
       };
     };
-  };
-
-  programs.nh = {
-    enable = true;
-    clean.enable = true;
   };
 
   networking = {

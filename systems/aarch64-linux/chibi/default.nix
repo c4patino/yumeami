@@ -17,12 +17,10 @@ in {
   ${namespace} = {
     bundles = {
       common = enabled;
+      server = enabled;
     };
-    services = {
-      networking = {
-        httpd = enabled;
-      };
 
+    services = {
       storage = {
         nfs = {
           enable = true;
@@ -36,11 +34,6 @@ in {
         };
       };
     };
-  };
-
-  programs.nh = {
-    enable = true;
-    clean.enable = true;
   };
 
   networking = {
