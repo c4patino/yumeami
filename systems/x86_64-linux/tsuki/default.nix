@@ -16,6 +16,7 @@ in {
   ${namespace} = {
     bundles = {
       common = enabled;
+      server = enabled;
     };
 
     hardware = {
@@ -36,10 +37,6 @@ in {
         };
       };
 
-      networking = {
-        httpd = enabled;
-      };
-
       storage = {
         samba.mounts = {
           shared = {
@@ -55,11 +52,6 @@ in {
         };
       };
     };
-  };
-
-  programs.nh = {
-    enable = true;
-    clean.enable = true;
   };
 
   networking = {
