@@ -206,14 +206,25 @@ in {
     };
 
     users = {
-      users.qbittorrent = {
-        inherit uid;
-        isSystemUser = true;
-        group = "qbittorrent";
+      users = {
+        qbittorrent = {
+          inherit uid;
+          isSystemUser = true;
+          group = "qbittorrent";
+        };
+
+        qui = {
+          isSystemUser = true;
+          group = "qui";
+          extraGroups = ["qbittorrent"];
+        };
       };
 
-      groups.qbittorrent = {
-        inherit gid;
+      groups = {
+        qbittorrent = {
+          inherit gid;
+        };
+        qui = {};
       };
     };
 
@@ -225,7 +236,7 @@ in {
         directory = "/var/lib/qBittorrent";
         user = qbittorrentUser.name;
         group = qbittorrentUser.group;
-        mode = "700";
+        mode = "770";
       }
       {
         directory = "/var/lib/qui";
