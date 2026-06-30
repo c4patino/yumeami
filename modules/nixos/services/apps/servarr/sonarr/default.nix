@@ -1,12 +1,11 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   ...
 }: let
   inherit (lib) mkForce mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP readJsonOrEmpty getIn hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -19,6 +18,11 @@ in {
   config = mkIf isEnabled {
     services.sonarr = {
       enable = true;
+
+      environmentFiles = [
+        config.sops.secrets."environment-file/sonarr".path
+      ];
+
       settings = {
         server.port = port;
         postgres = {
@@ -27,10 +31,6 @@ in {
           user = "sonarr";
           maindb = "sonarr";
           logdb = "sonarr-log";
-          password =
-            "${inputs.self}/secrets/crypt/secrets.json"
-            |> readJsonOrEmpty
-            |> getIn "postgresql.sonarr.password";
         };
       };
     };
@@ -63,6 +63,8 @@ in {
 
       groups.sonarr = {};
     };
+
+    sops.secrets."environment-file/sonarr" = {};
 
     ${namespace}.services.storage.impermanence.folders = let
       sonarrUser = config.users.users.sonarr;

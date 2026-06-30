@@ -1,12 +1,11 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   ...
 }: let
   inherit (lib) mapAttrs';
-  inherit (lib.${namespace}) getAttrByNamespace resolveHostIP readJsonOrEmpty getIn;
+  inherit (lib.${namespace}) getAttrByNamespace resolveHostIP;
 
   cfg = getAttrByNamespace config "${namespace}.services.storage.samba";
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -26,7 +25,7 @@ in {
           device = "//${hostIP}/${mountCfg.folder}";
           fsType = "cifs";
           options = [
-            "${automount_opts},credentials=/etc/samba/.credentials,uid=1000,gid=100"
+            "${automount_opts},credentials=${config.sops.secrets."samba".path},uid=1000,gid=100"
           ];
         };
       };
