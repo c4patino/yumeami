@@ -3,13 +3,17 @@
   lib,
   namespace,
   ...
-}: let
-  inherit (lib) types mkIf mkEnableOption mkOption mapAttrs' concatStringsSep;
+} @ args: let
+  inherit (lib) types mkIf mkEnableOption mkMerge concatStringsSep;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP mkOpt mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset;
   base = "${namespace}.services.storage.nfs";
   cfg = getAttrByNamespace config base;
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 in {
+  imports = [
+    (import ./mount.nix args)
+  ];
+
   options = with types;
     mkOptionsWithNamespace base {
       enable = mkEnableOption "nfs";
@@ -29,30 +33,8 @@ in {
       }) {} "Set of NFS mounts with custom configuration.";
     };
 
-  config = {
-    fileSystems = let
-      mapFolderToMount = name: mntCfg: let
-        hostIP = resolveHostIP networkCfg.devices mntCfg.host;
-        localPath =
-          if mntCfg.mountPath != null
-          then mntCfg.mountPath
-          else "/mnt/nfs/${name}";
-      in {
-        name = localPath;
-        value = {
-          device = "${hostIP}:${mntCfg.folder}";
-          fsType = "nfs";
-          options = [
-            "_netdev"
-            "nofail"
-            "x-systemd.automount"
-          ];
-        };
-      };
-    in
-      cfg.mounts |> mapAttrs' mapFolderToMount;
-
-    services.nfs.server = mkIf cfg.enable {
+  config = mkIf cfg.enable {
+    services.nfs.server = {
       enable = true;
       exports = let
         mapMountToPermissions = mount: let
@@ -68,10 +50,11 @@ in {
         |> concatStringsSep "\n";
     };
 
-    ${namespace}.services.storage.impermanence.folders = mkIf (cfg.enable && cfg.shares != []) (
-      ["/var/lib/nfs"] ++ (cfg.shares |> map (s: "/mnt/nfs/${s.name}"))
-    );
+    ${namespace}.services.storage.impermanence.folders = mkMerge [
+      ["/var/lib/nfs"]
+      (mkIf (cfg.shares != []) (cfg.shares |> map (s: "/mnt/nfs/${s.name}")))
+    ];
 
-    networking.firewall.allowedTCPPorts = mkIf cfg.enable [2049];
+    networking.firewall.allowedTCPPorts = [2049];
   };
 }

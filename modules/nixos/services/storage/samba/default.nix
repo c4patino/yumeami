@@ -1,17 +1,20 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   ...
-}: let
-  inherit (lib) types mkIf mkEnableOption mkOption mapAttrs' mkMerge map;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP readJsonOrEmpty getIn mkOpt mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset;
+} @ args: let
+  inherit (lib) types mkIf mkEnableOption mkMerge;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset;
   inherit (config.users) users;
+
   base = "${namespace}.services.storage.samba";
   cfg = getAttrByNamespace config base;
-  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 in {
+  imports = [
+    (import ./mount.nix args)
+  ];
+
   options = with types;
     mkOptionsWithNamespace base {
       enable = mkEnableOption "Samba";
@@ -25,80 +28,55 @@ in {
       }) {} "Set of Samba mounts with custom configuration.";
     };
 
-  config = {
-    fileSystems = let
-      processMount = name: mountCfg: let
-        hostIP = resolveHostIP networkCfg.devices mountCfg.host;
-        localPath =
-          if mountCfg.mountPath != null
-          then mountCfg.mountPath
-          else "/mnt/samba/${name}";
-        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-      in {
-        name = localPath;
-        value = {
-          device = "//${hostIP}/${mountCfg.folder}";
-          fsType = "cifs";
-          options = [
-            "${automount_opts},credentials=/etc/samba/.credentials,uid=1000,gid=100"
+  config = mkIf cfg.enable {
+    services = {
+      samba = {
+        enable = true;
+        openFirewall = true;
+        settings = let
+          mkShare = folderPath: {
+            "path" = "/mnt/samba/${folderPath}";
+            "browsable" = "yes";
+            "read only" = "no";
+            "guest ok" = "no";
+            "create mask" = "0644";
+            "directory mask" = "0755";
+            "force user" = users.c4patino.name;
+            "force group" = users.c4patino.group;
+          };
+
+          mapFolderToShare = folderPath: {
+            name = folderPath;
+            value = mkShare folderPath;
+          };
+
+          shareConfigs =
+            cfg.shares
+            |> map mapFolderToShare
+            |> builtins.listToAttrs;
+        in
+          mkMerge [
+            {
+              global = {
+                "workgroup" = "WORKGROUP";
+                "server string" = "smbnix";
+                "netbios name" = "smbnix";
+                "security" = "user";
+              };
+            }
+            shareConfigs
           ];
-        };
       };
-    in
-      cfg.mounts |> mapAttrs' processMount;
 
-    environment.etc."samba/.credentials".text = let
-      secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/secrets.json";
-    in ''
-      username=${getIn "samba.username" secrets}
-      password=${getIn "samba.password" secrets}
-    '';
-
-    services.samba = mkIf cfg.enable {
-      enable = true;
-      openFirewall = true;
-      settings = let
-        mkShare = folderPath: {
-          "path" = "/mnt/samba/${folderPath}";
-          "browsable" = "yes";
-          "read only" = "no";
-          "guest ok" = "no";
-          "create mask" = "0644";
-          "directory mask" = "0755";
-          "force user" = users.c4patino.name;
-          "force group" = users.c4patino.group;
-        };
-
-        mapFolderToShare = folderPath: {
-          name = folderPath;
-          value = mkShare folderPath;
-        };
-
-        shareConfigs =
-          cfg.shares
-          |> map mapFolderToShare
-          |> builtins.listToAttrs;
-      in
-        mkMerge [
-          {
-            global = {
-              "workgroup" = "WORKGROUP";
-              "server string" = "smbnix";
-              "netbios name" = "smbnix";
-              "security" = "user";
-            };
-          }
-          shareConfigs
-        ];
+      samba-wsdd = {
+        enable = true;
+        openFirewall = true;
+      };
     };
 
-    services.samba-wsdd = mkIf cfg.enable {
-      enable = true;
-      openFirewall = true;
-    };
-
-    ${namespace}.services.storage.impermanence.folders = mkIf (cfg.enable && cfg.shares != []) (
-      ["/var/lib/samba"] ++ (cfg.shares |> map (s: "/mnt/samba/${s}"))
-    );
+    ${namespace}.services.storage.impermanence.folders = mkMerge [
+      ["/var/lib/samba"]
+      (mkIf (cfg.shares != []) (cfg.shares |> map (s: "/mnt/samba/${s}")))
+    ];
   };
 }
