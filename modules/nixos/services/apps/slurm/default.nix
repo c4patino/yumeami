@@ -110,11 +110,17 @@ in {
       ];
     };
 
-    environment.etc."munge/munge.key" = {
-      source = "${inputs.self}/secrets/crypt/munge.key";
-      user = "munge";
-      group = "munge";
-      mode = "0400";
+    sops.secrets = let
+      inherit (config.users.users) munge;
+    in {
+      "munge-key" = {
+        sopsFile = "${inputs.self}/secrets/sops/munge.key";
+        format = "binary";
+        path = "/etc/munge/munge.key";
+        owner = munge.name;
+        group = munge.group;
+        mode = "0400";
+      };
     };
 
     ${namespace}.services.storage.impermanence.folders = [

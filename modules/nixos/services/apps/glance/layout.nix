@@ -1,12 +1,11 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace getIn readJsonOrEmpty hostHasService;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -331,37 +330,33 @@ in {
                 {
                   type = "group";
                   collapse-after = 5;
-                  widgets = let
-                    secrets =
-                      "${inputs.self}/secrets/crypt/secrets.json"
-                      |> readJsonOrEmpty;
-                  in [
+                  widgets = [
                     {
                       type = "repository";
                       title = "yumeami";
                       repository = "c4patino/yumeami";
-                      token = getIn "github.glance" secrets;
+                      token = "\${GITHUB_TOKEN}";
                       commits-limit = 8;
                     }
                     {
                       type = "repository";
                       title = "yumevim-nix";
                       repository = "c4patino/yumevim-nix";
-                      token = getIn "github.glance" secrets;
+                      token = "\${GITHUB_TOKEN}";
                       commits-limit = 8;
                     }
                     {
                       type = "repository";
                       title = "dotfiles";
                       repository = "c4patino/dotfiles";
-                      token = getIn "github.glance" secrets;
+                      token = "\${GITHUB_TOKEN}";
                       commits-limit = 8;
                     }
                     {
                       type = "repository";
                       title = "nixpkgs";
                       repository = "nixos/nixpkgs";
-                      token = getIn "github.glance" secrets;
+                      token = "\${GITHUB_TOKEN}";
                     }
                   ];
                 }

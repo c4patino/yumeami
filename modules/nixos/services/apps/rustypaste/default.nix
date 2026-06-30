@@ -51,10 +51,7 @@ in {
     };
 
     environment.etc."rustypaste/rustypaste.toml" = {
-      source = let
-        crypt = "${inputs.self}/secrets/crypt/";
-      in "${crypt}/rustypaste/server.toml";
-
+      source = inputs.dotfiles + "/.config/rustypaste/server.toml";
       mode = "0755";
     };
 

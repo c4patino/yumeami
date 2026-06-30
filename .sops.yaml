@@ -62,3 +62,12 @@ creation_rules:
       - age:
         - *master
         - *c4patino_mutualofomaha
+  - path_regex: secrets/sops/munge.key
+    key_groups:
+      - age:
+        - *master
+        - *c4patino_arisu
+        - *c4patino_kokoro
+        - *c4patino_chibi
+        - *c4patino_shiori
+        - *c4patino_tsuki

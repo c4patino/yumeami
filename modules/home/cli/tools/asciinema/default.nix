@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   namespace,
   pkgs,
@@ -20,12 +21,10 @@ in {
         asciinema
       ];
 
-      file = let
-        crypt = "${config.snowfallorg.user.home.directory}/dotfiles/secrets/crypt";
-      in {
-        ".config/asciinema/config.toml".source =
-          "${crypt}/asciinema/config.toml"
-          |> config.lib.file.mkOutOfStoreSymlink;
+      file = {
+        ".config/asciinema/config.toml" = {
+          source = inputs.dotfiles + "/.config/asciinema/config.toml";
+        };
       };
     };
   };

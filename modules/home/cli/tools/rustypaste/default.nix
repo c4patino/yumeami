@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   namespace,
   pkgs,
@@ -20,12 +21,10 @@ in {
         rustypaste-cli
       ];
 
-      file = let
-        crypt = "${config.snowfallorg.user.home.directory}/dotfiles/secrets/crypt";
-      in {
-        ".config/rustypaste/config.toml".source =
-          "${crypt}/rustypaste/client.toml"
-          |> config.lib.file.mkOutOfStoreSymlink;
+      file = {
+        ".config/rustypaste/config.toml" = {
+          source = inputs.dotfiles + "/.config/rustypaste/config.toml";
+        };
       };
     };
 

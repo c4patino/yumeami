@@ -23,6 +23,8 @@ in {
       enable = true;
       openFirewall = true;
 
+      environmentFile = config.sops.secrets."environment-file/glance".path;
+
       settings = {
         server = {
           host = "0.0.0.0";
@@ -42,5 +44,7 @@ in {
       source = inputs.dotfiles + "/.assets/icons/favicon.svg";
       mode = "0755";
     };
+
+    sops.secrets."environment-file/glance" = {};
   };
 }

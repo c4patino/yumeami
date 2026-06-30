@@ -1,12 +1,11 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   ...
 }: let
   inherit (lib) mkForce mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP readJsonOrEmpty getIn hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -19,6 +18,11 @@ in {
   config = mkIf isEnabled {
     services.radarr = {
       enable = true;
+
+      environmentFiles = [
+        config.sops.secrets."environment-file/radarr".path
+      ];
+
       settings = {
         server.port = port;
         postgres = {
@@ -27,10 +31,6 @@ in {
           user = "radarr";
           maindb = "radarr";
           logdb = "radarr-log";
-          password =
-            "${inputs.self}/secrets/crypt/secrets.json"
-            |> readJsonOrEmpty
-            |> getIn "postgresql.radarr.password";
         };
       };
     };
@@ -63,6 +63,8 @@ in {
 
       groups.radarr = {};
     };
+
+    sops.secrets."environment-file/radarr" = {};
 
     ${namespace}.services.storage.impermanence.folders = let
       radarrUser = config.users.users.radarr;

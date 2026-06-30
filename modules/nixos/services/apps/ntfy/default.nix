@@ -1,16 +1,14 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkForce;
-  inherit (lib.${namespace}) getAttrByNamespace readJsonOrEmpty getIn resolveDatabaseIP hostHasService resolveServicePort;
+  inherit (lib) mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
-  pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
 
   isEnabled = hostHasService networkCfg.network-services hostName "ntfy";
   port = resolveServicePort networkCfg.network-services "ntfy" 5201;
@@ -18,6 +16,9 @@ in {
   config = mkIf isEnabled {
     services.ntfy-sh = {
       enable = true;
+
+      environmentFile = config.sops.secrets."environment-file/ntfy".path;
+
       settings = lib.mkForce {
         base-url = "http://ntfy.yumeami.sh";
         behind-proxy = true;
@@ -26,11 +27,6 @@ in {
         upstream-base-url = "https://ntfy.sh";
 
         attachment-cache-dir = "/var/lib/ntfy-sh/attachments";
-        database-url = let
-          pgPassword = getIn "postgresql.ntfy.password" (readJsonOrEmpty "${inputs.self}/secrets/crypt/secrets.json");
-          pgHost = resolveDatabaseIP networkCfg.devices pgCfg.databases "ntfy";
-          pgPort = 5600;
-        in "postgres://ntfy:${pgPassword}@${pgHost}:${toString pgPort}/ntfy?sslmode=disable";
 
         auth-default-access = "deny-all";
         enable-login = true;
@@ -53,9 +49,7 @@ in {
       };
     };
 
-    systemd.services.ntfy-sh.serviceConfig = {
-      DynamicUser = mkForce false;
-    };
+    sops.secrets."environment-file/ntfy" = {};
 
     networking.firewall.allowedTCPPorts = [port];
   };

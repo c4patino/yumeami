@@ -1,13 +1,12 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkIf mkForce;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP readJsonOrEmpty getIn hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -26,6 +25,10 @@ in {
       lfs.enable = true;
 
       database.type = "postgres";
+
+      secrets.database = {
+        PASSWD = config.sops.secrets."forgejo/db".path;
+      };
 
       settings = {
         actions.ENABLED = true;
@@ -51,10 +54,6 @@ in {
           HOST = mkForce "${resolveDatabaseIP networkCfg.devices pgCfg.databases "forgejo"}:5600";
           NAME = "forgejo";
           USER = "forgejo";
-          PASSWD =
-            "${inputs.self}/secrets/crypt/secrets.json"
-            |> readJsonOrEmpty
-            |> getIn "postgresql.forgejo.password";
         };
 
         "git.timeout" = {
@@ -103,6 +102,8 @@ in {
           RestartSec = "5s";
         };
       };
+
+    sops.secrets."forgejo/db" = {};
 
     ${namespace}.services.storage.impermanence.folders = ["/var/lib/forgejo"];
   };

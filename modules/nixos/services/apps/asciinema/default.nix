@@ -3,11 +3,10 @@
   inputs,
   lib,
   namespace,
-  pkgs,
   ...
 }: let
   inherit (lib) mkIf mkForce;
-  inherit (lib.${namespace}) getAttrByNamespace getIn hostHasService readJsonOrEmpty resolveDatabaseHost resolveDatabaseIP resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveDatabaseHost resolveServicePort;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -34,14 +33,7 @@ in {
         SIGN_UP_DISABLED = true;
       };
 
-      environmentFile = let
-        secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/secrets.json";
-        ip = resolveDatabaseIP networkCfg.devices pgCfg.databases "asciinema";
-        password = getIn "postgresql.asciinema.password" secrets;
-      in
-        pkgs.writeText "asciinema.env" ''
-          DATABASE_URL=ecto://asciinema:${password}@${ip}:5600/asciinema
-        '';
+      environmentFile = config.sops.secrets."environment-file/asciinema".path;
     };
 
     networking.firewall.allowedTCPPorts = [port];
@@ -53,6 +45,8 @@ in {
         RestartSec = mkForce "1s";
       };
     };
+
+    sops.secrets."environment-file/asciinema" = {};
 
     ${namespace}.services.storage.impermanence.folders = [
       {

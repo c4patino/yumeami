@@ -1,13 +1,12 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   pkgs,
   ...
 }: let
   inherit (lib) mkForce mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP readJsonOrEmpty getIn hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -31,10 +30,6 @@ in {
         postgresPort = 5600;
         postgresDatabase = "autobrr";
         postgresUser = "autobrr";
-        postgresPass =
-          "${inputs.self}/secrets/crypt/secrets.json"
-          |> readJsonOrEmpty
-          |> getIn "postgresql.autobrr.password";
         postgresSSLMode = "disable";
       };
     };
@@ -62,6 +57,7 @@ in {
               User = autobrrUser.name;
               Group = autobrrUser.group;
               UMask = mkForce "0002";
+              EnvironmentFile = config.sops.secrets."environment-file/autobrr".path;
             };
           }
           (mkIf (dbHost == hostName) {
@@ -73,10 +69,8 @@ in {
     };
 
     sops.secrets = {
-      "autobrr" = {
-        owner = config.users.users.autobrr.name;
-        group = config.users.users.autobrr.group;
-      };
+      "autobrr" = {};
+      "environment-file/autobrr" = {};
     };
 
     users = {
