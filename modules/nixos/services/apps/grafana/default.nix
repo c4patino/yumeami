@@ -1,13 +1,11 @@
 {
   config,
-  inputs,
   lib,
   namespace,
-  pkgs,
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP readJsonOrEmpty getIn hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
   inherit (config.networking) hostName;
 
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
@@ -39,10 +37,7 @@ in {
           in "${ip}:5600";
           name = "grafana";
           user = "grafana";
-          password = let
-            secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/secrets.json";
-            grafanaPassword = pkgs.writeText "grafana-password.txt" (getIn "postgresql.grafana.password" secrets);
-          in "$__file{${grafanaPassword}}";
+          password = "$__file{${config.sops.secrets."db/grafana".path}}";
         };
 
         panels.enable_alpha = true;
@@ -66,5 +61,14 @@ in {
           RestartSec = lib.mkForce "1s";
         };
       };
+
+    sops.secrets = let
+      inherit (config.users.users) grafana;
+    in {
+      "db/grafana" = {
+        owner = grafana.name;
+        group = grafana.group;
+      };
+    };
   };
 }

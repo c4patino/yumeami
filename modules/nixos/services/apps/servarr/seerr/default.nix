@@ -1,12 +1,11 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   ...
 }: let
   inherit (lib) mkForce mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP readJsonOrEmpty getIn hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -26,10 +25,6 @@ in {
     systemd.services.seerr = let
       seerrUser = config.users.users.seerr;
       dbIp = resolveDatabaseIP networkCfg.devices pgCfg.databases "seerr";
-      password =
-        "${inputs.self}/secrets/crypt/secrets.json"
-        |> readJsonOrEmpty
-        |> getIn "postgresql.seerr.password";
     in
       mkMerge [
         {
@@ -38,7 +33,6 @@ in {
             DB_HOST = dbIp;
             DB_PORT = "5600";
             DB_USER = "seerr";
-            DB_PASS = password;
             DB_NAME = "seerr";
           };
 
@@ -46,6 +40,7 @@ in {
             DynamicUser = mkForce false;
             User = seerrUser.name;
             Group = seerrUser.group;
+            EnvironmentFile = config.sops.secrets."environment-file/seerr".path;
           };
         }
         (mkIf (dbHost == hostName) {
@@ -63,6 +58,8 @@ in {
 
       groups.seerr = {};
     };
+
+    sops.secrets."environment-file/seerr" = {};
 
     ${namespace}.services.storage.impermanence.folders = let
       seerrUser = config.users.users.seerr;

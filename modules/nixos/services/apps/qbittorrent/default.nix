@@ -6,8 +6,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost hostHasService resolveServicePort resolveDatabaseIP readJsonOrEmpty getIn;
+  inherit (lib) mkIf mkMerge;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost hostHasService resolveServicePort resolveDatabaseIP;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -187,23 +187,19 @@ in {
         databasePort = 5600;
         databaseName = "qui";
         databaseUser = "qui";
-        databasePassword =
-          "${inputs.self}/secrets/crypt/secrets.json"
-          |> readJsonOrEmpty
-          |> getIn "postgresql.qui.password";
       };
     };
 
-    systemd.services.qui = mkIf (dbHost == hostName) {
-      after = ["postgresql.service"];
-      requires = ["postgresql.service"];
-      serviceConfig.RestartSec = "1s";
-    };
-
-    sops.secrets = {
-      "openvpn" = {};
-      "qui" = {};
-    };
+    systemd.services.qui = mkMerge [
+      {
+        serviceConfig.EnvironmentFile = config.sops.secrets."environment-file/qui".path;
+      }
+      (mkIf (dbHost == hostName) {
+        after = ["postgresql.service"];
+        requires = ["postgresql.service"];
+        serviceConfig.RestartSec = "1s";
+      })
+    ];
 
     users = {
       users = {
@@ -226,6 +222,12 @@ in {
         };
         qui = {};
       };
+    };
+
+    sops.secrets = {
+      "environment-file/qui" = {};
+      "openvpn" = {};
+      "qui" = {};
     };
 
     ${namespace}.services.storage.impermanence.folders = let

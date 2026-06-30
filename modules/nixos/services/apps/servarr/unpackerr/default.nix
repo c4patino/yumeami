@@ -5,22 +5,23 @@
   pkgs,
   ...
 }: let
-  inherit (lib) filter mkIf optional;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService mkOutOfStoreSymlink;
+  inherit (lib) filter mkIf optional mapAttrs' nameValuePair toUpper;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService;
+  inherit (config.users.users) unpackerr;
   inherit (config.networking) hostName;
 
-  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
-
   starrServices = ["radarr" "sonarr" "lidarr"];
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
   enabledStarrServices = filter (service: hostHasService networkCfg.network-services hostName service) starrServices;
   isEnabled = enabledStarrServices != [];
 in {
   config = mkIf isEnabled {
     systemd.services.unpackerr = let
-      unpackerrUser = config.users.users.unpackerr;
       systemdDependencies =
         enabledStarrServices
         |> map (service: "${service}.service");
+
+      mkUnEnv = mapAttrs' (name: value: nameValuePair "UN_${toUpper name}" value);
     in {
       description = "Extract downloads for Starr apps";
 
@@ -28,21 +29,36 @@ in {
       wants = ["network-online.target"] ++ systemdDependencies;
       after = ["network-online.target"] ++ systemdDependencies;
 
-      serviceConfig = let
-        cfg =
-          "${config.users.users.c4patino.home}/dotfiles/secrets/crypt/unpackerr.toml"
-          |> mkOutOfStoreSymlink pkgs;
-      in {
+      environment = mkUnEnv {
+        debug = "false";
+        quiet = "false";
+
+        interval = "2m";
+        start_delay = "1m";
+
+        retry_delay = "5m";
+        max_retries = "10";
+
+        parallel = "1";
+
+        file_mode = "0644";
+        dir_mode = "0755";
+
+        log_files = "10";
+        log_file_mb = "10";
+        log_queues = "1m";
+        error_stderr = "false";
+        activity = "false";
+      };
+
+      serviceConfig = {
         Type = "simple";
-        User = unpackerrUser.name;
-        Group = unpackerrUser.group;
+        User = unpackerr.name;
+        Group = unpackerr.group;
         UMask = "0002";
-
         StateDirectory = "unpackerr";
-
-        LoadCredential = ["unpackerr.toml:${cfg}"];
-
-        ExecStart = "${pkgs.unpackerr}/bin/unpackerr --config %d/unpackerr.toml";
+        EnvironmentFile = config.sops.secrets."environment-file/unpackerr".path;
+        ExecStart = "${pkgs.unpackerr}/bin/unpackerr";
         Restart = "always";
         RestartSec = 30;
       };
@@ -58,16 +74,16 @@ in {
       groups.unpackerr = {};
     };
 
-    ${namespace}.services.storage.impermanence.folders = let
-      unpackerrUser = config.users.users.unpackerr;
-    in [
+    ${namespace}.services.storage.impermanence.folders = [
       {
         directory = "/var/lib/unpackerr";
-        user = unpackerrUser.name;
-        group = unpackerrUser.group;
+        user = unpackerr.name;
+        group = unpackerr.group;
         mode = "700";
       }
     ];
+
+    sops.secrets."environment-file/unpackerr" = {};
 
     systemd.services.radarr.upholds = optional (builtins.elem "radarr" enabledStarrServices) "unpackerr.service";
     systemd.services.sonarr.upholds = optional (builtins.elem "sonarr" enabledStarrServices) "unpackerr.service";

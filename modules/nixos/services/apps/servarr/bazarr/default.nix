@@ -1,12 +1,11 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   ...
 }: let
   inherit (lib) mkForce mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP readJsonOrEmpty getIn hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -25,10 +24,6 @@ in {
     systemd.services.bazarr = let
       bazarrUser = config.users.users.bazarr;
       dbIp = resolveDatabaseIP networkCfg.devices pgCfg.databases "bazarr";
-      password =
-        "${inputs.self}/secrets/crypt/secrets.json"
-        |> readJsonOrEmpty
-        |> getIn "postgresql.bazarr.password";
     in
       mkMerge [
         {
@@ -38,7 +33,6 @@ in {
             POSTGRES_PORT = "5600";
             POSTGRES_DATABASE = "bazarr";
             POSTGRES_USERNAME = "bazarr";
-            POSTGRES_PASSWORD = password;
           };
 
           serviceConfig = {
@@ -46,6 +40,7 @@ in {
             User = bazarrUser.name;
             Group = bazarrUser.group;
             UMask = mkForce "0002";
+            EnvironmentFile = config.sops.secrets."environment-file/bazarr".path;
           };
         }
         (mkIf (dbHost == hostName) {
@@ -64,6 +59,8 @@ in {
 
       groups.bazarr = {};
     };
+
+    sops.secrets."environment-file/bazarr" = {};
 
     ${namespace}.services.storage.impermanence.folders = let
       bazarrUser = config.users.users.bazarr;
