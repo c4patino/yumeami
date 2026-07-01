@@ -6,7 +6,7 @@
   pkgs,
   ...
 } @ args: let
-  inherit (lib) types mkIf concatStringsSep hasAttr getAttr filter;
+  inherit (lib) types mkIf mkMerge concatStringsSep hasAttr getAttr filter optionalString head splitString;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn mkOptAttrset;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.postgresql";
@@ -26,7 +26,7 @@ in {
   config = mkIf (hasAttr hostName cfg.databases) (let
     hostDatabases = getAttr hostName cfg.databases;
     mainServices = filter (db: !(lib.hasSuffix "-log" db)) hostDatabases;
-    logDatabases = filter (lib.hasSuffix "-log") hostDatabases;
+    auxDbs = filter (lib.hasSuffix "-log") hostDatabases;
   in {
     services = {
       postgresql = {
@@ -34,9 +34,21 @@ in {
         enableTCPIP = true;
         package = pkgs.postgresql_17;
 
-        settings = {
-          port = port;
-        };
+        settings = mkMerge [
+          {
+            port = port;
+          }
+          (mkIf (builtins.elem "immich" mainServices) {
+            shared_preload_libraries = ["vchord.so"];
+            search_path = "\"$user\", public, vectors";
+          })
+        ];
+
+        extensions = mkIf (builtins.elem "immich" mainServices) (ps:
+          with ps; [
+            pgvector
+            vectorchord
+          ]);
 
         authentication = let
           permissionEntries =
@@ -105,14 +117,28 @@ in {
         ALTER FUNCTION public.pgbouncer_lookup(text) SET search_path = pg_catalog;
         GRANT EXECUTE ON FUNCTION public.pgbouncer_lookup(text) TO pgbouncer_auth;
 
-        ${concatStringsSep "\n" (map (logDb: let
-          mainUser = lib.removeSuffix "-log" logDb;
+      ${
+        auxDbs
+        |> map (db: let
+          user = head (splitString "-" db);
         in ''
-          GRANT ALL PRIVILEGES ON DATABASE "${logDb}" TO "${mainUser}";
-          ALTER DATABASE "${logDb}" OWNER TO "${mainUser}";
+          GRANT ALL PRIVILEGES ON DATABASE "${db}" TO "${user}";
+          ALTER DATABASE "${db}" OWNER TO "${user}";
         '')
-        logDatabases)}
+        |> concatStringsSep "\n"
+      }
       SQL
+
+      ${
+        optionalString (builtins.elem "immich" mainServices) ''
+          ${
+            ["unaccent" "uuid-ossp" "cube" "earthdistance" "pg_trgm" "vector" "vchord"]
+            |> map (ext: "psql -d immich -v ON_ERROR_STOP=1 -c 'CREATE EXTENSION IF NOT EXISTS \"${ext}\";'")
+            |> concatStringsSep "\n"
+          }
+          psql -d immich -v ON_ERROR_STOP=1 -c 'ALTER SCHEMA public OWNER TO immich;'
+        ''
+      }
     '';
   });
 }
