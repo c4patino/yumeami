@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf mkForce;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -105,6 +105,8 @@ in {
 
     sops.secrets."forgejo/db" = {};
 
-    ${namespace}.services.storage.impermanence.folders = ["/var/lib/forgejo"];
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "forgejo" "/var/lib/forgejo")
+    ];
   };
 }

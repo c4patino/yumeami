@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkPersistRootDir;
   base = "${namespace}.hardware.fingerprint";
   cfg = getAttrByNamespace config base;
 in {
@@ -18,6 +18,8 @@ in {
       enable = true;
     };
 
-    ${namespace}.services.storage.impermanence.folders = ["/var/lib/fprint"];
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistRootDir config "/var/lib/fprint")
+    ];
   };
 }

@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkForce mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -22,7 +22,7 @@ in {
     };
 
     systemd.services.bazarr = let
-      bazarrUser = config.users.users.bazarr;
+      inherit (config.users.users) bazarr;
       dbIp = resolveDatabaseIP networkCfg.devices pgCfg.databases "bazarr";
     in
       mkMerge [
@@ -37,8 +37,8 @@ in {
 
           serviceConfig = {
             DynamicUser = mkForce false;
-            User = bazarrUser.name;
-            Group = bazarrUser.group;
+            User = bazarr.name;
+            Group = bazarr.group;
             UMask = mkForce "0002";
             EnvironmentFile = config.sops.secrets."environment-file/bazarr".path;
           };
@@ -62,15 +62,8 @@ in {
 
     sops.secrets."environment-file/bazarr" = {};
 
-    ${namespace}.services.storage.impermanence.folders = let
-      bazarrUser = config.users.users.bazarr;
-    in [
-      {
-        directory = "/var/lib/bazarr";
-        user = bazarrUser.name;
-        group = bazarrUser.group;
-        mode = "700";
-      }
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "bazarr" "/var/lib/bazarr")
     ];
   };
 }

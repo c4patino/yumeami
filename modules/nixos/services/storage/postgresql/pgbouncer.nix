@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf concatStringsSep hasAttr getAttr genAttrs;
-  inherit (lib.${namespace}) getAttrByNamespace readJsonOrEmpty getIn;
+  inherit (lib.${namespace}) getAttrByNamespace readJsonOrEmpty getIn mkPersistDir;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.postgresql";
   cfg = getAttrByNamespace config base;
@@ -72,7 +72,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      "/var/lib/pgbouncer"
+      (mkPersistDir config "pgbouncer" "/var/lib/pgbouncer")
     ];
   });
 }

@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkForce mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -36,14 +36,14 @@ in {
     };
 
     systemd.services.prowlarr = let
-      prowlarrUser = config.users.users.prowlarr;
+      inherit (config.users.users) prowlarr;
     in
       mkMerge [
         {
           serviceConfig = {
             DynamicUser = mkForce false;
-            User = prowlarrUser.name;
-            Group = prowlarrUser.group;
+            User = prowlarr.name;
+            Group = prowlarr.group;
             UMask = mkForce "0002";
           };
         }
@@ -66,15 +66,8 @@ in {
 
     sops.secrets."environment-file/prowlarr" = {};
 
-    ${namespace}.services.storage.impermanence.folders = let
-      prowlarrUser = config.users.users.prowlarr;
-    in [
-      {
-        directory = "/var/lib/prowlarr";
-        user = prowlarrUser.name;
-        group = prowlarrUser.group;
-        mode = "700";
-      }
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "prowlarr" "/var/lib/prowlarr")
     ];
   };
 }

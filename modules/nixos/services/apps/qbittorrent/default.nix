@@ -7,7 +7,7 @@
   ...
 }: let
   inherit (lib) mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost hostHasService resolveServicePort resolveDatabaseIP;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost hostHasService resolveServicePort resolveDatabaseIP mkPersistDir;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -230,22 +230,9 @@ in {
       "qui" = {};
     };
 
-    ${namespace}.services.storage.impermanence.folders = let
-      qbittorrentUser = config.users.users.qbittorrent;
-      quiUser = config.users.users.qui;
-    in [
-      {
-        directory = "/var/lib/qBittorrent";
-        user = qbittorrentUser.name;
-        group = qbittorrentUser.group;
-        mode = "770";
-      }
-      {
-        directory = "/var/lib/qui";
-        user = quiUser.name;
-        group = quiUser.group;
-        mode = "700";
-      }
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "qbittorrent" "/var/lib/qBittorrent")
+      (mkPersistDir config "qui" "/var/lib/qui")
     ];
 
     networking = {

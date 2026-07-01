@@ -7,7 +7,7 @@
   ...
 } @ args: let
   inherit (lib) types mkIf mkMerge concatStringsSep hasAttr getAttr filter optionalString head splitString;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn mkOptAttrset;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn mkOptAttrset mkPersistDir;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.postgresql";
   cfg = getAttrByNamespace config base;
@@ -92,7 +92,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      "/var/lib/postgresql"
+      (mkPersistDir config "postgres" "/var/lib/postgresql")
     ];
 
     systemd.services.postgresql-setup.postStart = ''

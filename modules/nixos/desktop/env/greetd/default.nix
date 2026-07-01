@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkPersistDir;
   base = "${namespace}.desktop.env.greetd";
   cfg = getAttrByNamespace config base;
 in {
@@ -25,6 +25,8 @@ in {
       '';
     };
 
-    ${namespace}.services.storage.impermanence.folders = ["/var/cache/tuigreet"];
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "greeter" "/var/cache/tuigreet")
+    ];
   };
 }

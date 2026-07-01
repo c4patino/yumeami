@@ -354,4 +354,34 @@ with lib; rec {
   ## @return               The host name where the service is defined.
   resolveServiceHost = networkServices: serviceName:
     (flattenHostServices networkServices).${serviceName}.host;
+
+  ## Create an impermanence persistence directory owned by a service user.
+  ##
+  ## ```nix
+  ## mkPersistDir config "forgejo" "/var/lib/forgejo"
+  ## ```
+  ##
+  ## @param config    The module config (passed from the module).
+  ## @param username  The service username (must exist in config.users.users).
+  ## @param directory The directory path to persist.
+  ## @return An attrset for the impermanence.folders list.
+  mkPersistDir = config: username: directory: let
+    u = config.users.users.${username};
+  in {
+    inherit directory;
+    user = u.name;
+    group = u.group;
+    mode = "700";
+  };
+
+  ## Create an impermanence persistence directory owned by root.
+  ##
+  ## ```nix
+  ## mkPersistRootDir config "/var/lib/docker"
+  ## ```
+  ##
+  ## @param config    The module config (passed from the module).
+  ## @param directory The directory path to persist.
+  ## @return An attrset for the impermanence.folders list.
+  mkPersistRootDir = config: directory: mkPersistDir config "root" directory;
 }

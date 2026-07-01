@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled mkPersistRootDir;
   base = "${namespace}.virtualization.podman";
   cfg = getAttrByNamespace config base;
   nvdaBase = "${namespace}.hardware.nvidia";
@@ -30,6 +30,8 @@ in {
       podman = enabled;
     };
 
-    ${namespace}.services.storage.impermanence.folders = ["/var/lib/containers"];
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistRootDir config "/var/lib/containers")
+    ];
   };
 }

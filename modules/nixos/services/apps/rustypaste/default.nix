@@ -7,7 +7,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort mkPersistDir;
   inherit (config.users) users groups;
   inherit (config.sops) secrets;
   inherit (config.networking) hostName;
@@ -74,6 +74,8 @@ in {
 
     networking.firewall.allowedTCPPorts = [port];
 
-    ${namespace}.services.storage.impermanence.folders = ["/var/lib/rustypaste"];
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "rustypaste" "/var/lib/rustypaste")
+    ];
   };
 }

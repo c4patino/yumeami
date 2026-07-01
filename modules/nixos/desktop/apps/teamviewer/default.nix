@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled mkPersistRootDir;
   base = "${namespace}.desktop.apps.teamviewer";
   cfg = getAttrByNamespace config base;
 in {
@@ -19,6 +19,8 @@ in {
 
     services.teamviewer = enabled;
 
-    ${namespace}.services.storage.impermanence.folders = ["/var/lib/teamviewer"];
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistRootDir config "/var/lib/teamviewer")
+    ];
   };
 }

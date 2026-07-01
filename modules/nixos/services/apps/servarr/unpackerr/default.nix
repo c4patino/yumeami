@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) filter mkIf optional mapAttrs' nameValuePair toUpper;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService mkPersistDir;
   inherit (config.users.users) unpackerr;
   inherit (config.networking) hostName;
 
@@ -75,12 +75,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      {
-        directory = "/var/lib/unpackerr";
-        user = unpackerr.name;
-        group = unpackerr.group;
-        mode = "700";
-      }
+      (mkPersistDir config "unpackerr" "/var/lib/unpackerr")
     ];
 
     sops.secrets."environment-file/unpackerr" = {};

@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf mkForce;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveDatabaseHost resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveDatabaseHost resolveServicePort mkPersistDir;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -49,12 +49,7 @@ in {
     sops.secrets."environment-file/asciinema" = {};
 
     ${namespace}.services.storage.impermanence.folders = [
-      {
-        directory = "/var/lib/asciinema";
-        user = "asciinema";
-        group = "asciinema";
-        mode = "700";
-      }
+      (mkPersistDir config "asciinema" "/var/lib/asciinema")
     ];
   };
 }

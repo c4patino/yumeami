@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkPersistRootDir;
   base = "${namespace}.services.networking.network-manager";
   cfg = getAttrByNamespace config base;
 in {
@@ -19,6 +19,8 @@ in {
 
     networking.networkmanager.enable = true;
 
-    ${namespace}.services.storage.impermanence.folders = ["/etc/NetworkManager/system-connections"];
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistRootDir config "/etc/NetworkManager/system-connections")
+    ];
   };
 }

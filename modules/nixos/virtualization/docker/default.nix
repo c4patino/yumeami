@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf mkEnableOption mkOverride;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkPersistRootDir;
   base = "${namespace}.virtualization.docker";
   cfg = getAttrByNamespace config base;
   nvdaCfg = getAttrByNamespace config "${namespace}.hardware.nvidia";
@@ -48,6 +48,8 @@ in {
 
     networking.firewall.allowedTCPPorts = [2376];
 
-    ${namespace}.services.storage.impermanence.folders = ["/var/lib/docker"];
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistRootDir config "/var/lib/docker")
+    ];
   };
 }

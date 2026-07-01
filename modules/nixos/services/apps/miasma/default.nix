@@ -26,15 +26,15 @@ in {
     systemd.services.miasma = {
       description = "Trap AI web scrapers in an endless poison pit";
       wantedBy = ["multi-user.target"];
-      serviceConfig = let
-        miasmaUser = config.users.users.miasma;
-      in {
+        serviceConfig = let
+          inherit (config.users.users) miasma;
+        in {
         Type = "simple";
         Restart = "always";
         RestartSec = 1;
 
-        User = miasmaUser.name;
-        Group = miasmaUser.group;
+          User = miasma.name;
+          Group = miasma.group;
 
         StateDirectory = "miasma";
         ReadWritePaths = "/var/lib/miasma";

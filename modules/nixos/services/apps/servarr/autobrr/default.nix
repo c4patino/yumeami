@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkForce mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -45,7 +45,7 @@ in {
       };
 
       services.autobrr = let
-        autobrrUser = config.users.users.autobrr;
+        inherit (config.users.users) autobrr;
       in
         mkMerge [
           {
@@ -54,8 +54,8 @@ in {
             ];
             serviceConfig = {
               DynamicUser = mkForce false;
-              User = autobrrUser.name;
-              Group = autobrrUser.group;
+              User = autobrr.name;
+              Group = autobrr.group;
               UMask = mkForce "0002";
               EnvironmentFile = config.sops.secrets."environment-file/autobrr".path;
             };
@@ -83,15 +83,8 @@ in {
       groups.autobrr = {};
     };
 
-    ${namespace}.services.storage.impermanence.folders = let
-      autobrrUser = config.users.users.autobrr;
-    in [
-      {
-        directory = "/var/lib/autobrr";
-        user = autobrrUser.name;
-        group = autobrrUser.group;
-        mode = "700";
-      }
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "autobrr" "/var/lib/autobrr")
     ];
   };
 }

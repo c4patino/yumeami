@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir;
   inherit (config.networking) hostName;
 
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
@@ -44,15 +44,8 @@ in {
 
     sops.secrets."environment-file/immich" = {};
 
-    ${namespace}.services.storage.impermanence.folders = let
-      immichUser = config.users.users.immichUser;
-    in [
-      {
-        directory = "/var/lib/immich";
-        user = immichUser.name;
-        group = immichUser.group;
-        mode = "700";
-      }
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "immich" "/var/lib/immich")
     ];
   };
 }

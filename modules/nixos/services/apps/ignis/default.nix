@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort mkPersistDir;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -111,7 +111,7 @@ in {
     networking.firewall.allowedTCPPorts = [port];
 
     ${namespace}.services.storage.impermanence.folders = [
-      "/var/lib/ignis"
+      (mkPersistDir config "ignis" "/var/lib/ignis")
     ];
   };
 }

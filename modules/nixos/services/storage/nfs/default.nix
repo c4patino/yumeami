@@ -5,7 +5,7 @@
   ...
 } @ args: let
   inherit (lib) types mkIf mkEnableOption mkMerge concatStringsSep;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP mkOpt mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP mkOpt mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset mkPersistRootDir;
   base = "${namespace}.services.storage.nfs";
   cfg = getAttrByNamespace config base;
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -51,8 +51,8 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = mkMerge [
-      ["/var/lib/nfs"]
-      (mkIf (cfg.shares != []) (cfg.shares |> map (s: "/mnt/nfs/${s.name}")))
+      [ (mkPersistRootDir config "/var/lib/nfs") ]
+      (mkIf (cfg.shares != []) (cfg.shares |> map (s: mkPersistRootDir config "/mnt/nfs/${s.name}")))
     ];
 
     networking.firewall.allowedTCPPorts = [2049];

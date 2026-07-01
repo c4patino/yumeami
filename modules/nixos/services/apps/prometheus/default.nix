@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort mkPersistDir;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -20,7 +20,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      "/var/lib/prometheus2"
+      (mkPersistDir config "prometheus" "/var/lib/prometheus2")
     ];
   };
 }
