@@ -36,14 +36,6 @@ in {
       ControlPath = "none";
       ControlPersist = "no";
     };
-    "xprn-cat" = {
-      User = "pgia100";
-      HostName = "lx201";
-    };
-    "xprn-prod" = {
-      User = "pgia100";
-      HostName = "lx185";
-    };
     "compass-itg" = {
       User = "pgia100";
       HostName = "lx14988";
@@ -70,7 +62,15 @@ in {
     };
     "forms-prod" = {
       User = "pgia100";
-      HostName = "lx147";
+      HostName = "lx22491";
+    };
+    "xprn-nonprod" = {
+      User = "pgia100";
+      HostName = "lx201";
+    };
+    "xprn-prod" = {
+      User = "pgia100";
+      HostName = "lx185";
     };
   };
 
