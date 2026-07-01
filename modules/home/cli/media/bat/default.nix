@@ -27,6 +27,10 @@ in {
           src = inputs.dotfiles + "/.config/bat/themes";
           file = "tokyonight_night.tmTheme";
         };
+        "tokyonight" = {
+          src = inputs.dotfiles + "/.config/bat/themes";
+          file = "tokyonight_night.tmTheme";
+        };
       };
     };
   };
