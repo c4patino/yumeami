@@ -88,6 +88,7 @@ in {
                 "forgejo"
                 "grafana"
                 "asciinema"
+                "immich"
                 "ntfy"
                 "terraform"
                 "vaultwarden"
