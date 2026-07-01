@@ -5,7 +5,7 @@
   ...
 } @ args: let
   inherit (lib) types mkIf mkEnableOption mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset mkPersistRootDir;
   inherit (config.users) users;
 
   base = "${namespace}.services.storage.samba";
@@ -75,8 +75,8 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = mkMerge [
-      ["/var/lib/samba"]
-      (mkIf (cfg.shares != []) (cfg.shares |> map (s: "/mnt/samba/${s}")))
+      [ (mkPersistRootDir config "/var/lib/samba") ]
+      (mkIf (cfg.shares != []) (cfg.shares |> map (s: mkPersistRootDir config "/mnt/samba/${s}")))
     ];
   };
 }

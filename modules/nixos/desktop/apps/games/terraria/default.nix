@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf mkEnableOption types;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkNullableOpt;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkNullableOpt mkPersistRootDir;
   base = "${namespace}.desktop.apps.games.terraria";
   cfg = getAttrByNamespace config base;
 in {
@@ -31,6 +31,8 @@ in {
       port = cfg.port;
     };
 
-    ${namespace}.services.storage.impermanence.folders = ["/srv/terraria"];
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistRootDir config "/srv/terraria")
+    ];
   };
 }

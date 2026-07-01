@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort mkPersistDir;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -29,15 +29,8 @@ in {
       groups.ombi = {};
     };
 
-    ${namespace}.services.storage.impermanence.folders = let
-      ombiUser = config.users.users.ombi;
-    in [
-      {
-        directory = "/var/lib/ombi";
-        user = ombiUser.name;
-        group = ombiUser.group;
-        mode = "700";
-      }
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "ombi" "/var/lib/ombi")
     ];
   };
 }

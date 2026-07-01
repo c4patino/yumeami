@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkForce mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -36,14 +36,14 @@ in {
     };
 
     systemd.services.sonarr = let
-      sonarrUser = config.users.users.sonarr;
+      inherit (config.users.users) sonarr;
     in
       mkMerge [
         {
           serviceConfig = {
             DynamicUser = mkForce false;
-            User = sonarrUser.name;
-            Group = sonarrUser.group;
+            User = sonarr.name;
+            Group = sonarr.group;
             UMask = mkForce "0002";
           };
         }
@@ -66,15 +66,8 @@ in {
 
     sops.secrets."environment-file/sonarr" = {};
 
-    ${namespace}.services.storage.impermanence.folders = let
-      sonarrUser = config.users.users.sonarr;
-    in [
-      {
-        directory = "/var/lib/sonarr";
-        user = sonarrUser.name;
-        group = sonarrUser.group;
-        mode = "700";
-      }
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "sonarr" "/var/lib/sonarr")
     ];
   };
 }

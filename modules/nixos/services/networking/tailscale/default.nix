@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkPersistRootDir;
   base = "${namespace}.services.networking.tailscale";
   cfg = getAttrByNamespace config base;
 in {
@@ -19,6 +19,8 @@ in {
       useRoutingFeatures = "server";
     };
 
-    ${namespace}.services.storage.impermanence.folders = ["/var/lib/tailscale"];
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistRootDir config "/var/lib/tailscale")
+    ];
   };
 }

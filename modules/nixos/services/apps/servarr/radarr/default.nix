@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkForce mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -36,14 +36,14 @@ in {
     };
 
     systemd.services.radarr = let
-      radarrUser = config.users.users.radarr;
+      inherit (config.users.users) radarr;
     in
       mkMerge [
         {
           serviceConfig = {
             DynamicUser = mkForce false;
-            User = radarrUser.name;
-            Group = radarrUser.group;
+            User = radarr.name;
+            Group = radarr.group;
             UMask = mkForce "0002";
           };
         }
@@ -66,15 +66,8 @@ in {
 
     sops.secrets."environment-file/radarr" = {};
 
-    ${namespace}.services.storage.impermanence.folders = let
-      radarrUser = config.users.users.radarr;
-    in [
-      {
-        directory = "/var/lib/radarr";
-        user = radarrUser.name;
-        group = radarrUser.group;
-        mode = "700";
-      }
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "radarr" "/var/lib/radarr")
     ];
   };
 }

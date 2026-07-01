@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) types mkEnableOption mkOption mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkRequiredOpt mkNullableOpt mkOptAttrset;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkRequiredOpt mkNullableOpt mkOptAttrset mkPersistDir;
   inherit (config.networking) hostName;
   inherit (config.sops) secrets;
   base = "${namespace}.services.ci.github-runner";
@@ -102,6 +102,8 @@ in {
 
     sops.secrets."github/runner" = {};
 
-    ${namespace}.services.storage.impermanence.folders = ["/var/lib/github-runner"];
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "github-runner" "/var/lib/github-runner")
+    ];
   };
 }

@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf mkForce;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort mkPersistDir;
   inherit (config.users) users;
   inherit (config.networking) hostName;
 
@@ -43,6 +43,8 @@ in {
 
     networking.firewall.allowedTCPPorts = [port];
 
-    ${namespace}.services.storage.impermanence.folders = ["/var/lib/uptime-kuma"];
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "uptime-kuma" "/var/lib/uptime-kuma")
+    ];
   };
 }

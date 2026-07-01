@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService mkPersistDir;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -50,15 +50,8 @@ in {
       LIBVA_DRIVER_NAME = "radeonsi";
     };
 
-    ${namespace}.services.storage.impermanence.folders = let
-      jellyfinUser = config.users.users.jellyfin;
-    in [
-      {
-        directory = "/var/lib/jellyfin";
-        user = jellyfinUser.name;
-        group = jellyfinUser.group;
-        mode = "700";
-      }
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "jellyfin" "/var/lib/jellyfin")
     ];
   };
 }
