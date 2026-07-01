@@ -52,8 +52,8 @@ in {
         {
           name = "pgbouncer_auth";
           ensureClauses = let
-            secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/secrets.json";
-            hash = getIn "postgresql.pgbouncer_auth.hash" secrets;
+            secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/postgresql.json";
+            hash = getIn "pgbouncer_auth.hash" secrets;
           in {
             login = true;
             password = hash;

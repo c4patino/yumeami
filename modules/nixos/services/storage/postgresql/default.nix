@@ -55,30 +55,17 @@ in {
         ensureDatabases = hostDatabases;
 
         ensureUsers =
-          [
-            {
-              name = "pgbouncer_auth";
-              ensureClauses = let
-                secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/secrets.json";
-                hash = getIn "postgresql.pgbouncer_auth.hash" secrets;
-              in {
-                login = true;
-                password = hash;
-              };
-            }
-          ]
-          ++ (mainServices
-            |> map (service: {
-              name = service;
-              ensureDBOwnership = true;
-              ensureClauses = let
-                secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/secrets.json";
-                hash = getIn "postgresql.${service}.hash" secrets;
-              in {
-                login = true;
-                password = hash;
-              };
-            }));
+          mainServices
+          |> map (service: {
+            name = service;
+            ensureDBOwnership = true;
+            ensureClauses = let
+              secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/postgresql.json";
+            in {
+              login = true;
+              password = getIn "${service}.hash" secrets;
+            };
+          });
       };
 
       postgresqlBackup = {
