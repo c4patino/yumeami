@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkForce mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -36,14 +36,14 @@ in {
     };
 
     systemd.services.lidarr = let
-      lidarrUser = config.users.users.lidarr;
+      inherit (config.users.users) lidarr;
     in
       mkMerge [
         {
           serviceConfig = {
             DynamicUser = mkForce false;
-            User = lidarrUser.name;
-            Group = lidarrUser.group;
+            User = lidarr.name;
+            Group = lidarr.group;
             UMask = mkForce "0002";
           };
         }
@@ -66,15 +66,8 @@ in {
 
     sops.secrets."environment-file/lidarr" = {};
 
-    ${namespace}.services.storage.impermanence.folders = let
-      lidarrUser = config.users.users.lidarr;
-    in [
-      {
-        directory = "/var/lib/lidarr";
-        user = lidarrUser.name;
-        group = lidarrUser.group;
-        mode = "700";
-      }
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "lidarr" "/var/lib/lidarr")
     ];
   };
 }

@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) types mkEnableOption mkIf groupBy mapAttrsToList attrNames mapAttrs concatStringsSep flatten;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP mkOpt mkOptAttrset mkListOpt;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP mkOpt mkOptAttrset mkListOpt mkPersistDir;
   inherit (config.networking) hostName;
   base = "${namespace}.services.apps.slurm";
   cfg = getAttrByNamespace config base;
@@ -124,8 +124,8 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      "/var/spool/slurmctld"
-      "/var/spool/slurmd"
+      (mkPersistDir config "slurm" "/var/spool/slurmctld")
+      (mkPersistDir config "slurm" "/var/spool/slurmd")
     ];
   };
 }

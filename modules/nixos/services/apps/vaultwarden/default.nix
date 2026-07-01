@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir;
   inherit (config.networking) hostName;
 
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
@@ -64,5 +64,9 @@ in {
     sops.secrets."vaultwarden" = {};
 
     networking.firewall.allowedTCPPorts = [port];
+
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "vaultwarden" "/var/lib/vaultwarden")
+    ];
   };
 }

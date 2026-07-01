@@ -7,7 +7,7 @@
   ...
 }: let
   inherit (lib) types mkIf mkEnableOption mkOption mapAttrs mapAttrsToList flatten;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkOptAttrset;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkOptAttrset mkPersistRootDir;
   base = "${namespace}.desktop.apps.games.minecraft";
   cfg = getAttrByNamespace config base;
 in {
@@ -48,6 +48,8 @@ in {
         });
     };
 
-    ${namespace}.services.storage.impermanence.folders = ["/srv/minecraft"];
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistRootDir config "/srv/minecraft")
+    ];
   };
 }

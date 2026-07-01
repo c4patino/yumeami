@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkForce mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -23,7 +23,7 @@ in {
     };
 
     systemd.services.seerr = let
-      seerrUser = config.users.users.seerr;
+      inherit (config.users.users) seerr;
       dbIp = resolveDatabaseIP networkCfg.devices pgCfg.databases "seerr";
     in
       mkMerge [
@@ -38,8 +38,8 @@ in {
 
           serviceConfig = {
             DynamicUser = mkForce false;
-            User = seerrUser.name;
-            Group = seerrUser.group;
+            User = seerr.name;
+            Group = seerr.group;
             EnvironmentFile = config.sops.secrets."environment-file/seerr".path;
           };
         }
@@ -61,15 +61,8 @@ in {
 
     sops.secrets."environment-file/seerr" = {};
 
-    ${namespace}.services.storage.impermanence.folders = let
-      seerrUser = config.users.users.seerr;
-    in [
-      {
-        directory = "/var/lib/seerr";
-        user = seerrUser.name;
-        group = seerrUser.group;
-        mode = "700";
-      }
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "seerr" "/var/lib/seerr")
     ];
   };
 }

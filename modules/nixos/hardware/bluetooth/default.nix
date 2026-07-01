@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkPersistRootDir;
   base = "${namespace}.hardware.bluetooth";
   cfg = getAttrByNamespace config base;
 in {
@@ -21,6 +21,8 @@ in {
       powerOnBoot = true;
     };
 
-    ${namespace}.services.storage.impermanence.folders = ["/var/lib/bluetooth"];
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistRootDir config "/var/lib/bluetooth")
+    ];
   };
 }
