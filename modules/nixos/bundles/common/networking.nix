@@ -78,6 +78,14 @@ in {
             port = 5125;
             internal = true;
           };
+          immich = {
+            port = 2283;
+            internal = true;
+            websocket = {
+              enable = true;
+              path = "";
+            };
+          };
           jellyfin = {
             port = 8096;
             internal = true;
