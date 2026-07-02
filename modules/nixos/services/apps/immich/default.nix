@@ -29,6 +29,9 @@ in {
         user = "immich";
       };
 
+      accelerationDevices = ["/dev/dri/renderD128"];
+      machine-learning.enable = true;
+
       secretsFile = config.sops.secrets."environment-file/immich".path;
 
       settings.server.externalDomain = "https://photos.yumeami.sh";
