@@ -75,7 +75,14 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = mkMerge [
-      [ (mkPersistRootDir config "/var/lib/samba") ]
+      [
+        {
+          directory = "/var/lib/samba";
+          user = "root";
+          group = "root";
+          mode = "750";
+        }
+      ]
       (mkIf (cfg.shares != []) (cfg.shares |> map (s: mkPersistRootDir config "/mnt/samba/${s}")))
     ];
   };
