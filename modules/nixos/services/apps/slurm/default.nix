@@ -97,7 +97,10 @@ in {
         extraConfigPaths = [(inputs.dotfiles + "/slurm/config")];
       };
 
-      munge.enable = true;
+      munge = {
+        enable = true;
+        password = config.sops.secrets."munge-key".path;
+      };
     };
 
     systemd.services.slurmctld = mkIf (builtins.elem hostName cfg.controlHosts) {
@@ -116,7 +119,6 @@ in {
       "munge-key" = {
         sopsFile = "${inputs.self}/secrets/sops/munge.key";
         format = "binary";
-        path = "/etc/munge/munge.key";
         owner = munge.name;
         group = munge.group;
         mode = "0400";
@@ -126,6 +128,7 @@ in {
     ${namespace}.services.storage.impermanence.folders = [
       (mkPersistDir config "slurm" "/var/spool/slurmctld")
       (mkPersistDir config "slurm" "/var/spool/slurmd")
+      (mkPersistDir config "munge" "/var/lib/munge")
     ];
   };
 }
