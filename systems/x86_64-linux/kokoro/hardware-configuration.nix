@@ -14,13 +14,13 @@
   ];
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_7_0;
     kernelModules = [
       "imx471"
       "kvm-intel"
       "v4l2loopback"
     ];
-    extraModulePackages = with pkgs.linuxPackages_latest; [
+    extraModulePackages = with pkgs.linuxPackages_7_0; [
       imx471
       v4l2loopback
     ];
