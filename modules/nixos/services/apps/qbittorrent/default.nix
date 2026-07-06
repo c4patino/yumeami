@@ -43,7 +43,7 @@ in {
           hostPath = "/var/lib/qBittorrent";
           isReadOnly = false;
         };
-        "/var/lib/qBittorrent/qBittorrent/downloads/seed" = {
+        "/mnt/nfs/servarr/torrents" = {
           hostPath = "/mnt/nfs/servarr/torrents";
           isReadOnly = false;
         };
@@ -135,15 +135,15 @@ in {
         systemd.services = {
           qbittorrent = {
             requires = [
+              "mnt-nfs-servarr-torrents.mount"
               "openvpn-default.service"
-              "var-lib-qBittorrent-qBittorrent-downloads-seed.mount"
               "var-lib-qBittorrent.mount"
             ];
 
             after = [
+              "mnt-nfs-servarr-torrents.mount"
               "openvpn-default.service"
               "var-lib-qBittorrent.mount"
-              "var-lib-qBittorrent-qBittorrent-downloads-seed.mount"
             ];
           };
           openvpn-default = {
