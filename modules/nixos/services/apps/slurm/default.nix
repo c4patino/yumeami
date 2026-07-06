@@ -7,11 +7,15 @@
 }: let
   inherit (lib) types mkEnableOption mkIf groupBy mapAttrsToList attrNames mapAttrs concatStringsSep flatten;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP mkOpt mkOptAttrset mkListOpt mkPersistDir;
-  inherit (config.networking) hostName;
   base = "${namespace}.services.apps.slurm";
   cfg = getAttrByNamespace config base;
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 in {
+  imports = [
+    ./client.nix
+    ./server.nix
+  ];
+
   options = with types;
     mkOptionsWithNamespace base {
       enable = mkEnableOption "SLURM";
@@ -27,11 +31,6 @@ in {
   config = mkIf cfg.enable {
     services = {
       slurm = {
-        client.enable = builtins.hasAttr hostName cfg.nodeMap;
-        server.enable = builtins.elem hostName cfg.controlHosts;
-
-        stateSaveLocation = "/mnt/nfs/slurm";
-
         nodeName = let
           mkNodeConfig = node: info: "${node} NodeAddr=${resolveHostIP networkCfg.devices node} ${info.configString} State=UNKNOWN";
         in
@@ -61,38 +60,18 @@ in {
           |> mapAttrsToList formatPartition;
 
         extraConfig = let
-          mkHostString = host: "SlurmctldHost=${host}(${resolveHostIP networkCfg.devices host})";
           hostStrings =
             cfg.controlHosts
-            |> map mkHostString
+            |> map (host: "SlurmctldHost=${host}(${resolveHostIP networkCfg.devices host})")
             |> concatStringsSep "\n";
         in ''
           ${hostStrings}
           GresTypes=gpu,shard
           TaskPlugin=task/cgroup
-          SlurmdParameters=allow_ecores
           DefCpuPerGPU=1
           DefMemPerCPU=1000
           ReturnToService=2
-
-          TaskProlog=${inputs.dotfiles + "/slurm/prolog.sh"}
-          TaskEpilog=${inputs.dotfiles + "/slurm/epilog.sh"}
         '';
-
-        extraCgroupConfig =
-          ''
-            ConstrainCores=yes
-            ConstrainDevices=yes
-            ConstrainRAMSpace=yes
-          ''
-          + (
-            if hostName != "chibi"
-            then ''
-              ConstrainSwapSpace=yes
-              AllowedSwapSpace=0
-            ''
-            else ''''
-          );
 
         extraConfigPaths = [(inputs.dotfiles + "/slurm/config")];
       };
@@ -101,16 +80,6 @@ in {
         enable = true;
         password = config.sops.secrets."munge-key".path;
       };
-    };
-
-    systemd.services.slurmctld = mkIf (builtins.elem hostName cfg.controlHosts) {
-      requires = [
-        "mnt-nfs-slurm.mount"
-      ];
-
-      after = [
-        "mnt-nfs-slurm.mount"
-      ];
     };
 
     sops.secrets = let
@@ -126,8 +95,6 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "slurm" "/var/spool/slurmctld")
-      (mkPersistDir config "slurm" "/var/spool/slurmd")
       (mkPersistDir config "munge" "/var/lib/munge")
     ];
   };
