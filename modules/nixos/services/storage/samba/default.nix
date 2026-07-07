@@ -3,7 +3,7 @@
   lib,
   namespace,
   ...
-} @ args: let
+}: let
   inherit (lib) types mkIf mkEnableOption mkMerge;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset mkPersistRootDir;
   inherit (config.users) users;
@@ -12,7 +12,7 @@
   cfg = getAttrByNamespace config base;
 in {
   imports = [
-    (import ./mount.nix args)
+    ./mount.nix
   ];
 
   options = with types;

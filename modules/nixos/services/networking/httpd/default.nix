@@ -4,7 +4,7 @@
   lib,
   namespace,
   ...
-} @ args: let
+}: let
   inherit (lib) mkIf mkEnableOption mapAttrsToList listToAttrs replaceStrings mkMerge concatStringsSep filterAttrs optionalString;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP isGateway flattenHostServices;
   inherit (config.networking) hostName;
@@ -114,7 +114,7 @@
   };
 in {
   imports = [
-    (import ./fail2ban.nix args)
+    ./fail2ban.nix
   ];
 
   options = mkOptionsWithNamespace base {

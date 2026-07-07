@@ -4,7 +4,7 @@
   lib,
   namespace,
   ...
-} @ args: let
+}: let
   inherit (lib) mkIf;
   inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort;
   inherit (config.networking) hostName;
@@ -15,7 +15,7 @@
   port = resolveServicePort networkCfg.network-services "dash" 5150;
 in {
   imports = [
-    (import ./layout.nix args)
+    ./layout.nix
   ];
 
   config = mkIf isEnabled {

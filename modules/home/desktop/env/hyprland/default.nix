@@ -4,16 +4,16 @@
   namespace,
   pkgs,
   ...
-} @ args: let
+}: let
   inherit (lib) mkIf mkEnableOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.desktop.env.hyprland";
   cfg = getAttrByNamespace config base;
 in {
   imports = [
-    (import ./general.nix args)
-    (import ./keybinds.nix args)
-    (import ./rules.nix args)
+    ./general.nix
+    ./keybinds.nix
+    ./rules.nix
   ];
 
   options = mkOptionsWithNamespace base {

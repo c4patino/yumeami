@@ -4,15 +4,15 @@
   namespace,
   pkgs,
   ...
-} @ args: let
+}: let
   inherit (lib) mkIf mkEnableOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
   base = "${namespace}.bundles.common";
   cfg = getAttrByNamespace config base;
 in {
   imports = [
-    (import ./networking.nix args)
-    (import ./users.nix args)
+    ./networking.nix
+    ./users.nix
   ];
 
   options = mkOptionsWithNamespace base {
