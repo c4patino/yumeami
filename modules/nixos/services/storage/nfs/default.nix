@@ -3,7 +3,7 @@
   lib,
   namespace,
   ...
-} @ args: let
+}: let
   inherit (lib) types mkIf mkEnableOption mkMerge concatStringsSep;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP mkOpt mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset mkPersistRootDir;
   base = "${namespace}.services.storage.nfs";
@@ -11,7 +11,7 @@
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 in {
   imports = [
-    (import ./mount.nix args)
+    ./mount.nix
   ];
 
   options = with types;
