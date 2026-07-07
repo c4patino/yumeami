@@ -5,7 +5,7 @@
   namespace,
   pkgs,
   ...
-} @ args: let
+}: let
   inherit (lib) types mkIf mkMerge concatStringsSep hasAttr getAttr filter optionalString head splitString;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn mkOptAttrset mkPersistDir;
   inherit (config.networking) hostName;
@@ -15,7 +15,7 @@
   port = 5601;
 in {
   imports = [
-    (import ./pgbouncer.nix args)
+    ./pgbouncer.nix
   ];
 
   options = with types;
