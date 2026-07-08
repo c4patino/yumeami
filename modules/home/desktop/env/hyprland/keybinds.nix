@@ -66,6 +66,7 @@ in {
           (bind "${mainMod} + SHIFT + k" (dsp "window.move({ direction = \"u\" })"))
           (bind "${mainMod} + SHIFT + j" (dsp "window.move({ direction = \"d\" })"))
 
+          # Audio
           (bindFlags "F1" (exec "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle") {
             locked = true;
           })
@@ -81,6 +82,7 @@ in {
             locked = true;
           })
 
+          # Brightness
           (bindFlags "F5" (exec "brightnessctl s 2%-") {
             locked = true;
             repeating = true;
@@ -90,6 +92,7 @@ in {
             repeating = true;
           })
 
+          # Media Player
           (bind "F8" (exec "playerctl previous"))
           (bind "F9" (exec "playerctl play-pause"))
           (bind "F10" (exec "playerctl next"))
