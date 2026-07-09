@@ -83,6 +83,14 @@
       {
         acmeRoot = null;
         documentRoot = "/var/empty";
+
+        servedDirs = [
+          {
+            dir = "/var/www/error";
+            urlPath = "/";
+          }
+        ];
+
         extraConfig = ''
           UseCanonicalName Off
           KeepAlive On
@@ -106,7 +114,8 @@
           ${websocketConfig}
 
           # --- ${name} (subdomain access) ---
-          ProxyPass / http://${hostIP}:${p}/ connectiontimeout=30 timeout=300 retry=0
+          RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500|503)\.html$
+          RewriteRule ^/(.*)$ http://${hostIP}:${p}/$1 [P,L]
           ProxyPassReverse / http://${hostIP}:${p}/
         '';
       }
