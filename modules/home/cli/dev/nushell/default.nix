@@ -46,6 +46,12 @@ in {
             ]
           }
 
+          # take command
+          def --env take [dir: path] {
+            mkdir $dir
+            cd $dir
+          }
+
           # gitignore.io command
           def _gitignoreio_list [] {
             http get https://www.toptal.com/developers/gitignore/api/list
@@ -104,7 +110,22 @@ in {
           reboot = "sudo reboot";
           shutdown = "sudo shutdown";
 
-          gloga = "git log --oneline --decorate --graph --all";
+          gcr = "git clone --recurse-submodules";
+
+          gf = "git fetch";
+          gfa = "git fetch --all";
+          gfap = "git fetch --all --prune";
+
+          gd = "git diff";
+          gdw = "git diff --word-diff";
+          gds = "git diff --staged";
+          gdsw = "git diff --staged --word-diff";
+
+          gl = "git log";
+          glg = "git log --decorate --graph";
+          glga = "git log --decorate --graph --all";
+          glog = "git log --decorate --oneline --graph";
+          gloga = "git log --decorate --oneline --graph --all";
         };
       };
 
