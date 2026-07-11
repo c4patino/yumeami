@@ -4,6 +4,7 @@
   inputs,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib.${namespace}) enabled;
@@ -91,5 +92,11 @@ in {
     };
   };
 
-  home.stateVersion = "26.05";
+  home = {
+    packages = with pkgs; [
+      jira-cli-go
+    ];
+
+    stateVersion = "26.05";
+  };
 }
