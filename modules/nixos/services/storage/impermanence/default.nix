@@ -79,6 +79,7 @@ in {
           ".config/libreoffice"
           ".config/nushell"
           ".config/obs-studio"
+          ".config/openspec"
           ".config/obsidian"
           ".config/pnpm"
           ".config/pypoetry"
@@ -119,6 +120,7 @@ in {
           "VirtualBox VMs"
           "Zotero"
           "dotfiles"
+          "openspec"
         ];
 
         files = [
