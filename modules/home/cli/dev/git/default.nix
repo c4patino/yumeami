@@ -82,6 +82,7 @@ in {
 
     home.packages = with pkgs; [
       delta
+      forgejo-cli
     ];
   };
 }
