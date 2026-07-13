@@ -22,19 +22,20 @@ in {
         TaskEpilog=${inputs.dotfiles + "/slurm/epilog.sh"}
       '';
 
-      extraCgroupConfig = ''
-        ConstrainCores=yes
-        ConstrainDevices=yes
-        ConstrainRAMSpace=yes
-      ''
-      + optionalString (hostName != "chibi") ''
-        ConstrainSwapSpace=yes
-        AllowedSwapSpace=0
-      '';
+      extraCgroupConfig =
+        ''
+          ConstrainCores=yes
+          ConstrainDevices=yes
+          ConstrainRAMSpace=yes
+        ''
+        + optionalString (hostName != "chibi") ''
+          ConstrainSwapSpace=yes
+          AllowedSwapSpace=0
+        '';
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "slurm" "/var/spool/slurmd")
+      (mkPersistDir config "slurm" "/var/spool/slurmd" "700")
     ];
   };
 }

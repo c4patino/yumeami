@@ -63,7 +63,7 @@ in {
     sops.secrets."environment-file/bazarr" = {};
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "bazarr" "/var/lib/bazarr")
+      (mkPersistDir config "bazarr" "/var/lib/bazarr" "700")
     ];
   };
 }

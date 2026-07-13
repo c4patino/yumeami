@@ -66,7 +66,7 @@ in {
     networking.firewall.allowedTCPPorts = [port];
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "vaultwarden" "/var/lib/vaultwarden")
+      (mkPersistDir config "vaultwarden" "/var/lib/vaultwarden" "700")
     ];
   };
 }

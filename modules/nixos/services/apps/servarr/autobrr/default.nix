@@ -84,7 +84,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "autobrr" "/var/lib/autobrr")
+      (mkPersistDir config "autobrr" "/var/lib/autobrr" "700")
     ];
   };
 }

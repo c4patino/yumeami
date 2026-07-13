@@ -20,7 +20,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "prometheus" "/var/lib/prometheus2")
+      (mkPersistDir config "prometheus" "/var/lib/prometheus2" "700")
     ];
   };
 }

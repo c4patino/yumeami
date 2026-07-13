@@ -49,7 +49,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistRootDir config "/srv/minecraft")
+      (mkPersistRootDir config "/srv/minecraft" "700")
     ];
   };
 }

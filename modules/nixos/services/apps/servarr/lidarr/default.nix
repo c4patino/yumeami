@@ -67,7 +67,7 @@ in {
     sops.secrets."environment-file/lidarr" = {};
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "lidarr" "/var/lib/lidarr")
+      (mkPersistDir config "lidarr" "/var/lib/lidarr" "700")
     ];
   };
 }

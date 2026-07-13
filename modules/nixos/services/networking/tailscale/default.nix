@@ -20,7 +20,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistRootDir config "/var/lib/tailscale")
+      (mkPersistRootDir config "/var/lib/tailscale" "700")
     ];
   };
 }

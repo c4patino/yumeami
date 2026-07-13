@@ -26,7 +26,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "greeter" "/var/cache/tuigreet")
+      (mkPersistDir config "greeter" "/var/cache/tuigreet" "700")
     ];
   };
 }

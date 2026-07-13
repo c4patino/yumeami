@@ -75,7 +75,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "unpackerr" "/var/lib/unpackerr")
+      (mkPersistDir config "unpackerr" "/var/lib/unpackerr" "700")
     ];
 
     sops.secrets."environment-file/unpackerr" = {};

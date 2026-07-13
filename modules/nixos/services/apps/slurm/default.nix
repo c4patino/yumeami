@@ -95,7 +95,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "munge" "/var/lib/munge")
+      (mkPersistDir config "munge" "/var/lib/munge" "700")
     ];
   };
 }

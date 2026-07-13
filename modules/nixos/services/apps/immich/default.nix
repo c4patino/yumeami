@@ -48,7 +48,7 @@ in {
     sops.secrets."environment-file/immich" = {};
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "immich" "/var/lib/immich")
+      (mkPersistDir config "immich" "/var/lib/immich" "700")
     ];
   };
 }

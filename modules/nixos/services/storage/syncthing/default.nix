@@ -74,8 +74,8 @@ in {
     systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
 
     ${namespace}.services.storage.impermanence.folders = mkIf cfg.enable (
-      [ (mkPersistDir config "c4patino" "/mnt/syncthing") ]
-      ++ (builtins.attrNames cfg.shares |> map (k: mkPersistDir config "c4patino" "/mnt/syncthing/${k}"))
+      [(mkPersistDir config "c4patino" "/mnt/syncthing" "700")]
+      ++ (builtins.attrNames cfg.shares |> map (k: mkPersistDir config "c4patino" "/mnt/syncthing/${k}" "700"))
     );
   };
 }

@@ -72,7 +72,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "pgbouncer" "/var/lib/pgbouncer")
+      (mkPersistDir config "pgbouncer" "/var/lib/pgbouncer" "700")
     ];
   });
 }
