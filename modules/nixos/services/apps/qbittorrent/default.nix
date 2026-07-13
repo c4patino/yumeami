@@ -3,15 +3,13 @@
   inputs,
   lib,
   namespace,
-  pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost hostHasService resolveServicePort resolveDatabaseIP mkPersistDir;
+  inherit (lib) mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort mkPersistDir;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
-  pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
 
   uid = 980;
   gid = 975;
@@ -19,8 +17,11 @@
   isEnabled = hostHasService networkCfg.network-services hostName "qbittorrent";
   port = resolveServicePort networkCfg.network-services "qbittorrent" 9000;
   torrentingPort = 23345;
-  dbHost = resolveDatabaseHost pgCfg.databases "qui";
 in {
+  imports = [
+    ./qui.nix
+  ];
+
   config = mkIf isEnabled {
     containers.qbittorrent = {
       autoStart = true;
@@ -45,6 +46,10 @@ in {
         };
         "/mnt/nfs/servarr/torrents" = {
           hostPath = "/mnt/nfs/servarr/torrents";
+          isReadOnly = false;
+        };
+        "/mnt/nfs/autobrr" = {
+          hostPath = "/mnt/nfs/autobrr";
           isReadOnly = false;
         };
       };
@@ -172,67 +177,24 @@ in {
       };
     };
 
-    services.qui = {
-      enable = true;
-      openFirewall = false;
-      package = pkgs.qui;
-      secretFile = config.sops.secrets."qui".path;
-
-      settings = {
-        host = "0.0.0.0";
-        port = port;
-
-        databaseEngine = "postgres";
-        databaseHost = resolveDatabaseIP networkCfg.devices pgCfg.databases "qui";
-        databasePort = 5600;
-        databaseName = "qui";
-        databaseUser = "qui";
-      };
-    };
-
-    systemd.services.qui = mkMerge [
-      {
-        serviceConfig.EnvironmentFile = config.sops.secrets."environment-file/qui".path;
-      }
-      (mkIf (dbHost == hostName) {
-        after = ["postgresql.service"];
-        requires = ["postgresql.service"];
-        serviceConfig.RestartSec = "1s";
-      })
-    ];
-
     users = {
-      users = {
-        qbittorrent = {
-          inherit uid;
-          isSystemUser = true;
-          group = "qbittorrent";
-        };
-
-        qui = {
-          isSystemUser = true;
-          group = "qui";
-          extraGroups = ["qbittorrent"];
-        };
+      users.qbittorrent = {
+        inherit uid;
+        isSystemUser = true;
+        group = "qbittorrent";
       };
 
-      groups = {
-        qbittorrent = {
-          inherit gid;
-        };
-        qui = {};
+      groups.qbittorrent = {
+        inherit gid;
       };
     };
 
     sops.secrets = {
-      "environment-file/qui" = {};
       "openvpn" = {};
-      "qui" = {};
     };
 
     ${namespace}.services.storage.impermanence.folders = [
       (mkPersistDir config "qbittorrent" "/var/lib/qBittorrent" "700")
-      (mkPersistDir config "qui" "/var/lib/qui" "700")
     ];
 
     networking = {
