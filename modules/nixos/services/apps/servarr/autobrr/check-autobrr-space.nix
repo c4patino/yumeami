@@ -15,7 +15,7 @@ pkgs.writeShellScriptBin "check-autobrr-space" ''
 
   required_space=$(parse_space "$1")
   torrent_size="$2"
-  path="/mnt/nfs/servarr/torrents"
+  path="/mnt/nfs/autobrr"
 
   available_space=$(${pkgs.coreutils}/bin/df --output=avail -B1 "$path" | \
     ${pkgs.gawk}/bin/awk 'END {print $1}')
