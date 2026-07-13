@@ -57,10 +57,19 @@ in {
           enable = true;
           shares = ["shared"];
         };
-        nfs.mounts = {
-          slurm = {
-            host = "chibi";
-            folder = "/mnt/nfs/slurm";
+        nfs = {
+          enable = true;
+          shares = [
+            {
+              name = "autobrr";
+              whitelist = ["shiori"];
+            }
+          ];
+          mounts = {
+            slurm = {
+              host = "chibi";
+              folder = "/mnt/nfs/slurm";
+            };
           };
         };
       };

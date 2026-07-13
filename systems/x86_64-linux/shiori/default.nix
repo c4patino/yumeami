@@ -35,6 +35,10 @@ in {
             host = "nas";
             folder = "/volume1/servarr";
           };
+          autobrr = {
+            host = "arisu";
+            folder = "/mnt/nfs/autobrr";
+          };
         };
       };
     };
