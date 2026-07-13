@@ -34,7 +34,6 @@ in {
         lazygit = enabled;
         neovim = enabled;
         opencode = enabled;
-        zoxide = enabled;
       };
     };
   };
