@@ -49,7 +49,7 @@ in {
     sops.secrets."environment-file/asciinema" = {};
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "asciinema" "/var/lib/asciinema")
+      (mkPersistDir config "asciinema" "/var/lib/asciinema" "700")
     ];
   };
 }

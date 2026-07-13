@@ -19,7 +19,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistRootDir config "/var/lib/fprint")
+      (mkPersistRootDir config "/var/lib/fprint" "700")
     ];
   };
 }

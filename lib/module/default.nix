@@ -358,30 +358,32 @@ with lib; rec {
   ## Create an impermanence persistence directory owned by a service user.
   ##
   ## ```nix
-  ## mkPersistDir config "forgejo" "/var/lib/forgejo"
+  ## mkPersistDir config "forgejo" "/var/lib/forgejo" "700"
   ## ```
   ##
   ## @param config    The module config (passed from the module).
   ## @param username  The service username (must exist in config.users.users).
   ## @param directory The directory path to persist.
+  ## @param mode      The directory permission mode (e.g. "700").
   ## @return An attrset for the impermanence.folders list.
-  mkPersistDir = config: username: directory: let
+  mkPersistDir = config: username: directory: mode: let
     u = config.users.users.${username};
   in {
     inherit directory;
     user = u.name;
     group = u.group;
-    mode = "700";
+    inherit mode;
   };
 
   ## Create an impermanence persistence directory owned by root.
   ##
   ## ```nix
-  ## mkPersistRootDir config "/var/lib/docker"
+  ## mkPersistRootDir config "/var/lib/docker" "700"
   ## ```
   ##
   ## @param config    The module config (passed from the module).
   ## @param directory The directory path to persist.
+  ## @param mode      The directory permission mode (e.g. "700").
   ## @return An attrset for the impermanence.folders list.
-  mkPersistRootDir = config: directory: mkPersistDir config "root" directory;
+  mkPersistRootDir = config: directory: mode: mkPersistDir config "root" directory mode;
 }

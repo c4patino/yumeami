@@ -49,7 +49,7 @@ in {
     networking.firewall.allowedTCPPorts = [2376];
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistRootDir config "/var/lib/docker")
+      (mkPersistRootDir config "/var/lib/docker" "700")
     ];
   };
 }

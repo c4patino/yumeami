@@ -231,8 +231,8 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "qbittorrent" "/var/lib/qBittorrent")
-      (mkPersistDir config "qui" "/var/lib/qui")
+      (mkPersistDir config "qbittorrent" "/var/lib/qBittorrent" "700")
+      (mkPersistDir config "qui" "/var/lib/qui" "700")
     ];
 
     networking = {

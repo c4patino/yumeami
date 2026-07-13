@@ -106,7 +106,7 @@ in {
     sops.secrets."forgejo/db" = {};
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "forgejo" "/var/lib/forgejo")
+      (mkPersistDir config "forgejo" "/var/lib/forgejo" "700")
     ];
   };
 }

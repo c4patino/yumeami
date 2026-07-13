@@ -20,7 +20,7 @@ in {
     networking.networkmanager.enable = true;
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistRootDir config "/etc/NetworkManager/system-connections")
+      (mkPersistRootDir config "/etc/NetworkManager/system-connections" "700")
     ];
   };
 }

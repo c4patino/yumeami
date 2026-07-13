@@ -103,7 +103,7 @@ in {
     sops.secrets."github/runner" = {};
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "github-runner" "/var/lib/github-runner")
+      (mkPersistDir config "github-runner" "/var/lib/github-runner" "700")
     ];
   };
 }

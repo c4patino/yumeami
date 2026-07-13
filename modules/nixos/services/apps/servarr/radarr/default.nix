@@ -67,7 +67,7 @@ in {
     sops.secrets."environment-file/radarr" = {};
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "radarr" "/var/lib/radarr")
+      (mkPersistDir config "radarr" "/var/lib/radarr" "700")
     ];
   };
 }

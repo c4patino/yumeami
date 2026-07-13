@@ -50,9 +50,28 @@ in {
         |> concatStringsSep "\n";
     };
 
+    systemd.services = {
+      nfs-idmapd.unitConfig.RequiresMountsFor = [
+        "/var/lib/nfs"
+        "/var/lib/nfs/rpc_pipefs"
+      ];
+      nfsdcld.unitConfig.RequiresMountsFor = [
+        "/var/lib/nfs"
+        "/var/lib/nfs/rpc_pipefs"
+      ];
+      nfs-server.unitConfig.RequiresMountsFor = [
+        "/var/lib/nfs"
+      ];
+    };
+
     ${namespace}.services.storage.impermanence.folders = mkMerge [
-      [(mkPersistRootDir config "/var/lib/nfs")]
-      (mkIf (cfg.shares != []) (cfg.shares |> map (s: mkPersistRootDir config "/mnt/nfs/${s.name}")))
+      [(mkPersistRootDir config "/var/lib/nfs" "700")]
+      (
+        mkIf (cfg.shares != []) (
+          cfg.shares
+          |> map (s: mkPersistRootDir config "/mnt/nfs/${s.name}" "777")
+        )
+      )
     ];
 
     networking.firewall.allowedTCPPorts = [2049];

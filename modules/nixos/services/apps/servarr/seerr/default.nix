@@ -62,7 +62,7 @@ in {
     sops.secrets."environment-file/seerr" = {};
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "seerr" "/var/lib/seerr")
+      (mkPersistDir config "seerr" "/var/lib/seerr" "700")
     ];
   };
 }

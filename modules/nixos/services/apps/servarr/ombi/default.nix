@@ -30,7 +30,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "ombi" "/var/lib/ombi")
+      (mkPersistDir config "ombi" "/var/lib/ombi" "700")
     ];
   };
 }

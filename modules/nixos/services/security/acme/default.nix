@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace isGateway;
+  inherit (lib.${namespace}) getAttrByNamespace isGateway mkPersistDir;
   inherit (config.networking) hostName;
 
   cfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -37,15 +37,8 @@ in {
       "cloudflare/acme-token" = {};
     };
 
-    ${namespace}.services.storage.impermanence.folders = let
-      inherit (config.users.users) acme;
-    in [
-      {
-        directory = "/var/lib/acme";
-        user = acme.name;
-        group = acme.group;
-        mode = "750";
-      }
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "acme" "/var/lib/acme" "750")
     ];
   };
 }

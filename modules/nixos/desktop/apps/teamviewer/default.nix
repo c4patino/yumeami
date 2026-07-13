@@ -20,7 +20,7 @@ in {
     services.teamviewer = enabled;
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistRootDir config "/var/lib/teamviewer")
+      (mkPersistRootDir config "/var/lib/teamviewer" "700")
     ];
   };
 }

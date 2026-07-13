@@ -44,7 +44,7 @@ in {
     networking.firewall.allowedTCPPorts = [port];
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "uptime-kuma" "/var/lib/uptime-kuma")
+      (mkPersistDir config "uptime-kuma" "/var/lib/uptime-kuma" "700")
     ];
   };
 }
