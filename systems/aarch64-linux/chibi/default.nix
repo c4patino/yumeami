@@ -28,7 +28,6 @@ in {
             {
               name = "slurm";
               whitelist = ["arisu"];
-              permissions = ["rw" "nohide" "insecure" "no_subtree_check" "no_root_squash" "sync"];
             }
           ];
         };
