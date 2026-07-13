@@ -92,7 +92,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "postgres" "/var/lib/postgresql")
+      (mkPersistDir config "postgres" "/var/lib/postgresql" "700")
     ];
 
     systemd.services.postgresql-setup.postStart = ''

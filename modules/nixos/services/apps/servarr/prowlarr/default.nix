@@ -67,7 +67,7 @@ in {
     sops.secrets."environment-file/prowlarr" = {};
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "prowlarr" "/var/lib/prowlarr")
+      (mkPersistDir config "prowlarr" "/var/lib/prowlarr" "700")
     ];
   };
 }

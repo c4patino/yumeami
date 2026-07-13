@@ -67,7 +67,7 @@ in {
     sops.secrets."environment-file/sonarr" = {};
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "sonarr" "/var/lib/sonarr")
+      (mkPersistDir config "sonarr" "/var/lib/sonarr" "700")
     ];
   };
 }

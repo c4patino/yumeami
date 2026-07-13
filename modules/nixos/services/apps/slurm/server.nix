@@ -22,7 +22,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "slurm" "/var/spool/slurmctld")
+      (mkPersistDir config "slurm" "/var/spool/slurmctld" "700")
     ];
   };
 }

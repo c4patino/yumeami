@@ -31,7 +31,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistRootDir config "/var/lib/containers")
+      (mkPersistRootDir config "/var/lib/containers" "700")
     ];
   };
 }

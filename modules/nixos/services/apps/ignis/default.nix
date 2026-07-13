@@ -111,7 +111,7 @@ in {
     networking.firewall.allowedTCPPorts = [port];
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "ignis" "/var/lib/ignis")
+      (mkPersistDir config "ignis" "/var/lib/ignis" "700")
     ];
   };
 }

@@ -32,7 +32,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistRootDir config "/srv/terraria")
+      (mkPersistRootDir config "/srv/terraria" "700")
     ];
   };
 }

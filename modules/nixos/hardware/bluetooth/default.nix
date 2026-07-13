@@ -22,7 +22,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistRootDir config "/var/lib/bluetooth")
+      (mkPersistRootDir config "/var/lib/bluetooth" "700")
     ];
   };
 }

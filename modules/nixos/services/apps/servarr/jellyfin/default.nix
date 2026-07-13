@@ -51,7 +51,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "jellyfin" "/var/lib/jellyfin")
+      (mkPersistDir config "jellyfin" "/var/lib/jellyfin" "700")
     ];
   };
 }
