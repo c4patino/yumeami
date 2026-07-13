@@ -20,7 +20,7 @@ in {
       shares = mkListOpt (submodule {
         options = {
           name = mkOpt str [] "Folder name for the final nfs share.";
-          permissions = mkListOpt str ["rw" "nohide" "insecure" "no_subtree_check"] "List of permissions to apply to the folder";
+          permissions = mkListOpt str ["rw" "nohide" "insecure" "no_subtree_check" "no_root_squash" "sync"] "List of permissions to apply to the folder";
           whitelist = mkListOpt str [] "List of devices to whitelist on the nfs share.";
         };
       }) [] "List of the folder paths to share via NFS.";
@@ -51,7 +51,7 @@ in {
     };
 
     ${namespace}.services.storage.impermanence.folders = mkMerge [
-      [ (mkPersistRootDir config "/var/lib/nfs") ]
+      [(mkPersistRootDir config "/var/lib/nfs")]
       (mkIf (cfg.shares != []) (cfg.shares |> map (s: mkPersistRootDir config "/mnt/nfs/${s.name}")))
     ];
 
