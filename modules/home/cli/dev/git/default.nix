@@ -72,7 +72,7 @@ in {
             contents = {
               core.excludesFile =
                 pkgs.writeText "gitignore-programming"
-                (concatStringsSep "\n" (ignores ++ ["openspec/"]) + "\n");
+                (concatStringsSep "\n" (ignores ++ ["/openspec/"]) + "\n");
             };
           }
           {
@@ -80,7 +80,7 @@ in {
             contents = {
               core.excludesFile =
                 pkgs.writeText "gitignore-dotfiles"
-                (concatStringsSep "\n" (ignores ++ ["openspec/"]) + "\n");
+                (concatStringsSep "\n" (ignores ++ ["/openspec/"]) + "\n");
             };
           }
           {
