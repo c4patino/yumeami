@@ -14,11 +14,7 @@
 
   timerInterval = "5m";
   openSpecRepoAutoSync = import ./auto-sync-script.nix {
-    inherit lib pkgs;
-    dataDir = "${config.xdg.stateHome}/openspec-repo-auto-sync";
-    idleThreshold = 20 * 60;
-    openspecRoot = "${config.home.homeDirectory}/openspec";
-    pullInterval = 5 * 60;
+    inherit config lib pkgs;
   };
 in {
   options = mkOptionsWithNamespace base {
