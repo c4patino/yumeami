@@ -67,6 +67,7 @@ in {
           ".devenv/"
           ".direnv/"
           ".git/"
+          ".opencode/"
           ".pnpm-store/"
           ".venv/"
 
