@@ -5,10 +5,24 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption;
+  inherit (lib) concatStringsSep mkIf mkEnableOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
   base = "${namespace}.cli.dev.git";
   cfg = getAttrByNamespace config base;
+
+  ignores = [
+    ".devenv/"
+    ".direnv/"
+    ".git/"
+    ".opencode/"
+    ".pnpm-store/"
+    ".venv/"
+
+    ".env"
+    ".env.local"
+    ".envrc"
+    "AGENTS.md"
+  ];
 in {
   options = mkOptionsWithNamespace base {
     enable = mkEnableOption "git";
@@ -17,6 +31,8 @@ in {
   config = mkIf cfg.enable {
     programs = {
       git = {
+        inherit ignores;
+
         enable = true;
         lfs = enabled;
 
@@ -52,6 +68,22 @@ in {
 
         includes = [
           {
+            condition = "gitdir:~/Programming/";
+            contents = {
+              core.excludesFile =
+                pkgs.writeText "gitignore-programming"
+                (concatStringsSep "\n" (ignores ++ ["openspec/"]) + "\n");
+            };
+          }
+          {
+            condition = "gitdir:~/dotfiles/";
+            contents = {
+              core.excludesFile =
+                pkgs.writeText "gitignore-dotfiles"
+                (concatStringsSep "\n" (ignores ++ ["openspec/"]) + "\n");
+            };
+          }
+          {
             condition = "gitdir:~/Programming/moo/";
             contents = {
               user = {
@@ -61,20 +93,6 @@ in {
               };
             };
           }
-        ];
-
-        ignores = [
-          ".devenv/"
-          ".direnv/"
-          ".git/"
-          ".opencode/"
-          ".pnpm-store/"
-          ".venv/"
-
-          ".env"
-          ".env.local"
-          ".envrc"
-          "AGENTS.md"
         ];
       };
 
