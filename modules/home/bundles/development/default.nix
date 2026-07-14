@@ -1,10 +1,8 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   pkgs,
-  system,
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
@@ -22,8 +20,6 @@ in {
       mprocs
       terraform
       tokei
-
-      inputs.openspec.packages.${system}.default
     ];
 
     ${namespace} = {
@@ -34,6 +30,7 @@ in {
         lazygit = enabled;
         neovim = enabled;
         opencode = enabled;
+        openspec = enabled;
       };
     };
   };
