@@ -18,6 +18,12 @@ pkgs.writeShellScript "openspec-repo-auto-sync" ''
 
   [ -d "$OPENSPEC_ROOT" ] || exit 0
 
+  repo_has_changes() {
+    ! ${pkgs.git}/bin/git -C "$1" diff --quiet \
+      || ! ${pkgs.git}/bin/git -C "$1" diff --cached --quiet \
+      || [ -n "$(${pkgs.git}/bin/git -C "$1" ls-files --others --exclude-standard)" ]
+  }
+
   now=$(${pkgs.coreutils}/bin/date +%s)
 
   for repo in "$OPENSPEC_ROOT"/*/; do
@@ -38,13 +44,23 @@ pkgs.writeShellScript "openspec-repo-auto-sync" ''
     esac
 
     if [ $((now - last_pull)) -ge "$PULL_INTERVAL" ]; then
+      stashed=0
+
+      if repo_has_changes "$repo"; then
+        ${pkgs.git}/bin/git -C "$repo" stash push --include-untracked || continue
+        stashed=1
+      fi
+
       ${pkgs.git}/bin/git -C "$repo" pull --rebase || continue
+
+      if [ "$stashed" -eq 1 ]; then
+        ${pkgs.git}/bin/git -C "$repo" stash pop || continue
+      fi
+
       printf '%s\n' "$now" > "$last_pull_file"
     fi
 
-    if ! ${pkgs.git}/bin/git -C "$repo" diff --quiet \
-      || ! ${pkgs.git}/bin/git -C "$repo" diff --cached --quiet \
-      || [ -n "$(${pkgs.git}/bin/git -C "$repo" ls-files --others --exclude-standard)" ]; then
+    if repo_has_changes "$repo"; then
       newest=$(${pkgs.findutils}/bin/find "$repo" -path "$repo/.git" -prune -o -type f -printf '%T@\n' 2>/dev/null | ${pkgs.coreutils}/bin/sort -rn | ${pkgs.coreutils}/bin/head -n 1) || true
       newest_int="''${newest%%.*}"
 
