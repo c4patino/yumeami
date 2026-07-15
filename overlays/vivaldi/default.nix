@@ -1,5 +1,8 @@
-{...}: final: prev: {
-  vivaldi = (prev.vivaldi.override
+# TODO: SWITCH THIS OUT TO USE THE STABLE CHANNEL ONCE NIXPKGS FIXES THE VERSION
+# {...}: final: prev: {
+#   vivaldi = (prev.vivaldi.override
+{channels, ...}: final: prev: {
+  vivaldi = (channels.nixpkgs-unstable.vivaldi.override
     {
       proprietaryCodecs = true;
       enableWidevine = true;
