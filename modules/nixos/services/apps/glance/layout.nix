@@ -358,6 +358,27 @@ in {
                       repository = "nixos/nixpkgs";
                       token = "\${GITHUB_TOKEN}";
                     }
+                    {
+                      type = "repository";
+                      title = "bf-core-admin";
+                      repository = "mutual-of-omaha/bf-core-admin";
+                      token = "\${GITHUB_TOKEN_MOO}";
+                      pull-requests-limit = 8;
+                    }
+                    {
+                      type = "repository";
+                      title = "bf-bill-admin-ui";
+                      repository = "mutual-of-omaha/bf-bill-admin-ui";
+                      token = "\${GITHUB_TOKEN_MOO}";
+                      pull-requests-limit = 8;
+                    }
+                    {
+                      type = "repository";
+                      title = "bf-bill-admin-server";
+                      repository = "mutual-of-omaha/bf-bill-admin-server";
+                      token = "\${GITHUB_TOKEN_MOO}";
+                      pull-requests-limit = 8;
+                    }
                   ];
                 }
                 {
