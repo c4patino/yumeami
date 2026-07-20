@@ -17,6 +17,7 @@
 
     asciinema.url = "github:asciinema/asciinema-server/main";
     impermanence.url = "github:nix-community/impermanence";
+    jiratui.url = "github:whyisdifficult/jiratui";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
     openspec.url = "github:Fission-AI/OpenSpec";
     walker.url = "github:abenz1267/walker";
