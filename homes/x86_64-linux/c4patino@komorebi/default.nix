@@ -17,6 +17,10 @@ in {
     };
 
     cli = {
+      dev = {
+        jiratui = enabled;
+      };
+
       tools = {
         asciinema = enabled;
         presenterm = enabled;
