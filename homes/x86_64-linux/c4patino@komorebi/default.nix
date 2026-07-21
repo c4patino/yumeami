@@ -18,6 +18,7 @@ in {
 
     cli = {
       dev = {
+        jiracli = enabled;
         jiratui = enabled;
       };
 
@@ -96,11 +97,5 @@ in {
     };
   };
 
-  home = {
-    packages = with pkgs; [
-      jira-cli-go
-    ];
-
-    stateVersion = "26.05";
-  };
+  home.stateVersion = "26.05";
 }
