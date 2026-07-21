@@ -46,6 +46,9 @@ in {
               (pkgs.writeText "homelab.txt" ''
                 *.yumeami.sh
                 *.cpatino.com
+
+                api.ipify.org
+                api6.ipify.org
               '')
             ];
           };
