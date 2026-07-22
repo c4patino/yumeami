@@ -97,5 +97,13 @@ in {
     };
   };
 
-  home.stateVersion = "26.05";
+  home = {
+    file.".kube/config" = {
+      source =
+        "${config.snowfallorg.user.home.directory}/dotfiles/secrets/crypt/kubectl.yaml"
+        |> config.lib.file.mkOutOfStoreSymlink;
+    };
+
+    stateVersion = "26.05";
+  };
 }
