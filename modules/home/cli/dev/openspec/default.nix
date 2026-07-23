@@ -22,9 +22,15 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = [
-      inputs.openspec.packages.${system}.default
-    ];
+    home = {
+      packages = [
+        inputs.openspec.packages.${system}.default
+      ];
+
+      file.".config/openspec/config.json" = {
+        source = inputs.dotfiles + "/.config/openspec/config.json";
+      };
+    };
 
     systemd.user = {
       services.openspec-repo-auto-sync = {
