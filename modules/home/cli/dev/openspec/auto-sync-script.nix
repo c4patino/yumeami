@@ -12,7 +12,7 @@ pkgs.writeShellScript "openspec-repo-auto-sync" ''
   OPENSPEC_ROOT=${lib.escapeShellArg "${config.home.homeDirectory}/openspec"}
   DATA_DIR=${lib.escapeShellArg "${config.home.homeDirectory}/.local/state/openspec-repo-auto-sync"}
 
-  ${pkgs.coreutils}/bin/mkdir -p "$DATA_DIR"
+  mkdir -p "$DATA_DIR"
 
   [ -d "$OPENSPEC_ROOT" ] || exit 0
 
@@ -20,14 +20,14 @@ pkgs.writeShellScript "openspec-repo-auto-sync" ''
     [ -d "$repo/.git" ] || continue
 
     cd "$repo"
-    name=$(${pkgs.coreutils}/bin/basename "$(pwd)")
-    safe_name=$(printf '%s' "$name" | ${pkgs.coreutils}/bin/tr -c 'A-Za-z0-9._-' '_')
+    name=$(basename "$(pwd)")
+    safe_name=$(printf '%s' "$name" | tr -c 'A-Za-z0-9._-' '_')
     last_pull_file="$DATA_DIR/.last-pull-$safe_name"
     last_pull=0
 
     [ -f "$last_pull_file" ] && read -r last_pull < "$last_pull_file" || true
 
-    now=$(${pkgs.coreutils}/bin/date +%s)
+    now=$(date +%s)
 
     if [ $((now - last_pull)) -ge $PULL_INTERVAL ]; then
       ${pkgs.git}/bin/git pull --rebase 2>/dev/null || true
@@ -40,7 +40,7 @@ pkgs.writeShellScript "openspec-repo-auto-sync" ''
 
       if [ -z "$newest_int" ] || [ $((now - newest_int)) -ge "$IDLE_THRESHOLD" ]; then
         ${pkgs.git}/bin/git add -A 2>/dev/null
-        ${pkgs.git}/bin/git commit -m "$(${pkgs.coreutils}/bin/date -u +"docs(%Y/%m/%d): automatic OpenSpec backup")" 2>/dev/null
+        ${pkgs.git}/bin/git commit -m "$(date -u +"docs(%Y/%m/%d): automatic OpenSpec backup")" 2>/dev/null
         ${pkgs.git}/bin/git push 2>/dev/null
       fi
     fi
