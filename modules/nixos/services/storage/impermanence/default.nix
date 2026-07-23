@@ -80,7 +80,6 @@ in {
           ".config/nushell"
           ".config/obs-studio"
           ".config/obsidian"
-          ".config/openspec"
           ".config/pnpm"
           ".config/pypoetry"
           ".config/spotify"
