@@ -4,7 +4,6 @@
   inputs,
   lib,
   namespace,
-  pkgs,
   ...
 }: let
   inherit (lib.${namespace}) enabled;
@@ -20,6 +19,7 @@ in {
       dev = {
         jiracli = enabled;
         jiratui = enabled;
+        kubectl = enabled;
       };
 
       tools = {
@@ -97,13 +97,5 @@ in {
     };
   };
 
-  home = {
-    file.".kube/config" = {
-      source =
-        "${config.snowfallorg.user.home.directory}/dotfiles/secrets/crypt/kubectl.yaml"
-        |> config.lib.file.mkOutOfStoreSymlink;
-    };
-
-    stateVersion = "26.05";
-  };
+  home.stateVersion = "26.05";
 }
