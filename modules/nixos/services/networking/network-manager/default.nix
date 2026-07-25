@@ -17,7 +17,10 @@ in {
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [networkmanagerapplet];
 
-    networking.networkmanager.enable = true;
+    networking.networkmanager = {
+      enable = true;
+      dns = "systemd-resolved";
+    };
 
     ${namespace}.services.storage.impermanence.folders = [
       (mkPersistRootDir config "/etc/NetworkManager/system-connections" "700")
