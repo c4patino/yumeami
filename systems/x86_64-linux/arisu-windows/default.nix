@@ -50,8 +50,6 @@ in {
   };
 
   networking = {
-    resolvconf.enable = mkForce false;
-
     hostName = "arisu-windows";
     hostId = "c6cc4687";
   };
