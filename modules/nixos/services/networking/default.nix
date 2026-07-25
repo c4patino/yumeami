@@ -4,8 +4,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkOption optional optionalString concatStringsSep;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP flattenHostServices mkRequiredOpt mkBoolOpt mkOpt mkOptAttrset mkListOpt;
+  inherit (lib) types mkIf mkOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkRequiredOpt mkBoolOpt mkOpt mkOptAttrset mkListOpt resolveHostIP resolveServiceHost;
 
   base = "${namespace}.services.networking";
   cfg = getAttrByNamespace config base;
@@ -39,20 +39,18 @@ in {
     };
 
   config = {
-    networking.resolvconf = {
+    services.resolved = {
       enable = true;
-      extraConfig = let
-        flatServices = flattenHostServices cfg.network-services;
-        unboundIP =
-          if flatServices ? unbound
-          then resolveHostIP cfg.devices flatServices.unbound.host
-          else null;
-        allDns = optional (unboundIP != null) unboundIP ++ ["1.1.1.1" "8.8.8.8" "100.100.100.100"];
-      in ''
-        ${optionalString (unboundIP != null) "name_servers=${unboundIP}"}
-        search_domains="tail8b9fd9.ts.net"
-        name_servers="${concatStringsSep " " allDns}"
-      '';
+      settings.Resolve.DNSStubListener = "no";
     };
+
+    networking.nameservers = let
+      host = resolveServiceHost cfg.network-services "unbound";
+      ip = resolveHostIP cfg.devices host;
+    in [
+      (mkIf (ip != null) ip)
+      "1.1.1.1"
+      "8.8.8.8"
+    ];
   };
 }

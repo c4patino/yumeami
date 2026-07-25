@@ -60,8 +60,6 @@ in {
   };
 
   networking = {
-    resolvconf.enable = mkForce false;
-
     hostName = "mutualofomaha";
     hostId = "19101c94";
   };
