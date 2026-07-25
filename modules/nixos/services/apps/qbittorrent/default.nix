@@ -35,7 +35,7 @@ in {
 
       bindMounts = {
         "/etc/openvpn/config" = {
-          hostPath = "${inputs.self}/secrets/crypt/openvpn/us10326.nordvpn.com.udp.ovpn";
+          hostPath = "${inputs.self}/secrets/crypt/openvpn/us13669.nordvpn.com.udp_2.6.ovpn";
         };
         "/run/secrets/openvpn" = {
           hostPath = config.sops.secrets."openvpn".path;
