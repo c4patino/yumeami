@@ -97,6 +97,7 @@ in {
           ".local/share/containers"
           ".local/share/direnv"
           ".local/share/nvim"
+          ".local/share/keyrings"
           ".local/share/opencode"
           ".local/share/openspec"
           ".local/share/pnpm"

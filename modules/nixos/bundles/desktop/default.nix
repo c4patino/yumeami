@@ -29,6 +29,12 @@ in {
         bluetooth = enabled;
         printing = enabled;
       };
+
+      services = {
+        security = {
+          gnome-keyring = enabled;
+        };
+      };
     };
 
     fonts = {
