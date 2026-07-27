@@ -18,8 +18,8 @@
     asciinema.url = "github:asciinema/asciinema-server/main";
     impermanence.url = "github:nix-community/impermanence";
     jiratui.url = "github:whyisdifficult/jiratui";
-    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
-    openspec.url = "github:Fission-AI/OpenSpec";
+    nix-minecraft.url = "github:infinidoge/nix-minecraft";
+    openspec.url = "github:c4patino/openspec";
     walker.url = "github:abenz1267/walker";
     xremap.url = "github:xremap/nix-flake";
 
