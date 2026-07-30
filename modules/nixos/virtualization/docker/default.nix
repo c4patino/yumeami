@@ -16,7 +16,10 @@ in {
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [libnvidia-container nvidia-container-toolkit];
+    environment.systemPackages = with pkgs; [
+      libnvidia-container
+      nvidia-container-toolkit
+    ];
 
     hardware.nvidia-container-toolkit.enable = nvdaCfg.enable;
 
@@ -45,6 +48,11 @@ in {
 
       oci-containers.backend = mkOverride 0 "docker";
     };
+
+    programs.nix-ld.libraries = with pkgs; [
+      libsecret
+      glib
+    ];
 
     networking.firewall.allowedTCPPorts = [2376];
 
