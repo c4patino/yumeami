@@ -49,6 +49,8 @@ in {
     defaultUser = "c4patino";
   };
 
+  services.gnome.gnome-keyring = enabled;
+
   security.pki.certificateFiles = [
     "${inputs.self}/secrets/crypt/ssl/zscaler.crt"
   ];
