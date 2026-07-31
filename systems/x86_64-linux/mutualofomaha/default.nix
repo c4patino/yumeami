@@ -39,6 +39,10 @@ in {
     };
   };
 
+  services.resolved = {
+    enable = mkForce false;
+  };
+
   sops.age.keyFile = let
     inherit (config.networking) hostName;
     crypt = "${config.users.users.c4patino.home}/dotfiles/secrets/crypt";
@@ -62,6 +66,8 @@ in {
   };
 
   networking = {
+    nameservers = mkForce [];
+
     hostName = "mutualofomaha";
     hostId = "19101c94";
   };
