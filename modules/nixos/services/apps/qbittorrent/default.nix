@@ -168,9 +168,16 @@ in {
           };
         };
 
-        networking.firewall = {
-          allowedTCPPorts = [port torrentingPort];
-          allowedUDPPorts = [torrentingPort];
+        networking = {
+          nameservers = [
+            "1.1.1.1"
+            "8.8.8.8"
+          ];
+
+          firewall = {
+            allowedTCPPorts = [port torrentingPort];
+            allowedUDPPorts = [torrentingPort];
+          };
         };
 
         system.stateVersion = "26.05";
