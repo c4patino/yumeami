@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   namespace,
   pkgs,
@@ -20,12 +21,18 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      mpv
-      imv
-      jq
-      exiftool
-    ];
+    home = {
+      packages = with pkgs; [
+        mpv
+        imv
+        jq
+        exiftool
+      ];
+
+      file.".config/yazi/theme.toml" = {
+        source = inputs.dotfiles + "/.config/yazi/theme.toml";
+      };
+    };
 
     programs.yazi = {
       enable = true;

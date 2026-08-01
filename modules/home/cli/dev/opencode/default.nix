@@ -23,6 +23,7 @@ in {
         ".config/opencode/opencode.json".source = inputs.dotfiles + "/.config/opencode/opencode.json";
         ".config/opencode/agent".source = inputs.dotfiles + "/.config/opencode/agent";
         ".config/opencode/command".source = inputs.dotfiles + "/.config/opencode/command";
+        ".config/opencode/themes".source = inputs.dotfiles + "/.config/opencode/themes";
       };
     };
   };
