@@ -37,12 +37,23 @@ in {
         lfs = enabled;
 
         settings = {
-          commit.gpgsign = true;
           core = {
             pager = "delta";
             editor = "nvim";
             fileMode = false;
           };
+          init.defaultBranch = "main";
+
+          fetch.prune = true;
+          pull.rebase = true;
+          push.autoSetupRemote = true;
+
+          maintenance.auto = true;
+          rerere.enabled = true;
+
+          commit.gpgsign = true;
+          gpg.format = "ssh";
+
           delta = {
             dark = true;
             hyperlinks = true;
@@ -51,15 +62,9 @@ in {
             side-by-side = true;
           };
           diff.colorMoved = "zebra";
-          fetch.prune = true;
-          gpg.format = "ssh";
-          init.defaultBranch = "main";
           interactive.diffFilter = "delta --color-only";
-          maintenance.auto = true;
           merge.conflictStyle = "zdiff3";
-          pull.rebase = true;
-          push.autoSetupRemote = true;
-          rerere.enabled = true;
+
           user = {
             name = "C4 Patino";
             email = "c4patino@gmail.com";
@@ -97,20 +102,10 @@ in {
           }
         ];
       };
-
-      gh = {
-        enable = true;
-        extensions = with pkgs; [
-          gh-dash
-          gh-stack
-        ];
-      };
     };
 
     home.packages = with pkgs; [
       delta
-      forgejo-cli
-      tuicr
     ];
   };
 }

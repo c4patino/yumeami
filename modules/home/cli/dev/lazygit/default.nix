@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   namespace,
   ...
@@ -14,14 +15,10 @@ in {
   };
 
   config = mkIf cfg.enable {
-    programs.lazygit = {
-      enable = true;
+    programs.lazygit.enable = true;
 
-      settings = {
-        git = {
-          overrideGpg = true;
-        };
-      };
+    home.file.".config/lazygit/config.yml" = {
+      source = inputs.dotfiles + "/.config/lazygit/config.yaml";
     };
   };
 }
