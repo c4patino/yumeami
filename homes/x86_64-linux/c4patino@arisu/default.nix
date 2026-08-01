@@ -51,18 +51,7 @@ in {
     cli.dev.neovim.variant = "full";
   };
 
-  programs = {
-    kitty.font.size = 14;
-
-    ssh.settings = {
-      "github-mutual.com" = {
-        HostName = "github.com";
-        User = "git";
-        IdentityFile = "~/.ssh/id_ed25519-mutualofomaha";
-        IdentitiesOnly = true;
-      };
-    };
-  };
+  programs.kitty.font.size = 14;
 
   sops.secrets = let
     inherit (config.snowfallorg) user;

@@ -86,6 +86,7 @@ in {
           {
             condition = "gitdir:~/Programming/moo/";
             contents = {
+              core.sshCommand = "ssh -i ~/.ssh/id_ed25519-mutualofomaha -o IdentitiesOnly=yes";
               user = {
                 name = "Ceferino Patino";
                 email = "ceferino.patino@mutualofomaha.com";

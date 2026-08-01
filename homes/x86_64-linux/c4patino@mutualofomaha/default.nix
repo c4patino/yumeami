@@ -31,12 +31,6 @@ in {
   };
 
   programs.ssh.settings = {
-    "github-mutual.com" = {
-      HostName = "github.com";
-      User = "git";
-      IdentityFile = "~/.ssh/id_ed25519-mutualofomaha";
-      IdentitiesOnly = true;
-    };
     "lx*" = {
       ControlMaster = "no";
       ControlPath = "none";
