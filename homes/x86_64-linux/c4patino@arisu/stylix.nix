@@ -44,10 +44,7 @@
     };
     targets = {
       mako.enable = true;
-      lazygit.enable = true;
       nushell.enable = true;
-      yazi.enable = true;
-      zellij.enable = true;
     };
   };
 }
