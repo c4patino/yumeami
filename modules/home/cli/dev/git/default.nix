@@ -59,6 +59,7 @@ in {
           merge.conflictStyle = "zdiff3";
           pull.rebase = true;
           push.autoSetupRemote = true;
+          rerere.enabled = true;
           user = {
             name = "C4 Patino";
             email = "c4patino@gmail.com";
@@ -97,12 +98,19 @@ in {
         ];
       };
 
-      gh.enable = true;
+      gh = {
+        enable = true;
+        extensions = with pkgs; [
+          gh-dash
+          gh-stack
+        ];
+      };
     };
 
     home.packages = with pkgs; [
       delta
       forgejo-cli
+      tuicr
     ];
   };
 }
