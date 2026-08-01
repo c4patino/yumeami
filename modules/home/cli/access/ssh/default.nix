@@ -49,6 +49,11 @@ in {
           HostName = "nuros.unl.edu";
           User = "cpatino2";
         };
+        "github.com" = {
+          ControlMaster = "no";
+          ControlPath = "none";
+          ControlPersist = "no";
+        };
       };
     };
 
