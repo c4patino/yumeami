@@ -875,11 +875,11 @@
         "nixpkgs": "nixpkgs_8"
       },
       "locked": {
-        "lastModified": 1785786748,
-        "narHash": "sha256-wHql6nExzfFLBrrTReBbUkGJSvIWXj37TcXrf8D+i0E=",
+        "lastModified": 1785883960,
+        "narHash": "sha256-gZ8qGIQ76XAPdwurbWcgG33nGV0gTcDqTjNUus5z8nM=",
         "owner": "c4patino",
         "repo": "openspec",
-        "rev": "2dcf63aaeb2fadc1e3eaceb34897993215d01203",
+        "rev": "02b124e6b64369e283db1827a4470e0c1553ba8c",
         "type": "github"
       },
       "original": {
