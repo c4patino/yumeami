@@ -19,7 +19,7 @@
     impermanence.url = "github:nix-community/impermanence";
     jiratui.url = "github:whyisdifficult/jiratui";
     nix-minecraft.url = "github:infinidoge/nix-minecraft";
-    openspec.url = "github:c4patino/openspec";
+    openspec.url = "github:fission-ai/openspec";
     walker.url = "github:abenz1267/walker";
     xremap.url = "github:xremap/nix-flake";
 
@@ -28,7 +28,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-wsl = {
-      url = "github:nix-community/NixOS-WSL";
+      url = "github:nix-community/nixos-wsl";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     snowfall-lib = {

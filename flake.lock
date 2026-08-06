@@ -563,13 +563,13 @@
         "lastModified": 1784642409,
         "narHash": "sha256-hcbDqFuySAJawljt5r0sKBCJKYnbtGD0T/ZIozH1Dq0=",
         "owner": "nix-community",
-        "repo": "NixOS-WSL",
+        "repo": "nixos-wsl",
         "rev": "eaeb18da90024448a60eb1ec7132eafa4003404e",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
-        "repo": "NixOS-WSL",
+        "repo": "nixos-wsl",
         "type": "github"
       }
     },
@@ -875,15 +875,15 @@
         "nixpkgs": "nixpkgs_8"
       },
       "locked": {
-        "lastModified": 1785883960,
-        "narHash": "sha256-gZ8qGIQ76XAPdwurbWcgG33nGV0gTcDqTjNUus5z8nM=",
-        "owner": "c4patino",
+        "lastModified": 1785963358,
+        "narHash": "sha256-somG/01vz+TfFs/X2GOXYwG4WShOZUWz2Za9l/RGHSM=",
+        "owner": "fission-ai",
         "repo": "openspec",
-        "rev": "02b124e6b64369e283db1827a4470e0c1553ba8c",
+        "rev": "d57889664cab4f2f061d236ec3ff82a5578701bb",
         "type": "github"
       },
       "original": {
-        "owner": "c4patino",
+        "owner": "fission-ai",
         "repo": "openspec",
         "type": "github"
       }
