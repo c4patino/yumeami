@@ -7,7 +7,7 @@
 }: let
   inherit (lib) mkIf mkEnableOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.desktop.services.brightnessctl";
+  base = "${namespace}.desktop.env.tools.brightnessctl";
   cfg = getAttrByNamespace config base;
 in {
   options = mkOptionsWithNamespace base {

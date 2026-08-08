@@ -17,26 +17,27 @@ in {
   config = mkIf cfg.enable {
     ${namespace} = {
       desktop = {
-        apps = {
-          launchers.launcher = "walker";
-          tools.obs = enabled;
-        };
+        apps.tools.obs = enabled;
 
         env = {
-          eww = enabled;
-          gtk = enabled;
           hyprland = enabled;
-        };
 
-        services = {
-          mako = enabled;
-          hyprpaper = enabled;
-          wl-clipboard = enabled;
+          shell = {
+            launchers.launcher = "walker";
+
+            eww = enabled;
+            hyprpaper = enabled;
+            mako = enabled;
+          };
+
+          theme.gtk = enabled;
+
+          tools = {
+            grim = enabled;
+            slurp = enabled;
+            wl-clipboard = enabled;
+          };
         };
-      };
-      cli.media = {
-        grim = enabled;
-        slurp = enabled;
       };
     };
 

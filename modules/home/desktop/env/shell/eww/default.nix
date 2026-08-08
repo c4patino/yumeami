@@ -8,7 +8,7 @@
 }: let
   inherit (lib) mkIf mkEnableOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.desktop.env.eww";
+  base = "${namespace}.desktop.env.shell.eww";
   cfg = getAttrByNamespace config base;
 in {
   options = mkOptionsWithNamespace base {
