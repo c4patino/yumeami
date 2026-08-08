@@ -23,11 +23,9 @@ in {
           hyprland = enabled;
 
           shell = {
-            launchers.launcher = "walker";
+            launchers.launcher = "noctalia";
 
-            eww = enabled;
-            hyprpaper = enabled;
-            mako = enabled;
+            noctalia = enabled;
           };
 
           theme.gtk = enabled;
