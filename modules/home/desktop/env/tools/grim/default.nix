@@ -7,7 +7,7 @@
 }: let
   inherit (lib) mkIf mkEnableOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.cli.media.grim";
+  base = "${namespace}.desktop.env.tools.grim";
   cfg = getAttrByNamespace config base;
 in {
   options = mkOptionsWithNamespace base {

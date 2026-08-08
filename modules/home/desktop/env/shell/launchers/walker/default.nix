@@ -1,20 +1,27 @@
 {
   config,
+  inputs,
   lib,
   namespace,
-  pkgs,
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.cli.media.slurp";
+  base = "${namespace}.desktop.env.shell.launchers.walker";
   cfg = getAttrByNamespace config base;
 in {
   options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "slurp";
+    enable = mkEnableOption "walker";
   };
 
+  imports = [
+    inputs.walker.homeManagerModules.default
+  ];
+
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [slurp];
+    programs.walker = {
+      enable = true;
+      runAsService = true;
+    };
   };
 }
