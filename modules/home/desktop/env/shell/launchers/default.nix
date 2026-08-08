@@ -11,7 +11,7 @@
   cfg = getAttrByNamespace config base;
 in {
   options = mkOptionsWithNamespace base {
-    launcher = mkNullableOpt (types.enum ["anyrun" "walker"]) null "Which launcher to enable (anyrun, walker, or null for none).";
+    launcher = mkNullableOpt (types.enum ["anyrun" "walker" "noctalia"]) null "Which launcher to enable";
   };
 
   config = let

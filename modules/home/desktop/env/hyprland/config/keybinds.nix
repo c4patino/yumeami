@@ -6,11 +6,10 @@
 }: let
   inherit (lib) mkIf;
   inherit (lib.${namespace}) getAttrByNamespace;
-  base = "${namespace}.desktop.env.hyprland";
-  cfg = getAttrByNamespace config base;
 
   launcherCfg = getAttrByNamespace config "${namespace}.desktop.env.shell.launchers";
-  launcher = launcherCfg.launcher;
+  noctaliaCfg = getAttrByNamespace config "${namespace}.desktop.env.shell.noctalia";
+  cfg = getAttrByNamespace config "${namespace}.desktop.env.hyprland";
 in {
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings = let
@@ -18,9 +17,15 @@ in {
 
       menu =
         {
+          noctalia = "noctalia msg panel-toggle launcher";
           anyrun = "GSK_RENDERER=ngl anyrun";
           walker = "walker";
-        }."${launcher}" or "";
+        }."${launcherCfg.launcher}" or "";
+
+      screenshot =
+        if noctaliaCfg.enable
+        then "noctalia msg screenshot-region"
+        else "sh -c 'grim -g \"$(slurp -d)\" ~/Downloads/$(date +%Y-%m-%d-%H%M%S).png'";
 
       lua = lib.generators.mkLuaInline;
 
@@ -48,7 +53,7 @@ in {
           (bind "${mainMod} + S" (dsp "layout(\"togglesplit\")"))
           (bind "${mainMod} + P" (dsp "window.pseudo()"))
 
-          (bind "${mainMod} + Home" (exec "sh -c 'grim -g \"$(slurp -d)\" ~/Downloads/$(date +%Y-%m-%d-%H%M%S).png'"))
+          (bind "${mainMod} + Home" (exec screenshot))
 
           # Scratchpad
           (bind "ALT + S" (dsp "workspace.toggle_special(\"magic\")"))
