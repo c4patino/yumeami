@@ -14,6 +14,10 @@
   isEnabled = hostHasService networkCfg.network-services hostName "immich";
   port = resolveServicePort networkCfg.network-services "immich" 2283;
 in {
+  imports = [
+    ./postgres.nix
+  ];
+
   config = mkIf isEnabled {
     services.immich = {
       enable = true;
