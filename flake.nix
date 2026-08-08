@@ -15,10 +15,11 @@
     devshell.url = "github:numtide/devshell";
     treefmt-nix.url = "github:numtide/treefmt-nix";
 
-    asciinema.url = "github:asciinema/asciinema-server/main";
+    asciinema.url = "github:asciinema/asciinema-server";
     impermanence.url = "github:nix-community/impermanence";
     jiratui.url = "github:whyisdifficult/jiratui";
     nix-minecraft.url = "github:infinidoge/nix-minecraft";
+    noctalia.url = "github:noctalia-dev/noctalia/cachix";
     openspec.url = "github:fission-ai/openspec";
     walker.url = "github:abenz1267/walker";
     xremap.url = "github:xremap/nix-flake";
@@ -45,6 +46,15 @@
       url = "git+https://git.cpatino.com/c4patino/dotfiles?ref=main";
       flake = false;
     };
+  };
+
+  nixConfig = {
+    extra-substituters = [
+      "https://noctalia.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+    ];
   };
 
   outputs = {
