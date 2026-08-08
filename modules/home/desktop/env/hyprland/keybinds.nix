@@ -9,7 +9,7 @@
   base = "${namespace}.desktop.env.hyprland";
   cfg = getAttrByNamespace config base;
 
-  launcherCfg = getAttrByNamespace config "${namespace}.desktop.apps.launchers";
+  launcherCfg = getAttrByNamespace config "${namespace}.desktop.env.shell.launchers";
   launcher = launcherCfg.launcher;
 in {
   config = mkIf cfg.enable {

@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   lib,
   namespace,
   pkgs,
@@ -8,34 +7,27 @@
 }: let
   inherit (lib) mkIf mkEnableOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.desktop.services.variety";
+  base = "${namespace}.desktop.env.tools.wl-clipboard";
   cfg = getAttrByNamespace config base;
 in {
   options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "variety";
+    enable = mkEnableOption "wl-clipboard";
   };
 
   config = mkIf cfg.enable {
-    home = {
-      packages = with pkgs; [
-        swaybg
-        variety
-      ];
-
-      file.".assets/desktops/" = {
-        source =
-          "${config.snowfallorg.user.home.directory}/dotfiles/inputs/dotfiles/.assets/desktops"
-          |> config.lib.file.mkOutOfStoreSymlink;
-      };
-    };
+    home.packages = with pkgs; [
+      wl-clipboard
+      cliphist
+      rofi
+    ];
 
     wayland.windowManager.hyprland.settings.on = {
       _args = [
         "hyprland.start"
         (lib.generators.mkLuaInline ''
           function()
-            hl.exec_cmd("swaybg")
-            hl.exec_cmd("variety")
+            hl.exec_cmd("wl-paste --type text --watch cliphist store")
+            hl.exec_cmd("wl-paste --type image --watch cliphist store")
           end
         '')
       ];

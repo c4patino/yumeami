@@ -7,7 +7,7 @@
   inherit (lib) types;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkNullableOpt;
 
-  base = "${namespace}.desktop.apps.launchers";
+  base = "${namespace}.desktop.env.shell.launchers";
   cfg = getAttrByNamespace config base;
 in {
   options = mkOptionsWithNamespace base {
@@ -19,10 +19,10 @@ in {
   in
     lib.mkMerge [
       (lib.mkIf (launcherVal == "anyrun") {
-        ${namespace}.desktop.apps.launchers.anyrun.enable = true;
+        ${namespace}.desktop.env.shell.launchers.anyrun.enable = true;
       })
       (lib.mkIf (launcherVal == "walker") {
-        ${namespace}.desktop.apps.launchers.walker.enable = true;
+        ${namespace}.desktop.env.shell.launchers.walker.enable = true;
       })
     ];
 }

@@ -43,7 +43,7 @@ in {
       };
     };
 
-    desktop.services.brightnessctl = enabled;
+    desktop.env.tools.brightnessctl = enabled;
 
     cli.dev.neovim.variant = "full";
   };

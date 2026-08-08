@@ -7,7 +7,7 @@
 }: let
   inherit (lib) mkIf mkEnableOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.desktop.env.gtk";
+  base = "${namespace}.desktop.env.theme.gtk";
   cfg = getAttrByNamespace config base;
 in {
   options = mkOptionsWithNamespace base {

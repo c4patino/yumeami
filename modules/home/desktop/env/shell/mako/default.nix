@@ -6,7 +6,7 @@
 }: let
   inherit (lib) mkIf mkEnableOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.desktop.services.mako";
+  base = "${namespace}.desktop.env.shell.mako";
   cfg = getAttrByNamespace config base;
 in {
   options = mkOptionsWithNamespace base {

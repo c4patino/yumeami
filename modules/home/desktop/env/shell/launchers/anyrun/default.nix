@@ -7,7 +7,7 @@
 }: let
   inherit (lib) mkIf mkEnableOption getExe;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.desktop.apps.launchers.anyrun";
+  base = "${namespace}.desktop.env.shell.launchers.anyrun";
   cfg = getAttrByNamespace config base;
 
   compileSCSS = name: source: "${pkgs.runCommandLocal name {} ''
