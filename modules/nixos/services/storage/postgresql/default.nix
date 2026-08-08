@@ -6,7 +6,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) types mkIf mkMerge concatStringsSep hasAttr getAttr filter optionalString head splitString;
+  inherit (lib) types mkIf concatStringsSep hasAttr getAttr filter head splitString;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn mkOptAttrset mkPersistDir;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.postgresql";
@@ -34,21 +34,9 @@ in {
         enableTCPIP = true;
         package = pkgs.postgresql_17;
 
-        settings = mkMerge [
-          {
-            port = port;
-          }
-          (mkIf (builtins.elem "immich" mainServices) {
-            shared_preload_libraries = ["vchord.so"];
-            search_path = "\"$user\", public, vectors";
-          })
-        ];
-
-        extensions = mkIf (builtins.elem "immich" mainServices) (ps:
-          with ps; [
-            pgvector
-            vectorchord
-          ]);
+        settings = {
+          port = port;
+        };
 
         authentication = let
           permissionEntries =
@@ -128,17 +116,6 @@ in {
         |> concatStringsSep "\n"
       }
       SQL
-
-      ${
-        optionalString (builtins.elem "immich" mainServices) ''
-          ${
-            ["unaccent" "uuid-ossp" "cube" "earthdistance" "pg_trgm" "vector" "vchord"]
-            |> map (ext: "psql -d immich -v ON_ERROR_STOP=1 -c 'CREATE EXTENSION IF NOT EXISTS \"${ext}\";'")
-            |> concatStringsSep "\n"
-          }
-          psql -d immich -v ON_ERROR_STOP=1 -c 'ALTER SCHEMA public OWNER TO immich;'
-        ''
-      }
     '';
   });
 }
