@@ -11,9 +11,9 @@
   cfg = getAttrByNamespace config base;
 in {
   imports = [
-    ./general.nix
-    ./keybinds.nix
-    ./rules.nix
+    ./config/general.nix
+    ./config/keybinds.nix
+    ./config/rules.nix
   ];
 
   options = mkOptionsWithNamespace base {
