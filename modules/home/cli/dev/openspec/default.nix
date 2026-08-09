@@ -13,7 +13,7 @@
   cfg = getAttrByNamespace config base;
 
   timerInterval = "5m";
-  openSpecRepoAutoSync = import ./auto-sync-script.nix {
+  openSpecRepoAutoSync = import ./repo-sync.nix {
     inherit config lib pkgs;
   };
 in {
@@ -33,7 +33,7 @@ in {
     };
 
     systemd.user = {
-      services.openspec-repo-auto-sync = {
+      services.openspec-repo-sync = {
         Unit.Description = "Automatically synchronize OpenSpec repositories";
 
         Service = {
@@ -48,7 +48,7 @@ in {
         Timer = {
           OnBootSec = timerInterval;
           OnUnitActiveSec = timerInterval;
-          Unit = "openspec-repo-auto-sync.service";
+          Unit = "openspec-repo-sync.service";
           Persistent = true;
         };
 
