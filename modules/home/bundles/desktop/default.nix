@@ -33,8 +33,6 @@ in {
           theme.gtk = enabled;
 
           tools = {
-            grim = enabled;
-            slurp = enabled;
             wl-clipboard = enabled;
           };
         };
