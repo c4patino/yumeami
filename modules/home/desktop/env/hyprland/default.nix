@@ -24,6 +24,9 @@ in {
     home.packages = with pkgs; [
       hyprpicker
       hyprpaper
+
+      grim
+      slurp
     ];
 
     wayland.windowManager.hyprland = {
