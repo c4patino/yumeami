@@ -23,14 +23,15 @@ in {
         imagemagick
       ];
 
-      file.".assets/nix-logo.png" = {
-        source = inputs.dotfiles + "/.assets/nix-logo.png";
-      };
-    };
+      file = {
+        ".assets/nix-logo.png" = {
+          source = inputs.dotfiles + "/.assets/nix-logo.png";
+        };
 
-    xdg.configFile."eww" = {
-      source = ./config;
-      recursive = true;
+        ".config/eww" = {
+          source = ./config;
+        };
+      };
     };
   };
 }
