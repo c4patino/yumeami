@@ -1,21 +1,25 @@
-{pkgs}:
-pkgs.writeShellScriptBin "ignis-vault-sync" ''
+{
+  config,
+  lib,
+  pkgs,
+}:
+pkgs.writeShellScript "openspec-repo-sync" ''
   set -euo pipefail
 
   IDLE_THRESHOLD=$((10 * 60))
   PULL_INTERVAL=$((5 * 60))
 
-  VAULT_ROOT="/var/lib/ignis/vaults"
-  [ -d "$VAULT_ROOT" ] || exit 0
+  OPENSPEC_ROOT=${lib.escapeShellArg "${config.home.homeDirectory}/openspec"}
+  [ -d "$OPENSPEC_ROOT" ] || exit 0
 
-  DATA_DIR="/var/lib/ignis/data"
+  DATA_DIR=${lib.escapeShellArg "${config.home.homeDirectory}/.local/state/openspec-repo-sync"}
   mkdir -p "$DATA_DIR"
 
-  for vault in "$VAULT_ROOT"/*/; do
-    [ -d "$vault/.git" ] || continue
+  for repo in "$OPENSPEC_ROOT"/*/; do
+    [ -d "$repo/.git" ] || continue
 
-    cd "$vault"
-    name=$(basename "$vault")
+    cd "$repo"
+    name=$(basename "$repo")
 
     last_pull_file="$DATA_DIR/.last-pull-$name"
     last_pull=0
@@ -61,7 +65,7 @@ pkgs.writeShellScriptBin "ignis-vault-sync" ''
     fi
 
     ${pkgs.git}/bin/git add -A
-    if ! ${pkgs.git}/bin/git commit -m "$(date -u +"docs(%Y/%m/%d): obsidian automatic vault backup")"; then
+    if ! ${pkgs.git}/bin/git commit -m "$(date -u +"docs(%Y/%m/%d): automatic OpenSpec backup")"; then
       echo "git commit failed for $name" >&2
       continue
     fi
