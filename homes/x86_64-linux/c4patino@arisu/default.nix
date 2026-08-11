@@ -30,6 +30,8 @@ in {
       };
 
       dev = {
+        jiracli = enabled;
+        jiratui = enabled;
         leetcode = enabled;
       };
 
