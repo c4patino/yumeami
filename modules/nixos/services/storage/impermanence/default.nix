@@ -105,6 +105,7 @@ in {
           ".local/share/zoxide"
           ".local/share/zsh"
           ".local/state/lazygit"
+          ".local/state/noctalia"
           ".local/state/opencode"
           ".local/state/wireplumber"
           ".m2"
