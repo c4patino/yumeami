@@ -8,16 +8,16 @@
 }:
 rustPlatform.buildRustPackage rec {
   pname = "miasma";
-  version = "0.3.0";
+  version = "0.4.1";
 
   src = fetchFromGitHub {
     owner = "austin-weeks";
     repo = "miasma";
     tag = "v${version}";
-    hash = "sha256-cr3p1fFxt2HLPyfzXH/4J6YLWsC4WxCfFvcNjV29BzI=";
+    hash = "sha256-ng2/p/c22oNSySkemeq2Imd2s3fHtlP2cAX8XKyurjs=";
   };
 
-  cargoHash = "sha256-DFp1+9QyBrgIeysXk8qBnRwD/eCPiHunEEKk1uYvXxw=";
+  cargoHash = "sha256-BUUP8TSjk6YIbh7nGA+5PY4TG00Ua0bRQ705e1sMjZ0=";
 
   doCheck = false;
 
