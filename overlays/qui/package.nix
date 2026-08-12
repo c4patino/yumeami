@@ -3,13 +3,13 @@
   fetchzip,
   stdenvNoCC,
 }:
-stdenvNoCC.mkDerivation (finalAttrs: {
+stdenvNoCC.mkDerivation (finalAttrs: rec {
   pname = "qui";
-  version = "1.21.0";
+  version = "1.25.0";
 
   src = fetchzip {
-    url = "https://github.com/autobrr/qui/releases/download/v${finalAttrs.version}/qui_${finalAttrs.version}_linux_x86_64.tar.gz";
-    hash = "sha256-prmYezsZiMuvoOAuOdra0BcaJcEI0Sf6uJWbwFNxatY=";
+    url = "https://github.com/autobrr/qui/releases/download/v${version}/qui_${version}_linux_x86_64.tar.gz";
+    hash = "sha256-DzWaR75wMvm2gcAtPgaHFCLRVOrd7Syv4Ws6otH6Scs=";
     stripRoot = false;
   };
 
@@ -26,7 +26,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   meta = {
     description = "Modern alternative webUI for qBittorrent, with multi-instance support";
     homepage = "https://github.com/autobrr/qui";
-    changelog = "https://github.com/autobrr/qui/releases/tag/v${finalAttrs.version}";
+    changelog = "https://github.com/autobrr/qui/releases/tag/v${version}";
     license = lib.licenses.gpl2Plus;
     mainProgram = "qui";
     platforms = ["x86_64-linux"];
