@@ -7,7 +7,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption listToAttrs flatten;
+  inherit (lib) mkIf mkEnableOption mkMerge listToAttrs flatten;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
   base = "${namespace}.bundles.common";
   cfg = getAttrByNamespace config base;
@@ -90,8 +90,17 @@ in {
         |> map (keyObj {sopsFile = "${inputs.self}/secrets/sops/${host}.yaml";})
         |> flatten;
     in
-      (users ++ emails)
-      |> listToAttrs;
+      mkMerge [
+        (
+          (users ++ emails)
+          |> listToAttrs
+        )
+        {
+          "github/auth" = {
+            path = "${user.home.directory}/.local/state/nh/github-token";
+          };
+        }
+      ];
 
     programs.bash.initExtra = ''
       . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
