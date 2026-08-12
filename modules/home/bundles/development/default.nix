@@ -36,5 +36,13 @@ in {
         tuicr = enabled;
       };
     };
+
+    sops.secrets = let
+      inherit (config.snowfallorg) user;
+    in {
+      "github/auth" = {
+        path = "${user.home.directory}/.local/state/nh/github-token";
+      };
+    };
   };
 }
