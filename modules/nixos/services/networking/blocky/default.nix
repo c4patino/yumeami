@@ -5,8 +5,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mapAttrsToList listToAttrs filterAttrs flatten;
-  inherit (lib.${namespace}) getAttrByNamespace resolveHostIP flattenHostServices hostHasService resolveServicePort;
+  inherit (lib) filterAttrs flatten listToAttrs mapAttrsToList mkIf;
+  inherit (lib.${namespace}) flattenHostServices getAttrByNamespace hostHasService resolveHostIP resolveServicePort;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";

@@ -4,8 +4,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkIf mkEnableOption mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset mkPersistRootDir;
+  inherit (lib) mkEnableOption mkIf mkMerge types;
+  inherit (lib.${namespace}) getAttrByNamespace mkListOpt mkNullableOpt mkOptAttrset mkOptionsWithNamespace mkPersistRootDir mkRequiredOpt;
   inherit (config.users) users;
 
   base = "${namespace}.services.storage.samba";

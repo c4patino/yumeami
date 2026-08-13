@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption;
+  inherit (lib) mkEnableOption mkIf;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkPersistDir;
   base = "${namespace}.desktop.env.greetd";
   cfg = getAttrByNamespace config base;

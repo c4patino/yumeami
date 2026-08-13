@@ -5,8 +5,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption types;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkNullableOpt mkPersistRootDir;
+  inherit (lib) mkEnableOption mkIf types;
+  inherit (lib.${namespace}) getAttrByNamespace mkNullableOpt mkOpt mkOptionsWithNamespace mkPersistRootDir;
   base = "${namespace}.desktop.apps.games.terraria";
   cfg = getAttrByNamespace config base;
 in {

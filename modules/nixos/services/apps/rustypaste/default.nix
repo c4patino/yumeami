@@ -7,7 +7,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort mkPersistDir;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService mkPersistDir resolveServicePort;
   inherit (config.users) users groups;
   inherit (config.sops) secrets;
   inherit (config.networking) hostName;

@@ -4,8 +4,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
+  inherit (lib) mkEnableOption mkIf;
+  inherit (lib.${namespace}) enabled getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.bundles.desktop.applications";
   cfg = getAttrByNamespace config base;
 in {

@@ -5,8 +5,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) types mkIf mkMerge mkEnableOption mkOption;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService mkOptionsWithNamespace mkOpt mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset;
+  inherit (lib) mkEnableOption mkIf mkMerge mkOption types;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService mkListOpt mkNullableOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkRequiredOpt;
   inherit (config.sops) secrets;
   inherit (config.networking) hostName;
   base = "${namespace}.services.ci.gitea-runner";
@@ -37,7 +37,7 @@ in {
       package = pkgs.forgejo-runner;
 
       instances = let
-        inherit (lib) mapAttrsToList listToAttrs optional;
+        inherit (lib) listToAttrs mapAttrsToList optional;
 
         mkRunnerConfig = name: runner: {
           name = name;

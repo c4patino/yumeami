@@ -4,8 +4,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkListOpt waitForNetwork;
+  inherit (lib) mkEnableOption mkIf types;
+  inherit (lib.${namespace}) getAttrByNamespace mkListOpt mkOpt mkOptionsWithNamespace waitForNetwork;
   base = "${namespace}.services.networking.ddclient";
   cfg = getAttrByNamespace config base;
 in {

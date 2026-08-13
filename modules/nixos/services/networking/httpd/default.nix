@@ -5,8 +5,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption mapAttrsToList listToAttrs replaceStrings mkMerge concatStringsSep filterAttrs optionalString;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP isGateway flattenHostServices waitForNetwork;
+  inherit (lib) concatStringsSep filterAttrs listToAttrs mapAttrsToList mkEnableOption mkIf mkMerge optionalString replaceStrings;
+  inherit (lib.${namespace}) flattenHostServices getAttrByNamespace isGateway mkOptionsWithNamespace resolveHostIP waitForNetwork;
   inherit (config.networking) hostName;
   inherit (config.sops) secrets;
 

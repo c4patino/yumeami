@@ -6,7 +6,7 @@
   inputs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption;
+  inherit (lib) mkEnableOption mkIf;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.desktop.apps.editors.jetbrains.pycharm";
   cfg = getAttrByNamespace config base;
