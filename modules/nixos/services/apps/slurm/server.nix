@@ -18,7 +18,8 @@ in {
 
     systemd.services.slurmctld = {
       requires = ["mnt-nfs-slurm.mount"];
-      after = ["mnt-nfs-slurm.mount"];
+      wants = ["tailscaled.service"];
+      after = ["mnt-nfs-slurm.mount" "tailscaled.service"];
     };
 
     ${namespace}.services.storage.impermanence.folders = [

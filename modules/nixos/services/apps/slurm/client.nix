@@ -34,6 +34,11 @@ in {
         '';
     };
 
+    systemd.services.slurmd = {
+      wants = ["tailscaled.service"];
+      after = ["tailscaled.service"];
+    };
+
     ${namespace}.services.storage.impermanence.folders = [
       (mkPersistDir config "slurm" "/var/spool/slurmd" "700")
     ];

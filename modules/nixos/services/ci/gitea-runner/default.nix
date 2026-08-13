@@ -5,13 +5,14 @@
   pkgs,
   ...
 }: let
-  inherit (lib) types mkIf mkEnableOption mkOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset;
+  inherit (lib) types mkIf mkMerge mkEnableOption mkOption;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService mkOptionsWithNamespace mkOpt mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset;
   inherit (config.sops) secrets;
   inherit (config.networking) hostName;
   base = "${namespace}.services.ci.gitea-runner";
   cfg = getAttrByNamespace config base;
   nvdaCfg = getAttrByNamespace config "${namespace}.hardware.nvidia";
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 in {
   options = with types;
     mkOptionsWithNamespace base {
@@ -91,5 +92,23 @@ in {
     };
 
     networking.firewall.allowedTCPPorts = [37323];
+
+    systemd.services = let
+      inherit (lib) mapAttrs';
+      mkRunnerService = name: runner: {
+        name = "gitea-runner-${name}";
+        value = mkMerge [
+          {
+            wants = ["tailscaled.service"];
+            after = ["tailscaled.service"];
+          }
+          (mkIf (hostHasService networkCfg.network-services hostName "git") {
+            requires = ["forgejo.service"];
+            after = ["forgejo.service"];
+          })
+        ];
+      };
+    in
+      cfg.runners |> mapAttrs' mkRunnerService;
   };
 }

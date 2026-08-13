@@ -4,8 +4,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir;
+  inherit (lib) mkIf mkMerge;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir waitForNetwork;
   inherit (config.networking) hostName;
 
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
@@ -41,13 +41,18 @@ in {
       settings.server.externalDomain = "https://photos.yumeami.sh";
     };
 
-    systemd.services.immich-server = let
+    systemd.services = let
       dbHost = resolveDatabaseHost pgCfg.databases "immich";
-    in
-      mkIf (dbHost == hostName) {
-        after = ["postgresql.service" "pgbouncer.service"];
-        requires = ["postgresql.service" "pgbouncer.service"];
-      };
+    in {
+      immich-server = mkMerge [
+        waitForNetwork
+        (mkIf (dbHost == hostName) {
+          after = ["postgresql.service" "pgbouncer.service"];
+          requires = ["postgresql.service" "pgbouncer.service"];
+        })
+      ];
+      immich-machine-learning = waitForNetwork;
+    };
 
     sops.secrets."environment-file/immich" = {};
 

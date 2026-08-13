@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) types mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkListOpt;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkListOpt waitForNetwork;
   base = "${namespace}.services.networking.ddclient";
   cfg = getAttrByNamespace config base;
 in {
@@ -29,6 +29,8 @@ in {
 
       inherit (cfg) domains zone;
     };
+
+    systemd.services.ddclient = waitForNetwork;
 
     sops.secrets = {
       "cloudflare/ddclient-token" = {};

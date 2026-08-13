@@ -94,6 +94,11 @@ in {
       };
     };
 
+    systemd.services.munge = {
+      wants = ["tailscaled.service"];
+      after = ["tailscaled.service"];
+    };
+
     ${namespace}.services.storage.impermanence.folders = [
       (mkPersistDir config "munge" "/var/lib/munge" "700")
     ];
