@@ -5,8 +5,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkForce;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir;
+  inherit (lib) mkIf mkForce mkMerge;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir waitForNetwork;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -92,16 +92,16 @@ in {
       };
     };
 
-    systemd.services.forgejo = let
-      inherit (config.networking) hostName;
-    in
-      mkIf (resolveDatabaseHost pgCfg.databases "forgejo" == hostName) {
+    systemd.services.forgejo = mkMerge [
+      waitForNetwork
+      (mkIf (resolveDatabaseHost pgCfg.databases "forgejo" == hostName) {
         after = ["postgresql.service" "pgbouncer.service"];
         requires = ["postgresql.service" "pgbouncer.service"];
         serviceConfig = {
           RestartSec = "5s";
         };
-      };
+      })
+    ];
 
     sops.secrets."forgejo/db" = {};
 

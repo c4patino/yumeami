@@ -245,6 +245,21 @@ with lib; rec {
   resolveDatabaseIP = devices: databases: dbName:
     resolveHostIP devices (resolveDatabaseHost databases dbName);
 
+  ## Generate systemd `wants` and `after` ordering so a unit starts only once
+  ## the network stack is online and the Tailscale mesh is up. Services that
+  ## dial other hosts via their `100.x` Tailscale address must wait on
+  ## `tailscaled.service`, which itself only starts after
+  ## `NetworkManager-wait-online.service`, i.e. after `network-online.target`.
+  ##
+  ## Reference as a unit attribute set in `systemd.services.<name>`, e.g.
+  ## `waitForNetwork // { serviceConfig = {...}; }`.
+  ##
+  #@ AttrSet
+  waitForNetwork = {
+    wants = ["network-online.target" "tailscaled.service"];
+    after = ["network-online.target" "tailscaled.service"];
+  };
+
   ## Check for configuration conflicts between mount and share declarations.
   ##
   ## @param shares    A list of folder names that are shared.

@@ -12,6 +12,26 @@
   base = "${namespace}.services.ci.github-runner";
   cfg = getAttrByNamespace config base;
   nvdaCfg = getAttrByNamespace config "${namespace}.hardware.nvidia";
+
+  padIndex = idx: builtins.concatStringsSep "" (lib.replicate (3 - builtins.stringLength (toString idx)) "0") + toString idx;
+  mkRunnerKey = {
+    name,
+    index,
+    ...
+  }: "${hostName}-${name}-${padIndex index}";
+
+  inherit (lib) attrValues concatLists genList mapAttrs;
+  runnerInstances =
+    cfg.runners
+    |> mapAttrs (name: runner:
+      genList (idx: {
+        index = idx;
+        name = name;
+        runner = runner;
+      })
+      runner.instances)
+    |> attrValues
+    |> concatLists;
 in {
   options = with types;
     mkOptionsWithNamespace base {
@@ -28,17 +48,14 @@ in {
   config = mkIf cfg.enable {
     services.github-runners = let
       inherit (config.users.users) github-runner;
-      inherit (lib) attrValues concatLists genList listToAttrs mapAttrs optional replicate;
-      inherit (builtins) stringLength concatStringsSep;
-
-      padIndex = idx: concatStringsSep "" (replicate (3 - stringLength (toString idx)) "0") + toString idx;
+      inherit (lib) listToAttrs map optional;
 
       mkRunnerConfig = {
         index,
         name,
         runner,
       }: {
-        name = "${hostName}-${name}-${padIndex index}";
+        name = mkRunnerKey {inherit index name runner;};
         value = {
           enable = true;
           name = "${hostName}-${padIndex index}";
@@ -78,18 +95,21 @@ in {
         };
       };
     in
-      cfg.runners
-      |> mapAttrs (name: runner:
-        genList (idx: {
-          index = idx;
-          name = name;
-          runner = runner;
-        })
-        runner.instances)
-      |> attrValues
-      |> concatLists
+      runnerInstances
       |> map mkRunnerConfig
       |> listToAttrs;
+
+    systemd.services = let
+      inherit (lib) listToAttrs map;
+      mkRunnerService = instance: {
+        name = "github-runner-${mkRunnerKey instance}";
+        value = {
+          wants = ["tailscaled.service"];
+          after = ["tailscaled.service"];
+        };
+      };
+    in
+      runnerInstances |> map mkRunnerService |> listToAttrs;
 
     users = {
       users.github-runner = {

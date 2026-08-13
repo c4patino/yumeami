@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf mkEnableOption types mapAttrs' mkMerge filterAttrs listToAttrs;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP hostHasService flattenHostServices resolveServicePort mkOpt mkNullableOpt mkOptAttrset;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP hostHasService flattenHostServices resolveServicePort mkOpt mkNullableOpt mkOptAttrset waitForNetwork;
   inherit (config.networking) hostName;
 
   base = "${namespace}.services.ci.woodpecker";
@@ -139,11 +139,14 @@ in {
           |> filterAttrs (_: r: r.enable)
           |> mapAttrs' (name: r: {
             name = "woodpecker-agent-${name}";
-            value = {
-              after = mkIf (hostName == woodpeckerHost) ["woodpecker-server.service"];
-              requires = mkIf (hostName == woodpeckerHost) ["woodpecker-server.service"];
-              serviceConfig = {inherit User Group;};
-            };
+            value = mkMerge [
+              waitForNetwork
+              (mkIf (hostName == woodpeckerHost) {
+                after = ["woodpecker-server.service"];
+                requires = ["woodpecker-server.service"];
+              })
+              {serviceConfig = {inherit User Group;};}
+            ];
           })
         )
       ];

@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort mkPersistDir;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort mkPersistDir waitForNetwork;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -19,6 +19,8 @@ in {
       openFirewall = true;
       port = port;
     };
+
+    systemd.services.ombi = waitForNetwork;
 
     users = {
       users.ombi = {

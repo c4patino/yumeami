@@ -4,8 +4,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkForce;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort mkPersistDir;
+  inherit (lib) mkIf mkForce mkMerge;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort mkPersistDir waitForNetwork;
   inherit (config.users) users;
   inherit (config.networking) hostName;
 
@@ -27,10 +27,15 @@ in {
       };
     };
 
-    systemd.services.uptime-kuma.serviceConfig = {
-      DynamicUser = mkForce false;
-      User = users.uptime-kuma.name;
-    };
+    systemd.services.uptime-kuma = mkMerge [
+      waitForNetwork
+      {
+        serviceConfig = {
+          DynamicUser = mkForce false;
+          User = users.uptime-kuma.name;
+        };
+      }
+    ];
 
     users = {
       users.uptime-kuma = {

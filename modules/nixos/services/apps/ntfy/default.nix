@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort waitForNetwork;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -48,6 +48,8 @@ in {
         ];
       };
     };
+
+    systemd.services.ntfy-sh = waitForNetwork;
 
     sops.secrets."environment-file/ntfy" = {};
 

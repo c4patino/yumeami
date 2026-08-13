@@ -4,8 +4,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort;
+  inherit (lib) mkIf mkMerge;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort waitForNetwork;
   inherit (config.networking) hostName;
 
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
@@ -54,13 +54,16 @@ in {
     systemd.services.grafana = let
       dbHost = resolveDatabaseHost pgCfg.databases "grafana";
     in
-      mkIf (dbHost == config.networking.hostName) {
-        after = ["postgresql.service" "pgbouncer.service"];
-        requires = ["postgresql.service" "pgbouncer.service"];
-        serviceConfig = {
-          RestartSec = lib.mkForce "1s";
-        };
-      };
+      mkMerge [
+        waitForNetwork
+        (mkIf (dbHost == config.networking.hostName) {
+          after = ["postgresql.service" "pgbouncer.service"];
+          requires = ["postgresql.service" "pgbouncer.service"];
+          serviceConfig = {
+            RestartSec = lib.mkForce "1s";
+          };
+        })
+      ];
 
     sops.secrets = let
       inherit (config.users.users) grafana;

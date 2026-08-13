@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort mkPersistDir;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort mkPersistDir waitForNetwork;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -18,6 +18,8 @@ in {
       enable = true;
       port = port;
     };
+
+    systemd.services.prometheus = waitForNetwork;
 
     ${namespace}.services.storage.impermanence.folders = [
       (mkPersistDir config "prometheus" "/var/lib/prometheus2" "700")
