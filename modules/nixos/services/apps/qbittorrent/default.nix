@@ -139,15 +139,18 @@ in {
 
         systemd.services = {
           qbittorrent = {
-            requires = [
-              "mnt-nfs-servarr-torrents.mount"
+            bindsTo = [
               "openvpn-default.service"
-              "var-lib-qBittorrent.mount"
             ];
 
             after = [
-              "mnt-nfs-servarr-torrents.mount"
               "openvpn-default.service"
+              "mnt-nfs-servarr-torrents.mount"
+              "var-lib-qBittorrent.mount"
+            ];
+
+            requires = [
+              "mnt-nfs-servarr-torrents.mount"
               "var-lib-qBittorrent.mount"
             ];
           };
