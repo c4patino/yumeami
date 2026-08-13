@@ -26,6 +26,8 @@ in {
             "_netdev"
             "nofail"
             "x-systemd.automount"
+            "x-systemd.after=network-online.target tailscaled.service"
+            "x-systemd.wants=tailscaled.service"
           ];
         };
       };
