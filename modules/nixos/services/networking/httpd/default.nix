@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf mkEnableOption mapAttrsToList listToAttrs replaceStrings mkMerge concatStringsSep filterAttrs optionalString;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP isGateway flattenHostServices;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP isGateway flattenHostServices waitForNetwork;
   inherit (config.networking) hostName;
   inherit (config.sops) secrets;
 
@@ -291,6 +291,8 @@ in {
         }
       ];
     };
+
+    systemd.services.httpd = waitForNetwork;
 
     networking.firewall.allowedTCPPorts = [80 443];
 

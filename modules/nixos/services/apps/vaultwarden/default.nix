@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir waitForNetwork;
   inherit (config.networking) hostName;
 
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
@@ -46,6 +46,7 @@ in {
     };
 
     systemd.services.vaultwarden = mkMerge [
+      waitForNetwork
       {
         environment = {
           PGHOST = dbIp;

@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkForce mkIf mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir;
+  inherit (lib.${namespace}) getAttrByNamespace resolveDatabaseHost resolveDatabaseIP hostHasService resolveServicePort mkPersistDir waitForNetwork;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -27,6 +27,7 @@ in {
       dbIp = resolveDatabaseIP networkCfg.devices pgCfg.databases "seerr";
     in
       mkMerge [
+        waitForNetwork
         {
           environment = {
             DB_TYPE = "postgres";

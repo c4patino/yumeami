@@ -5,8 +5,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkForce;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveDatabaseHost resolveServicePort mkPersistDir;
+  inherit (lib) mkIf mkForce mkMerge;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveDatabaseHost resolveServicePort mkPersistDir waitForNetwork;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -38,13 +38,16 @@ in {
 
     networking.firewall.allowedTCPPorts = [port];
 
-    systemd.services.asciinema-server = mkIf (resolveDatabaseHost pgCfg.databases "asciinema" == hostName) {
-      after = ["postgresql.service" "pgbouncer.service"];
-      requires = ["postgresql.service" "pgbouncer.service"];
-      serviceConfig = {
-        RestartSec = mkForce "1s";
-      };
-    };
+    systemd.services.asciinema-server = mkMerge [
+      waitForNetwork
+      (mkIf (resolveDatabaseHost pgCfg.databases "asciinema" == hostName) {
+        after = ["postgresql.service" "pgbouncer.service"];
+        requires = ["postgresql.service" "pgbouncer.service"];
+        serviceConfig = {
+          RestartSec = mkForce "1s";
+        };
+      })
+    ];
 
     sops.secrets."environment-file/asciinema" = {};
 

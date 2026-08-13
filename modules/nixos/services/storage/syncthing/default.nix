@@ -5,8 +5,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkEnableOption mkIf mapAttrs mapAttrs' listToAttrs map;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP mkOpt mkOptAttrset mkListOpt mkPersistDir;
+  inherit (lib) types mkEnableOption mkIf mapAttrs mapAttrs' listToAttrs map mkMerge;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP mkOpt mkOptAttrset mkListOpt mkPersistDir waitForNetwork;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.syncthing";
   cfg = getAttrByNamespace config base;
@@ -71,7 +71,10 @@ in {
       })
       |> listToAttrs;
 
-    systemd.services.syncthing.environment.STNODEFAULTFOLDER = "true";
+    systemd.services.syncthing = mkMerge [
+      waitForNetwork
+      {environment.STNODEFAULTFOLDER = "true";}
+    ];
 
     ${namespace}.services.storage.impermanence.folders = mkIf cfg.enable (
       [(mkPersistDir config "c4patino" "/mnt/syncthing" "700")]
