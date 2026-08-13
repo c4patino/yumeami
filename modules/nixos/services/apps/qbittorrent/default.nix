@@ -139,6 +139,8 @@ in {
 
         systemd.services = {
           qbittorrent = {
+            serviceConfig.UMask = "0002";
+
             bindsTo = [
               "openvpn-default.service"
             ];
