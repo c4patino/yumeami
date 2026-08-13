@@ -18,7 +18,7 @@ in {
           if mountCfg.mountPath != null
           then mountCfg.mountPath
           else "/mnt/samba/${name}";
-        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s,x-systemd.after=network-online.target tailscaled.service,x-systemd.wants=tailscaled.service";
       in {
         name = localPath;
         value = {
