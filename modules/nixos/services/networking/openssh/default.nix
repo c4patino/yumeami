@@ -5,7 +5,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption listToAttrs;
+  inherit (lib) listToAttrs mkEnableOption mkIf;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.services.networking.openssh";
   cfg = getAttrByNamespace config base;

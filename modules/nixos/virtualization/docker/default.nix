@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption mkOverride;
+  inherit (lib) mkEnableOption mkIf mkOverride;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkPersistRootDir;
   base = "${namespace}.virtualization.docker";
   cfg = getAttrByNamespace config base;

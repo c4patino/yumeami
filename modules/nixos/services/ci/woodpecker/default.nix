@@ -5,8 +5,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption types mapAttrs' mkMerge filterAttrs listToAttrs;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP hostHasService flattenHostServices resolveServicePort mkOpt mkNullableOpt mkOptAttrset waitForNetwork;
+  inherit (lib) filterAttrs listToAttrs mapAttrs' mkEnableOption mkIf mkMerge types;
+  inherit (lib.${namespace}) flattenHostServices getAttrByNamespace hostHasService mkNullableOpt mkOpt mkOptAttrset mkOptionsWithNamespace resolveHostIP resolveServicePort waitForNetwork;
   inherit (config.networking) hostName;
 
   base = "${namespace}.services.ci.woodpecker";

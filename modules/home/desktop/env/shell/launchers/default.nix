@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) types;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkNullableOpt;
+  inherit (lib.${namespace}) getAttrByNamespace mkNullableOpt mkOptionsWithNamespace;
 
   base = "${namespace}.desktop.env.shell.launchers";
   cfg = getAttrByNamespace config base;

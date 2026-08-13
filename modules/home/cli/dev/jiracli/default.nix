@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkAfter mkIf mkEnableOption;
+  inherit (lib) mkAfter mkEnableOption mkIf;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.cli.dev.jiracli";
   cfg = getAttrByNamespace config base;

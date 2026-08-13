@@ -6,8 +6,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) types mkIf concatStringsSep hasAttr getAttr filter head splitString;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace readJsonOrEmpty getIn mkOptAttrset mkPersistDir;
+  inherit (lib) concatStringsSep filter getAttr hasAttr head mkIf splitString types;
+  inherit (lib.${namespace}) getAttrByNamespace getIn mkOptAttrset mkOptionsWithNamespace mkPersistDir readJsonOrEmpty;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.postgresql";
   cfg = getAttrByNamespace config base;

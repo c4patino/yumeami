@@ -4,8 +4,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkForce mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort mkPersistDir waitForNetwork;
+  inherit (lib) mkForce mkIf mkMerge;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService mkPersistDir resolveServicePort waitForNetwork;
   inherit (config.users) users;
   inherit (config.networking) hostName;
 

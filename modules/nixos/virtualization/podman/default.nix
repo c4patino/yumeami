@@ -5,8 +5,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled mkPersistRootDir;
+  inherit (lib) mkEnableOption mkIf;
+  inherit (lib.${namespace}) enabled getAttrByNamespace mkOptionsWithNamespace mkPersistRootDir;
   base = "${namespace}.virtualization.podman";
   cfg = getAttrByNamespace config base;
   nvdaBase = "${namespace}.hardware.nvidia";
