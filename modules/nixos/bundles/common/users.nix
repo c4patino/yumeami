@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkDefault;
+  inherit (lib) mkDefault mkIf;
   inherit (lib.${namespace}) getAttrByNamespace;
   inherit (config.networking) hostName;
   base = "${namespace}.bundles.common";

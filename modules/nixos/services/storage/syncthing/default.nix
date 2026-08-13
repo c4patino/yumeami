@@ -5,8 +5,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkEnableOption mkIf mapAttrs mapAttrs' listToAttrs map mkMerge;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP mkOpt mkOptAttrset mkListOpt mkPersistDir waitForNetwork;
+  inherit (lib) listToAttrs map mapAttrs mapAttrs' mkEnableOption mkIf mkMerge types;
+  inherit (lib.${namespace}) getAttrByNamespace mkListOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkPersistDir resolveHostIP waitForNetwork;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.syncthing";
   cfg = getAttrByNamespace config base;

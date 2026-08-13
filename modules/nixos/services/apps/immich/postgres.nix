@@ -4,7 +4,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkAfter concatStringsSep;
+  inherit (lib) concatStringsSep mkAfter mkIf;
   inherit (lib.${namespace}) getAttrByNamespace;
   inherit (config.networking) hostName;
 

@@ -5,7 +5,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkAfter optionalString;
+  inherit (lib) mkAfter mkIf optionalString;
   inherit (lib.${namespace}) getAttrByNamespace mkPersistDir;
   base = "${namespace}.services.apps.slurm";
   cfg = getAttrByNamespace config base;

@@ -4,8 +4,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkIf mkEnableOption mkMerge concatStringsSep;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP mkOpt mkRequiredOpt mkNullableOpt mkListOpt mkOptAttrset mkPersistRootDir;
+  inherit (lib) concatStringsSep mkEnableOption mkIf mkMerge types;
+  inherit (lib.${namespace}) getAttrByNamespace mkListOpt mkNullableOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkPersistRootDir mkRequiredOpt resolveHostIP;
   base = "${namespace}.services.storage.nfs";
   cfg = getAttrByNamespace config base;
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";

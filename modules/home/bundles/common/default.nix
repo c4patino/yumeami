@@ -7,8 +7,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption mkMerge listToAttrs flatten;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
+  inherit (lib) flatten listToAttrs mkEnableOption mkIf mkMerge;
+  inherit (lib.${namespace}) enabled getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.bundles.common";
   cfg = getAttrByNamespace config base;
 in {

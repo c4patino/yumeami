@@ -4,8 +4,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkIf mkOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkRequiredOpt mkBoolOpt mkOpt mkOptAttrset mkListOpt resolveHostIP resolveServiceHost;
+  inherit (lib) mkIf mkOption types;
+  inherit (lib.${namespace}) getAttrByNamespace mkBoolOpt mkListOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkRequiredOpt resolveHostIP resolveServiceHost;
 
   base = "${namespace}.services.networking";
   cfg = getAttrByNamespace config base;

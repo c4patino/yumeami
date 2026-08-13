@@ -6,8 +6,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
+  inherit (lib) mkEnableOption mkIf;
+  inherit (lib.${namespace}) enabled getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.cli.media.yazi";
   cfg = getAttrByNamespace config base;
 in {

@@ -5,7 +5,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption mkForce;
+  inherit (lib) mkEnableOption mkForce mkIf;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.cli.media.bat";
   cfg = getAttrByNamespace config base;

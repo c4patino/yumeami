@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption getExe;
+  inherit (lib) getExe mkEnableOption mkIf;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.desktop.env.shell.launchers.anyrun";
   cfg = getAttrByNamespace config base;

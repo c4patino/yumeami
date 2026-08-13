@@ -6,8 +6,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) types mkIf mkEnableOption mkOption mapAttrs mapAttrsToList flatten;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkOptAttrset mkPersistRootDir;
+  inherit (lib) flatten mapAttrs mapAttrsToList mkEnableOption mkIf mkOption types;
+  inherit (lib.${namespace}) getAttrByNamespace mkOpt mkOptAttrset mkOptionsWithNamespace mkPersistRootDir;
   base = "${namespace}.desktop.apps.games.minecraft";
   cfg = getAttrByNamespace config base;
 in {

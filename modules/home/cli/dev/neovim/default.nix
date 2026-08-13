@@ -6,8 +6,8 @@
   system,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt;
+  inherit (lib) mkEnableOption mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace mkOpt mkOptionsWithNamespace;
   base = "${namespace}.cli.dev.neovim";
   cfg = getAttrByNamespace config base;
 in {

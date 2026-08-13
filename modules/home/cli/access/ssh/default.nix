@@ -6,7 +6,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption;
+  inherit (lib) mkEnableOption mkIf;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.cli.access.ssh";
   cfg = getAttrByNamespace config base;

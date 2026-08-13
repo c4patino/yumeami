@@ -5,8 +5,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf concatStringsSep hasAttr getAttr genAttrs;
-  inherit (lib.${namespace}) getAttrByNamespace readJsonOrEmpty getIn mkPersistDir;
+  inherit (lib) concatStringsSep genAttrs getAttr hasAttr mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace getIn mkPersistDir readJsonOrEmpty;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.postgresql";
   cfg = getAttrByNamespace config base;

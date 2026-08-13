@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) filter mkIf optional mapAttrs' nameValuePair toUpper;
+  inherit (lib) filter mapAttrs' mkIf nameValuePair optional toUpper;
   inherit (lib.${namespace}) getAttrByNamespace hostHasService mkPersistDir;
   inherit (config.users.users) unpackerr;
   inherit (config.networking) hostName;

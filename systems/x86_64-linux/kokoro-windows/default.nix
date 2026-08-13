@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkForce;
-  inherit (lib.${namespace}) enabled disabled;
+  inherit (lib.${namespace}) disabled enabled;
 in {
   imports = [
     inputs.nixos-wsl.nixosModules.default

@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkIf types;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace hostHasService resolveServicePort mkOpt;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService mkOpt mkOptionsWithNamespace resolveServicePort;
   inherit (config.networking) hostName;
 
   base = "${namespace}.services.apps.miasma";

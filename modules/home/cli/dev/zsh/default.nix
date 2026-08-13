@@ -6,7 +6,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption optionalString;
+  inherit (lib) mkEnableOption mkIf optionalString;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.cli.dev.zsh";
   cfg = getAttrByNamespace config base;

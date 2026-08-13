@@ -5,8 +5,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) types mkEnableOption mkIf groupBy mapAttrsToList attrNames mapAttrs concatStringsSep flatten;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace resolveHostIP mkOpt mkOptAttrset mkListOpt mkPersistDir;
+  inherit (lib) attrNames concatStringsSep flatten groupBy mapAttrs mapAttrsToList mkEnableOption mkIf types;
+  inherit (lib.${namespace}) getAttrByNamespace mkListOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkPersistDir resolveHostIP;
   base = "${namespace}.services.apps.slurm";
   cfg = getAttrByNamespace config base;
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";

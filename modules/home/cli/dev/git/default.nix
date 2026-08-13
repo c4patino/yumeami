@@ -5,8 +5,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) concatStringsSep mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;
+  inherit (lib) concatStringsSep mkEnableOption mkIf;
+  inherit (lib.${namespace}) enabled getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.cli.dev.git";
   cfg = getAttrByNamespace config base;
 

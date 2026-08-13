@@ -5,8 +5,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) types mkEnableOption mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkOpt mkNullableOpt mkOptAttrset mkPersistDir;
+  inherit (lib) mkEnableOption mkIf types;
+  inherit (lib.${namespace}) getAttrByNamespace mkNullableOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkPersistDir;
   inherit (config.networking) hostName;
   inherit (config.sops) secrets;
   base = "${namespace}.services.ci.github-runner";

@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort mkPersistDir waitForNetwork;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService mkPersistDir resolveServicePort waitForNetwork;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";

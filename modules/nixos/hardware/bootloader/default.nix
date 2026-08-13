@@ -4,7 +4,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption mkForce;
+  inherit (lib) mkEnableOption mkForce mkIf;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.hardware.bootloader";
   cfg = getAttrByNamespace config base;
