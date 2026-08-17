@@ -78,12 +78,12 @@ in {
 
   wayland.windowManager.hyprland.settings.monitor = [
     {
-      output = "DP-4";
+      output = "HDMI-A-2";
       mode = "2560x1440@120";
       position = "0x0";
     }
     {
-      output = "DP-4";
+      output = "HDMI-A-3";
       mode = "2560x1440@120";
       position = "-2560x0";
     }
