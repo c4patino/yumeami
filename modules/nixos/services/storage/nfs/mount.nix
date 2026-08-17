@@ -25,6 +25,10 @@ in {
           options = [
             "_netdev"
             "nofail"
+            "rsize=1048576"
+            "wsize=1048576"
+            "actimeo=60"
+            "noatime"
             "x-systemd.automount"
             "x-systemd.after=network-online.target tailscaled.service"
             "x-systemd.wants=tailscaled.service"
