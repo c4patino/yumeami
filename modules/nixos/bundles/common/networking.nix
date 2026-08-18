@@ -77,6 +77,10 @@ in {
           ignis = {
             port = 5125;
             internal = true;
+            websocket = {
+              enable = true;
+              path = "";
+            };
           };
           immich = {
             port = 2283;
