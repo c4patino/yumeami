@@ -19,6 +19,7 @@ in {
     home = {
       packages = with pkgs; [
         asciinema
+        asciinema-agg
       ];
 
       file = {
