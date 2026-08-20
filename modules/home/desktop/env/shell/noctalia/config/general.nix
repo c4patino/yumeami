@@ -57,7 +57,7 @@ in {
           "screen-off" = {
             enabled = true;
             action = "screen_off";
-            timeout = 3600.0;
+            timeout = 1800.0;
           };
 
           "lock" = {
