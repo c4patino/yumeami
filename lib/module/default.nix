@@ -314,61 +314,115 @@ with lib; rec {
   in
     go attrs path;
 
+  ## Collect every declaration of a service across all hosts, ordered by
+  ## precedence: lowest `priority` first; ties break alphabetically by hostname.
+  ##
+  ## ```nix
+  ## networkServices |> resolveServiceEntries "unbound"
+  ## ```
+  ##
+  ## @param serviceName     The name of the service.
+  ## @param networkServices The network-services attribute set (host-first shape).
+  ## @return                Ordered list of `{ host, priority, ...serviceAttrs }`.
+  resolveServiceEntries = serviceName: networkServices:
+    networkServices
+    |> filterAttrs (_: svcs: svcs ? ${serviceName})
+    |> mapAttrsToList (host: svcs:
+      svcs.${serviceName}
+      // {
+        inherit host;
+        priority = svcs.${serviceName}.priority or 100;
+      })
+    |> sort (a: b:
+      a.priority
+      < b.priority
+      || (a.priority == b.priority && a.host < b.host));
+
   ## Convert a host-first service map into a flat service->attrs map.
   ##
   ## Input:  { hostName = { serviceName = { ... }; ... }; ... }
-  ## Output: { serviceName = { host = hostName; ... }; ... }
+  ## Output: { serviceName = { host = hostName; priority = n; ... }; ... }
+  ##
+  ## When several hosts declare the same service, the entry with the lowest
+  ## `priority` wins; ties break alphabetically by hostname.
   ##
   ## @param hostServices  Attribute set mapping host names to their service maps.
   ## @return              Flattened map with service names as keys, augmented with host.
-  ## @throws              If duplicate service names exist across different hosts.
   flattenHostServices = hostServices: let
-    perHostEntries =
-      mapAttrsToList (
-        host: services:
-          mapAttrsToList (
-            svcName: svc: {
-              name = svcName;
-              value = svc // {host = host;};
-            }
-          )
-          services
-      )
-      hostServices;
+    serviceNames =
+      hostServices
+      |> mapAttrsToList (_: svcs: attrNames svcs)
+      |> concatLists
+      |> unique;
 
-    flattenedList = concatLists perHostEntries;
-    flattenedAttrs = listToAttrs flattenedList;
+    primaries =
+      serviceNames
+      |> map (svcName: {
+        name = svcName;
+        value = builtins.head (resolveServiceEntries svcName hostServices);
+      })
+      |> listToAttrs;
   in
-    if length flattenedList != length (attrNames flattenedAttrs)
-    then throw "flattenHostServices: duplicate service names across hosts detected"
-    else flattenedAttrs;
+    primaries;
+
+  ## Resolve every host that declares a given service, in order of precedence.
+  ##
+  ## Hosts are sorted by the service's `priority` (lower first); ties break
+  ## alphabetically by hostname.
+  ##
+  ## ```nix
+  ## networkServices |> resolveServiceHosts "unbound"
+  ## ```
+  ##
+  ## @param serviceName     The name of the service.
+  ## @param networkServices The network-services attribute set (host-first shape).
+  ## @return                Ordered list of hostnames declaring the service.
+  resolveServiceHosts = serviceName: networkServices:
+    resolveServiceEntries serviceName networkServices
+    |> map (entry: entry.host);
 
   ## Check if a host has a specific service defined in the network-services config.
   ##
   ## @param networkServices The network-services attribute set (host-first shape).
   ## @param hostName         The hostname to check.
-  ## @param serviceName      The service name to check for.
+  ## @param serviceName      The name of the service to check for.
   ## @return                 true if the host has the specific service defined, false otherwise.
   hostHasService = networkServices: hostName: serviceName:
     networkServices ? ${hostName}
     && networkServices.${hostName} ? ${serviceName};
 
-  ## Resolve the port for a service from the network-services map.
+  ## Resolve the port of the highest-precedence instance of a service.
+  ##
+  ## With multiple hosts declaring the same service, the instance on the host
+  ## with the lowest `priority` wins (ties break alphabetically by hostname).
   ##
   ## @param networkServices The network-services attribute set (host-first shape).
   ## @param serviceName     The name of the service.
   ## @param defaultPort     The default port to use if not specified in network-services.
   ## @return               The port (either from config or default).
-  resolveServicePort = networkServices: serviceName: defaultPort:
-    (flattenHostServices networkServices).${serviceName}.port or defaultPort;
+  ## @throws               If no host declares the given service.
+  resolveServicePort = networkServices: serviceName: defaultPort: let
+    entries = resolveServiceEntries serviceName networkServices;
+  in
+    if entries == []
+    then throw "No host declares service '${serviceName}'."
+    else (builtins.head entries).port or defaultPort;
 
-  ## Resolve the host for a service from the network-services map.
+  ## Resolve the host of the highest-precedence instance of a service.
+  ##
+  ## With multiple hosts declaring the same service, the host with the lowest
+  ## `priority` wins (ties break alphabetically by hostname).
   ##
   ## @param networkServices The network-services attribute set (host-first shape).
   ## @param serviceName     The name of the service.
-  ## @return               The host name where the service is defined.
-  resolveServiceHost = networkServices: serviceName:
-    (flattenHostServices networkServices).${serviceName}.host;
+  ## @return                The host name where the primary instance is declared.
+  ## @throws                If no host declares the given service.
+  resolveServiceHost = networkServices: serviceName: let
+    entries = resolveServiceEntries serviceName networkServices;
+  in
+    if entries == []
+    then throw "No host declares service '${serviceName}'."
+    else (builtins.head entries).host;
 
   ## Create an impermanence persistence directory owned by a service user.
   ##
