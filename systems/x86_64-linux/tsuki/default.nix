@@ -4,6 +4,7 @@
   namespace,
   ...
 }: let
+  inherit (lib) mkForce;
   inherit (lib.${namespace}) enabled;
 in {
   imports = [
@@ -51,6 +52,8 @@ in {
           };
         };
       };
+
+      networking.network-services.chibi.blocky.priority = mkForce 25;
     };
   };
 

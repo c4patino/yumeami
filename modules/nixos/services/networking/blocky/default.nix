@@ -14,8 +14,16 @@
 
   isEnabled = hostHasService networkCfg.network-services hostName "blocky";
   port = resolveServicePort networkCfg.network-services "blocky" 53;
+  unboundPort = (networkCfg.network-services.${hostName}.unbound or {}).port or 54;
 in {
   config = mkIf isEnabled {
+    assertions = [
+      {
+        assertion = hostHasService networkCfg.network-services hostName "unbound";
+        message = "Host '${hostName}' declares blocky but not unbound; blocky forwards to the local unbound instance, so both must be co-hosted.";
+      }
+    ];
+
     services.blocky = {
       enable = true;
       settings = {
@@ -31,7 +39,7 @@ in {
           timeout = "30s";
           init.strategy = "fast";
           groups.default = [
-            "tcp+udp:127.0.0.1:54"
+            "tcp+udp:127.0.0.1:${toString unboundPort}"
           ];
         };
 
