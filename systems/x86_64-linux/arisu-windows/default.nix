@@ -30,6 +30,8 @@ in {
         network-manager = mkForce disabled;
         openssh = mkForce disabled;
         tailscale = mkForce disabled;
+
+        network-services.chibi.blocky.priority = mkForce 25;
       };
 
       storage = {

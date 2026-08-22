@@ -45,13 +45,12 @@ in {
       settings.Resolve.DNSStubListener = "no";
     };
 
-    networking.nameservers = let
-      host = resolveServiceHost cfg.network-services "unbound";
-      ip = resolveHostIP cfg.devices host;
-    in [
-      (mkIf (ip != null) ip)
-      "1.1.1.1"
-      "8.8.8.8"
+    networking.nameservers = mkMerge [
+      (cfg.network-services
+        |> resolveServiceEntries "blocky"
+        |> map (entry: resolveHostIP cfg.devices entry.host)
+        |> unique)
+      ["1.1.1.1" "8.8.8.8"]
     ];
   };
 }

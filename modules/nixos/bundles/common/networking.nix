@@ -41,6 +41,12 @@ in {
 
       network-services = {
         chibi = {
+          blocky = {
+            port = 53;
+          };
+          unbound = {
+            port = 54;
+          };
           monitor = {
             port = 5200;
             internal = true;
@@ -116,6 +122,7 @@ in {
         shiori = {
           blocky = {
             port = 53;
+            priority = 50;
           };
           unbound = {
             port = 54;
