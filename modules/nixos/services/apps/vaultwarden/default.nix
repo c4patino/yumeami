@@ -64,8 +64,6 @@ in {
 
     sops.secrets."vaultwarden" = {};
 
-    networking.firewall.allowedTCPPorts = [port];
-
     ${namespace}.services.storage.impermanence.folders = [
       (mkPersistDir config "vaultwarden" "/var/lib/vaultwarden" "700")
     ];

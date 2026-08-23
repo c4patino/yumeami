@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) concatStringsSep filterAttrs listToAttrs mapAttrsToList mkEnableOption mkIf mkMerge optionalString replaceStrings;
-  inherit (lib.${namespace}) flattenHostServices getAttrByNamespace isGateway mkOptionsWithNamespace resolveHostIP waitForNetwork;
+  inherit (lib.${namespace}) flattenHostServices getAttrByNamespace isGateway mapTargetIP mkOptionsWithNamespace resolveHostIP waitForNetwork;
   inherit (config.networking) hostName;
   inherit (config.sops) secrets;
 
@@ -33,7 +33,7 @@
     enableAcme ? false,
     injectHoneypot ? false,
   }: host: name: service: let
-    hostIP = resolveHostIP networkingCfg.devices host;
+    hostIP = mapTargetIP networkingCfg.devices host hostName;
     p = toString service.port;
 
     certs = replaceStrings ["*" "."] ["wildcard" "_"] domain;
@@ -62,8 +62,8 @@
       SubstituteMaxLineLength 30m
       Substitute 's|</body>|<a href="${miasmaCfg.linkPrefix}/" style="display:none" aria-hidden="true" tabindex="-1">Amazing high quality data here!</a></body>|i'
 
-      ProxyPass ${miasmaCfg.linkPrefix}/ http://${resolveHostIP networkingCfg.devices miasma.host}:${toString miasma.port}/
-      ProxyPassReverse ${miasmaCfg.linkPrefix}/ http://${resolveHostIP networkingCfg.devices miasma.host}:${toString miasma.port}/
+      ProxyPass ${miasmaCfg.linkPrefix}/ http://${mapTargetIP networkingCfg.devices miasma.host hostName}:${toString miasma.port}/
+      ProxyPassReverse ${miasmaCfg.linkPrefix}/ http://${mapTargetIP networkingCfg.devices miasma.host hostName}:${toString miasma.port}/
 
       ProxyPass /robots.txt !
       Alias /robots.txt ${inputs.dotfiles}/httpd/robots/${name}.txt
@@ -188,6 +188,10 @@ in {
               UseCanonicalName Off
 
               RewriteEngine On
+
+              RewriteCond %{REMOTE_ADDR} !(^127\\.0\\.0\\.1$|^::1$)
+              RewriteRule ^ - [L,R=404]
+
               ${localhostProxyConfig}
               RewriteCond %{REQUEST_URI} !^/(400|401|403|404|500|503)\.html$
               RewriteRule ^ - [L,R=404]

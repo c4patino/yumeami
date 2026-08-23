@@ -208,6 +208,26 @@ with lib; rec {
     then devices.${node}.ip
     else throw "Host '${node}' does not exist in the devices configuration.";
 
+  ## Resolve the target IP for proxying to a service.
+  ##
+  ## Returns 127.0.0.1 when the service runs on the current host (so httpd
+  ## proxies to localhost), otherwise returns the host's Tailscale IP for
+  ## cross-host proxying.
+  ##
+  ## ```nix
+  ## mapTargetIP devices "chibi" "chibi"  # -> "127.0.0.1"
+  ## mapTargetIP devices "chibi" "tsuki"  # -> "100.71.23.30"
+  ## ```
+  ##
+  ## @param devices  A set mapping hostnames to their configuration (must include `ip`).
+  ## @param host     The hostname where the service is running.
+  ## @param hostName The current hostname (config.networking.hostName).
+  ## @return         "127.0.0.1" if host == hostName, else the host's Tailscale IP.
+  mapTargetIP = devices: host: hostName:
+    if host == hostName
+    then "127.0.0.1"
+    else resolveHostIP devices host;
+
   ## Return whether a given host is a gateway from a devices attribute set.
   ##
   ## @param devices A set mapping hostnames to their configuration (must include `IP`).

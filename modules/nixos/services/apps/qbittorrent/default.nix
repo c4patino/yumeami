@@ -218,7 +218,6 @@ in {
       };
 
       firewall = {
-        allowedTCPPorts = [port];
         allowedUDPPorts = [torrentingPort];
       };
     };

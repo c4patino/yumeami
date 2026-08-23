@@ -36,8 +36,6 @@ in {
       environmentFile = config.sops.secrets."environment-file/asciinema".path;
     };
 
-    networking.firewall.allowedTCPPorts = [port];
-
     systemd.services.asciinema-server = mkMerge [
       waitForNetwork
       (mkIf (resolveDatabaseHost pgCfg.databases "asciinema" == hostName) {

@@ -21,7 +21,6 @@ in {
   config = mkIf isEnabled {
     services.glance = {
       enable = true;
-      openFirewall = true;
 
       environmentFile = config.sops.secrets."environment-file/glance".path;
 

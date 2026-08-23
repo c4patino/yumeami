@@ -53,6 +53,5 @@ in {
 
     sops.secrets."environment-file/ntfy" = {};
 
-    networking.firewall.allowedTCPPorts = [port];
   };
 }

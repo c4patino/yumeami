@@ -14,7 +14,6 @@ in {
   config = mkIf isEnabled {
     services.jellyfin = {
       enable = true;
-      openFirewall = true;
 
       forceEncodingConfig = true;
       hardwareAcceleration = {

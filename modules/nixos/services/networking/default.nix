@@ -4,8 +4,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkMerge mkOption types unique;
-  inherit (lib.${namespace}) getAttrByNamespace mkBoolOpt mkListOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkRequiredOpt resolveHostIP resolveServiceEntries;
+  inherit (lib) mkMerge mkOption types unique concatStringsSep;
+  inherit (lib.${namespace}) getAttrByNamespace mkBoolOpt mkListOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkRequiredOpt resolveHostIP resolveServiceEntries flattenHostServices;
 
   base = "${namespace}.services.networking";
   cfg = getAttrByNamespace config base;
@@ -52,5 +52,21 @@ in {
         |> unique)
       ["1.1.1.1" "8.8.8.8"]
     ];
+
+    networking.firewall.extraCommands = let
+      ports =
+        cfg.network-services.${config.networking.hostName} or {}
+        |> builtins.attrValues
+        |> map (v: v.port)
+        |> unique;
+    in
+      ports
+      |> map (port: ''
+        iptables -A nixos-fw -p tcp --dport ${toString port} -s 100.64.0.0/10 -j nixos-fw-accept
+        iptables -A nixos-fw -p udp --dport ${toString port} -s 100.64.0.0/10 -j nixos-fw-accept
+        ip6tables -A nixos-fw -p tcp --dport ${toString port} -s fd7a:115c:a1e0::/48 -j nixos-fw-accept
+        ip6tables -A nixos-fw -p udp --dport ${toString port} -s fd7a:115c:a1e0::/48 -j nixos-fw-accept
+      '')
+      |> concatStringsSep "\n";
   };
 }
