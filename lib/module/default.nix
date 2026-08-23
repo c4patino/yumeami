@@ -219,6 +219,27 @@ with lib; rec {
     then devices.${node}.gateway
     else false;
 
+  ## Resolve the hostname of the gateway from a devices attribute set.
+  ##
+  ## ```nix
+  ## devices |> resolveGatewayHost
+  ## ```
+  ##
+  ## @param devices A set mapping hostnames to their configuration.
+  ## @return        The hostname of the declared gateway.
+  ## @throws        If no gateway is declared or multiple gateways exist.
+  resolveGatewayHost = devices: let
+    gateways =
+      devices
+      |> filterAttrs (_: dev: dev.gateway or false)
+      |> attrNames;
+  in
+    if gateways == []
+    then throw "No gateway device declared in the devices configuration."
+    else if length gateways > 1
+    then throw "Multiple gateway devices declared: ${concatStringsSep ", " gateways}."
+    else head gateways;
+
   ## Resolve the hostname that hosts a specific database.
   ##
   ## @param databases A set mapping hostnames to lists of database names.

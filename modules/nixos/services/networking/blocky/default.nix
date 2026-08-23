@@ -6,11 +6,13 @@
   ...
 }: let
   inherit (lib) filterAttrs flatten listToAttrs mapAttrsToList mkIf;
-  inherit (lib.${namespace}) flattenHostServices getAttrByNamespace hostHasService resolveHostIP resolveServicePort;
+  inherit (lib.${namespace}) flattenHostServices getAttrByNamespace hostHasService resolveGatewayHost resolveHostIP resolveServicePort;
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
   networkServices = flattenHostServices networkCfg.network-services;
+
+  gatewayHost = resolveGatewayHost networkCfg.devices;
 
   isEnabled = hostHasService networkCfg.network-services hostName "blocky";
   port = resolveServicePort networkCfg.network-services "blocky" 53;
@@ -89,7 +91,7 @@ in {
                 |> filterAttrs (_: svc: svc.public)
                 |> mapAttrsToList (name: svc: {
                   name = "${name}.cpatino.com";
-                  value = resolveHostIP networkCfg.devices hostName;
+                  value = resolveHostIP networkCfg.devices gatewayHost;
                 })
               )
             ]
