@@ -72,8 +72,6 @@ in {
       };
     };
 
-    networking.firewall.allowedTCPPorts = [port];
-
     ${namespace}.services.storage.impermanence.folders = [
       (mkPersistDir config "rustypaste" "/var/lib/rustypaste" "700")
     ];

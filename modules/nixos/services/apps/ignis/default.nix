@@ -108,8 +108,6 @@ in {
       "d /var/lib/ignis/data 0750 ignis ignis -"
     ];
 
-    networking.firewall.allowedTCPPorts = [port];
-
     ${namespace}.services.storage.impermanence.folders = [
       (mkPersistDir config "ignis" "/var/lib/ignis" "700")
     ];

@@ -16,7 +16,6 @@ in {
   config = mkIf isEnabled {
     services.ombi = {
       enable = true;
-      openFirewall = true;
       port = port;
     };
 

@@ -19,7 +19,6 @@ in {
     services.seerr = {
       enable = true;
       port = port;
-      openFirewall = true;
     };
 
     systemd.services.seerr = let
