@@ -54,7 +54,10 @@ in {
       glib
     ];
 
-    networking.firewall.allowedTCPPorts = [2376];
+    networking.firewall.extraCommands = ''
+      iptables -I nixos-fw 1 -p tcp --dport 2376 -s 100.64.0.0/10 -j nixos-fw-accept
+      ip6tables -I nixos-fw 1 -p tcp --dport 2376 -s fd7a:115c:a1e0::/48 -j nixos-fw-accept
+    '';
 
     ${namespace}.services.storage.impermanence.folders = [
       (mkPersistRootDir config "/var/lib/docker" "700")
