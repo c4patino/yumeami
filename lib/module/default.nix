@@ -228,6 +228,29 @@ with lib; rec {
     then "127.0.0.1"
     else resolveHostIP devices host;
 
+  ## Generate iptables rules to restrict a port to tailscale + loopback.
+  ## Inserts at top of nixos-fw chain to override wide-open service rules.
+  ##
+  ## ```nix
+  ## mkTailscaleFirewallRule 53
+  ## # ->
+  ## # iptables -I nixos-fw 1 -p tcp --dport 53 -s 100.64.0.0/10 -j nixos-fw-accept
+  ## # iptables -I nixos-fw 1 -p udp --dport 53 -s 100.64.0.0/10 -j nixos-fw-accept
+  ## # ip6tables -I nixos-fw 1 -p tcp --dport 53 -s fd7a:115c:a1e0::/48 -j nixos-fw-accept
+  ## # ip6tables -I nixos-fw 1 -p udp --dport 53 -s fd7a:115c:a1e0::/48 -j nixos-fw-accept
+  ## ```
+  ##
+  ## @param port The port number to restrict.
+  ## @param protocols Optional protocol list (default ["tcp" "udp"]).
+  ## @return String of iptables/ip6tables commands.
+  mkTailscaleFirewallRule = port: protocols:
+    protocols
+    |> map (protocol: ''
+      iptables -I nixos-fw 1 -p ${protocol} --dport ${toString port} -s 100.64.0.0/10 -j nixos-fw-accept
+      ip6tables -I nixos-fw 1 -p ${protocol} --dport ${toString port} -s fd7a:115c:a1e0::/48 -j nixos-fw-accept
+    '')
+    |> concatStringsSep "\n";
+
   ## Return whether a given host is a gateway from a devices attribute set.
   ##
   ## @param devices A set mapping hostnames to their configuration (must include `IP`).

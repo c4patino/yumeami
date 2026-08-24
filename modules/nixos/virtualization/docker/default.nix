@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkEnableOption mkIf mkOverride;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkPersistRootDir;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace mkPersistRootDir mkTailscaleFirewallRule;
   base = "${namespace}.virtualization.docker";
   cfg = getAttrByNamespace config base;
   nvdaCfg = getAttrByNamespace config "${namespace}.hardware.nvidia";
@@ -54,10 +54,7 @@ in {
       glib
     ];
 
-    networking.firewall.extraCommands = ''
-      iptables -I nixos-fw 1 -p tcp --dport 2376 -s 100.64.0.0/10 -j nixos-fw-accept
-      ip6tables -I nixos-fw 1 -p tcp --dport 2376 -s fd7a:115c:a1e0::/48 -j nixos-fw-accept
-    '';
+    networking.firewall.extraCommands = mkTailscaleFirewallRule 2376 ["tcp"];
 
     ${namespace}.services.storage.impermanence.folders = [
       (mkPersistRootDir config "/var/lib/docker" "700")

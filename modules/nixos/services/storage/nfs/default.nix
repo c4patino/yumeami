@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) concatStringsSep mkEnableOption mkIf mkMerge types;
-  inherit (lib.${namespace}) getAttrByNamespace mkListOpt mkNullableOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkPersistRootDir mkRequiredOpt resolveHostIP;
+  inherit (lib.${namespace}) getAttrByNamespace mkListOpt mkNullableOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkPersistRootDir mkRequiredOpt mkTailscaleFirewallRule resolveHostIP;
   base = "${namespace}.services.storage.nfs";
   cfg = getAttrByNamespace config base;
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -74,9 +74,6 @@ in {
       )
     ];
 
-    networking.firewall.extraCommands = ''
-      iptables -I nixos-fw 1 -p tcp --dport 2049 -s 100.64.0.0/10 -j nixos-fw-accept
-      ip6tables -I nixos-fw 1 -p tcp --dport 2049 -s fd7a:115c:a1e0::/48 -j nixos-fw-accept
-    '';
+    networking.firewall.extraCommands = mkTailscaleFirewallRule 2049 ["tcp"];
   };
 }
