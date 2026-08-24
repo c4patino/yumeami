@@ -107,9 +107,6 @@ in {
         shellAliases = {
           rsyncp = "rsync -P -ahvz";
 
-          reboot = "sudo reboot";
-          shutdown = "sudo shutdown";
-
           gcr = "git clone --recurse-submodules";
 
           gf = "git fetch";
