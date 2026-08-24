@@ -52,6 +52,5 @@ in {
     systemd.services.ntfy-sh = waitForNetwork;
 
     sops.secrets."environment-file/ntfy" = {};
-
   };
 }
