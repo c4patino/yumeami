@@ -75,6 +75,7 @@ in {
           |> getAttr hostName;
         compression = "zstd";
         compressionLevel = 4;
+        pgdumpOptions = "-C --port=${toString port}";
         startAt = "*-*-* 23:00:00";
       };
     };
