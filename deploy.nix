@@ -22,17 +22,17 @@
     shiori = {
       hostname = "shiori";
       system = "x86_64-linux";
-      groups = [ "server" ];
+      groups = ["server"];
     };
     tsuki = {
       hostname = "tsuki";
       system = "x86_64-linux";
-      groups = [ "server" ];
+      groups = ["server"];
     };
     chibi = {
       hostname = "chibi";
       system = "aarch64-linux";
-      groups = [ "server" ];
+      groups = ["server"];
     };
   };
 
