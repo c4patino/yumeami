@@ -22,22 +22,26 @@
     shiori = {
       hostname = "shiori";
       system = "x86_64-linux";
+      groups = [ "server" ];
     };
     tsuki = {
       hostname = "tsuki";
       system = "x86_64-linux";
+      groups = [ "server" ];
     };
     chibi = {
       hostname = "chibi";
       system = "aarch64-linux";
+      groups = [ "server" ];
     };
   };
 
   mkNode = name: {
     hostname,
     system,
+    groups ? [],
   }: {
-    inherit sshUser sshOpts hostname;
+    inherit sshUser sshOpts hostname groups;
     profiles.system = {
       user = sshUser;
       path = inputs.deploy-rs.lib.${system}.activate.nixos self.nixosConfigurations.${name};
