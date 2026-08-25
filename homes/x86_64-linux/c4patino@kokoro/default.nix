@@ -1,4 +1,7 @@
 {
+  config,
+  host,
+  inputs,
   lib,
   namespace,
   ...
@@ -46,6 +49,19 @@ in {
   };
 
   programs.kitty.font.size = 14;
+
+  sops.secrets = let
+    inherit (config.snowfallorg) user;
+  in {
+    "ssh/deploy-rs/private" = {
+      path = "${user.home.directory}/.ssh/id_ed25519-deploy-rs";
+      sopsFile = "${inputs.self}/secrets/sops/${host}.yaml";
+    };
+    "ssh/deploy-rs/public" = {
+      path = "${user.home.directory}/.ssh/id_ed25519-deploy-rs.pub";
+      sopsFile = "${inputs.self}/secrets/sops/${host}.yaml";
+    };
+  };
 
   wayland.windowManager.hyprland.settings.monitor = [
     {
