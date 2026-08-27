@@ -24,7 +24,8 @@ in {
 
     hardware = {
       battery = enabled;
-      camera = enabled;
+      # TODO: re-enable these when linuxPackages reaches kernel >v6.19.0
+      # camera = enabled;
       fingerprint = enabled;
       xremap = enabled;
     };
