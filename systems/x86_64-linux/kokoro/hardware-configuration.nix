@@ -14,14 +14,15 @@
   ];
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_7_0;
     kernelModules = [
-      "imx471"
+      # TODO: re-enable these when linuxPackages reaches kernel >v6.19.0
+      # "imx471"
       "kvm-intel"
       "v4l2loopback"
     ];
-    extraModulePackages = with pkgs.linuxPackages_7_0; [
-      imx471
+    extraModulePackages = with pkgs.linuxPackages; [
+      # TODO: re-enable these when linuxPackages reaches kernel >v6.19.0
+      # imx471
       v4l2loopback
     ];
     extraModprobeConfig = ''
