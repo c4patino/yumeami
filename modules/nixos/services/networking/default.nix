@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) concatStringsSep mkMerge mkOption types unique;
-  inherit (lib.${namespace}) flattenHostServices getAttrByNamespace mkBoolOpt mkListOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkRequiredOpt mkTailscaleFirewallRule resolveHostIP resolveServiceEntries;
+  inherit (lib.${namespace}) getAttrByNamespace mkBoolOpt mkListOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkRequiredOpt mkTailscaleFirewallRule resolveHostIP resolveServiceEntries;
 
   base = "${namespace}.services.networking";
   cfg = getAttrByNamespace config base;
@@ -45,13 +45,11 @@ in {
       settings.Resolve.DNSStubListener = "no";
     };
 
-    networking.nameservers = mkMerge [
-      (cfg.network-services
-        |> resolveServiceEntries "blocky"
-        |> map (entry: resolveHostIP cfg.devices entry.host)
-        |> unique)
-      ["1.1.1.1" "8.8.8.8"]
-    ];
+    networking.nameservers =
+      cfg.network-services
+      |> resolveServiceEntries "blocky"
+      |> map (entry: resolveHostIP cfg.devices entry.host)
+      |> unique;
 
     networking.firewall.extraCommands = (
       cfg.network-services.${config.networking.hostName} or {}
