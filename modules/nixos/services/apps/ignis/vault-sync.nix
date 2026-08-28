@@ -39,7 +39,8 @@ pkgs.writeShellScriptBin "ignis-vault-sync" ''
       continue
     fi
 
-    if [ $((now - last_pull)) -ge "$PULL_INTERVAL" ]; then
+    if [ $((now - last_pull)) -ge "$PULL_INTERVAL" ] &&
+       ${pkgs.git}/bin/git diff --quiet && ${pkgs.git}/bin/git diff --cached --quiet && [ -z "$(${pkgs.git}/bin/git ls-files --others --exclude-standard)" ]; then
       if ! ${pkgs.git}/bin/git pull --rebase; then
         echo "git pull failed for $name; will recover on next run" >&2
         continue
@@ -65,6 +66,13 @@ pkgs.writeShellScriptBin "ignis-vault-sync" ''
       echo "git commit failed for $name" >&2
       continue
     fi
+
+    if ! ${pkgs.git}/bin/git pull --rebase; then
+      echo "git pull failed for $name; will recover on next run" >&2
+      continue
+    fi
+
+    printf '%s\n' "$now" > "$last_pull_file"
 
     if ! ${pkgs.git}/bin/git push; then
       echo "git push failed for $name; local commit retained" >&2
