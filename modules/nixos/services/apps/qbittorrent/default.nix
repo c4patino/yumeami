@@ -189,6 +189,8 @@ in {
       };
     };
 
+    systemd.services."container@qbittorrent".serviceConfig.TimeoutStopSec = "30min";
+
     users = {
       users.qbittorrent = {
         inherit uid;

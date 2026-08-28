@@ -23,6 +23,7 @@
       hostname = "shiori";
       system = "x86_64-linux";
       groups = ["server"];
+      activationTimeout = 1800;
     };
     tsuki = {
       hostname = "tsuki";
@@ -40,8 +41,10 @@
     hostname,
     system,
     groups ? [],
+    activationTimeout ? null,
   }: {
     inherit sshUser sshOpts hostname groups;
+    inherit activationTimeout;
     profiles.system = {
       user = sshUser;
       path = inputs.deploy-rs.lib.${system}.activate.nixos self.nixosConfigurations.${name};
