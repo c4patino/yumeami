@@ -22,7 +22,7 @@ pkgs.writeShellScriptBin "ignis-vault-key-provision" ''
 
   ${pkgs.git}/bin/git config -f "$DATA_DIR/.gitconfig" user.name "C4 Patino"
   ${pkgs.git}/bin/git config -f "$DATA_DIR/.gitconfig" user.email "c4patino@gmail.com"
-  ${pkgs.git}/bin/git config -f "$DATA_DIR/.gitconfig" core.sshCommand "${pkgs.openssh}/bin/ssh -i $KEY_FILE -o StrictHostKeyChecking=accept-new"
+  ${pkgs.git}/bin/git config -f "$DATA_DIR/.gitconfig" core.sshCommand "${pkgs.openssh}/bin/ssh -i $KEY_FILE -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=$SSH_DIR/known_hosts"
   ${pkgs.git}/bin/git config -f "$DATA_DIR/.gitconfig" gpg.format ssh
   ${pkgs.git}/bin/git config -f "$DATA_DIR/.gitconfig" user.signingkey "$PUBLIC_KEY_FILE"
   ${pkgs.git}/bin/git config -f "$DATA_DIR/.gitconfig" commit.gpgsign true
