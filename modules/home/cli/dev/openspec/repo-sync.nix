@@ -6,8 +6,8 @@
 pkgs.writeShellScript "openspec-repo-sync" ''
   set -euo pipefail
 
-  IDLE_THRESHOLD=$((10 * 60))
-  PULL_INTERVAL=$((5 * 60))
+  IDLE_THRESHOLD=$((5 * 60))
+  PULL_INTERVAL=$((1 * 60))
 
   OPENSPEC_ROOT=${lib.escapeShellArg "${config.home.homeDirectory}/openspec"}
   [ -d "$OPENSPEC_ROOT" ] || exit 0
