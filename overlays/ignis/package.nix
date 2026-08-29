@@ -9,16 +9,16 @@
 }:
 buildNpmPackage rec {
   pname = "ignis";
-  version = "0.8.9";
+  version = "0.8.10";
 
   src = fetchFromGitHub {
     owner = "Nystik-gh";
     repo = "ignis";
     rev = "v${version}+obsidian.1.12.7";
-    hash = "sha256-rK3IIy2bKkFNN4dp+Fns077dR1BGB6Qm9SwF2vm6oTo=";
+    hash = "sha256-gbonsBzXsEo7ZHnqNNx/lmPsrj1DQXi0/JFg/HqIfxg=";
   };
 
-  npmDepsHash = "sha256-0xIUKs/a73GWwLJ0ZnN9U4QfHQtCAHkd0JBVScEbP7U=";
+  npmDepsHash = "sha256-SxVv6jHPP92DEHs080QUClap1PeaW/c6xTTfmRH8S+4=";
   npmDepsFetcherVersion = 2;
 
   nativeBuildInputs = [
