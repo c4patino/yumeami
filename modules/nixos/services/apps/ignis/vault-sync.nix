@@ -2,8 +2,8 @@
 pkgs.writeShellScriptBin "ignis-vault-sync" ''
   set -euo pipefail
 
-  IDLE_THRESHOLD=$((10 * 60))
-  PULL_INTERVAL=$((5 * 60))
+  IDLE_THRESHOLD=$((5 * 60))
+  PULL_INTERVAL=$((1 * 60))
 
   VAULT_ROOT="/var/lib/ignis/vaults"
   [ -d "$VAULT_ROOT" ] || exit 0
