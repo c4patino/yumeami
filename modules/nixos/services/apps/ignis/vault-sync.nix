@@ -69,7 +69,7 @@ pkgs.writeShellScriptBin "ignis-vault-sync" ''
       continue
     fi
 
-    newest=$(${pkgs.findutils}/bin/find . -not -path './.git/*' -type f -printf '%T@\n' 2>/dev/null | sort -rn 2>/dev/null | head -1) || true
+    newest=$(${pkgs.findutils}/bin/find . -not -path './.git/*' -not -path './.obsidian/*' -type f -printf '%T@\n' 2>/dev/null | sort -rn 2>/dev/null | head -1) || true
 
     newest_int="''${newest%%.*}"
     if [ -n "$newest_int" ] &&
