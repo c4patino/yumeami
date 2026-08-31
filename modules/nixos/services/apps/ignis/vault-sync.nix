@@ -87,7 +87,15 @@ pkgs.writeShellScriptBin "ignis-vault-sync" ''
     fi
 
     ${pkgs.git}/bin/git add -A
-    if ! ${pkgs.git}/bin/git commit -m "$(date -u +"docs(%Y/%m/%d): obsidian automatic vault backup")"; then
+
+    commit_msg=$(date -u +"docs(%Y/%m/%d): obsidian automatic vault backup")
+    if [ "$(${pkgs.git}/bin/git log -1 --format=%s 2>/dev/null || true)" = "$commit_msg" ]; then
+      _amend="--amend"
+    else
+      _amend=""
+    fi
+
+    if ! ${pkgs.git}/bin/git commit $_amend -m "$commit_msg"; then
       echo "git commit failed for $name" >&2
       continue
     fi
@@ -103,7 +111,7 @@ pkgs.writeShellScriptBin "ignis-vault-sync" ''
 
     printf '%s\n' "$now" > "$last_pull_file"
 
-    if ! ${pkgs.git}/bin/git push; then
+    if ! ${pkgs.git}/bin/git push --force-with-lease; then
       echo "git push failed for $name; local commit retained" >&2
       continue
     fi
