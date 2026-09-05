@@ -88,6 +88,8 @@ in {
 
   home = {
     packages = with pkgs; [
+      inputs.deploy-rs.packages.${system}.default
+
       nvtopPackages.nvidia
     ];
 
