@@ -28,6 +28,7 @@ in {
             default_pool_size = 10;
             max_client_conn = 500;
             pool_mode = "transaction";
+            max_prepared_statements = 100;
 
             stats_users = "pgbouncer_auth";
 
