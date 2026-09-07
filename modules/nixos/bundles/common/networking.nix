@@ -109,6 +109,10 @@ in {
             port = 5100;
             public = true;
           };
+          seafile = {
+            port = 5175;
+            internal = true;
+          };
           vault = {
             port = 5400;
             public = true;

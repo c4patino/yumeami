@@ -39,6 +39,7 @@ in {
       };
 
       storage = {
+        redis = enabled;
         samba.mounts = {
           shared = {
             host = "arisu";

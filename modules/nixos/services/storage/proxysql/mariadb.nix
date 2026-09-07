@@ -3,6 +3,7 @@
   inputs,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib) getAttr hasAttr mkIf;
@@ -49,6 +50,24 @@ in {
         "mysql.service"
         "mariadb-setup.service"
       ];
+      serviceConfig.ExecStartPost = let
+        # systemd reports a forking service as active as soon as the daemon
+        # forks, but ProxySQL only starts accepting connections slightly later.
+        # Without this gate, dependents ordered with `after = proxysql` race
+        # into that window and fail with ERROR 2002. `mariadb-admin ping`
+        # exits 0 as soon as the server answers the handshake, even when it
+        # rejects our credentials.
+        ready = pkgs.writeShellScript "proxysql-ready" ''
+          for ((i = 0; i < 30; i++)); do
+            if ${pkgs.mariadb.client}/bin/mariadb-admin --connect-timeout=1 --host=127.0.0.1 --port=${toString port} ping >/dev/null 2>&1; then
+              exit 0
+            fi
+            ${pkgs.coreutils}/bin/sleep 0.5
+          done
+          echo "proxysql is not accepting connections on 127.0.0.1:${toString port}" >&2
+          exit 1
+        '';
+      in ready;
     };
 
     networking.firewall.allowedTCPPorts = [port];
