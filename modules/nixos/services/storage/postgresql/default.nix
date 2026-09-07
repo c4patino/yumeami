@@ -6,7 +6,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) concatStringsSep filter getAttr hasAttr head mkIf splitString types;
+  inherit (lib) concatStringsSep filter getAttr hasAttr hasInfix head mkIf splitString types unique;
   inherit (lib.${namespace}) getAttrByNamespace getIn mkOptAttrset mkOptionsWithNamespace mkPersistDir readJsonOrEmpty;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.postgresql";
@@ -25,9 +25,13 @@ in {
     };
 
   config = mkIf (hasAttr hostName cfg.databases) (let
+    getPrefix = db: head (splitString "-" db);
+    isMainDb = db: !(hasInfix "-" db);
+
     hostDatabases = getAttr hostName cfg.databases;
-    mainServices = filter (db: !(lib.hasSuffix "-log" db)) hostDatabases;
-    auxDbs = filter (lib.hasSuffix "-log") hostDatabases;
+
+    uniquePrefixes = hostDatabases |> map getPrefix |> unique;
+    auxDbs = hostDatabases |> filter (db: !(isMainDb db));
   in {
     services = {
       postgresql = {
@@ -56,20 +60,18 @@ in {
         ensureDatabases = hostDatabases;
 
         ensureUsers =
-          mainServices
-          |> map (service: {
-            name = service;
+          uniquePrefixes
+          |> map (prefix: {
+            name = prefix;
             ensureDBOwnership = true;
             ensureClauses = let
               secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/postgresql.json";
             in {
               login = true;
-              password = getIn "${service}.hash" secrets;
+              password = getIn "${prefix}.hash" secrets;
             };
           });
       };
-
-
     };
 
     systemd.services.postgresql-setup.postStart = ''
