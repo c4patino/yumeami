@@ -54,6 +54,11 @@ in {
       };
 
       storage = {
+        mariadb = {
+          databases = {
+            arisu = [];
+          };
+        };
         samba = {
           enable = true;
           shares = ["shared"];
