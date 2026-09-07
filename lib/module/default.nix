@@ -519,4 +519,35 @@ with lib; rec {
   ## @param mode      The directory permission mode (e.g. "700").
   ## @return An attrset for the impermanence.folders list.
   mkPersistRootDir = config: directory: mode: mkPersistDir config "root" directory mode;
+
+  ## Database utility functions for grouping databases by prefix.
+  ##
+  ## ```nix
+  ## let dbUtils = mkDatabaseUtils hostDatabases; in
+  ## dbUtils.uniquePrefixes  # ["seafile"]
+  ## dbUtils.auxDbs          # ["seafile-hub" "seafile-ccnet"]
+  ## dbUtils.databasesForPrefix "seafile"  # ["seafile" "seafile-hub" "seafile-ccnet"]
+  ## ```
+  ##
+  ## @param databases  List of database names (e.g. ["seafile" "seafile-hub"]).
+  ## @return An attrset with helper functions and derived values.
+  mkDatabaseUtils = databases: let
+    getPrefix = db: head (splitString "-" db);
+    isMainDb = db: !(hasInfix "-" db);
+
+    uniquePrefixes =
+      databases
+      |> map getPrefix
+      |> unique;
+
+    databasesForPrefix = prefix:
+      databases
+      |> filter (db: getPrefix db == prefix && !(isMainDb db));
+
+    auxDbs =
+      databases
+      |> filter (db: !(isMainDb db));
+  in {
+    inherit getPrefix isMainDb uniquePrefixes databasesForPrefix auxDbs;
+  };
 }

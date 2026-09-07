@@ -6,8 +6,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) concatStringsSep filter getAttr hasAttr hasInfix head mkIf splitString types unique;
-  inherit (lib.${namespace}) getAttrByNamespace getIn mkOptAttrset mkOptionsWithNamespace mkPersistDir readJsonOrEmpty;
+  inherit (lib) concatStringsSep filter getAttr hasAttr mkIf splitString types;
+  inherit (lib.${namespace}) getAttrByNamespace getIn mkOptAttrset mkOptionsWithNamespace mkPersistDir mkDatabaseUtils readJsonOrEmpty;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.postgresql";
   cfg = getAttrByNamespace config base;
@@ -25,13 +25,8 @@ in {
     };
 
   config = mkIf (hasAttr hostName cfg.databases) (let
-    getPrefix = db: head (splitString "-" db);
-    isMainDb = db: !(hasInfix "-" db);
-
     hostDatabases = getAttr hostName cfg.databases;
-
-    uniquePrefixes = hostDatabases |> map getPrefix |> unique;
-    auxDbs = hostDatabases |> filter (db: !(isMainDb db));
+    db = mkDatabaseUtils hostDatabases;
   in {
     services = {
       postgresql = {
@@ -60,7 +55,7 @@ in {
         ensureDatabases = hostDatabases;
 
         ensureUsers =
-          uniquePrefixes
+          db.uniquePrefixes
           |> map (prefix: {
             name = prefix;
             ensureDBOwnership = true;
@@ -97,12 +92,12 @@ in {
         GRANT EXECUTE ON FUNCTION public.pgbouncer_lookup(text) TO pgbouncer_auth;
 
       ${
-        auxDbs
-        |> map (db: let
-          user = head (splitString "-" db);
+        db.auxDbs
+        |> map (d: let
+          user = db.getPrefix d;
         in ''
-          GRANT ALL PRIVILEGES ON DATABASE "${db}" TO "${user}";
-          ALTER DATABASE "${db}" OWNER TO "${user}";
+          GRANT ALL PRIVILEGES ON DATABASE "${d}" TO "${user}";
+          ALTER DATABASE "${d}" OWNER TO "${user}";
         '')
         |> concatStringsSep "\n"
       }

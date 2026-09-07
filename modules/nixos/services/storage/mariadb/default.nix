@@ -6,8 +6,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) concatStringsSep getAttr hasAttr hasInfix head mkIf optionalString splitString types unique;
-  inherit (lib.${namespace}) getAttrByNamespace getIn mkOptAttrset mkOptionsWithNamespace mkPersistRootDir readJsonOrEmpty;
+  inherit (lib) concatStringsSep filter getAttr hasAttr mkIf optionalString types;
+  inherit (lib.${namespace}) getAttrByNamespace getIn mkOptAttrset mkOptionsWithNamespace mkPersistRootDir mkDatabaseUtils readJsonOrEmpty;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.mariadb";
   cfg = getAttrByNamespace config base;
@@ -26,11 +26,7 @@ in {
 
   config = mkIf (hasAttr hostName cfg.databases) (let
     hostDatabases = getAttr hostName cfg.databases;
-    secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/mariadb.json";
-
-    getPrefix = db: head (splitString "-" db);
-    uniquePrefixes = hostDatabases |> map getPrefix |> unique;
-    isMainDb = db: !(hasInfix "-" db);
+    db = mkDatabaseUtils hostDatabases;
   in {
     services = {
       mysql = {
@@ -48,7 +44,7 @@ in {
         ensureDatabases = hostDatabases;
 
         ensureUsers =
-          uniquePrefixes
+          db.uniquePrefixes
           |> map (prefix: {
             name = prefix;
             ensurePermissions = {
@@ -57,16 +53,31 @@ in {
           });
 
         initialScript = let
+          secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/mariadb.json";
+
           userInit =
-            uniquePrefixes
+            db.uniquePrefixes
             |> map (prefix:
               optionalString (getIn "${prefix}.password" secrets != null) ''
                 SET PASSWORD FOR '${prefix}'@'localhost' = PASSWORD('${getIn "${prefix}.password" secrets}');
               '')
             |> concatStringsSep "\n";
+
+          grantsInit =
+            db.uniquePrefixes
+            |> map (
+              prefix:
+                (db.databasesForPrefix prefix ++ [prefix])
+                |> map (d: ''
+                  GRANT ALL PRIVILEGES ON \`${d}\`.* TO '${prefix}'@'localhost';
+                '')
+                |> concatStringsSep "\n"
+            )
+            |> concatStringsSep "\n";
         in
           pkgs.writeText "mysql-init.userInit" ''
             ${userInit}
+            ${grantsInit}
           '';
       };
     };
