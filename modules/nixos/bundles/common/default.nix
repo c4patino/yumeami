@@ -94,6 +94,15 @@ in {
               ];
             };
           };
+          mariadb = {
+            databases = {
+              tsuki = [
+                "seafile"
+                "seafile-hub"
+                "seafile-ccnet"
+              ];
+            };
+          };
           syncthing = {
             enable = true;
             devices = {
