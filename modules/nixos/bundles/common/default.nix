@@ -94,6 +94,14 @@ in {
               ];
             };
           };
+          mariadb = {
+            databases = {
+              arisu = [
+                "seafile"
+                "seafile-ccnet"
+              ];
+            };
+          };
           syncthing = {
             enable = true;
             devices = {

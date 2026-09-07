@@ -40,6 +40,13 @@ in {
       };
 
       network-services = {
+        arisu = {
+          # seafile = {
+          #   port = 8080;
+          #   internal = true;
+          # };
+        };
+
         chibi = {
           blocky = {
             port = 53;
