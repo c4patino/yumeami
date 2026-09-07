@@ -7,18 +7,20 @@
   ...
 }: let
   inherit (lib) getAttr hasAttr mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace getIn mkDatabaseUtils mkPersistRootDir readJsonOrEmpty;
+  inherit (lib.${namespace}) getAttrByNamespace getIn mkDatabaseUtils mkPersistRootDir readJsonOrEmpty resolveDatabaseIP;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.mariadb";
   cfg = getAttrByNamespace config base;
   secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/mariadb.json";
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
   port = 5650;
   adminPort = 5652;
   mariadbPort = 5651;
 
   configFile = let
-    db = mkDatabaseUtils (getAttr hostName cfg.databases);
+    hostDatabases = getAttr hostName cfg.databases;
+    db = mkDatabaseUtils hostDatabases;
   in
     (pkgs.formats.libconfig {}).generate "proxysql.cnf" {
       admin_variables = {
@@ -40,7 +42,7 @@
 
       mysql_servers = [
         {
-          address = "127.0.0.1";
+          address = resolveDatabaseIP networkCfg.devices cfg.databases (builtins.head hostDatabases);
           port = mariadbPort;
           hostgroup = 0;
           max_connections = 1024;
