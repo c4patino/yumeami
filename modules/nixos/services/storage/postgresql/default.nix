@@ -15,6 +15,7 @@
   port = 5601;
 in {
   imports = [
+    ./backup.nix
     ./pgbouncer.nix
   ];
 
@@ -68,21 +69,8 @@ in {
           });
       };
 
-      postgresqlBackup = {
-        enable = true;
-        databases =
-          cfg.databases
-          |> getAttr hostName;
-        compression = "zstd";
-        compressionLevel = 4;
-        pgdumpOptions = "-C --port=${toString port}";
-        startAt = "*-*-* 23:00:00";
-      };
-    };
 
-    ${namespace}.services.storage.impermanence.folders = [
-      (mkPersistDir config "postgres" "/var/lib/postgresql" "700")
-    ];
+    };
 
     systemd.services.postgresql-setup.postStart = ''
       if [ -f "${config.services.postgresql.dataDir}/standby.signal" ]; then
@@ -118,5 +106,9 @@ in {
       }
       SQL
     '';
+
+    ${namespace}.services.storage.impermanence.folders = [
+      (mkPersistDir config "postgres" "/var/lib/postgresql" "700")
+    ];
   });
 }
