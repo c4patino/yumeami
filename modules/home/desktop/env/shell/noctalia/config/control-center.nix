@@ -22,8 +22,6 @@ in {
         width = 900;
 
         calendar = {
-          event_date_format = "%A %e %B";
-          event_time_format = "%H:%M";
           show_events_card = true;
           show_week_numbers = false;
         };
@@ -49,6 +47,8 @@ in {
 
       calendar = {
         enabled = true;
+        event_date_format = "%A %e %B";
+        event_time_format = "%H:%M";
         refresh_minutes = 15;
 
         account = {
