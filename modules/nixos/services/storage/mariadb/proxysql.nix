@@ -79,7 +79,7 @@
       ];
     };
 in {
-  config = mkIf (hasAttr hostName cfg.databases) {
+  config = mkIf (hasAttr hostName cfg.databases && cfg.databases.${hostName} != []) {
     systemd.services.proxysql = {
       description = "ProxySQL connection pooler for MariaDB";
       after = ["mysql.service"];

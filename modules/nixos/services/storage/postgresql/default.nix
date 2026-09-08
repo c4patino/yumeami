@@ -6,7 +6,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) concatStringsSep filter getAttr hasAttr mkIf splitString types;
+  inherit (lib) concatStringsSep getAttr hasAttr mkIf types;
   inherit (lib.${namespace}) getAttrByNamespace getIn mkOptAttrset mkOptionsWithNamespace mkPersistDir mkDatabaseUtils readJsonOrEmpty;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.postgresql";
@@ -24,7 +24,7 @@ in {
       databases = mkOptAttrset (listOf str) {} "Map of hosts to list of databases.";
     };
 
-  config = mkIf (hasAttr hostName cfg.databases) (let
+  config = mkIf (hasAttr hostName cfg.databases && cfg.databases.${hostName} != []) (let
     hostDatabases = getAttr hostName cfg.databases;
     db = mkDatabaseUtils hostDatabases;
   in {
