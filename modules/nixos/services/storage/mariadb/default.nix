@@ -24,7 +24,7 @@ in {
       databases = mkOptAttrset (listOf str) {} "Map of hosts to list of databases.";
     };
 
-  config = mkIf (hasAttr hostName cfg.databases) (let
+  config = mkIf (hasAttr hostName cfg.databases && cfg.databases.${hostName} != []) (let
     hostDatabases = getAttr hostName cfg.databases;
     db = mkDatabaseUtils hostDatabases;
   in {
