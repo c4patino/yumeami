@@ -96,7 +96,7 @@ in {
         LimitNOFILE = 102400;
         PIDFile = "/var/lib/proxysql/proxysql.pid";
 
-        ExecStart = "${pkgs.proxysql}/bin/proxysql --config-file=${configFile} --sqlite-runtime=true";
+        ExecStart = "${pkgs.proxysql}/bin/proxysql --reload --config-file=${configFile} --sqlite-runtime=true";
         ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
       };
     };
