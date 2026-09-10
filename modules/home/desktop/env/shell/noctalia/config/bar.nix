@@ -4,7 +4,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf;
+  inherit (lib) mkDefault mkIf;
   inherit (lib.${namespace}) getAttrByNamespace;
   cfg = getAttrByNamespace config "${namespace}.desktop.env.shell.noctalia";
 in {
@@ -136,6 +136,11 @@ in {
         spacer_2 = {
           length = 32;
           type = "spacer";
+        };
+
+        battery = {
+          enabled = mkDefault false;
+          type = "battery";
         };
 
         temp = {
