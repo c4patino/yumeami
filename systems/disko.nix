@@ -1,6 +1,7 @@
 {
   main ? throw "Primary device not defined",
   extras ? [],
+  pools ? [],
   size ? "100%",
   ...
 }: let
@@ -45,6 +46,7 @@
       };
     };
   };
+
   extraDisks = builtins.listToAttrs (map (d: {
       name = d;
       value = {
@@ -66,43 +68,100 @@
       };
     })
     extras);
-in {
-  disko.devices = {
-    disk = mainDisk // extraDisks;
-    zpool = {
-      zroot = {
+
+  poolDiskEntries = builtins.concatLists (map (
+      pool:
+        map (disk: {
+          inherit disk;
+          poolName = pool.name;
+        })
+        pool.disks
+    )
+    pools);
+
+  poolDisks = builtins.listToAttrs (map (entry: {
+      name = entry.disk;
+      value = {
+        device = entry.disk;
+        type = "disk";
+        content = {
+          type = "gpt";
+          partitions = {
+            root = {
+              name = "root";
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = entry.poolName;
+              };
+            };
+          };
+        };
+      };
+    })
+    poolDiskEntries);
+
+  poolConfigs = builtins.listToAttrs (map (pool: {
+      name = pool.name;
+      value = {
         type = "zpool";
+        mode = pool.type;
         rootFsOptions = {
           compression = "zstd";
           canmount = "off";
           "com.sun:auto-snapshot" = "false";
         };
+        datasets = builtins.listToAttrs (map (dsName: {
+            name = dsName;
+            value = {
+              type = "zfs_fs";
+              mountpoint = pool.datasets.${dsName}.mountpoint or null;
+              options = pool.datasets.${dsName}.options or {};
+            };
+          })
+          (builtins.attrNames pool.datasets));
+      };
+    })
+    pools);
+in {
+  disko.devices = {
+    disk = mainDisk // extraDisks // poolDisks;
+    zpool =
+      {
+        zroot = {
+          type = "zpool";
+          rootFsOptions = {
+            compression = "zstd";
+            canmount = "off";
+            "com.sun:auto-snapshot" = "false";
+          };
 
-        datasets = {
-          root = {
-            type = "zfs_fs";
-            mountpoint = "/";
-            options = {
-              relatime = "on";
+          datasets = {
+            root = {
+              type = "zfs_fs";
+              mountpoint = "/";
+              options = {
+                relatime = "on";
+              };
             };
-          };
-          persist = {
-            type = "zfs_fs";
-            mountpoint = "/persist";
-            options = {
-              mountpoint = "legacy";
-              relatime = "on";
+            persist = {
+              type = "zfs_fs";
+              mountpoint = "/persist";
+              options = {
+                mountpoint = "legacy";
+                relatime = "on";
+              };
             };
-          };
-          nix = {
-            type = "zfs_fs";
-            mountpoint = "/nix";
-            options = {
-              atime = "off";
+            nix = {
+              type = "zfs_fs";
+              mountpoint = "/nix";
+              options = {
+                atime = "off";
+              };
             };
           };
         };
-      };
-    };
+      }
+      // poolConfigs;
   };
 }
