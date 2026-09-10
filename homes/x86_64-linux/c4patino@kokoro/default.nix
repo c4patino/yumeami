@@ -4,6 +4,7 @@
   inputs,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib.${namespace}) enabled;
@@ -86,5 +87,11 @@ in {
     }
   ];
 
-  home.stateVersion = "26.05";
+  home = {
+    packages = with pkgs; [
+      inputs.deploy-rs.packages.${system}.default
+    ];
+
+    stateVersion = "26.05";
+  };
 }
