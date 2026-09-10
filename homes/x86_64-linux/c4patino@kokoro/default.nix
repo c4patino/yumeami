@@ -49,7 +49,11 @@ in {
     cli.dev.neovim.variant = "full";
   };
 
-  programs.kitty.font.size = 14;
+  programs = {
+    kitty.font.size = 14;
+
+    noctalia.settings.widget.battery.enabled = true;
+  };
 
   sops.secrets = let
     inherit (config.snowfallorg) user;
