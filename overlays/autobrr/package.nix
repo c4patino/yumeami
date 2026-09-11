@@ -14,12 +14,12 @@
   versionCheckHook,
 }: let
   pname = "autobrr";
-  version = "1.85.0";
+  version = "1.86.0";
   src = fetchFromGitHub {
     owner = "autobrr";
     repo = "autobrr";
     tag = "v${version}";
-    hash = "sha256-IF02R+i495jYklQuU9tnW2GfE/k7mkM8k+gNsZ9s31Y=";
+    hash = "sha256-QnLwYHxAcYWaN4Dfsg1yQ6Hr1Km4JSjJyz/TywKmU+s=";
   };
 
   autobrr-web = stdenvNoCC.mkDerivation {
@@ -45,7 +45,7 @@
         ;
       pnpm = pnpm_11;
       fetcherVersion = 4;
-      hash = "sha256-wTbdQ3Stp4Wp0a89Bb+2uwCo78xuAi8JMpjPk501wXw=";
+      hash = "sha256-GBe6c0sjj/gaLOrtGVmcjaQ5c7E9mhYvbLhRSViv7s8=";
     };
 
     postBuild = ''
@@ -64,7 +64,7 @@ in
       src
       ;
 
-    vendorHash = "sha256-de5bADm7C1OsuF93Cc2DdLwi4q8/2lhnVqi16BHJvU4=";
+    vendorHash = "sha256-Mo+XAYe1bNVO89dDBoMsBnxcxhEgu/EdwqrA5RUjSrw=";
 
     preBuild = ''
       cp -r ${finalAttrs.passthru.autobrr-web}/* web/dist
