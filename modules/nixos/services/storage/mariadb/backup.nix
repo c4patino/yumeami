@@ -11,7 +11,7 @@
   base = "${namespace}.services.storage.mariadb";
   cfg = getAttrByNamespace config base;
 in {
-  config = mkIf (hasAttr hostName cfg.databases) (let
+  config = mkIf (hasAttr hostName cfg.databases && cfg.databases.${hostName} != []) (let
     hostDatabases = getAttr hostName cfg.databases;
   in {
     systemd.services.mariadb-backup = {
