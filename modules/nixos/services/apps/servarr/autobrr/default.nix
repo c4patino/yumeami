@@ -31,6 +31,7 @@ in {
         postgresDatabase = "autobrr";
         postgresUser = "autobrr";
         postgresSSLMode = "disable";
+        postgresExtraParams = "binary_parameters=yes";
       };
     };
 
