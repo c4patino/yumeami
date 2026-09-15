@@ -2,6 +2,7 @@
   inherit
     (channels.nixpkgs-unstable)
     gh-stack
+    immich
     lazygit
     opencode
     presenterm
