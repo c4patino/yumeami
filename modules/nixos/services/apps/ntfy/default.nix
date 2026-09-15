@@ -4,7 +4,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf;
+  inherit (lib) mkIf mkMerge;
   inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort waitForNetwork;
   inherit (config.networking) hostName;
 
@@ -49,7 +49,15 @@ in {
       };
     };
 
-    systemd.services.ntfy-sh = waitForNetwork;
+    systemd.services.ntfy-sh = mkMerge [
+      waitForNetwork
+      {
+        serviceConfig = {
+          Restart = "on-failure";
+          RestartSec = "1s";
+        };
+      }
+    ];
 
     sops.secrets."environment-file/ntfy" = {};
   };
