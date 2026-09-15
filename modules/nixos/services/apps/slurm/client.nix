@@ -35,8 +35,8 @@ in {
     };
 
     systemd.services.slurmd = {
-      wants = ["tailscaled.service"];
-      after = ["tailscaled.service"];
+      requires = ["munged.service"];
+      after = ["munged.service" "tailscaled.service"];
     };
 
     ${namespace}.services.storage.impermanence.folders = [

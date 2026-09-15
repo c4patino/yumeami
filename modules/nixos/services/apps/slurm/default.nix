@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) attrNames concatStringsSep flatten groupBy mapAttrs mapAttrsToList mkEnableOption mkIf types;
-  inherit (lib.${namespace}) getAttrByNamespace mkListOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkPersistDir resolveHostIP;
+  inherit (lib.${namespace}) getAttrByNamespace mkListOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkPersistDir resolveHostIP waitForNetwork;
   base = "${namespace}.services.apps.slurm";
   cfg = getAttrByNamespace config base;
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
@@ -94,10 +94,7 @@ in {
       };
     };
 
-    systemd.services.munge = {
-      wants = ["tailscaled.service"];
-      after = ["tailscaled.service"];
-    };
+    systemd.services.munged = waitForNetwork;
 
     ${namespace}.services.storage.impermanence.folders = [
       (mkPersistDir config "munge" "/var/lib/munge" "700")
