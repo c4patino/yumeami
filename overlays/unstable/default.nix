@@ -4,7 +4,6 @@
     gh-stack
     immich
     lazygit
-    opencode
     presenterm
     tuicr
     vaultwarden
