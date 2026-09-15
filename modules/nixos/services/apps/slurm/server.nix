@@ -4,8 +4,8 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace mkPersistDir;
+  inherit (lib) mkIf mkMerge;
+  inherit (lib.${namespace}) getAttrByNamespace mkPersistDir waitForNetwork;
   base = "${namespace}.services.apps.slurm";
   cfg = getAttrByNamespace config base;
   inherit (config.networking) hostName;
@@ -16,11 +16,13 @@ in {
       stateSaveLocation = "/mnt/nfs/slurm";
     };
 
-    systemd.services.slurmctld = {
-      requires = ["mnt-nfs-slurm.mount"];
-      wants = ["tailscaled.service"];
-      after = ["mnt-nfs-slurm.mount" "tailscaled.service"];
-    };
+    systemd.services.slurmctld = mkMerge [
+      waitForNetwork
+      {
+        requires = ["mnt-nfs-slurm.mount"];
+        after = ["mnt-nfs-slurm.mount"];
+      }
+    ];
 
     ${namespace}.services.storage.impermanence.folders = [
       (mkPersistDir config "slurm" "/var/spool/slurmctld" "700")
