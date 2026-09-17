@@ -59,6 +59,10 @@ in {
       in
         concatLists [static cfg.folders];
 
+      files = [
+        "/etc/machine-id"
+      ];
+
       users.c4patino = {
         directories = [
           ".android"
