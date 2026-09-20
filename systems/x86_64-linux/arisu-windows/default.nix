@@ -46,12 +46,16 @@ in {
     crypt = "${config.users.users.c4patino.home}/dotfiles/secrets/crypt";
   in "${crypt}/age/${hostName}/keys.txt";
 
+  services.resolved.enable = mkForce false;
+
   wsl = {
     enable = true;
     defaultUser = "c4patino";
   };
 
   networking = {
+    nameservers = mkForce [];
+
     hostName = "arisu-windows";
     hostId = "c6cc4687";
   };
