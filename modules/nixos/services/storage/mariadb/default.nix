@@ -6,7 +6,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) concatStringsSep filter getAttr hasAttr mkIf optionalString types;
+  inherit (lib) concatStringsSep getAttr hasAttr mkIf optionalString types;
   inherit (lib.${namespace}) getAttrByNamespace getIn mkOptAttrset mkOptionsWithNamespace mkPersistRootDir mkDatabaseUtils readJsonOrEmpty;
   inherit (config.networking) hostName;
   base = "${namespace}.services.storage.mariadb";
@@ -16,7 +16,6 @@
 in {
   imports = [
     ./backup.nix
-    ./proxysql.nix
   ];
 
   options = with types;
@@ -51,34 +50,59 @@ in {
               "${prefix}.*" = "ALL PRIVILEGES";
             };
           });
+      };
+    };
 
-        initialScript = let
-          secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/mariadb.json";
+    systemd.services = {
+      mysql = {
+        wants = ["mariadb-setup.service"];
+      };
 
-          userInit =
+      mariadb-setup = let
+        secrets = readJsonOrEmpty "${inputs.self}/secrets/crypt/mariadb.json";
+      in {
+        description = "MariaDB application user setup";
+        requires = ["mysql.service"];
+        after = ["mysql.service"];
+        partOf = ["mysql.service"];
+
+        serviceConfig = {
+          Type = "oneshot";
+          User = "mysql";
+          Group = "mysql";
+          RemainAfterExit = true;
+        };
+
+        path = with pkgs; [
+          mariadb
+        ];
+
+        script = ''
+          while ! mysql -N -e "SELECT 1" >/dev/null 2>&1; do
+            if ! ${pkgs.systemd}/bin/systemctl is-active --quiet mysql.service; then
+              exit 1
+            fi
+            sleep 0.1
+          done
+
+          mysql -N <<'SQL'
+          ${
             db.uniquePrefixes
             |> map (prefix:
-              optionalString (getIn "${prefix}.password" secrets != null) ''
-                SET PASSWORD FOR '${prefix}'@'localhost' = PASSWORD('${getIn "${prefix}.password" secrets}');
+              optionalString (getIn "${prefix}.hash" secrets != null) ''
+                ALTER USER '${prefix}'@'localhost' IDENTIFIED VIA mysql_native_password USING '${getIn "${prefix}.hash" secrets}';
               '')
-            |> concatStringsSep "\n";
-
-          grantsInit =
-            db.uniquePrefixes
-            |> map (
-              prefix:
-                (db.databasesForPrefix prefix ++ [prefix])
-                |> map (d: ''
-                  GRANT ALL PRIVILEGES ON \`${d}\`.* TO '${prefix}'@'localhost';
-                '')
-                |> concatStringsSep "\n"
-            )
-            |> concatStringsSep "\n";
-        in
-          pkgs.writeText "mysql-init.userInit" ''
-            ${userInit}
-            ${grantsInit}
-          '';
+            |> concatStringsSep "\n"
+          }
+          ${
+            db.auxDbs
+            |> map (d: ''
+              GRANT ALL PRIVILEGES ON \`${d}\`.* TO '${db.getPrefix d}'@'localhost';
+            '')
+            |> concatStringsSep "\n"
+          }
+          SQL
+        '';
       };
     };
 
