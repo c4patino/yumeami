@@ -122,7 +122,6 @@ in {
         shiori = {
           blocky = {
             port = 53;
-            priority = 50;
           };
           unbound = {
             port = 54;

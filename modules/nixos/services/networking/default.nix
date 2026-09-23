@@ -4,7 +4,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) concatStringsSep mkMerge mkOption types unique;
+  inherit (lib) concatStringsSep mkOption types unique;
   inherit (lib.${namespace}) getAttrByNamespace mkBoolOpt mkListOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkRequiredOpt mkTailscaleFirewallRule resolveHostIP resolveServiceEntries;
 
   base = "${namespace}.services.networking";
@@ -22,7 +22,7 @@ in {
         type = attrsOf (attrsOf (submodule {
           options = {
             port = mkRequiredOpt port "Local port of the service. If not specified, the module's default is used.";
-            priority = mkOpt int 100 "Precedence when multiple hosts declare the same service. Lower values win; ties break alphabetically by hostname.";
+            priority = mkOpt int 256 "Precedence when multiple hosts declare the same service. Lower values win; ties break alphabetically by hostname.";
             public = mkBoolOpt false "Whether the service should be publicly accessible over *.cpatino.com.";
             internal = mkBoolOpt false "Whether the service should be internally accessible over *.yumeami.sh.";
             websocket = mkOpt (submodule {

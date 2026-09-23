@@ -395,7 +395,7 @@ with lib; rec {
       svcs.${serviceName}
       // {
         inherit host;
-        priority = svcs.${serviceName}.priority or 100;
+        priority = svcs.${serviceName}.priority;
       })
     |> sort (a: b:
       a.priority
