@@ -33,14 +33,10 @@ in {
       };
 
       storage = {
-        syncthing = mkForce disabled;
         impermanence = mkForce disabled;
+        syncthing = mkForce disabled;
       };
     };
-  };
-
-  services.resolved = {
-    enable = mkForce false;
   };
 
   sops.age.keyFile = let
@@ -53,7 +49,10 @@ in {
     defaultUser = "c4patino";
   };
 
-  services.gnome.gnome-keyring = enabled;
+  services = {
+    gnome.gnome-keyring = enabled;
+    resolved.enable = mkForce false;
+  };
 
   security.pki.certificateFiles = [
     "${inputs.self}/secrets/crypt/ssl/zscaler.crt"

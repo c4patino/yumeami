@@ -41,12 +41,15 @@ in {
     };
   };
 
+  services = {
+    gnome.gnome-keyring = enabled;
+    resolved.enable = mkForce false;
+  };
+
   sops.age.keyFile = let
     inherit (config.networking) hostName;
     crypt = "${config.users.users.c4patino.home}/dotfiles/secrets/crypt";
   in "${crypt}/age/${hostName}/keys.txt";
-
-  services.resolved.enable = mkForce false;
 
   wsl = {
     enable = true;
