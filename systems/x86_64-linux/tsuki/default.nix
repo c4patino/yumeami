@@ -53,7 +53,7 @@ in {
         };
       };
 
-      networking.network-services.chibi.blocky.priority = mkForce 25;
+      networking.network-services.chibi.blocky.priority = mkForce 128;
     };
   };
 
