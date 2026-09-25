@@ -47,6 +47,11 @@ in {
       resolved.enable = mkForce false;
     };
 
+    programs.nh = {
+      enable = true;
+      clean.enable = true;
+    };
+
     sops.age.keyFile = let
       inherit (config.networking) hostName;
       crypt = "${config.users.users.c4patino.home}/dotfiles/secrets/crypt";

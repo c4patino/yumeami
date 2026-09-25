@@ -120,6 +120,8 @@ in {
       experimental-features = ["nix-command" "flakes" "pipe-operators"];
       trusted-users = with config.users.users; [c4patino.name];
 
+      auto-optimise-store = true;
+
       substituters = [
         "https://cache.nixos.org"
         "https://nix-community.cachix.org"
