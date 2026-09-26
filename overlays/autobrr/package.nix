@@ -14,12 +14,12 @@
   versionCheckHook,
 }: let
   pname = "autobrr";
-  version = "1.86.0";
+  version = "1.87.0";
   src = fetchFromGitHub {
     owner = "autobrr";
     repo = "autobrr";
     tag = "v${version}";
-    hash = "sha256-QnLwYHxAcYWaN4Dfsg1yQ6Hr1Km4JSjJyz/TywKmU+s=";
+    hash = "sha256-u0gcSgexI8Rw9Fsh6xcb0dDmCxbghAyXVIyUG6jtq9g=";
   };
 
   autobrr-web = stdenvNoCC.mkDerivation {
