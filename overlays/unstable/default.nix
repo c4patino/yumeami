@@ -1,12 +1,22 @@
 {channels, ...}: final: prev: {
   inherit
     (channels.nixpkgs-unstable)
+    bazarr
     gh-stack
     immich
+    jellyfin
+    jellyfin-web
     lazygit
+    lidarr
+    ombi
     opencode
     presenterm
+    prowlarr
+    radarr
+    seerr
+    sonarr
     tuicr
+    unpackerr
     vaultwarden
     ;
 }
