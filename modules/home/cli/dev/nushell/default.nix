@@ -98,6 +98,38 @@ in {
             | open
             | clip
           }
+
+          # flat sha256 of a file, as used by fetchurl (pass --unpack for fetchzip's NAR hash)
+          def nix-prefetch-url-hash [url: string, --unpack] {
+            let raw = if $unpack {
+              nix-prefetch-url --unpack $url
+            } else {
+              nix-prefetch-url $url
+            }
+
+            let hash = (nix hash convert --hash-algo sha256 --to sri $raw)
+
+            $hash | clip
+            $hash
+          }
+
+          # NAR sha256 of an unpacked source tree, as used by fetchFromGitHub
+          def nix-prefetch-github-hash [spec: string] {
+            let parts = ($spec | split row "/")
+            if (($parts | length) < 4) {
+              error make {msg: "expected <host>/<owner>/<repo>/<tag>"}
+            }
+
+            let host = ($parts | get 0)
+            let owner = ($parts | get 1)
+            let repo = ($parts | get 2)
+            let tag = ($parts | skip 3 | str join "/")
+
+            let url = $"https://($host)/($owner)/($repo)/archive/($tag).tar.gz"
+            let hash = (nix hash convert --hash-algo sha256 --to sri (nix-prefetch-url --unpack $url))
+
+            $hash | clip
+            $hash
           }
         '';
 
