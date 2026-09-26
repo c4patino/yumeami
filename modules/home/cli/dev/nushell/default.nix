@@ -77,7 +77,7 @@ in {
             http get $"https://www.toptal.com/developers/gitignore/api/($joined)"
           }
 
-          def copy-to-clipboard [] {
+          def clip [] {
             if ("WSL_DISTRO_NAME" in ($env | columns)) {
               clip.exe
             } else if (which wl-copy | is-not-empty) {
@@ -96,7 +96,8 @@ in {
             ["/run/secrets" $path]
             | path join
             | open
-            | copy-to-clipboard
+            | clip
+          }
           }
         '';
 
