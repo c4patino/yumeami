@@ -5,11 +5,11 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: rec {
   pname = "qui";
-  version = "1.29.0";
+  version = "1.30.0";
 
   src = fetchzip {
     url = "https://github.com/autobrr/qui/releases/download/v${version}/qui_${version}_linux_x86_64.tar.gz";
-    hash = "sha256-tP4mjXsHiddWoZalXh+w8x+E4TzboEW0HpsG7c1a2f4=";
+    hash = "sha256-a3Iz1Kk4EjP3KZt3aeAkDg035n368d2hAjl97D1/O9Y=";
     stripRoot = false;
   };
 
