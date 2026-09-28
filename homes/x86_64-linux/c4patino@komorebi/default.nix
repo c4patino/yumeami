@@ -30,49 +30,12 @@ in {
     };
   };
 
-  programs.ssh.settings = {
-    "lx*" = {
-      ControlMaster = "no";
-      ControlPath = "none";
-      ControlPersist = "no";
-    };
-    "compass-itg" = {
-      User = "pgia100";
-      HostName = "lx14988";
-    };
-    "compass-cat" = {
-      User = "pgia100";
-      HostName = "lx15031";
-    };
-    "compass-pfix" = {
-      User = "pgia100";
-      HostName = "lx15322";
-    };
-    "compass-prod" = {
-      User = "pgia100";
-      HostName = "lx15282";
-    };
-    "compass-compile" = {
-      User = "pgia100";
-      HostName = "lx14413";
-    };
-    "forms-nonprod" = {
-      User = "pgia100";
-      HostName = "lx21039";
-    };
-    "forms-prod" = {
-      User = "pgia100";
-      HostName = "lx22491";
-    };
-    "xprn-nonprod" = {
-      User = "pgia100";
-      HostName = "lx201";
-    };
-    "xprn-prod" = {
-      User = "pgia100";
-      HostName = "lx185";
-    };
-  };
+  programs.ssh.includes = [
+    (toString (
+      "${config.snowfallorg.user.home.directory}/dotfiles/secrets/crypt/komorebi-ssh.conf"
+      |> config.lib.file.mkOutOfStoreSymlink
+    ))
+  ];
 
   sops.secrets = let
     inherit (config.snowfallorg) user;

@@ -91,14 +91,10 @@ in {
           }
           {
             condition = "gitdir:~/Programming/komorebi/";
-            contents = {
-              core.sshCommand = "ssh -i ~/.ssh/id_ed25519-komorebi -o IdentitiesOnly=yes";
-              user = {
-                name = "Ceferino Patino";
-                email = "ceferino.patino@komorebi.com";
-                signingkey = "~/.ssh/id_ed25519-komorebi.pub";
-              };
-            };
+            path = toString (
+              "${config.snowfallorg.user.home.directory}/dotfiles/secrets/crypt/komorebi-git.inc"
+              |> config.lib.file.mkOutOfStoreSymlink
+            );
           }
         ];
       };
