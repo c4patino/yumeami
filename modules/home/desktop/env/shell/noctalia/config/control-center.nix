@@ -51,6 +51,8 @@ in {
         event_time_format = "%H:%M";
         refresh_minutes = 15;
 
+        reminders.enabled = false;
+
         account = {
           personal = {
             calendars = [];
