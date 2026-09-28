@@ -36,17 +36,10 @@ in {
           HostName = "github.com";
           User = "git";
         };
-        "swan" = {
-          HostName = "swan.unl.edu";
-          User = "c4patino";
-        };
-        "swan-xfer" = {
-          HostName = "swan-xfer.unl.edu";
-          User = "c4patino";
-        };
-        "nuros" = {
-          HostName = "nuros.unl.edu";
-          User = "cpatino2";
+        "github.com" = {
+          ControlMaster = "no";
+          ControlPath = "none";
+          ControlPersist = "no";
         };
       };
     };
