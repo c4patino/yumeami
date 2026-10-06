@@ -7,7 +7,6 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkForce;
   inherit (lib.${namespace}) enabled;
 in {
   imports = [./stylix.nix];
