@@ -7,6 +7,7 @@
   pkgs,
   ...
 }: let
+  inherit (lib) mkForce;
   inherit (lib.${namespace}) enabled;
 in {
   imports = [./stylix.nix];
@@ -51,7 +52,7 @@ in {
     cli.dev.neovim.variant = "full";
   };
 
-  programs.kitty.font.size = 14;
+  programs.kitty.font.size = mkForce 16;
 
   sops.secrets = let
     inherit (config.snowfallorg) user;
