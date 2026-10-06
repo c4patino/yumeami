@@ -30,7 +30,6 @@ in {
         git = enabled;
         harlequin = enabled;
         lazygit = enabled;
-        neovim = enabled;
         opencode = enabled;
         openspec = enabled;
         tuicr = enabled;

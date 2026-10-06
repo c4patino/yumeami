@@ -26,6 +26,7 @@ in {
         dev = {
           carapace = enabled;
           fzf = enabled;
+          neovim = enabled;
           nushell = enabled;
           starship = enabled;
           zoxide = enabled;
