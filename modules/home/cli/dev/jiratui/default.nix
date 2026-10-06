@@ -1,0 +1,25 @@
+{
+  config,
+  inputs,
+  lib,
+  namespace,
+  system,
+  ...
+}: let
+  inherit (lib) mkEnableOption mkIf;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  base = "${namespace}.cli.dev.jiratui";
+  cfg = getAttrByNamespace config base;
+in {
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "jiratui";
+  };
+
+  config = mkIf cfg.enable {
+    home = {
+      packages = [
+        inputs.jiratui.packages.${system}.default
+      ];
+    };
+  };
+}
