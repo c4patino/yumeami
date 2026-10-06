@@ -131,6 +131,23 @@ in {
             $hash | clip
             $hash
           }
+
+          # nix build an installable; streams output as normal, copies the "got:" hash on failure
+          def nix-build-clip [pkg: string] {
+            let res = (^nix build $pkg | tee --stderr { print } | complete)
+            if ($res.stdout | is-not-empty) {
+              print --no-newline $res.stdout
+            }
+            if $res.exit_code == 0 {
+              return
+            }
+
+            let got = ($res.stderr | parse -r 'got:\s+(?<hash>\S+)' | get hash)
+            if ($got | is-empty) {
+              error make {msg: $"nix build failed for ($pkg): no got: hash found"}
+            }
+            $got | last | clip
+          }
         '';
 
         plugins = with pkgs.nushellPlugins; [
