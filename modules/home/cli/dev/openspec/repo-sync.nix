@@ -38,15 +38,24 @@ pkgs.writeShellScript "openspec-repo-sync" ''
         continue
       fi
 
-      ${pkgs.git}/bin/git rebase --abort
-      ${pkgs.git}/bin/git reset --hard origin/main
+      if ! ${pkgs.git}/bin/git rebase --abort; then
+        echo "Unable to abort rebase for $name; leaving it untouched" >&2
+        continue
+      fi
+
+      if ! ${pkgs.git}/bin/git reset --hard origin/main; then
+        echo "Unable to reset $name to origin/main" >&2
+      fi
       continue
     fi
 
     if [ $((now - last_pull)) -ge "$PULL_INTERVAL" ] &&
        ${pkgs.git}/bin/git diff --quiet && ${pkgs.git}/bin/git diff --cached --quiet && [ -z "$(${pkgs.git}/bin/git ls-files --others --exclude-standard)" ]; then
       if ! ${pkgs.git}/bin/git pull --rebase; then
-        echo "git pull failed for $name; will recover on next run" >&2
+        echo "git pull failed for $name; resetting to origin/main" >&2
+        ${pkgs.git}/bin/git rebase --abort || true
+        ${pkgs.git}/bin/git fetch origin
+        ${pkgs.git}/bin/git reset --hard origin/main
         continue
       fi
 
@@ -78,7 +87,7 @@ pkgs.writeShellScript "openspec-repo-sync" ''
 
     printf '%s\n' "$now" > "$last_pull_file"
 
-    if ! ${pkgs.git}/bin/git push; then
+    if ! ${pkgs.git}/bin/git push --force-with-lease; then
       echo "git push failed for $name; local commit retained" >&2
       continue
     fi
