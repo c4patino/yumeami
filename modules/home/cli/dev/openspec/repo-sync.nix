@@ -3,7 +3,7 @@
   lib,
   pkgs,
 }:
-pkgs.writeShellScript "openspec-repo-sync" ''
+pkgs.writeShellScriptBin "openspec-repo-sync" ''
   set -euo pipefail
 
   IDLE_THRESHOLD=$((5 * 60))

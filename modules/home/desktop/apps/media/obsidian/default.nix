@@ -31,20 +31,23 @@ in {
         Unit.Description = "Auto-commit and push Obsidian vault edits";
 
         Service = let
-          sync = import ./vault-sync.nix {
+          vaultSync = import ./vault-sync.nix {
             inherit lib pkgs;
             inherit (cfg.sync) vaults;
           };
         in {
           Type = "oneshot";
-          ExecStart = "${sync}/bin/obsidian-vault-sync";
+          ExecStart = "${vaultSync}/bin/obsidian-vault-sync";
         };
       };
 
       timers.obsidian-vault-sync = {
         Unit.Description = "Timer for Obsidian vault sync";
 
-        Timer.OnUnitActiveSec = "1m";
+        Timer = {
+          OnBootSec = "5m";
+          OnUnitActiveSec = "1m";
+        };
 
         Install.WantedBy = ["timers.target"];
       };

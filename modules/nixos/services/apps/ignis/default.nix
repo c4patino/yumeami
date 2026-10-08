@@ -14,8 +14,8 @@
   isEnabled = hostHasService networkCfg.network-services hostName "ignis";
   port = resolveServicePort networkCfg.network-services "ignis" 5125;
 
-  vault-key-provision = import ./vault-key-provision.nix {inherit pkgs;};
-  vault-sync = import ./vault-sync.nix {inherit pkgs;};
+  vaultKeyProvision = import ./vault-key-provision.nix {inherit pkgs;};
+  vaultSync = import ./vault-sync.nix {inherit pkgs;};
 in {
   config = mkIf isEnabled {
     systemd = {
@@ -65,7 +65,7 @@ in {
             Type = "oneshot";
             User = "ignis";
             Group = "ignis";
-            ExecStart = "${vault-key-provision}/bin/ignis-vault-key-provision";
+            ExecStart = "${vaultKeyProvision}/bin/ignis-vault-key-provision";
             RemainAfterExit = true;
           };
         };
@@ -81,7 +81,7 @@ in {
             Type = "oneshot";
             User = "ignis";
             Group = "ignis";
-            ExecStart = "${vault-sync}/bin/ignis-vault-sync";
+            ExecStart = "${vaultSync}/bin/ignis-vault-sync";
           };
         };
       };
@@ -90,7 +90,11 @@ in {
         ignis-vault-sync = {
           description = "Timer for ignis vault sync";
           wantedBy = ["timers.target"];
-          timerConfig.OnUnitActiveSec = "1m";
+
+          timerConfig = {
+            OnBootSec = "5m";
+            OnUnitActiveSec = "1m";
+          };
         };
       };
     };

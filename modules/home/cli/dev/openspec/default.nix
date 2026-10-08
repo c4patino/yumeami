@@ -11,11 +11,6 @@
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.cli.dev.openspec";
   cfg = getAttrByNamespace config base;
-
-  timerInterval = "5m";
-  openSpecRepoAutoSync = import ./repo-sync.nix {
-    inherit config lib pkgs;
-  };
 in {
   options = mkOptionsWithNamespace base {
     enable = mkEnableOption "OpenSpec";
@@ -36,20 +31,22 @@ in {
       services.openspec-repo-sync = {
         Unit.Description = "Automatically synchronize OpenSpec repositories";
 
-        Service = {
+        Service = let
+          repoSync = import ./repo-sync.nix {
+            inherit config lib pkgs;
+          };
+        in {
           Type = "oneshot";
-          ExecStart = "${openSpecRepoAutoSync}";
+          ExecStart = "${repoSync}/bin/openspec-repo-sync";
         };
       };
 
-      timers.openspec-repo-auto-sync = {
+      timers.openspec-repo-sync = {
         Unit.Description = "Automatically synchronize OpenSpec repositories";
 
         Timer = {
-          OnBootSec = timerInterval;
-          OnUnitActiveSec = timerInterval;
-          Unit = "openspec-repo-sync.service";
-          Persistent = true;
+          OnBootSec = "5m";
+          OnUnitActiveSec = "1m";
         };
 
         Install.WantedBy = ["timers.target"];
