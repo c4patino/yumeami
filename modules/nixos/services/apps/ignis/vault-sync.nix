@@ -86,34 +86,44 @@ pkgs.writeShellScriptBin "ignis-vault-sync" ''
       continue
     fi
 
-    ${pkgs.git}/bin/git add -A
+    if ! ${pkgs.git}/bin/git fetch origin; then
+      echo "git fetch failed for $name; leaving local changes untouched" >&2
+      continue
+    fi
 
     commit_msg=$(date -u +"docs(%Y/%m/%d): obsidian automatic vault backup")
-    if [ "$(${pkgs.git}/bin/git log -1 --format=%s 2>/dev/null || true)" = "$commit_msg" ]; then
+
+    remote_subject=$(${pkgs.git}/bin/git log -1 --format=%s origin/main 2>/dev/null || true)
+    local_subject=$(${pkgs.git}/bin/git log -1 --format=%s HEAD 2>/dev/null || true)
+    if [ "$remote_subject" = "$commit_msg" ]; then
+      if ! ${pkgs.git}/bin/git reset --soft origin/main; then
+        echo "git reset --soft failed for $name" >&2
+        continue
+      fi
+
       _amend="--amend"
+    elif [ "$local_subject" = "$commit_msg" ]; then
+      if ! ${pkgs.git}/bin/git reset --soft origin/main; then
+        echo "git reset --soft failed for $name" >&2
+        continue
+      fi
+
+      _amend=""
     else
       _amend=""
     fi
 
+    ${pkgs.git}/bin/git add -A
     if ! ${pkgs.git}/bin/git commit $_amend -m "$commit_msg"; then
       echo "git commit failed for $name" >&2
       continue
     fi
 
-    if ! ${pkgs.git}/bin/git pull --rebase; then
-      echo "git pull failed for $name; resetting to origin/main" >&2
-      rm -f .OBSIDIANTEST
-      ${pkgs.git}/bin/git rebase --abort || true
-      ${pkgs.git}/bin/git fetch origin
-      ${pkgs.git}/bin/git reset --hard origin/main
-      continue
-    fi
-
-    printf '%s\n' "$now" > "$last_pull_file"
-
     if ! ${pkgs.git}/bin/git push --force-with-lease; then
       echo "git push failed for $name; local commit retained" >&2
       continue
     fi
+
+    printf '%s\n' "$now" > "$last_pull_file"
   done
 ''
