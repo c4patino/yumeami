@@ -17,7 +17,7 @@
   port = resolveServicePort networkCfg.network-services "vault" 5400;
 
   dbHost = resolveDatabaseHost pgCfg.databases "vaultwarden";
-  dbIp = resolveDatabaseIP networkCfg.devices pgCfg.databases "vaultwarden";
+  dbIp = resolveDatabaseIP networkCfg.devices pgCfg.databases hostName "vaultwarden";
 in {
   config = mkIf isEnabled {
     services.vaultwarden = {

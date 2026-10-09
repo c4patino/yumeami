@@ -23,7 +23,7 @@ in {
 
     systemd.services.seerr = let
       inherit (config.users.users) seerr;
-      dbIp = resolveDatabaseIP networkCfg.devices pgCfg.databases "seerr";
+      dbIp = resolveDatabaseIP networkCfg.devices pgCfg.databases hostName "seerr";
     in
       mkMerge [
         waitForNetwork

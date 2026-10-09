@@ -26,7 +26,7 @@ in {
       settings = {
         server.port = port;
         postgres = {
-          host = resolveDatabaseIP networkCfg.devices pgCfg.databases "radarr";
+          host = resolveDatabaseIP networkCfg.devices pgCfg.databases hostName "radarr";
           port = 5600;
           user = "radarr";
           maindb = "radarr";

@@ -26,7 +26,7 @@ in {
 
       database = {
         enable = false;
-        host = resolveDatabaseIP networkCfg.devices pgCfg.databases "immich";
+        host = resolveDatabaseIP networkCfg.devices pgCfg.databases hostName "immich";
         port = 5600;
         name = "immich";
         user = "immich";

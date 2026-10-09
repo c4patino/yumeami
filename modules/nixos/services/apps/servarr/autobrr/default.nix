@@ -26,7 +26,7 @@ in {
         port = port;
 
         databaseType = "postgres";
-        postgresHost = resolveDatabaseIP networkCfg.devices pgCfg.databases "autobrr";
+        postgresHost = resolveDatabaseIP networkCfg.devices pgCfg.databases hostName "autobrr";
         postgresPort = 5600;
         postgresDatabase = "autobrr";
         postgresUser = "autobrr";

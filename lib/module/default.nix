@@ -301,13 +301,23 @@ with lib; rec {
 
   ## Resolve the IP address of the host that hosts a specific database.
   ##
+  ## Uses `mapTargetIP` semantics: returns 127.0.0.1 when the database is
+  ## on the current host (no Tailscale dependency for local connections),
+  ## otherwise the host's Tailscale IP for cross-host access.
+  ##
+  ## ```nix
+  ## resolveDatabaseIP devices databases hostName "grafana"  # -> "127.0.0.1"
+  ## resolveDatabaseIP devices databases hostName "vaultwarden"  # -> "100.71.23.30"
+  ## ```
+  ##
   ## @param devices   A set mapping hostnames to their configuration (must include `ip`).
   ## @param databases A set mapping hostnames to lists of database names.
+  ## @param hostName  The current hostname (config.networking.hostName).
   ## @param dbName    The name of the database to find.
-  ## @return          The IP address of the host where the database is hosted.
+  ## @return          "127.0.0.1" if the database is local, else the host's Tailscale IP.
   ## @throws          If no host is found for the given database.
-  resolveDatabaseIP = devices: databases: dbName:
-    resolveHostIP devices (resolveDatabaseHost databases dbName);
+  resolveDatabaseIP = devices: databases: hostName: dbName:
+    mapTargetIP devices (resolveDatabaseHost databases dbName) hostName;
 
   ## Generate systemd `wants` and `after` ordering so a unit starts only once
   ## the network stack is online and the Tailscale mesh is up. Services that

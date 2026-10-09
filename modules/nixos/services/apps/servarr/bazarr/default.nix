@@ -23,7 +23,7 @@ in {
 
     systemd.services.bazarr = let
       inherit (config.users.users) bazarr;
-      dbIp = resolveDatabaseIP networkCfg.devices pgCfg.databases "bazarr";
+      dbIp = resolveDatabaseIP networkCfg.devices pgCfg.databases hostName "bazarr";
     in
       mkMerge [
         waitForNetwork

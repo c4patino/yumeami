@@ -51,7 +51,7 @@ in {
 
         database = {
           DB_TYPE = mkForce "postgres";
-          HOST = mkForce "${resolveDatabaseIP networkCfg.devices pgCfg.databases "forgejo"}:5600";
+          HOST = mkForce "${resolveDatabaseIP networkCfg.devices pgCfg.databases hostName "forgejo"}:5600";
           NAME = "forgejo";
           USER = "forgejo";
         };

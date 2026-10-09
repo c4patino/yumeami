@@ -33,7 +33,7 @@ in {
         database = {
           type = "postgres";
           host = let
-            ip = resolveDatabaseIP networkCfg.devices pgCfg.databases "grafana";
+            ip = resolveDatabaseIP networkCfg.devices pgCfg.databases hostName "grafana";
           in "${ip}:5600";
           name = "grafana";
           user = "grafana";

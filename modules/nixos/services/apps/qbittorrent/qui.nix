@@ -28,7 +28,7 @@ in {
         port = port;
 
         databaseEngine = "postgres";
-        databaseHost = resolveDatabaseIP networkCfg.devices pgCfg.databases "qui";
+        databaseHost = resolveDatabaseIP networkCfg.devices pgCfg.databases hostName "qui";
         databasePort = 5600;
         databaseName = "qui";
         databaseUser = "qui";
