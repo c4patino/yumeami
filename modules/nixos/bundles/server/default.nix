@@ -18,6 +18,7 @@ in {
       services = {
         networking = {
           httpd = enabled;
+          tailscale.recovery = enabled;
         };
 
         security = {
