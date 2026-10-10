@@ -66,4 +66,8 @@ tags
 
 # End of https://www.toptal.com/developers/gitignore/api/direnv,terraform,vim
 
+# Nix build results (build-image, nix build)
+result
+result-*
+
 !templates/**

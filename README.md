@@ -68,6 +68,29 @@ sudo cp ~/dotfiles /mnt/persist
 sudo nixos-install --root /mnt --flake ~/dotfiles#<system-name> --option extra-experimental-features "flakes nix-command pipe-operators"
 ```
 
+### Building the Installer ISO (hikari)
+
+`hikari` is a custom installer image built with the modern
+`nixos-rebuild build-image` flow (which replaced `nixos-generators`). It
+bundles tools like `disko`, `git`, `nh`, and `parted` for installing new
+systems and VMs:
+
+```bash
+# Build the ISO with nixos-rebuild (writes result/ in the current directory)
+sudo nixos-rebuild build-image --flake ~/dotfiles#hikari --image-variant installer-minimal
+
+# Or build the image derivation directly with nix
+nix build '.#nixosConfigurations.hikari.config.system.build.images.installer-minimal'
+```
+
+The resulting image lands in `result/iso/nixos-hikari-*-x86_64-linux.iso`.
+Write it to a USB stick (replace `sdX` with your device):
+
+```bash
+dd if=result/iso/nixos-hikari-*-x86_64-linux.iso of=/dev/sdX status=progress
+sync
+```
+
 ## Customization
 
 To customize a configuration for your own use:
