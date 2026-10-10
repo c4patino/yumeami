@@ -71,26 +71,6 @@ sudo cp ~/dotfiles /mnt/persist
 sudo nixos-install --root /mnt --flake ~/dotfiles#<system-name> --option extra-experimental-features "flakes nix-command pipe-operators"
 ```
 
-### Building the Installer ISO (hikari)
-
-`hikari` is a custom installer image built with the modern
-`nixos-rebuild build-image` flow (which replaced `nixos-generators`). It
-bundles tools like `disko`, `git`, `nh`, and `parted` for installing new
-systems and VMs:
-
-```bash
-# Build the ISO with nixos-rebuild (writes result/ in the current directory)
-sudo nixos-rebuild build-image --flake ~/dotfiles#hikari --image-variant installer-minimal
-```
-
-The resulting image lands in `result/iso/nixos-hikari-*-x86_64-linux.iso`.
-Write it to a USB stick (replace `sdX` with your device):
-
-```bash
-dd if=result/iso/nixos-hikari-*-x86_64-linux.iso of=/dev/sdX status=progress
-sync
-```
-
 ### Installing a WSL Host
 
 WSL hosts (e.g. `arisu-windows`, `kokoro-windows`) skip disko and
@@ -121,6 +101,76 @@ No `hardware-configuration.nix` or disko layout is needed — the `nixos-wsl`
 module manages the bootloader and filesystems. The matching home configuration
 (`c4patino@<hostname>-windows`) is attached automatically and applied as part
 of the switch after the first rebuild.
+
+### Installing with nixos-anywhere
+
+Instead of booting the installer by hand, you can install a machine remotely
+over SSH with
+[nixos-anywhere](https://github.com/nix-community/nixos-anywhere). Since disko
+is already wired into every host configuration, nixos-anywhere picks up the
+layout automatically — no extra disko arguments needed.
+
+Requirements:
+
+- The target machine is reachable over SSH as `root` (key-based auth; the kexec
+  stage does not support Wi-Fi)
+- It is running a Linux distro with kexec support and at least 1 GB of RAM, or
+  it has booted the [hikari](#building-the-installer-iso-hikari) ISO
+- The disk devices hardcoded in `systems/<arch>/<hostname>/default.nix` (e.g.
+  `/dev/nvme0n1`) match the target machine
+- `git-crypt unlock` has been run locally so the build can read secrets
+
+```bash
+# 1. kexec into the NixOS installer, then partition and mount with disko
+nix run github:nix-community/nixos-anywhere -- \
+  --flake ~/dotfiles#<hostname> \
+  --target-host root@<ip-address> \
+  --phases kexec,disko
+
+# 2. Create the blank ZFS snapshot that impermanence rolls back to on boot
+ssh root@<ip-address> zfs snapshot zroot/root@blank
+
+# 3. Install NixOS into /mnt and reboot into the new system
+nix run github:nix-community/nixos-anywhere -- \
+  --flake ~/dotfiles#<hostname> \
+  --target-host root@<ip-address> \
+  --phases install,reboot
+```
+
+Useful flags:
+
+- `--build-on remote`: build the closure on the target instead of locally
+  (useful when cross-installing `chibi` from an x86_64 machine)
+- `--generate-hardware-config nixos-generate-config ./hardware-configuration.nix`:
+  regenerate the hardware config during install
+- `--kexec <path>`: custom kexec tarball — needed for architectures other
+  than x86_64/aarch64, or targets that require VPN access during kexec
+- `--vm-test`: dry-run the whole install in a local VM first
+
+If the target is already running the [hikari](#building-the-installer-iso-hikari)
+installer (no kexec needed), drop the kexec phase: use `--phases disko` for
+step 1 and `--phases install,reboot` for step 3.
+
+### Building the Installer ISO (hikari)
+
+`hikari` is a custom installer image built with the modern
+`nixos-rebuild build-image` flow (which replaced `nixos-generators`). It
+bundles tools like `disko`, `git`, `nh`, and `parted` for installing new
+systems and VMs:
+
+```bash
+# Build the ISO with nixos-rebuild (writes result/ in the current directory)
+sudo nixos-rebuild build-image --flake ~/dotfiles#hikari --image-variant installer-minimal
+```
+
+The resulting image lands in `result/iso/nixos-hikari-*-x86_64-linux.iso`.
+Write it to a USB stick (replace `sdX` with your device):
+
+```bash
+dd if=result/iso/nixos-hikari-*-x86_64-linux.iso of=/dev/sdX status=progress
+sync
+```
+
 
 ## Customization
 
