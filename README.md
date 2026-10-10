@@ -50,8 +50,11 @@ To set up your system using ゆめあみ configurations:
 
 ```bash
 # Clone the repository
-git clone https://github.com/c4patino/nixos-configuration.git ~/dotfiles
+git clone https://github.com/c4patino/yumeami.git ~/dotfiles
 cd ~/dotfiles
+
+# Unlock git-crypt secrets if you have the key (age keys, sops files)
+git-crypt unlock
 
 # Partition and format drives using disko
 # Replace <device> with your disk device (e.g., sda, nvme0n1)
@@ -78,9 +81,6 @@ systems and VMs:
 ```bash
 # Build the ISO with nixos-rebuild (writes result/ in the current directory)
 sudo nixos-rebuild build-image --flake ~/dotfiles#hikari --image-variant installer-minimal
-
-# Or build the image derivation directly with nix
-nix build '.#nixosConfigurations.hikari.config.system.build.images.installer-minimal'
 ```
 
 The resulting image lands in `result/iso/nixos-hikari-*-x86_64-linux.iso`.
@@ -90,6 +90,37 @@ Write it to a USB stick (replace `sdX` with your device):
 dd if=result/iso/nixos-hikari-*-x86_64-linux.iso of=/dev/sdX status=progress
 sync
 ```
+
+### Installing a WSL Host
+
+WSL hosts (e.g. `arisu-windows`, `kokoro-windows`) skip disko and
+`nixos-install` entirely. They start from the stock NixOS-WSL distro
+(built-in `nixos` user) and are converted in place with
+`nixos-rebuild switch`. In PowerShell:
+
+```powershell
+wsl --install -d NixOS
+```
+
+Then, inside the fresh distro:
+
+```bash
+# Clone the repository
+git clone https://github.com/c4patino/yumeami.git ~/dotfiles
+cd ~/dotfiles
+
+# Unlock git-crypt secrets if you have the key (age keys, sops files)
+git-crypt unlock
+
+# Replace <hostname>-windows with e.g. arisu-windows or kokoro-windows
+# (the stock NixOS-WSL distro needs the experimental-features flags explicitly)
+sudo nixos-rebuild switch --flake .#<hostname>-windows --option extra-experimental-features "flakes nix-command pipe-operators"
+```
+
+No `hardware-configuration.nix` or disko layout is needed — the `nixos-wsl`
+module manages the bootloader and filesystems. The matching home configuration
+(`c4patino@<hostname>-windows`) is attached automatically and applied as part
+of the switch after the first rebuild.
 
 ## Customization
 
