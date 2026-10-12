@@ -23,8 +23,11 @@ in {
         ".config/opencode/opencode.json".source = inputs.dotfiles + "/.config/opencode/opencode.json";
         ".config/opencode/agent".source = inputs.dotfiles + "/.config/opencode/agent";
         ".config/opencode/command".source = inputs.dotfiles + "/.config/opencode/command";
-        ".config/opencode/skills".source = inputs.dotfiles + "/.config/opencode/skills";
         ".config/opencode/themes".source = inputs.dotfiles + "/.config/opencode/themes";
+
+        ".config/opencode/skills/gh-stack".source = "${pkgs.gh-stack}/share/skills/gh-stack/gh-stack";
+        ".config/opencode/skills/jira".source = inputs.dotfiles + "/.config/opencode/skills/jira";
+        ".config/opencode/skills/nixos".source = inputs.dotfiles + "/.config/opencode/skills/nixos";
       };
     };
   };
