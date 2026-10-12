@@ -7,10 +7,11 @@
 }: let
   inherit (lib.${namespace}) enabled;
 in {
-  image.modules.installer-minimal = {
-    imports = ["${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"];
-    isoImage.edition = "hikari";
-  };
+  imports = [
+    "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
+  ];
+
+  isoImage.edition = "hikari";
 
   ${namespace}.services.security.ca = enabled;
 
