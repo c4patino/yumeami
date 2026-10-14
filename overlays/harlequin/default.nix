@@ -1,11 +1,13 @@
-{...}: final: prev: {
+{channels, ...}: final: prev: let
+  unstable = channels.nixpkgs-unstable.extend (import ../harlequin-odbc {});
+in {
   harlequin =
-    (prev.harlequin.override {
+    (channels.nixpkgs-unstable.harlequin.override {
       withPostgresAdapter = true;
       withBigQueryAdapter = false;
-    }) .overridePythonAttrs (old: {
+    }).overridePythonAttrs (old: {
       dependencies =
         (old.dependencies or [])
-        ++ [final.python3Packages.harlequin-odbc];
+        ++ [unstable.python3Packages.harlequin-odbc];
     });
 }

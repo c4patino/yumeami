@@ -25,7 +25,6 @@ buildPythonPackage {
   dependencies =
     [
       pyodbc
-      duckdb
     ]
     ++ lib.optional (pythonAtLeast "3.14") duckdb;
 
