@@ -9,5 +9,12 @@ in {
       dependencies =
         (old.dependencies or [])
         ++ [unstable.python3Packages.harlequin-odbc];
+
+      disabledTests =
+        (old.disabledTests or [])
+        # harlequin-odbc declares no adapter options (its connection string is
+        # a positional argument), and this test requires every installed
+        # adapter to declare at least one.
+        ++ ["test_spec_covers_every_installed_adapter"];
     });
 }

@@ -1,44 +1,53 @@
 {
   lib,
   buildPythonPackage,
-  fetchgit,
+  fetchFromGitHub,
   pythonAtLeast,
   duckdb,
   hatchling,
   pyodbc,
 }:
-buildPythonPackage {
+buildPythonPackage (finalAttrs: {
   pname = "harlequin-odbc";
   version = "0.4.0";
   pyproject = true;
+  __structuredAttrs = true;
 
-  src = fetchgit {
-    url = "https://git.cpatino.com/c4patino/harlequin-odbc.git";
-    rev = "73afd429acdf97eb68824ff9299b2c585448c4c3";
-    hash = "sha256-3G/1MWgFiN/Fg+oEqoRyaoQECpgnemH/Ydy6qyS1CBc=";
+  src = fetchFromGitHub {
+    owner = "tconbeer";
+    repo = "harlequin-odbc";
+    tag = "v${finalAttrs.version}";
+    hash = "sha256-U0z7fgBzdL+PRhll6AH4DziqY26kVYA4qkOEbZbWF1g=";
   };
 
   build-system = [
     hatchling
   ];
 
-  dependencies =
-    [
-      pyodbc
-    ]
-    ++ lib.optional (pythonAtLeast "3.14") duckdb;
-
-  doCheck = false;
+  # harlequin loads this adapter as a plugin, so depending on harlequin would
+  # create a cycle, as harlequin can depend on this package.
   pythonRemoveDeps = [
     "harlequin"
   ];
 
+  dependencies =
+    [
+      pyodbc
+    ]
+    ++ lib.optionals (pythonAtLeast "3.14") [
+      duckdb
+    ];
+
+  # The test suite needs harlequin (removed above) and a live database
+  # reachable over ODBC.
+  doCheck = false;
+
   meta = {
-    description = "Harlequin adapter for ODBC";
-    homepage = "https://pypi.org/project/harlequin-odbc/";
+    description = "A Harlequin adapter for ODBC drivers";
+    homepage = "https://github.com/tconbeer/harlequin-odbc";
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [
       c4patino
     ];
   };
-}
+})
