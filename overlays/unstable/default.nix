@@ -9,7 +9,6 @@
     lazygit
     lidarr
     ombi
-    opencode
     presenterm
     prowlarr
     radarr
