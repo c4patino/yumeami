@@ -296,42 +296,6 @@ in {
                   collapse-after = 5;
                   widgets = [
                     {
-                      type = "reddit";
-                      subreddit = "nixos";
-                      collapse-after = 5;
-                      show-thumbnails = true;
-                    }
-                    {
-                      type = "reddit";
-                      subreddit = "ProgrammerHumor";
-                      collapse-after = 5;
-                      show-thumbnails = true;
-                    }
-                    {
-                      type = "reddit";
-                      subreddit = "selfhosted";
-                      collapse-after = 5;
-                      show-thumbnails = true;
-                    }
-                    {
-                      type = "reddit";
-                      subreddit = "PoliticalHumor";
-                      collapse-after = 5;
-                      show-thumbnails = true;
-                    }
-                    {
-                      type = "reddit";
-                      subreddit = "Bogleheads";
-                      collapse-after = 5;
-                      show-thumbnails = true;
-                    }
-                  ];
-                }
-                {
-                  type = "group";
-                  collapse-after = 5;
-                  widgets = [
-                    {
                       type = "repository";
                       title = "yumeami";
                       repository = "c4patino/yumeami";
@@ -365,16 +329,22 @@ in {
                   widgets = [
                     {
                       type = "monitor";
+                      title = "tsuki";
                       sites = [
+                        {
+                          title = "asciinema";
+                          icon = "si:asciinema";
+                          url = "https://asciinema.cpatino.com";
+                        }
                         {
                           title = "forgejo";
                           icon = "si:forgejo";
                           url = "https://git.cpatino.com";
                         }
                         {
-                          title = "vaultwarden";
-                          icon = "si:vaultwarden";
-                          url = "https://vault.cpatino.com";
+                          title = "jellyfin";
+                          icon = "si:jellyfin";
+                          url = "https://jellyfin.cpatino.com";
                         }
                         {
                           title = "rustypaste";
@@ -382,9 +352,56 @@ in {
                           url = "https://paste.cpatino.com";
                         }
                         {
-                          title = "uptime-kuma";
+                          title = "vaultwarden";
+                          icon = "si:vaultwarden";
+                          url = "https://vault.cpatino.com";
+                        }
+                      ];
+                    }
+                    {
+                      type = "monitor";
+                      title = "shiori";
+                      sites = [
+                        {
+                          title = "seerr";
                           icon = "si:uptimekuma";
-                          url = "https://monitor.yumeami.sh";
+                          url = "https://seerr.cpatino.com";
+                        }
+                        {
+                          title = "lidarr";
+                          icon = "si:spotify";
+                          url = "https://lidarr.yumeami.sh";
+                        }
+                        {
+                          title = "radarr";
+                          icon = "si:radarr";
+                          url = "https://radarr.yumeami.sh";
+                        }
+                        {
+                          title = "sonarr";
+                          icon = "si:sonarr";
+                          url = "https://sonarr.yumeami.sh";
+                        }
+                        {
+                          title = "miasma";
+                          icon = "si:corsair";
+                          url = "https://miasma.cpatino.com";
+                        }
+                        {
+                          title = "qbittorrent";
+                          icon = "si:qbittorrent";
+                          url = "https://qbittorrent.yumeami.sh";
+                        }
+                      ];
+                    }
+                    {
+                      type = "monitor";
+                      title = "chibi";
+                      sites = [
+                        {
+                          title = "grafana";
+                          icon = "si:grafana";
+                          url = "https://grafana.yumeami.sh";
                         }
                         {
                           title = "ntfy";
@@ -392,12 +409,26 @@ in {
                           url = "https://ntfy.cpatino.com";
                         }
                         {
-                          title = "grafana";
-                          icon = "si:grafana";
-                          url = "https://grafana.yumeami.sh";
+                          title = "uptime-kuma";
+                          icon = "si:uptimekuma";
+                          url = "https://monitor.yumeami.sh";
                         }
                       ];
                     }
+                  ];
+                }
+                {
+                  type = "releases";
+                  title = "releases";
+                  show-source-icon = true;
+                  collapse-after = 5;
+                  token = "\${GITHUB_TOKEN}";
+                  repositories = [
+                    "autobrr/autobrr"
+                    "autobrr/qui"
+                    "Nystik-gh/ignis"
+                    "austin-weeks/miasma"
+                    "sysown/proxysql"
                   ];
                 }
               ];
