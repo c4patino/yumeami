@@ -78,14 +78,14 @@ in {
         ];
 
         script = ''
-          while ! mysql -N -e "SELECT 1" >/dev/null 2>&1; do
+          while ! mariadb -N -e "SELECT 1" >/dev/null 2>&1; do
             if ! ${pkgs.systemd}/bin/systemctl is-active --quiet mysql.service; then
               exit 1
             fi
             sleep 0.1
           done
 
-          mysql -N <<'SQL'
+          mariadb -N <<'SQL'
           ${
             db.uniquePrefixes
             |> map (prefix:
@@ -97,7 +97,7 @@ in {
           ${
             db.auxDbs
             |> map (d: ''
-              GRANT ALL PRIVILEGES ON \`${d}\`.* TO '${db.getPrefix d}'@'localhost';
+              GRANT ALL PRIVILEGES ON `${d}`.* TO '${db.getPrefix d}'@'localhost';
             '')
             |> concatStringsSep "\n"
           }
