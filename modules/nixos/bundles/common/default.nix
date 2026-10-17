@@ -84,9 +84,9 @@ in {
                 "sonarr-log"
               ];
               tsuki = [
+                "asciinema"
                 "forgejo"
                 "grafana"
-                "asciinema"
                 "immich"
                 "ntfy"
                 "terraform"
