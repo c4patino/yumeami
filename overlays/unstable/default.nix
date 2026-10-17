@@ -1,6 +1,7 @@
 {channels, ...}: final: prev: {
   inherit
     (channels.nixpkgs-unstable)
+    autobrr
     bazarr
     gh-stack
     immich
