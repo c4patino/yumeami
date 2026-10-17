@@ -18,14 +18,17 @@ in {
       enable = true;
       settings = {
         flags = {
-          current_usage = true;
-          group_processes = true;
-          case_sensitive = false;
-          mem_as_value = true;
           enable_gpu = true;
+          mem_as_value = true;
+          temperature_type = "c";
+        };
+
+        processes = {
+          current_usage = true;
+          default_grouped = true;
+          case_sensitive = false;
           disable_advanced_kill = true;
           unnormalized_cpu = false;
-          temperature_type = "c";
         };
       };
     };
