@@ -24,7 +24,7 @@ in {
     };
 
     media.yazi = enabled;
-    metrics.btm = enabled;
+    metrics.btop = enabled;
   };
 
   home = {

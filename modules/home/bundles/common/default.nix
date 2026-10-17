@@ -24,7 +24,7 @@ in {
           ssh = enabled;
         };
 
-        metrics.btm = enabled;
+        metrics.btop = enabled;
       };
     };
 
