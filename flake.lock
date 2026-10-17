@@ -520,11 +520,11 @@
         "uv2nix": "uv2nix"
       },
       "locked": {
-        "lastModified": 1792008022,
-        "narHash": "sha256-md9glD0c2trNgmK3Bghm2icGqTsTcJRdinrD3k98z3A=",
+        "lastModified": 1792088901,
+        "narHash": "sha256-pjPk3xPOv/dQd/3YArIg1zEUNuCVyYoGk/2iMQVQ+UE=",
         "owner": "whyisdifficult",
         "repo": "jiratui",
-        "rev": "ec338572d7f2148f4613f51c2b3701ce68ad5880",
+        "rev": "bdac1608e272674d21807764b579de9b470aed5a",
         "type": "github"
       },
       "original": {
@@ -540,11 +540,11 @@
         "systems": "systems_3"
       },
       "locked": {
-        "lastModified": 1791952393,
-        "narHash": "sha256-BMbIBaV9zLg1gGgUKqmkADZ4gcVB8Nb4V039GiaiGNo=",
+        "lastModified": 1792123839,
+        "narHash": "sha256-6+CVh1CugG+FOvM/p1MzftieHOAWvm/25Fu8I3odx3I=",
         "owner": "infinidoge",
         "repo": "nix-minecraft",
-        "rev": "2d4ac40e5e9aa6583ce8e05539f37d2bf8e81d60",
+        "rev": "dd632a977b745958de51d106d9678d0f08ecbe9c",
         "type": "github"
       },
       "original": {
@@ -607,11 +607,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1791734076,
-        "narHash": "sha256-i5qk1kLiit98rRbh1AXmWBNT9QXC/y4l5Wk/u5EdpDQ=",
+        "lastModified": 1791956154,
+        "narHash": "sha256-jBYGPi4udQ9uo4KQp9m2J0546nJVQitG15gvZSaVVAs=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "7fd4004d0511991fff3a0524856a9be09e28c5f0",
+        "rev": "55bfb4d7437bd4e09ab7cba58a43bd68eb310044",
         "type": "github"
       },
       "original": {
@@ -780,11 +780,11 @@
     },
     "nixpkgs_6": {
       "locked": {
-        "lastModified": 1791883866,
-        "narHash": "sha256-yvkDdToRZ4IgPc9tSBzzCYJvTLf8n5eE3rgUkpCuD5A=",
+        "lastModified": 1792030654,
+        "narHash": "sha256-OaQwAtPMTjQiY2sT/2/62UbSPhzP/0aDnWzMm/NCiUw=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "a033e66ab94a6bedf2c3d58d93a36319d3cbbbaf",
+        "rev": "26f4107e47e3ad0ffd0db220469ba83b6f6d96e8",
         "type": "github"
       },
       "original": {
@@ -864,11 +864,11 @@
         "nixpkgs": "nixpkgs_7"
       },
       "locked": {
-        "lastModified": 1792007393,
-        "narHash": "sha256-lOGkfjoqysQKD3GWd6VVrC7q9ENqb0gaA0mAOqANzzo=",
+        "lastModified": 1792201829,
+        "narHash": "sha256-vdgfkwuM0goTgsL17YLKjbHHz0/pWovLes0Ukps0Yos=",
         "owner": "noctalia-dev",
         "repo": "noctalia",
-        "rev": "4e21d7d9309a462411ffc68b2d33e05c90892619",
+        "rev": "ea968f9fcfe498c559a04e193cc6161382fbc276",
         "type": "github"
       },
       "original": {
@@ -908,16 +908,15 @@
         "nixpkgs": "nixpkgs_8"
       },
       "locked": {
-        "lastModified": 1791968597,
-        "narHash": "sha256-qfT8gQCyGahr5v7v95wNArXrBOAnfQZja1WyJkaCpJI=",
+        "lastModified": 1792205196,
+        "narHash": "sha256-46WwGu3/4iJtYS+ERpx1Mk5gG/tHNxGLgTtB/m/qHYo=",
         "owner": "anomalyco",
         "repo": "opencode",
-        "rev": "042d0832f5f3a73eaa039a58a7d565776f6d4290",
+        "rev": "512165cec1c01029e2fae0c89e7ab7cbf827c36d",
         "type": "github"
       },
       "original": {
         "owner": "anomalyco",
-        "ref": "v2.0.29",
         "repo": "opencode",
         "type": "github"
       }
@@ -927,11 +926,11 @@
         "nixpkgs": "nixpkgs_9"
       },
       "locked": {
-        "lastModified": 1792010707,
-        "narHash": "sha256-9RhzOiiPCI+KP0s/mCPbNulcHI0qf/E7ZcGp8GV6EKs=",
+        "lastModified": 1792201423,
+        "narHash": "sha256-tdTX0nkDe/aNZgLckh6/B6BtoSb40w0Y5qzg+d1LjHU=",
         "owner": "fission-ai",
         "repo": "openspec",
-        "rev": "7701149db3cf4086f617968894e2801c5ab3fd12",
+        "rev": "c794978f4f8845ce59693373c9dd882ee776588c",
         "type": "github"
       },
       "original": {
@@ -1025,11 +1024,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1747035084,
-        "narHash": "sha256-O/xt98Hs7ByM7aQ+ZRoX0DZXaDEV7fLXVV6QTwTZUmM=",
+        "lastModified": 1792205289,
+        "narHash": "sha256-kzaTh3te6w2jm8ydIoeG3pWZetlx0EtYHjQKPivWOFc=",
         "ref": "main",
-        "rev": "b60d09da42c9b756c217093e9f27d190e4c75bb6",
-        "revCount": 95,
+        "rev": "f35b0f6ce549c1fef96d2a94951cf820204ed711",
+        "revCount": 97,
         "type": "git",
         "url": "https://git.cpatino.com/c4patino/snowfallorg-lib"
       },
@@ -1046,11 +1045,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791710405,
-        "narHash": "sha256-mVD4XIc5JkqMW2K04IkFUzHgHmyJZlzw5ktfgMDCbKU=",
+        "lastModified": 1792056300,
+        "narHash": "sha256-YU1LjDe1o2Ymg5zEiCHbmMXLkDCtxHQRiVqZ3nC5GGk=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "ee48786c6f9160d2c1a084aac841f68195b8420c",
+        "rev": "44931708c62937c2b1bf7953902989fa5bb9ee1b",
         "type": "github"
       },
       "original": {
