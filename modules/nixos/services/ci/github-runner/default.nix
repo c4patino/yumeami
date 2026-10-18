@@ -70,7 +70,7 @@ in {
             "node24"
           ];
           extraPackages = with pkgs; let
-            gtar = pkgs.runCommandNoCC "gtar" {} ''
+            gtar = pkgs.runCommand "gtar" {} ''
               mkdir -p $out/bin
               ln -s ${lib.getExe pkgs.gnutar} $out/bin/gtar
             '';
