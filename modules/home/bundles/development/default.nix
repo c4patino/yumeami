@@ -17,7 +17,6 @@ in {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       devenv
-      forgejo-cli
       mprocs
       terraform
       tokei
@@ -26,6 +25,7 @@ in {
     ${namespace} = {
       cli.dev = {
         direnv = enabled;
+        forgejo = enabled;
         gh = enabled;
         git = enabled;
         harlequin = enabled;
