@@ -186,6 +186,7 @@ in {
 
             extraConfig = ''
               UseCanonicalName Off
+              ProxyPreserveHost On
 
               RewriteEngine On
 
