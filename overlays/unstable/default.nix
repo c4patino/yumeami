@@ -9,6 +9,7 @@
     jellyfin-web
     lazygit
     lidarr
+    nu_scripts
     ombi
     presenterm
     prowlarr

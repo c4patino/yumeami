@@ -165,11 +165,11 @@
     "dotfiles": {
       "flake": false,
       "locked": {
-        "lastModified": 1792265557,
-        "narHash": "sha256-UVVDRPwzDJxMqtxmduMm7rPkPBI8MddZ1sV9tdxU8LE=",
+        "lastModified": 1792534146,
+        "narHash": "sha256-cK5bSkg4YvM88jgby05i1VJlQ45KAk3WdAme/hS5T5U=",
         "ref": "main",
-        "rev": "fb44696936a3be2d2f9dd40f4a3b1ed5d599b700",
-        "revCount": 144,
+        "rev": "b08b9c2fea1b1b217607897c0414a79de1e82268",
+        "revCount": 145,
         "type": "git",
         "url": "https://git.cpatino.com/c4patino/dotfiles"
       },
