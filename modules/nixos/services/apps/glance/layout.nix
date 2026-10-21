@@ -182,6 +182,7 @@ in {
                     }
                     {
                       type = "rss";
+                      title = "news";
                       collapse-after = 9;
                       feeds = [
                         {
@@ -199,6 +200,49 @@ in {
                         {
                           title = "Nerd Wallet";
                           url = "https://www.nerdwallet.com/blog/feed/";
+                        }
+                      ];
+                    }
+                    {
+                      type = "rss";
+                      title = "engineering blogs";
+                      collapse-after = 9;
+                      feeds = [
+                        {
+                          title = "Airbnb";
+                          url = "https://medium.com/feed/airbnb-engineering";
+                        }
+                        {
+                          title = "Discord";
+                          url = "https://discord.com/blog/rss.xml";
+                        }
+                        {
+                          title = "Dropbox";
+                          url = "https://dropbox.tech/infrastructure/feed";
+                        }
+                        {
+                          title = "Flipkart";
+                          url = "https://blog.flipkart.tech/feed";
+                        }
+                        {
+                          title = "Grab";
+                          url = "https://engineering.grab.com/feed.xml";
+                        }
+                        {
+                          title = "Hotstar";
+                          url = "https://blog.hotstar.com/feed";
+                        }
+                        {
+                          title = "Instagram";
+                          url = "https://medium.com/feed/instagram-engineering";
+                        }
+                        {
+                          title = "Myntra";
+                          url = "https://medium.com/feed/myntra-engineering";
+                        }
+                        {
+                          title = "Pinterest";
+                          url = "https://medium.com/feed/pinterest-engineering";
                         }
                       ];
                     }
