@@ -11,6 +11,10 @@
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
   isEnabled = hostHasService networkCfg.network-services hostName "jellyfin";
 in {
+  imports = [
+    ./restart.nix
+  ];
+
   config = mkIf isEnabled {
     services.jellyfin = {
       enable = true;
