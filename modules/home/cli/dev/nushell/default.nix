@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   namespace,
   pkgs,
@@ -15,140 +16,33 @@ in {
   };
 
   config = mkIf cfg.enable {
+    # custom commands and completions live in the dotfiles repo (source of truth)
+    # and are autoloaded alphabetically from ~/.config/nushell/autoload/*.nu
+    home.file."${config.programs.nushell.configDir}/autoload".source =
+      inputs.dotfiles + "/.config/nushell/autoload";
+
     programs = {
       nushell = {
         enable = true;
-        configFile.text = ''
-          $env.config = {
-            buffer_editor: "nvim"
-            edit_mode: "vi"
-            show_banner: false
-            keybindings: [
-              {
-                name: fuzzy_history_fzf
-                modifier: control
-                keycode: char_r
-                mode: [emacs , vi_normal, vi_insert]
-                event: {
-                  send: executehostcommand
-                  cmd: "commandline edit --replace (
-                    history
-                      | get command
-                      | reverse
-                      | uniq
-                      | str join (char -i 0)
-                      | fzf --scheme=history --read0 --tiebreak=chunk --layout=reverse --preview='echo {..}' --preview-window='bottom:3:wrap' --bind alt-up:preview-up,alt-down:preview-down --height=70% -q (commandline) --preview='echo -n {} | nu --stdin -c \'nu-highlight'''
-                      | decode utf-8
-                      | str trim
-                  )"
-                }
-              }
-            ]
-          }
 
-          # take command
-          def --env take [dir: path] {
-            mkdir $dir
-            cd $dir
-          }
+        settings = {
+          buffer_editor = "nvim";
+          edit_mode = "vi";
+          show_banner = false;
 
-          # gitignore.io command
-          def _gitignoreio_list [] {
-            http get https://www.toptal.com/developers/gitignore/api/list
-            | str replace -a "\n" ","
-            | split row ","
-            | str trim
-            | where {|x| $x != ""}
-          }
-
-          def "nu-complete gi" [] {
-            let fixed = ["list"]
-            let templates = _gitignoreio_list
-            $fixed ++ $templates
-          }
-
-          def gi [...args: string@"nu-complete gi"] {
-            if ($args | where {|x| $x == "list"} | length) > 0 {
-              return (_gitignoreio_list)
+          keybindings = [
+            {
+              name = "fuzzy_history_fzf";
+              modifier = "control";
+              keycode = "char_r";
+              mode = ["emacs" "vi_normal" "vi_insert"];
+              event = {
+                send = "executehostcommand";
+                cmd = "fuzzy-history";
+              };
             }
-
-            # Join templates with commas and fetch .gitignore
-            let joined = ($args | sort | str join ",")
-            http get $"https://www.toptal.com/developers/gitignore/api/($joined)"
-          }
-
-          def clip [] {
-            if ("WSL_DISTRO_NAME" in ($env | columns)) {
-              clip.exe
-            } else if (which wl-copy | is-not-empty) {
-              wl-copy
-            } else if (which xclip | is-not-empty) {
-              xclip -selection clipboard
-            } else if (which pbcopy | is-not-empty) {
-              pbcopy
-            } else {
-              error make {msg: "No clipboard utility found"}
-            }
-          }
-
-          # secret copy command
-          def sc [path: string] {
-            ["/run/secrets" $path]
-            | path join
-            | open
-            | clip
-          }
-
-          # flat sha256 of a file, as used by fetchurl (pass --unpack for fetchzip's NAR hash)
-          def nix-prefetch-url-hash [url: string, --unpack] {
-            let raw = if $unpack {
-              nix-prefetch-url --unpack $url
-            } else {
-              nix-prefetch-url $url
-            }
-
-            let hash = (nix hash convert --hash-algo sha256 --to sri $raw)
-
-            $hash | clip
-            $hash
-          }
-
-          # NAR sha256 of an unpacked source tree, as used by fetchFromGitHub
-          def nix-prefetch-github-hash [spec: string] {
-            let parts = ($spec | split row "/")
-            if (($parts | length) < 4) {
-              error make {msg: "expected <host>/<owner>/<repo>/<tag>"}
-            }
-
-            let host = ($parts | get 0)
-            let owner = ($parts | get 1)
-            let repo = ($parts | get 2)
-            let tag = ($parts | skip 3 | str join "/")
-
-            let url = $"https://($host)/($owner)/($repo)/archive/($tag).tar.gz"
-            let hash = (nix hash convert --hash-algo sha256 --to sri (nix-prefetch-url --unpack $url))
-
-            $hash | clip
-            $hash
-          }
-
-          # nix build an installable; streams output as normal, copies the "got:" hash on failure
-          def nix-build-clip [pkg: string] {
-            let res = (^nix build $pkg | tee --stderr { print } | complete)
-            if ($res.stdout | is-not-empty) {
-              print --no-newline $res.stdout
-            }
-            if $res.exit_code == 0 {
-              return
-            }
-
-            let got = ($res.stderr | parse -r 'got:\s+(?<hash>\S+)' | get hash)
-            if ($got | is-empty) {
-              error make {msg: $"nix build failed for ($pkg): no got: hash found"}
-            }
-            $got | last | clip
-          }
-        '';
+          ];
+        };
 
         plugins = with pkgs.nushellPlugins; [
           polars
