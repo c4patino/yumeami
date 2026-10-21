@@ -6,7 +6,7 @@
 pkgs.writeShellScriptBin "obsidian-vault-sync" ''
   set -euo pipefail
 
-  IDLE_THRESHOLD=$((5 * 60))
+  IDLE_THRESHOLD=$((10 * 60))
   PULL_INTERVAL=$((1 * 60))
 
   VAULTS=(${lib.escapeShellArgs vaults})
