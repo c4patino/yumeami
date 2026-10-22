@@ -65,6 +65,7 @@ in {
 
       users.c4patino = {
         directories = [
+          # keep-sorted start
           ".android"
           ".cache/direnv"
           ".cache/spotify"
@@ -100,8 +101,8 @@ in {
           ".local/share/applications"
           ".local/share/containers"
           ".local/share/direnv"
-          ".local/share/nvim"
           ".local/share/keyrings"
+          ".local/share/nvim"
           ".local/share/opencode"
           ".local/share/openspec"
           ".local/share/pnpm"
@@ -127,10 +128,13 @@ in {
           "Zotero"
           "dotfiles"
           "openspec"
+          # keep-sorted end
         ];
 
         files = [
+          # keep-sorted start
           ".ssh/known_hosts"
+          # keep-sorted end
         ];
       };
     };

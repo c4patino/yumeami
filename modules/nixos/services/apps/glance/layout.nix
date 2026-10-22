@@ -185,6 +185,11 @@ in {
                       title = "news";
                       collapse-after = 9;
                       feeds = [
+                        # keep-sorted start block=yes
+                        {
+                          title = "Nerd Wallet";
+                          url = "https://www.nerdwallet.com/blog/feed/";
+                        }
                         {
                           title = "New York Times";
                           url = "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml";
@@ -197,10 +202,7 @@ in {
                           title = "The Verge";
                           url = "https://www.theverge.com/rss/index.xml";
                         }
-                        {
-                          title = "Nerd Wallet";
-                          url = "https://www.nerdwallet.com/blog/feed/";
-                        }
+                        # keep-sorted end
                       ];
                     }
                     {
@@ -208,6 +210,7 @@ in {
                       title = "engineering blogs";
                       collapse-after = 9;
                       feeds = [
+                        # keep-sorted start block=yes
                         {
                           title = "Airbnb";
                           url = "https://medium.com/feed/airbnb-engineering";
@@ -244,6 +247,7 @@ in {
                           title = "Pinterest";
                           url = "https://medium.com/feed/pinterest-engineering";
                         }
+                        # keep-sorted end
                       ];
                     }
                   ];

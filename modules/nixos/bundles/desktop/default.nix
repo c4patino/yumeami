@@ -43,9 +43,9 @@ in {
 
       packages = with pkgs; [
         corefonts
-        nerd-fonts.meslo-lg
         nerd-fonts.caskaydia-cove
         nerd-fonts.jetbrains-mono
+        nerd-fonts.meslo-lg
         noto-fonts
         noto-fonts-cjk-sans
       ];
