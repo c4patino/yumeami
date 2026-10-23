@@ -8,6 +8,7 @@ mkShell {
     dotnetPackages.Nuget
     (with dotnetCorePackages;
       combinePackages [
+        sdk_10_0_1xx
         sdk_9_0_1xx
         sdk_8_0_1xx
       ])
