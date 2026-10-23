@@ -5,7 +5,8 @@
   ...
 }: let
   inherit (lib) concatStringsSep mkOption types unique;
-  inherit (lib.${namespace}) getAttrByNamespace mkBoolOpt mkListOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkRequiredOpt mkTailscaleFirewallRule resolveHostIP resolveServiceEntries;
+  inherit (lib.${namespace}) getAttrByNamespace mapTargetIP mkBoolOpt mkListOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkRequiredOpt mkTailscaleFirewallRule resolveServiceEntries;
+  inherit (config.networking) hostName;
 
   base = "${namespace}.services.networking";
   cfg = getAttrByNamespace config base;
@@ -48,16 +49,15 @@ in {
     networking.nameservers =
       cfg.network-services
       |> resolveServiceEntries "blocky"
-      |> map (entry: resolveHostIP cfg.devices entry.host)
+      |> map (entry: mapTargetIP cfg.devices entry.host hostName)
       |> unique;
 
-    networking.firewall.extraCommands = (
+    networking.firewall.extraCommands =
       cfg.network-services.${config.networking.hostName} or {}
       |> builtins.attrValues
       |> map (v: v.port)
       |> unique
       |> map (port: mkTailscaleFirewallRule port ["tcp" "udp"])
-      |> concatStringsSep "\n"
-    );
+      |> concatStringsSep "\n";
   };
 }
