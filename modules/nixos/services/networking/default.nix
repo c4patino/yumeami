@@ -41,23 +41,35 @@ in {
     };
 
   config = {
-    services.resolved = {
-      enable = true;
-      settings.Resolve.DNSStubListener = "no";
+    services = {
+      resolved = {
+        enable = true;
+        settings.Resolve.DNSStubListener = "no";
+      };
+
+      timesyncd = {
+        enable = true;
+        servers = [
+          "162.159.200.1"
+          "162.159.200.123"
+        ];
+      };
     };
 
-    networking.nameservers =
-      cfg.network-services
-      |> resolveServiceEntries "blocky"
-      |> map (entry: mapTargetIP cfg.devices entry.host hostName)
-      |> unique;
+    networking = {
+      nameservers =
+        cfg.network-services
+        |> resolveServiceEntries "blocky"
+        |> map (entry: mapTargetIP cfg.devices entry.host hostName)
+        |> unique;
 
-    networking.firewall.extraCommands =
-      cfg.network-services.${config.networking.hostName} or {}
-      |> builtins.attrValues
-      |> map (v: v.port)
-      |> unique
-      |> map (port: mkTailscaleFirewallRule port ["tcp" "udp"])
-      |> concatStringsSep "\n";
+      firewall.extraCommands =
+        cfg.network-services.${config.networking.hostName} or {}
+        |> builtins.attrValues
+        |> map (v: v.port)
+        |> unique
+        |> map (port: mkTailscaleFirewallRule port ["tcp" "udp"])
+        |> concatStringsSep "\n";
+    };
   };
 }
