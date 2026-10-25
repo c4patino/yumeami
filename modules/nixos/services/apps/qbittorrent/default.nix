@@ -5,7 +5,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) mkIf;
+  inherit (lib) mkForce mkIf;
   inherit (lib.${namespace}) getAttrByNamespace hostHasService mkPersistDir resolveServicePort;
   inherit (config.networking) hostName;
 
@@ -174,6 +174,8 @@ in {
         };
 
         networking = {
+          useHostResolvConf = mkForce false;
+
           nameservers = [
             "1.1.1.1"
             "8.8.8.8"
