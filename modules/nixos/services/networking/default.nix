@@ -4,7 +4,7 @@
   namespace,
   ...
 }: let
-  inherit (lib) concatStringsSep mkOption types unique;
+  inherit (lib) concatStringsSep mkDefault mkOption types unique;
   inherit (lib.${namespace}) getAttrByNamespace mapTargetIP mkBoolOpt mkListOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkRequiredOpt mkTailscaleFirewallRule resolveServiceEntries;
   inherit (config.networking) hostName;
 
@@ -48,7 +48,7 @@ in {
       };
 
       timesyncd = {
-        enable = true;
+        enable = mkDefault true;
         servers = [
           "162.159.200.1"
           "162.159.200.123"
