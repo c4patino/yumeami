@@ -11,6 +11,7 @@
     lidarr
     nu_scripts
     ombi
+    opencode
     presenterm
     prowlarr
     radarr

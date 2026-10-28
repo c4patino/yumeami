@@ -17,10 +17,8 @@ in {
 
   config = mkIf cfg.enable {
     home = {
-      packages = [
-        (inputs.opencode.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (_: {
-          src = inputs.opencode;
-        }))
+      packages = with pkgs; [
+        opencode
       ];
 
       file = {

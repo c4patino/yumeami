@@ -23,7 +23,6 @@
     jiratui.url = "github:whyisdifficult/jiratui";
     nix-minecraft.url = "github:infinidoge/nix-minecraft";
     noctalia.url = "github:noctalia-dev/noctalia/cachix";
-    opencode.url = "github:anomalyco/opencode";
     openspec.url = "github:fission-ai/openspec";
     walker.url = "github:abenz1267/walker";
     xremap.url = "github:xremap/nix-flake";
