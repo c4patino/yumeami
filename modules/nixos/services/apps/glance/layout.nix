@@ -97,6 +97,11 @@ in {
               shortcut = "!mvn";
               url = "https://mvnrepository.com/search?q={QUERY}";
             }
+            {
+              title = "nuget";
+              shortcut = "!cs";
+              url = "https://www.nuget.org/packages?q={QUERY}&includeComputedFrameworks=true&prerel=true&sortby=relevance";
+            }
           ];
         };
         sidebar = {
