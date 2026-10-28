@@ -41,22 +41,28 @@ in {
 
     systemd.services.tailscale-funnel = mkIf cfg.funnel.enable {
       description = "Configure Tailscale Funnel endpoints";
-      wantedBy = ["tailscaled.service"];
+      wantedBy = ["multi-user.target"];
+
       wants = ["tailscaled.service"];
       after = ["tailscaled.service"];
       partOf = ["tailscaled.service"];
+
       startLimitIntervalSec = 0;
-      path = [
+
+      path = with pkgs; [
         config.services.tailscale.package
-        pkgs.coreutils
-        pkgs.jq
+
+        coreutils
+        jq
       ];
+
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
         Restart = "on-failure";
         RestartSec = "10s";
       };
+
       script = ''
         set -euo pipefail
 
