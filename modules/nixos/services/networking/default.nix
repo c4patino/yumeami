@@ -4,19 +4,46 @@
   namespace,
   ...
 }: let
-  inherit (lib) concatStringsSep mkDefault mkOption types unique;
-  inherit (lib.${namespace}) getAttrByNamespace mapTargetIP mkBoolOpt mkListOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkRequiredOpt mkTailscaleFirewallRule resolveServiceEntries;
+  inherit (lib) concatStringsSep mkDefault mkIf mkMerge mkOption types unique;
+  inherit (lib.${namespace}) getAttrByNamespace isGateway mapTargetIP mkBoolOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkRequiredOpt mkTailscaleFirewallRule resolveDevice resolveServiceEntries;
   inherit (config.networking) hostName;
 
   base = "${namespace}.services.networking";
   cfg = getAttrByNamespace config base;
+
+  gatewayCfg = {
+    cloudflare = {
+      cloudflared.enable = true;
+    };
+    raw = {};
+    tailscale = {
+      tailscale.funnel = {
+        enable = true;
+        endpoints = {
+          httpd-https = {
+            listenPort = 443;
+            target = "https+insecure://127.0.0.1:443";
+          };
+          httpd-http = {
+            listenPort = 8443;
+            target = "http://127.0.0.1:80";
+          };
+        };
+      };
+    };
+  };
 in {
   options = with types;
     mkOptionsWithNamespace base {
       devices = mkOptAttrset (submodule {
         options = {
           ip = mkRequiredOpt str "The ip address of the device.";
-          gateway = mkBoolOpt false "Whether the device should serve as a public gateway.";
+          gateway = mkOpt (submodule {
+            options = {
+              enable = mkBoolOpt false "Whether the device should serve as a public gateway.";
+              mode = mkOpt (enum ["cloudflare" "raw" "tailscale"]) "raw" "How the gateway exposes services to the internet: a Cloudflare tunnel, a Tailscale Funnel, or raw port forwarding. Raw mode only marks the host as the gateway and enables no extra ingress service.";
+            };
+          }) {} "Public gateway configuration for the device.";
         };
       }) {} "Mapping of device names to their hostnames and IPs.";
       network-services = mkOption {
@@ -37,39 +64,50 @@ in {
         default = {};
         description = "Mapping of hosts to their services: networking-services.<host>.<service> = { port, internal, public }.";
       };
-      gateways = mkListOpt str [] "Names of devices which will serve as public gateways.";
     };
 
-  config = {
-    services = {
-      resolved = {
-        enable = true;
-        settings.Resolve.DNSStubListener = "no";
+  config = mkMerge [
+    {
+      services = {
+        resolved = {
+          enable = true;
+          settings.Resolve.DNSStubListener = "no";
+        };
+
+        timesyncd = {
+          enable = mkDefault true;
+          servers = [
+            "162.159.200.1"
+            "162.159.200.123"
+          ];
+        };
       };
 
-      timesyncd = {
-        enable = mkDefault true;
-        servers = [
-          "162.159.200.1"
-          "162.159.200.123"
-        ];
+      networking = {
+        nameservers =
+          cfg.network-services
+          |> resolveServiceEntries "blocky"
+          |> map (entry: mapTargetIP cfg.devices entry.host hostName)
+          |> unique;
+
+        firewall.extraCommands =
+          cfg.network-services.${config.networking.hostName} or {}
+          |> builtins.attrValues
+          |> map (v: v.port)
+          |> unique
+          |> map (port: mkTailscaleFirewallRule port ["tcp" "udp"])
+          |> concatStringsSep "\n";
       };
-    };
+    }
 
-    networking = {
-      nameservers =
-        cfg.network-services
-        |> resolveServiceEntries "blocky"
-        |> map (entry: mapTargetIP cfg.devices entry.host hostName)
-        |> unique;
-
-      firewall.extraCommands =
-        cfg.network-services.${config.networking.hostName} or {}
-        |> builtins.attrValues
-        |> map (v: v.port)
-        |> unique
-        |> map (port: mkTailscaleFirewallRule port ["tcp" "udp"])
-        |> concatStringsSep "\n";
-    };
-  };
+    (mkIf (isGateway cfg.devices hostName) {
+      ${namespace}.services.networking = let
+        gatewayMode = (resolveDevice cfg.devices hostName).gateway.mode;
+      in
+        gatewayCfg
+        |> builtins.attrNames
+        |> map (mode: mkIf (gatewayMode == mode) gatewayCfg.${mode})
+        |> mkMerge;
+    })
+  ];
 }

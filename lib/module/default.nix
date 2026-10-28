@@ -197,16 +197,24 @@ with lib; rec {
     |> splitString "."
     |> (path: getAttrFromPath path set);
 
+  ## Resolve a device's configuration from a devices attribute set.
+  ##
+  ## @param devices A set mapping hostnames to their configuration.
+  ## @param node    The hostname to resolve.
+  ## @return        The configuration for the given node.
+  ## @throws        If the node is not defined in the devices set.
+  resolveDevice = devices: node:
+    if builtins.hasAttr node devices
+    then devices.${node}
+    else throw "Host '${node}' does not exist in the devices configuration.";
+
   ## Resolve the IP address of a given host from a devices attribute set.
   ##
   ## @param devices A set mapping hostnames to their configuration (must include `IP`).
   ## @param node    The hostname to resolve.
   ## @return        The IP address for the given node.
   ## @throws        If the node is not defined in the devices set.
-  resolveHostIP = devices: node:
-    if builtins.hasAttr node devices
-    then devices.${node}.ip
-    else throw "Host '${node}' does not exist in the devices configuration.";
+  resolveHostIP = devices: node: (resolveDevice devices node).ip;
 
   ## Resolve the target IP for proxying to a service.
   ##
@@ -259,7 +267,7 @@ with lib; rec {
   ## @throws        If the node is not defined in the devices set.
   isGateway = devices: node:
     if builtins.hasAttr node devices
-    then devices.${node}.gateway
+    then devices.${node}.gateway.enable or false
     else false;
 
   ## Resolve the hostname of the gateway from a devices attribute set.
@@ -274,7 +282,7 @@ with lib; rec {
   resolveGatewayHost = devices: let
     gateways =
       devices
-      |> filterAttrs (_: dev: dev.gateway or false)
+      |> filterAttrs (_: dev: dev.gateway.enable or false)
       |> attrNames;
   in
     if gateways == []
