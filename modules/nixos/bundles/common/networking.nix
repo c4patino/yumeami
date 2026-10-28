@@ -29,10 +29,13 @@ in {
         };
         shiori = {
           ip = "100.127.93.17";
-          gateway = true;
         };
         tsuki = {
           ip = "100.71.23.30";
+          gateway = {
+            enable = true;
+            mode = "tailscale";
+          };
         };
         nas = {
           ip = "100.98.174.68";

@@ -21,15 +21,6 @@ in {
     };
 
     services = {
-      networking = {
-        ddclient = {
-          enable = true;
-          zone = "cpatino.com";
-          domains = [
-            "*.cpatino.com"
-          ];
-        };
-      };
       storage = {
         nfs.mounts = {
           servarr = {
