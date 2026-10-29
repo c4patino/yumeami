@@ -1,13 +1,13 @@
 terraform {
   backend "pg" {
     schema_name = "yumeami_hetzner"
-    conn_str    = "postgres://shiori:5600/terraform?sslmode=disable"
+    conn_str    = "postgres://tsuki:5600/terraform?sslmode=disable"
   }
 
   required_providers {
     hcloud = {
       source  = "hetznercloud/hcloud"
-      version = "~> 1.42.0"
+      version = "~> 1.70.2"
     }
   }
 }
@@ -19,8 +19,8 @@ provider "hcloud" {
 resource "hcloud_server" "tobira" {
   name = "tobira"
 
-  server_type = "cx22"
-  image       = "ubuntu-24.04"
+  server_type = "cpx22"
+  image       = "ubuntu-26.04"
   location    = "ash"
   public_net {
     ipv4_enabled = true
