@@ -1,4 +1,4 @@
-name: ci
+name: lint
 
 on:
   push:
@@ -6,6 +6,19 @@ on:
   workflow_dispatch:
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v6.0.1
+      - name: install nix
+        uses: https://github.com/cachix/install-nix-action@v31.8.4
+      - name: set up nix
+        run: |
+          mkdir -p ~/.config/nix
+          echo "experimental-features = nix-command flakes pipe-operators" >> ~/.config/nix/nix.conf
+      - name: check flake
+        run: nix flake check --show-trace
   treefmt:
     runs-on: ubuntu-latest
     steps:
