@@ -14,6 +14,12 @@ variable "cloudflare_account_id" {
   type        = string
 }
 
+variable "zone_name" {
+  description = "Primary Cloudflare zone/domain managed by this configuration."
+  type        = string
+  default     = "cpatino.com"
+}
+
 variable "allowed_email" {
   description = "Email address allowed to access the tunnel."
   type        = string
@@ -69,25 +75,31 @@ variable "machines" {
   default = [
     {
       name        = "arisu"
-      ip          = null
-      ssh_port    = 22
-      description = ""
-    },
-    {
-      name        = "chibi"
-      ip          = null
+      ip          = "10.0.1.64"
       ssh_port    = 22
       description = ""
     },
     {
       name        = "kokoro"
-      ip          = null
+      ip          = "10.0.1.65"
+      ssh_port    = 22
+      description = ""
+    },
+    {
+      name        = "chibi"
+      ip          = "10.0.1.1"
       ssh_port    = 22
       description = ""
     },
     {
       name        = "shiori"
-      ip          = null
+      ip          = "10.0.1.2"
+      ssh_port    = 22
+      description = ""
+    },
+    {
+      name        = "tsuki"
+      ip          = "10.0.1.3"
       ssh_port    = 22
       description = ""
     },

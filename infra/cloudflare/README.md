@@ -4,6 +4,20 @@ This repository manages Cloudflare Zero Trust, tunnels, DNS, and SSH Access reso
 
 ---
 
+## Layout
+
+The configuration is split into submodules under `modules/`:
+
+| Module      | Path                 | Contents                                                                                     |
+|-------------|----------------------|----------------------------------------------------------------------------------------------|
+| `dns`       | `modules/dns`        | Zone (`cpatino.com`) and GitHub Pages DNS records (root + www)                               |
+| `tunnel`    | `modules/tunnel`     | `yumeami` cloudflared tunnel and the wildcard `*` DNS record pointing at it                  |
+| `access`    | `modules/access`     | Zero Trust access policies, WARP device profiles/split tunnel, infrastructure targets, SSH apps |
+
+Wiring (root `main.tf`): `tunnel` and `access` consume `module.dns.zone_id`.
+
+---
+
 ## Prerequisites
 
 - **Cloudflare Zero Trust:** Enable at https://dash.cloudflare.com/zero-trust/onboarding
@@ -96,7 +110,7 @@ If you already have a tunnel named `yumeami`, import it into Terraform state:
    ```
 2. Import:
    ```bash
-   terraform import cloudflare_zero_trust_tunnel_cloudflared.yumeami <account_id>/<tunnel_id>
+   terraform import 'module.tunnel.cloudflare_zero_trust_tunnel_cloudflared.yumeami' <account_id>/<tunnel_id>
    ```
 
 ---
