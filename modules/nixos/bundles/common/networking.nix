@@ -34,7 +34,6 @@ in {
           ip = "100.71.23.30";
           gateway = {
             enable = true;
-            mode = "tailscale";
           };
         };
         nas = {
