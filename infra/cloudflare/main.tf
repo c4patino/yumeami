@@ -7,7 +7,7 @@ terraform {
   required_providers {
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "~> 5"
+      version = "~> 5.28.1"
     }
   }
 }
@@ -17,138 +17,32 @@ provider "cloudflare" {
   api_key = var.cloudflare_api_token
 }
 
-resource "cloudflare_zone" "main" {
-  name = "cpatino.com"
-  type = "full"
-  account = {
-    id = var.cloudflare_account_id
-  }
-}
+module "dns" {
+  source = "./modules/dns"
 
-resource "cloudflare_dns_record" "root_github" {
-  zone_id = cloudflare_zone.main.id
-  name    = "cpatino.com"
-  type    = "CNAME"
-  content = "c4patino.github.io"
-  proxied = true
-  ttl     = 1
-}
-
-resource "cloudflare_dns_record" "www_github" {
-  zone_id = cloudflare_zone.main.id
-  name    = "www"
-  type    = "CNAME"
-  content = "c4patino.github.io"
-  proxied = true
-  ttl     = 1
-}
-
-resource "cloudflare_zero_trust_access_policy" "account_ingress" {
   account_id = var.cloudflare_account_id
-  name       = "account ingress"
-  decision   = "allow"
-
-  include = [{
-    email = {
-      email = var.allowed_email
-    }
-  }]
+  zone_name  = var.zone_name
 }
 
-resource "cloudflare_zero_trust_access_policy" "allow_c4patino" {
-  account_id = var.cloudflare_account_id
-  name       = "allow c4patino@gmail.com"
-  decision   = "allow"
+# module "tunnel" {
+#   source = "./modules/tunnel"
+#
+#   account_id = var.cloudflare_account_id
+#   zone_id    = module.dns.zone_id
+# }
 
-  include = [{
-    email = {
-      email = var.allowed_email
-    }
-  }]
-}
-
-resource "cloudflare_zero_trust_device_custom_profile" "default" {
-  account_id = var.cloudflare_account_id
-  name       = "Default"
-  enabled    = true
-  precedence = 100
-  match      = "identity.email == \"${var.allowed_email}\""
-
-  allow_mode_switch              = false
-  switch_locked                  = true
-  allow_updates                  = true
-  allowed_to_leave               = false
-  register_interface_ip_with_dns = true
-  tunnel_protocol                = "wireguard"
-  auto_connect                   = 10
-
-  lifecycle {
-    prevent_destroy = true
-    ignore_changes  = all
-  }
-}
-
-resource "cloudflare_zero_trust_device_default_profile" "split_tunnel" {
-  account_id = var.cloudflare_account_id
-
-  service_mode_v2 = {
-    mode = "warp"
-  }
-
-  include = [
-    for cidr in var.split_tunnel_cidrs : {
-      address     = cidr
-      description = "Infra network"
-    }
-  ]
-}
-
-locals {
-  machines_with_ip = [for m in var.machines : m if try(m.ip, null) != null]
-  machines_map     = { for m in local.machines_with_ip : m.name => m }
-}
-
-resource "cloudflare_zero_trust_access_infrastructure_target" "ssh" {
-  for_each   = local.machines_map
-  account_id = var.cloudflare_account_id
-
-  hostname = each.key
-  ip = {
-    ipv4 = {
-      ip_addr = each.value.ip
-    }
-  }
-}
-
-resource "cloudflare_zero_trust_access_application" "ssh" {
-  for_each   = var.access_base_domain != "" ? local.machines_map : {}
-  account_id = var.cloudflare_account_id
-  zone_id    = cloudflare_zone.main.id
-
-  name                 = "ssh-${each.key}"
-  type                 = "ssh"
-  domain               = "${each.key}.${var.access_base_domain}"
-  app_launcher_visible = true
-  session_duration     = var.session_duration
-
-  allow_authenticate_via_warp = var.require_warp
-
-  destinations = [{
-    cidr        = "${each.value.ip}/32"
-    l4_protocol = "tcp"
-    port_range  = tostring(try(each.value.ssh_port, 22))
-    type        = "private"
-  }]
-}
-
-resource "cloudflare_zero_trust_access_policy" "ssh" {
-  for_each   = var.access_base_domain != "" ? local.machines_map : {}
-  account_id = var.cloudflare_account_id
-  name       = "allow-ssh-${each.key}"
-  decision   = "allow"
-
-  include = concat(
-    [for g in var.access_allowed_group_ids : { group = { id = g } }],
-    [for e in var.access_allowed_emails : { email = { email = e } }]
-  )
-}
+# module "access" {
+#   source = "./modules/access"
+#
+#   account_id    = var.cloudflare_account_id
+#   zone_id       = module.dns.zone_id
+#   allowed_email = var.allowed_email
+#   machines      = var.machines
+#
+#   access_base_domain       = var.access_base_domain
+#   access_allowed_emails    = var.access_allowed_emails
+#   access_allowed_group_ids = var.access_allowed_group_ids
+#   session_duration         = var.session_duration
+#   require_warp             = var.require_warp
+#   split_tunnel_cidrs       = var.split_tunnel_cidrs
+# }
