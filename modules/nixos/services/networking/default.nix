@@ -12,24 +12,9 @@
   cfg = getAttrByNamespace config base;
 
   gatewayCfg = {
+    raw = {};
     cloudflare = {
       cloudflared.enable = true;
-    };
-    raw = {};
-    tailscale = {
-      tailscale.funnel = {
-        enable = true;
-        endpoints = {
-          httpd-https = {
-            listenPort = 443;
-            target = "https+insecure://127.0.0.1:443";
-          };
-          httpd-http = {
-            listenPort = 8443;
-            target = "http://127.0.0.1:80";
-          };
-        };
-      };
     };
   };
 in {
@@ -41,7 +26,7 @@ in {
           gateway = mkOpt (submodule {
             options = {
               enable = mkBoolOpt false "Whether the device should serve as a public gateway.";
-              mode = mkOpt (enum ["cloudflare" "raw" "tailscale"]) "raw" "How the gateway exposes services to the internet: a Cloudflare tunnel, a Tailscale Funnel, or raw port forwarding. Raw mode only marks the host as the gateway and enables no extra ingress service.";
+              mode = mkOpt (enum ["cloudflare" "raw"]) "raw" "How the gateway exposes services to the internet: raw port forwarding or a Cloudflare tunnel. Raw mode only marks the host as the gateway and enables no extra ingress service.";
             };
           }) {} "Public gateway configuration for the device.";
         };
