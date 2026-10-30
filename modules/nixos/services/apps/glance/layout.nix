@@ -221,12 +221,20 @@ in {
                           url = "https://medium.com/feed/airbnb-engineering";
                         }
                         {
+                          title = "Cloudflare";
+                          url = "https://blog.cloudflare.com/rss/";
+                        }
+                        {
                           title = "Discord";
                           url = "https://discord.com/blog/rss.xml";
                         }
                         {
                           title = "Dropbox";
                           url = "https://dropbox.tech/infrastructure/feed";
+                        }
+                        {
+                          title = "Eli Bendersky";
+                          url = "https://eli.thegreenplace.net/feeds/all.atom.xml";
                         }
                         {
                           title = "Flipkart";
@@ -237,6 +245,10 @@ in {
                           url = "https://engineering.grab.com/feed.xml";
                         }
                         {
+                          title = "HackerNoon";
+                          url = "https://hackernoon.com/feed";
+                        }
+                        {
                           title = "Hotstar";
                           url = "https://blog.hotstar.com/feed";
                         }
@@ -245,12 +257,32 @@ in {
                           url = "https://medium.com/feed/instagram-engineering";
                         }
                         {
+                          title = "John D. Cook";
+                          url = "https://www.johndcook.com/blog/feed/";
+                        }
+                        {
+                          title = "Medium";
+                          url = "https://medium.com/feed/tag/programming";
+                        }
+                        {
                           title = "Myntra";
                           url = "https://medium.com/feed/myntra-engineering";
                         }
                         {
+                          title = "Netflix";
+                          url = "https://netflixtechblog.com/feed";
+                        }
+                        {
                           title = "Pinterest";
                           url = "https://medium.com/feed/pinterest-engineering";
+                        }
+                        {
+                          title = "Slashdot";
+                          url = "https://rss.slashdot.org/Slashdot/slashdotMain";
+                        }
+                        {
+                          title = "Smashing Magazine";
+                          url = "https://www.smashingmagazine.com/feed/";
                         }
                         # keep-sorted end
                       ];
