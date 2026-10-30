@@ -60,7 +60,6 @@ in {
               cache = {
                 enabled = true;
                 dir = "/var/lib/gitea-runner/cache";
-                host = "172.17.0.1";
                 proxy_port = 37323;
               };
 
