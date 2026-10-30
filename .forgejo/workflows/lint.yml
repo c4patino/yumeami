@@ -12,20 +12,7 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v6.0.1
       - name: install nix
-        uses: https://github.com/cachix/install-nix-action@v31.8.4
-      - name: set up nix
-        run: |
-          mkdir -p ~/.config/nix
-          echo "experimental-features = nix-command flakes pipe-operators" >> ~/.config/nix/nix.conf
-      - name: check flake
-        run: nix flake check --show-trace
-  treefmt:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout code
-        uses: actions/checkout@v6.0.1
-      - name: install nix
-        uses: https://github.com/cachix/install-nix-action@v31.8.4
+        uses: https://github.com/cachix/install-nix-action@v31.11.0
       - name: set up nix
         run: |
           mkdir -p ~/.config/nix
@@ -39,14 +26,55 @@ jobs:
           restore-prefixes-first-match: nix-${{ runner.os }}-
           gc-max-store-size-linux: 1G
           purge: true
-          purge-last-accessed: "P1W"
           purge-prefixes: nix-${{ runner.os }}-
+          purge-created: 0
+          purge-last-accessed: 0
           purge-primary-key: never
       - name: set up nix-community cachix
-        uses: https://github.com/cachix/cachix-action@v16
+        uses: https://github.com/cachix/cachix-action@v17
         with:
           name: nix-community
-          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+      - name: import gpg key
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GIT_CRYPT_GPG_PRIVATE_KEY }}
+        run: |
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import || true
+          echo "default-cache-ttl 3600" >> ~/.gnupg/gpg-agent.conf
+          echo RELOADAGENT | gpg-connect-agent
+      - name: install git-crypt
+        run: nix profile add nixpkgs#git-crypt
+      - name: git crypt unlock
+        run: git crypt unlock
+      - name: check flake
+        run: nix flake check --show-trace
+  treefmt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v6.0.1
+      - name: install nix
+        uses: https://github.com/cachix/install-nix-action@v31.11.0
+      - name: set up nix
+        run: |
+          mkdir -p ~/.config/nix
+          echo "experimental-features = nix-command flakes pipe-operators" >> ~/.config/nix/nix.conf
+          nix-channel --add https://nixos.org/channels/nixos-unstable nixpkgs
+          nix-channel --update
+      - name: restore and save nix store
+        uses: https://github.com/nix-community/cache-nix-action@v7
+        with:
+          primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
+          restore-prefixes-first-match: nix-${{ runner.os }}-
+          gc-max-store-size-linux: 1G
+          purge: true
+          purge-prefixes: nix-${{ runner.os }}-
+          purge-created: 0
+          purge-last-accessed: 0
+          purge-primary-key: never
+      - name: set up nix-community cachix
+        uses: https://github.com/cachix/cachix-action@v17
+        with:
+          name: nix-community
       - name: import gpg key
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
