@@ -177,39 +177,7 @@ in {
                 searchWidget
                 {
                   type = "group";
-                  collapse-after = 5;
                   widgets = [
-                    {
-                      type = "hacker-news";
-                      sort-by = "top";
-                      extra-sort-by = "engagement";
-                      collapse-after = 9;
-                    }
-                    {
-                      type = "rss";
-                      title = "news";
-                      collapse-after = 9;
-                      feeds = [
-                        # keep-sorted start block=yes
-                        {
-                          title = "Nerd Wallet";
-                          url = "https://www.nerdwallet.com/blog/feed/";
-                        }
-                        {
-                          title = "New York Times";
-                          url = "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml";
-                        }
-                        {
-                          title = "The Next Web";
-                          url = "https://thenextweb.com/feed";
-                        }
-                        {
-                          title = "The Verge";
-                          url = "https://www.theverge.com/rss/index.xml";
-                        }
-                        # keep-sorted end
-                      ];
-                    }
                     {
                       type = "rss";
                       title = "engineering blogs";
@@ -275,6 +243,37 @@ in {
                         {
                           title = "Slack Engineering";
                           url = "https://slack.engineering/feed/";
+                        }
+                        # keep-sorted end
+                      ];
+                    }
+                    {
+                      type = "hacker-news";
+                      sort-by = "top";
+                      extra-sort-by = "engagement";
+                      collapse-after = 9;
+                    }
+                    {
+                      type = "rss";
+                      title = "news";
+                      collapse-after = 9;
+                      feeds = [
+                        # keep-sorted start block=yes
+                        {
+                          title = "Nerd Wallet";
+                          url = "https://www.nerdwallet.com/blog/feed/";
+                        }
+                        {
+                          title = "New York Times";
+                          url = "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml";
+                        }
+                        {
+                          title = "The Next Web";
+                          url = "https://thenextweb.com/feed";
+                        }
+                        {
+                          title = "The Verge";
+                          url = "https://www.theverge.com/rss/index.xml";
                         }
                         # keep-sorted end
                       ];
