@@ -49,6 +49,10 @@ in {
           OLDER_THAN = "6h";
         };
 
+        "cron.cleanup_offline_runners" = {
+          ENABLED = true;
+        };
+
         database = {
           DB_TYPE = mkForce "postgres";
           HOST = mkForce "${resolveDatabaseIP networkCfg.devices pgCfg.databases hostName "forgejo"}:5600";
