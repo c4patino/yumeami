@@ -217,6 +217,10 @@ in {
                       feeds = [
                         # keep-sorted start block=yes
                         {
+                          title = "AWS Architecture";
+                          url = "https://aws.amazon.com/blogs/architecture/feed/";
+                        }
+                        {
                           title = "Airbnb";
                           url = "https://medium.com/feed/airbnb-engineering";
                         }
@@ -225,28 +229,20 @@ in {
                           url = "https://blog.cloudflare.com/rss/";
                         }
                         {
-                          title = "Discord";
-                          url = "https://discord.com/blog/rss.xml";
-                        }
-                        {
-                          title = "Dropbox";
-                          url = "https://dropbox.tech/infrastructure/feed";
-                        }
-                        {
-                          title = "Eli Bendersky";
-                          url = "https://eli.thegreenplace.net/feeds/all.atom.xml";
+                          title = "Dan Luu";
+                          url = "https://danluu.com/atom.xml";
                         }
                         {
                           title = "Flipkart";
                           url = "https://blog.flipkart.tech/feed";
                         }
                         {
-                          title = "Grab";
-                          url = "https://engineering.grab.com/feed.xml";
+                          title = "GitHub Engineering";
+                          url = "https://github.blog/engineering.atom";
                         }
                         {
-                          title = "HackerNoon";
-                          url = "https://hackernoon.com/feed";
+                          title = "Grab";
+                          url = "https://engineering.grab.com/feed.xml";
                         }
                         {
                           title = "Hotstar";
@@ -257,16 +253,12 @@ in {
                           url = "https://medium.com/feed/instagram-engineering";
                         }
                         {
-                          title = "John D. Cook";
-                          url = "https://www.johndcook.com/blog/feed/";
+                          title = "Julia Evans";
+                          url = "https://jvns.ca/atom.xml";
                         }
                         {
-                          title = "Medium";
-                          url = "https://medium.com/feed/tag/programming";
-                        }
-                        {
-                          title = "Myntra";
-                          url = "https://medium.com/feed/myntra-engineering";
+                          title = "Meta Engineering";
+                          url = "https://engineering.fb.com/feed/";
                         }
                         {
                           title = "Netflix";
@@ -277,12 +269,12 @@ in {
                           url = "https://medium.com/feed/pinterest-engineering";
                         }
                         {
-                          title = "Slashdot";
-                          url = "https://rss.slashdot.org/Slashdot/slashdotMain";
+                          title = "Shopify Engineering";
+                          url = "https://engineering.shopify.com/blogs/engineering.atom";
                         }
                         {
-                          title = "Smashing Magazine";
-                          url = "https://www.smashingmagazine.com/feed/";
+                          title = "Slack Engineering";
+                          url = "https://slack.engineering/feed/";
                         }
                         # keep-sorted end
                       ];
