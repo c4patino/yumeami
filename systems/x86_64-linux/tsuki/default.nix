@@ -57,6 +57,11 @@ in {
     };
   };
 
+  boot.binfmt = {
+    emulatedSystems = ["aarch64-linux"];
+    preferStaticEmulators = true;
+  };
+
   networking = {
     hostName = "tsuki";
     hostId = "3d19e767";

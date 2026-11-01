@@ -11,17 +11,13 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v6.0.1
-      - name: set up qemu
-        uses: https://github.com/docker/setup-qemu-action@v4.4.0
-        with:
-          platforms: aarch64
       - name: install nix
         uses: https://github.com/cachix/install-nix-action@v31.11.0
         with:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
             experimental-features = nix-command flakes pipe-operators
-            extra-platforms = aarch64-linux
+            extra-platforms = aarch64-linux i686-linux
       - name: restore and save nix store
         uses: https://github.com/nix-community/cache-nix-action@v7
         with:
