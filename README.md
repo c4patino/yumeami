@@ -18,6 +18,7 @@ structure.
 | 💖 kokoro   | `x86_64-linux`   | thinkBook 15 laptop, mobile development          |
 | 🌸 shiori   | `x86_64-linux`   | always-on mini pc, torrents and DNS services     |
 | 🐣 chibi    | `aarch64-linux`  | raspberry Pi 4B for hosting and local dev        |
+| 🚪 tobira   | `x86_64-linux`   | hetzner cloud VPS for outside communication      |
 | ✨ hikari   | `x86_64-linux`   | custom installer iso, new systems and VMs        |
 
 ## Repository Structure
@@ -67,7 +68,7 @@ sudo zfs snapshot zroot/root@blank
 sudo cp ~/dotfiles /mnt/persist
 
 # Install NixOS with the configuration for your system
-# Replace <system-name> with one of: arisu, kokoro, shiori, chibi, tsuki
+# Replace <system-name> with one of: arisu, kokoro, shiori, chibi, tsuki, tobira
 sudo nixos-install --root /mnt --flake ~/dotfiles#<system-name> --option extra-experimental-features "flakes nix-command pipe-operators"
 ```
 
