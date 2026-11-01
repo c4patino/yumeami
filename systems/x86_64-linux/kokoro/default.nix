@@ -51,7 +51,10 @@ in {
   };
 
   boot = {
-    binfmt.emulatedSystems = ["aarch64-linux"];
+    binfmt = {
+      emulatedSystems = ["aarch64-linux"];
+      preferStaticEmulators = true;
+    };
     loader.grub = {
       theme = inputs.dotfiles + "/vimix/2k";
       useOSProber = true;
