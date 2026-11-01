@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   namespace,
   pkgs,
@@ -16,11 +17,13 @@ in {
 
   config = mkIf cfg.enable {
     home = {
-      packages = with pkgs; [leetcode-cli];
+      packages = with pkgs; [
+        leetcode-cli
+      ];
 
-      file.".leetcode/leetcode.toml".source =
-        "${config.snowfallorg.user.home.directory}/dotfiles/secrets/crypt/leetcode.toml"
-        |> config.lib.file.mkOutOfStoreSymlink;
+      file.".leetcode/leetcode.toml" = {
+        source = inputs.dotfiles + "/.leetcode/leetcode.toml";
+      };
     };
   };
 }
