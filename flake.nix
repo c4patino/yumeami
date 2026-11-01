@@ -117,7 +117,11 @@
       in {
         formatter = treefmtEval.config.build.wrapper;
 
-        checks = inputs.deploy-rs.lib.${system}.deployChecks inputs.self.deploy;
+        checks =
+          (inputs.deploy-rs.lib.${system}.deployChecks inputs.self.deploy)
+          // {
+            format = treefmtEval.config.build.check inputs.self;
+          };
       };
     };
 }
