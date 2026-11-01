@@ -11,6 +11,10 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v6.0.1
+      - name: set up qemu
+        uses: https://github.com/docker/setup-qemu-action@v4.4.0
+        with:
+          platforms: aarch64
       - name: install nix
         uses: https://github.com/cachix/install-nix-action@v31.11.0
       - name: set up nix
@@ -41,7 +45,7 @@ jobs:
       - name: git crypt unlock
         run: git crypt unlock
       - name: check flake
-        run: nix build .#checks.x86_64-linux.deploy-schema --show-trace
+        run: nix flake check --show-trace
   treefmt:
     runs-on: ubuntu-latest
     steps:
