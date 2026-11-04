@@ -69,9 +69,10 @@ in {
               };
 
               container = {
-                network = "bridge";
                 privileged = false;
                 docker_host = "automount";
+                network = "bridge";
+                options = "--device=/dev/net/tun:/dev/net/tun --cap-add=NET_ADMIN";
               };
             };
           };
