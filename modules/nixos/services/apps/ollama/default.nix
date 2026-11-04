@@ -16,14 +16,14 @@
 in {
   config = mkIf isEnabled {
     services.ollama = {
-      inherit port;
-
       enable = true;
-
       package =
         if nvidiaCfg.enable
         then pkgs.ollama-cuda
         else pkgs.ollama;
+
+      host = "0.0.0.0";
+      port = port;
 
       syncModels = true;
       loadModels = [
