@@ -7,6 +7,9 @@
 }: let
   inherit (lib) mkIf mkEnableOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+
+  nvidiaCfg = getAttrByNamespace config "${namespace}.hardware.nvidia";
+
   base = "${namespace}.services.apps.ollama";
   cfg = getAttrByNamespace config base;
 in {
@@ -17,7 +20,11 @@ in {
   config = mkIf cfg.enable {
     services.ollama = {
       enable = true;
-      package = pkgs.ollama-cuda;
+
+      package =
+        if nvidiaCfg.enable
+        then pkgs.ollama-cuda
+        else pkgs.ollama;
 
       syncModels = true;
       loadModels = [
