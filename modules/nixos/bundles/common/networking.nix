@@ -133,6 +133,10 @@ in {
             internal = true;
             public = true;
           };
+          ollama = {
+            port = 11434;
+            internal = true;
+          };
           seerr = {
             port = 5055;
             internal = true;
