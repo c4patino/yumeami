@@ -1,15 +1,11 @@
 name: deploy
 
 on:
-  workflow_run:
-    workflows: ["lint"]
-    types: [completed]
-    branches: ["main"]
-  workflow_dispatch:
+  workflow_call:
 
 concurrency:
   group: deploy
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   terraform-cloudflare:

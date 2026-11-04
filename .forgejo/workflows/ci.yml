@@ -1,0 +1,17 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ci
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    uses: ./.forgejo/workflows/lint.yml
+  deploy:
+    needs: lint
+    uses: ./.forgejo/workflows/deploy.yml

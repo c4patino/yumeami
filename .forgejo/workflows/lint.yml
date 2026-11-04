@@ -1,9 +1,11 @@
 name: lint
 
 on:
-  push:
-    branches: ["main"]
-  workflow_dispatch:
+  workflow_call:
+
+concurrency:
+  group: lint
+  cancel-in-progress: true
 
 jobs:
   check:
