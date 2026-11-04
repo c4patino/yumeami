@@ -77,7 +77,7 @@ in {
 
       networking = {
         httpd = enabled;
-        network-services.chibi.blocky.priority = mkForce 128;
+        registry.chibi.blocky.priority = mkForce 128;
       };
     };
   };

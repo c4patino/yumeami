@@ -10,8 +10,8 @@
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
-  isEnabled = hostHasService networkCfg.network-services hostName "unbound";
-  port = resolveServicePort networkCfg.network-services "unbound" 54;
+  isEnabled = hostHasService networkCfg.registry hostName "unbound";
+  port = resolveServicePort networkCfg.registry "unbound" 54;
 in {
   config = mkIf isEnabled {
     services.unbound = {

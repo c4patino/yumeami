@@ -10,9 +10,10 @@
   inherit (config.users.users) unpackerr;
   inherit (config.networking) hostName;
 
-  starrServices = ["radarr" "sonarr" "lidarr"];
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
-  enabledStarrServices = filter (service: hostHasService networkCfg.network-services hostName service) starrServices;
+  enabledStarrServices =
+    ["radarr" "sonarr" "lidarr"]
+    |> filter (service: hostHasService networkCfg.registry hostName service);
   isEnabled = enabledStarrServices != [];
 in {
   config = mkIf isEnabled {

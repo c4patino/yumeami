@@ -400,14 +400,14 @@ with lib; rec {
   ## precedence: lowest `priority` first; ties break alphabetically by hostname.
   ##
   ## ```nix
-  ## networkServices |> resolveServiceEntries "unbound"
+  ## registry |> resolveServiceEntries "unbound"
   ## ```
   ##
   ## @param serviceName     The name of the service.
-  ## @param networkServices The network-services attribute set (host-first shape).
+  ## @param registry        The registry attribute set (host-first shape).
   ## @return                Ordered list of `{ host, priority, ...serviceAttrs }`.
-  resolveServiceEntries = serviceName: networkServices:
-    networkServices
+  resolveServiceEntries = serviceName: registry:
+    registry
     |> filterAttrs (_: svcs: svcs ? ${serviceName})
     |> mapAttrsToList (host: svcs:
       svcs.${serviceName}
@@ -420,7 +420,7 @@ with lib; rec {
       < b.priority
       || (a.priority == b.priority && a.host < b.host));
 
-  ## Convert a host-first service map into a flat service->attrs map.
+  ## Convert a registry (host-first) into a service->attrs map.
   ##
   ## Input:  { hostName = { serviceName = { ... }; ... }; ... }
   ## Output: { serviceName = { host = hostName; priority = n; ... }; ... }
@@ -428,7 +428,7 @@ with lib; rec {
   ## When several hosts declare the same service, the entry with the lowest
   ## `priority` wins; ties break alphabetically by hostname.
   ##
-  ## @param hostServices  Attribute set mapping host names to their service maps.
+  ## @param hostServices  Attribute set mapping host names to their service maps (registry shape).
   ## @return              Flattened map with service names as keys, augmented with host.
   flattenHostServices = hostServices: let
     serviceNames =
@@ -453,38 +453,38 @@ with lib; rec {
   ## alphabetically by hostname.
   ##
   ## ```nix
-  ## networkServices |> resolveServiceHosts "unbound"
+  ## registry |> resolveServiceHosts "unbound"
   ## ```
   ##
   ## @param serviceName     The name of the service.
-  ## @param networkServices The network-services attribute set (host-first shape).
+  ## @param registry        The registry attribute set (host-first shape).
   ## @return                Ordered list of hostnames declaring the service.
-  resolveServiceHosts = serviceName: networkServices:
-    resolveServiceEntries serviceName networkServices
+  resolveServiceHosts = serviceName: registry:
+    resolveServiceEntries serviceName registry
     |> map (entry: entry.host);
 
-  ## Check if a host has a specific service defined in the network-services config.
+  ## Check if a host has a specific service defined in the registry config.
   ##
-  ## @param networkServices The network-services attribute set (host-first shape).
+  ## @param registry        The registry attribute set (host-first shape).
   ## @param hostName         The hostname to check.
   ## @param serviceName      The name of the service to check for.
   ## @return                 true if the host has the specific service defined, false otherwise.
-  hostHasService = networkServices: hostName: serviceName:
-    networkServices ? ${hostName}
-    && networkServices.${hostName} ? ${serviceName};
+  hostHasService = registry: hostName: serviceName:
+    registry ? ${hostName}
+    && registry.${hostName} ? ${serviceName};
 
   ## Resolve the port of the highest-precedence instance of a service.
   ##
   ## With multiple hosts declaring the same service, the instance on the host
   ## with the lowest `priority` wins (ties break alphabetically by hostname).
   ##
-  ## @param networkServices The network-services attribute set (host-first shape).
+  ## @param registry        The registry attribute set (host-first shape).
   ## @param serviceName     The name of the service.
-  ## @param defaultPort     The default port to use if not specified in network-services.
+  ## @param defaultPort     The default port to use if not specified in registry.
   ## @return               The port (either from config or default).
   ## @throws               If no host declares the given service.
-  resolveServicePort = networkServices: serviceName: defaultPort: let
-    entries = resolveServiceEntries serviceName networkServices;
+  resolveServicePort = registry: serviceName: defaultPort: let
+    entries = resolveServiceEntries serviceName registry;
   in
     if entries == []
     then throw "No host declares service '${serviceName}'."
@@ -495,12 +495,12 @@ with lib; rec {
   ## With multiple hosts declaring the same service, the host with the lowest
   ## `priority` wins (ties break alphabetically by hostname).
   ##
-  ## @param networkServices The network-services attribute set (host-first shape).
+  ## @param registry        The registry attribute set (host-first shape).
   ## @param serviceName     The name of the service.
   ## @return                The host name where the primary instance is declared.
   ## @throws                If no host declares the given service.
-  resolveServiceHost = networkServices: serviceName: let
-    entries = resolveServiceEntries serviceName networkServices;
+  resolveServiceHost = registry: serviceName: let
+    entries = resolveServiceEntries serviceName registry;
   in
     if entries == []
     then throw "No host declares service '${serviceName}'."

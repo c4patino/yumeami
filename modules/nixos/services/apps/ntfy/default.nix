@@ -10,8 +10,8 @@
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
-  isEnabled = hostHasService networkCfg.network-services hostName "ntfy";
-  port = resolveServicePort networkCfg.network-services "ntfy" 5201;
+  isEnabled = hostHasService networkCfg.registry hostName "ntfy";
+  port = resolveServicePort networkCfg.registry "ntfy" 5201;
 in {
   config = mkIf isEnabled {
     services.ntfy-sh = {

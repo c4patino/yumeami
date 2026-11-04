@@ -12,8 +12,8 @@
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
 
-  isEnabled = hostHasService networkCfg.network-services hostName "asciinema";
-  port = resolveServicePort networkCfg.network-services "asciinema" 4000;
+  isEnabled = hostHasService networkCfg.registry hostName "asciinema";
+  port = resolveServicePort networkCfg.registry "asciinema" 4000;
 in {
   imports = [
     inputs.asciinema.nixosModules.default

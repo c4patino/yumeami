@@ -14,8 +14,8 @@
   uid = 980;
   gid = 975;
 
-  isEnabled = hostHasService networkCfg.network-services hostName "qbittorrent";
-  port = resolveServicePort networkCfg.network-services "qbittorrent" 9000;
+  isEnabled = hostHasService networkCfg.registry hostName "qbittorrent";
+  port = resolveServicePort networkCfg.registry "qbittorrent" 9000;
   torrentingPort = 23345;
 in {
   imports = [

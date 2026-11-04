@@ -10,18 +10,17 @@
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
-  networkServices = flattenHostServices networkCfg.network-services;
 
   gatewayHost = resolveGatewayHost networkCfg.devices;
 
-  isEnabled = hostHasService networkCfg.network-services hostName "blocky";
-  port = resolveServicePort networkCfg.network-services "blocky" 53;
-  unboundPort = (networkCfg.network-services.${hostName}.unbound or {}).port or 54;
+  isEnabled = hostHasService networkCfg.registry hostName "blocky";
+  port = resolveServicePort networkCfg.registry "blocky" 53;
+  unboundPort = (networkCfg.registry.${hostName}.unbound or {}).port or 54;
 in {
   config = mkIf isEnabled {
     assertions = [
       {
-        assertion = hostHasService networkCfg.network-services hostName "unbound";
+        assertion = hostHasService networkCfg.registry hostName "unbound";
         message = "Host '${hostName}' declares blocky but not unbound; blocky forwards to the local unbound instance, so both must be co-hosted.";
       }
     ];
@@ -79,7 +78,8 @@ in {
           mapping =
             [
               (
-                networkServices
+                networkCfg.registry
+                |> flattenHostServices
                 |> filterAttrs (_: svc: svc.internal)
                 |> mapAttrsToList (name: svc: {
                   name = "${name}.yumeami.sh";
@@ -87,7 +87,8 @@ in {
                 })
               )
               (
-                networkServices
+                networkCfg.registry
+                |> flattenHostServices
                 |> filterAttrs (_: svc: svc.public)
                 |> mapAttrsToList (name: svc: {
                   name = "${name}.cpatino.com";

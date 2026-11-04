@@ -12,8 +12,8 @@
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
-  isEnabled = hostHasService networkCfg.network-services hostName "grafana";
-  port = resolveServicePort networkCfg.network-services "grafana" 5500;
+  isEnabled = hostHasService networkCfg.registry hostName "grafana";
+  port = resolveServicePort networkCfg.registry "grafana" 5500;
 in {
   config = mkIf isEnabled {
     services.grafana = {

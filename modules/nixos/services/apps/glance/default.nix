@@ -11,8 +11,8 @@
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
-  isEnabled = hostHasService networkCfg.network-services hostName "dash";
-  port = resolveServicePort networkCfg.network-services "dash" 5150;
+  isEnabled = hostHasService networkCfg.registry hostName "dash";
+  port = resolveServicePort networkCfg.registry "dash" 5150;
 in {
   imports = [
     ./layout.nix

@@ -11,8 +11,8 @@
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
-  isEnabled = hostHasService networkCfg.network-services hostName "ignis";
-  port = resolveServicePort networkCfg.network-services "ignis" 5125;
+  isEnabled = hostHasService networkCfg.registry hostName "ignis";
+  port = resolveServicePort networkCfg.registry "ignis" 5125;
 
   vaultKeyProvision = import ./vault-key-provision.nix {inherit pkgs;};
   vaultSync = import ./vault-sync.nix {inherit pkgs;};

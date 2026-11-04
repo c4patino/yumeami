@@ -100,7 +100,7 @@ in {
               DOCKER_HOST = mkForce "unix:///var/run/docker.sock";
             };
           }
-          (mkIf (hostHasService networkCfg.network-services hostName "git") {
+          (mkIf (hostHasService networkCfg.registry hostName "git") {
             requires = ["forgejo.service"];
             after = ["forgejo.service"];
           })

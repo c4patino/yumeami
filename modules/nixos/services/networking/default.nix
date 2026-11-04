@@ -31,7 +31,7 @@ in {
           }) {} "Public gateway configuration for the device.";
         };
       }) {} "Mapping of device names to their hostnames and IPs.";
-      network-services = mkOption {
+      registry = mkOption {
         type = attrsOf (attrsOf (submodule {
           options = {
             port = mkRequiredOpt port "Local port of the service. If not specified, the module's default is used.";
@@ -47,7 +47,7 @@ in {
           };
         }));
         default = {};
-        description = "Mapping of hosts to their services: networking-services.<host>.<service> = { port, internal, public }.";
+        description = "Mapping of hosts to their services: networking.registry.<host>.<service> = { port, internal, public }.";
       };
     };
 
@@ -70,13 +70,13 @@ in {
 
       networking = {
         nameservers =
-          cfg.network-services
+          cfg.registry
           |> resolveServiceEntries "blocky"
           |> map (entry: mapTargetIP cfg.devices entry.host hostName)
           |> unique;
 
         firewall.extraCommands =
-          cfg.network-services.${config.networking.hostName} or {}
+          cfg.registry.${config.networking.hostName} or {}
           |> builtins.attrValues
           |> map (v: v.port)
           |> unique
