@@ -5,20 +5,19 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib) mkIf mkMerge;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort waitForNetwork;
 
   nvidiaCfg = getAttrByNamespace config "${namespace}.hardware.nvidia";
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
-  base = "${namespace}.services.apps.ollama";
-  cfg = getAttrByNamespace config base;
+  isEnabled = hostHasService networkCfg.network-services (config.networking.hostName) "ollama";
+  port = resolveServicePort networkCfg.network-services "ollama" 11434;
 in {
-  options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "ollama";
-  };
-
-  config = mkIf cfg.enable {
+  config = mkIf isEnabled {
     services.ollama = {
+      inherit port;
+
       enable = true;
 
       package =
@@ -41,5 +40,15 @@ in {
         OLLAMA_NUM_THREADS = "12";
       };
     };
+
+    systemd.services.ollama = mkMerge [
+      waitForNetwork
+      {
+        serviceConfig = {
+          Restart = "on-failure";
+          RestartSec = "1s";
+        };
+      }
+    ];
   };
 }
