@@ -31,10 +31,6 @@ in {
     };
 
     services = {
-      apps = {
-        ollama = enabled;
-      };
-
       ci = {
         gitea-runner = {
           enable = true;
@@ -79,7 +75,10 @@ in {
         };
       };
 
-      networking.network-services.chibi.blocky.priority = mkForce 128;
+      networking = {
+        httpd = enabled;
+        network-services.chibi.blocky.priority = mkForce 128;
+      };
     };
   };
 

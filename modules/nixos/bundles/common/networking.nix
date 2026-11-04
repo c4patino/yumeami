@@ -42,6 +42,13 @@ in {
       };
 
       network-services = {
+        arisu = {
+          ollama = {
+            port = 11434;
+            internal = true;
+          };
+        };
+
         chibi = {
           blocky = {
             port = 53;
@@ -132,10 +139,6 @@ in {
             port = 9999;
             internal = true;
             public = true;
-          };
-          ollama = {
-            port = 11434;
-            internal = true;
           };
           seerr = {
             port = 5055;
