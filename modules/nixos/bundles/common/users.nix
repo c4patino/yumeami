@@ -2,7 +2,6 @@
   config,
   lib,
   namespace,
-  pkgs,
   ...
 }: let
   inherit (lib) mkDefault mkIf;
@@ -61,13 +60,12 @@ in {
       secrets = {
         "ssl/ca/cert" = {};
 
-        "master-password" = {owner = c4patino.name;};
+        "master-password" = {
+          owner = c4patino.name;
+        };
       };
 
-      age.keyFile = let
-        crypt = "/persist${c4patino.home}/dotfiles/secrets/crypt";
-      in
-        mkDefault "${crypt}/age/${hostName}/keys.txt";
+      age.keyFile = mkDefault "/persist${c4patino.home}/dotfiles/secrets/crypt/age/${hostName}/keys.txt";
     };
   };
 }
