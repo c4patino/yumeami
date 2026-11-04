@@ -13,8 +13,8 @@
   cfg = getAttrByNamespace config base;
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
-  isEnabled = hostHasService networkCfg.network-services hostName "miasma";
-  port = resolveServicePort networkCfg.network-services "miasma" 9999;
+  isEnabled = hostHasService networkCfg.registry hostName "miasma";
+  port = resolveServicePort networkCfg.registry "miasma" 9999;
 in {
   options = with types;
     mkOptionsWithNamespace base {

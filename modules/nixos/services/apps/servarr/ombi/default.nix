@@ -10,8 +10,8 @@
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
-  isEnabled = hostHasService networkCfg.network-services hostName "ombi";
-  port = resolveServicePort networkCfg.network-services "ombi" 5000;
+  isEnabled = hostHasService networkCfg.registry hostName "ombi";
+  port = resolveServicePort networkCfg.registry "ombi" 5000;
 in {
   config = mkIf isEnabled {
     services.ombi = {

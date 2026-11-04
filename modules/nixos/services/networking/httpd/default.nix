@@ -15,8 +15,8 @@
   networkingCfg = getAttrByNamespace config "${namespace}.services.networking";
   miasmaCfg = getAttrByNamespace config "${namespace}.services.apps.miasma";
 
-  networkServices = networkingCfg.network-services;
-  networkServicesFlat = flattenHostServices networkServices;
+  registry = networkingCfg.registry;
+  registryFlat = flattenHostServices registry;
 
   mkLocalhostConfig = name: service: let
     p = toString service.port;
@@ -55,7 +55,7 @@
         )
       else {};
 
-    miasma = networkServicesFlat.miasma;
+    miasma = registryFlat.miasma;
 
     honeypotConfig = optionalString injectHoneypot ''
       AddOutputFilterByType SUBSTITUTE text/html
@@ -169,7 +169,7 @@ in {
         {
           "localhost" = let
             localhostProxyConfig =
-              networkServices.${hostName}
+              registry.${hostName}
               |> mapAttrsToList mkLocalhostConfig
               |> concatStringsSep "\n";
           in {
@@ -200,7 +200,7 @@ in {
           };
         }
 
-        (networkServices.${hostName}
+        (registry.${hostName}
           |> filterAttrs (_: svc: svc.internal)
           |> mapAttrsToList (name: svc:
             (mkVirtualHost {
@@ -213,7 +213,7 @@ in {
           |> listToAttrs)
 
         (mkIf (isGateway networkingCfg.devices hostName) (
-          networkServicesFlat
+          registryFlat
           |> filterAttrs (_: svc: svc.public)
           |> mapAttrsToList (name: svc:
             (mkVirtualHost {

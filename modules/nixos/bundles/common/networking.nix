@@ -41,7 +41,7 @@ in {
         };
       };
 
-      network-services = {
+      registry = {
         arisu = {
           ollama = {
             port = 11434;

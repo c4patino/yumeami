@@ -12,8 +12,8 @@
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
 
-  isEnabled = hostHasService networkCfg.network-services hostName "qbittorrent";
-  port = resolveServicePort networkCfg.network-services "qbittorrent" 9000;
+  isEnabled = hostHasService networkCfg.registry hostName "qbittorrent";
+  port = resolveServicePort networkCfg.registry "qbittorrent" 9000;
   dbHost = resolveDatabaseHost pgCfg.databases "qui";
 in {
   config = mkIf isEnabled {

@@ -12,8 +12,8 @@
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
 
-  isEnabled = hostHasService networkCfg.network-services hostName "git";
-  port = resolveServicePort networkCfg.network-services "git" 5300;
+  isEnabled = hostHasService networkCfg.registry hostName "git";
+  port = resolveServicePort networkCfg.registry "git" 5300;
 in {
   config = mkIf isEnabled {
     services.forgejo = {

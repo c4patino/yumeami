@@ -13,13 +13,13 @@
   cfg = getAttrByNamespace config base;
 
   networkingCfg = getAttrByNamespace config "${namespace}.services.networking";
-  networkServices = networkingCfg.network-services;
-  networkServicesFlat = flattenHostServices networkServices;
 
-  woodpeckerHost = networkServicesFlat.woodpecker.host;
+  registryFlat = flattenHostServices networkingCfg.registry;
 
-  isEnabled = hostHasService networkServices hostName "woodpecker";
-  port = resolveServicePort networkServices "woodpecker" 5301;
+  woodpeckerHost = registryFlat.woodpecker.host;
+
+  isEnabled = hostHasService networkingCfg.registry hostName "woodpecker";
+  port = resolveServicePort networkingCfg.registry "woodpecker" 5301;
   gprcPort = port + 1;
 in {
   options = with types;

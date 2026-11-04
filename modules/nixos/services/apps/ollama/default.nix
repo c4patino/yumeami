@@ -7,12 +7,13 @@
 }: let
   inherit (lib) mkIf mkMerge;
   inherit (lib.${namespace}) getAttrByNamespace hostHasService resolveServicePort waitForNetwork;
+  inherit (config.networking) hostName;
 
   nvidiaCfg = getAttrByNamespace config "${namespace}.hardware.nvidia";
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
-  isEnabled = hostHasService networkCfg.network-services (config.networking.hostName) "ollama";
-  port = resolveServicePort networkCfg.network-services "ollama" 11434;
+  isEnabled = hostHasService networkCfg.registry hostName "ollama";
+  port = resolveServicePort networkCfg.registry "ollama" 11434;
 in {
   config = mkIf isEnabled {
     services.ollama = {

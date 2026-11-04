@@ -9,12 +9,13 @@
   inherit (lib.${namespace}) getAttrByNamespace hostHasService mkPersistDir resolveDatabaseHost resolveDatabaseIP resolveServicePort waitForNetwork;
   inherit (config.networking) hostName;
 
-  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
-
-  isEnabled = hostHasService networkCfg.network-services hostName "autobrr";
-  port = resolveServicePort networkCfg.network-services "autobrr" 7474;
   dbHost = resolveDatabaseHost pgCfg.databases "autobrr";
+
+  networkCfg = getAttrByNamespace config "${namespace}.services.networking";
+
+  isEnabled = hostHasService networkCfg.registry hostName "autobrr";
+  port = resolveServicePort networkCfg.registry "autobrr" 7474;
 in {
   config = mkIf isEnabled {
     services.autobrr = {

@@ -11,8 +11,8 @@
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
 
-  isEnabled = hostHasService networkCfg.network-services hostName "lidarr";
-  port = resolveServicePort networkCfg.network-services "lidarr" 8686;
+  isEnabled = hostHasService networkCfg.registry hostName "lidarr";
+  port = resolveServicePort networkCfg.registry "lidarr" 8686;
   dbHost = resolveDatabaseHost pgCfg.databases "lidarr";
 in {
   config = mkIf isEnabled {

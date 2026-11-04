@@ -13,8 +13,8 @@
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
-  isEnabled = hostHasService networkCfg.network-services hostName "vault";
-  port = resolveServicePort networkCfg.network-services "vault" 5400;
+  isEnabled = hostHasService networkCfg.registry hostName "vault";
+  port = resolveServicePort networkCfg.registry "vault" 5400;
 
   dbHost = resolveDatabaseHost pgCfg.databases "vaultwarden";
   dbIp = resolveDatabaseIP networkCfg.devices pgCfg.databases hostName "vaultwarden";

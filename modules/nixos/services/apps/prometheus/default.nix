@@ -10,8 +10,8 @@
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
-  isEnabled = hostHasService networkCfg.network-services hostName "prometheus";
-  port = resolveServicePort networkCfg.network-services "prometheus" 9090;
+  isEnabled = hostHasService networkCfg.registry hostName "prometheus";
+  port = resolveServicePort networkCfg.registry "prometheus" 9090;
 in {
   config = mkIf isEnabled {
     services.prometheus = {

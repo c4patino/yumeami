@@ -14,8 +14,8 @@
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
-  isEnabled = hostHasService networkCfg.network-services hostName "paste";
-  port = resolveServicePort networkCfg.network-services "paste" 5100;
+  isEnabled = hostHasService networkCfg.registry hostName "paste";
+  port = resolveServicePort networkCfg.registry "paste" 5100;
 in {
   config = mkIf isEnabled {
     systemd.services.rustypaste = {

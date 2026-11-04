@@ -11,8 +11,8 @@
   pgCfg = getAttrByNamespace config "${namespace}.services.storage.postgresql";
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
-  isEnabled = hostHasService networkCfg.network-services hostName "immich";
-  port = resolveServicePort networkCfg.network-services "immich" 2283;
+  isEnabled = hostHasService networkCfg.registry hostName "immich";
+  port = resolveServicePort networkCfg.registry "immich" 2283;
 in {
   imports = [
     ./postgres.nix

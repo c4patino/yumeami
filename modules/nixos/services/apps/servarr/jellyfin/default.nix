@@ -9,7 +9,7 @@
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
-  isEnabled = hostHasService networkCfg.network-services hostName "jellyfin";
+  isEnabled = hostHasService networkCfg.registry hostName "jellyfin";
 in {
   imports = [
     ./restart.nix

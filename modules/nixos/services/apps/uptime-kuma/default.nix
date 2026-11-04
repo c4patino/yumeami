@@ -11,8 +11,8 @@
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
 
-  isEnabled = hostHasService networkCfg.network-services hostName "monitor";
-  port = resolveServicePort networkCfg.network-services "monitor" 5200;
+  isEnabled = hostHasService networkCfg.registry hostName "monitor";
+  port = resolveServicePort networkCfg.registry "monitor" 5200;
 in {
   config = mkIf isEnabled {
     services.uptime-kuma = {

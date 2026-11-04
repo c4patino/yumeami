@@ -9,7 +9,7 @@
   inherit (config.networking) hostName;
 
   networkCfg = getAttrByNamespace config "${namespace}.services.networking";
-  isEnabled = hostHasService networkCfg.network-services hostName "dash";
+  isEnabled = hostHasService networkCfg.registry hostName "dash";
 in {
   config = mkIf isEnabled {
     services.glance.settings = {
