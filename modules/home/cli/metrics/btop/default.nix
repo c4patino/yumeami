@@ -3,10 +3,14 @@
   inputs,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib) mkEnableOption mkIf;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+
+  nvidiaCfg = getAttrByNamespace config "${namespace}.hardware.nvidia";
+
   base = "${namespace}.cli.metrics.btop";
   cfg = getAttrByNamespace config base;
 in {
@@ -17,6 +21,12 @@ in {
   config = mkIf cfg.enable {
     programs.btop = {
       enable = true;
+
+      package =
+        if nvidiaCfg.enable
+        then pkgs.btop-cuda
+        else null;
+
       settings = {
         color_theme = "tokyonight_night";
         proc_mem_bytes = true;
