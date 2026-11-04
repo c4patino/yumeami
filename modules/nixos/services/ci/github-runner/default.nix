@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkEnableOption mkIf types;
+  inherit (lib) attrValues concatLists genList listToAttrs mapAttrs mkEnableOption mkIf optional types;
   inherit (lib.${namespace}) getAttrByNamespace mkNullableOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkPersistDir;
   inherit (config.networking) hostName;
   inherit (config.sops) secrets;
@@ -20,7 +20,6 @@
     ...
   }: "${hostName}-${name}-${padIndex index}";
 
-  inherit (lib) attrValues concatLists genList mapAttrs;
   runnerInstances =
     cfg.runners
     |> mapAttrs (name: runner:
@@ -48,8 +47,6 @@ in {
   config = mkIf cfg.enable {
     services.github-runners = let
       inherit (config.users.users) github-runner;
-      inherit (lib) listToAttrs map optional;
-
       mkRunnerConfig = {
         index,
         name,
@@ -100,7 +97,6 @@ in {
       |> listToAttrs;
 
     systemd.services = let
-      inherit (lib) listToAttrs map;
       mkRunnerService = instance: {
         name = "github-runner-${mkRunnerKey instance}";
         value = {
@@ -109,7 +105,9 @@ in {
         };
       };
     in
-      runnerInstances |> map mkRunnerService |> listToAttrs;
+      runnerInstances
+      |> map mkRunnerService
+      |> listToAttrs;
 
     users = {
       users.github-runner = {
