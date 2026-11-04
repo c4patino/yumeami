@@ -5,8 +5,8 @@
   pkgs,
   ...
 }: let
-  inherit (lib) listToAttrs mapAttrs' mapAttrsToList mkEnableOption mkIf mkMerge optional types;
-  inherit (lib.${namespace}) getAttrByNamespace hostHasService mkListOpt mkNullableOpt mkOpt mkOptAttrset mkOptionsWithNamespace;
+  inherit (lib) listToAttrs mapAttrs' mapAttrsToList mkEnableOption mkForce mkIf mkMerge optional types;
+  inherit (lib.${namespace}) getAttrByNamespace hostHasService mkListOpt mkNullableOpt mkOpt mkOptAttrset mkOptionsWithNamespace waitForNetwork;
   inherit (config.sops) secrets;
   inherit (config.networking) hostName;
   base = "${namespace}.services.ci.gitea-runner";
@@ -95,13 +95,15 @@ in {
         name = "gitea-runner-${name}";
         value = mkMerge [
           {
-            wants = ["tailscaled.service"];
-            after = ["tailscaled.service"];
+            environment = {
+              DOCKER_HOST = mkForce "unix:///var/run/docker.sock";
+            };
           }
           (mkIf (hostHasService networkCfg.network-services hostName "git") {
             requires = ["forgejo.service"];
             after = ["forgejo.service"];
           })
+          waitForNetwork
         ];
       };
     in
