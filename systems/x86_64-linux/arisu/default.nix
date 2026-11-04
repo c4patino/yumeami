@@ -31,6 +31,10 @@ in {
     };
 
     services = {
+      apps = {
+        ollama = enabled;
+      };
+
       ci = {
         gitea-runner = {
           enable = true;
