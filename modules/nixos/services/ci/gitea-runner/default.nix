@@ -99,6 +99,9 @@ in {
             environment = {
               DOCKER_HOST = mkForce "unix:///var/run/docker.sock";
             };
+            serviceConfig = {
+              SupplementaryGroups = ["docker" "podman"];
+            };
           }
           (mkIf (hostHasService networkCfg.registry hostName "git") {
             requires = ["forgejo.service"];
