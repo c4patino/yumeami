@@ -39,6 +39,10 @@ in {
       };
 
       metrics = {
+        btop = {
+          enable = true;
+          package = pkgs.btop-cuda;
+        };
         hyperfine = enabled;
       };
 

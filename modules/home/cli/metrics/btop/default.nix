@@ -6,26 +6,22 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkEnableOption mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-
-  nvidiaCfg = getAttrByNamespace config "${namespace}.hardware.nvidia";
+  inherit (lib) mkEnableOption mkIf types;
+  inherit (lib.${namespace}) getAttrByNamespace mkOpt mkOptionsWithNamespace;
 
   base = "${namespace}.cli.metrics.btop";
   cfg = getAttrByNamespace config base;
 in {
-  options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "btop";
-  };
+  options = with types;
+    mkOptionsWithNamespace base {
+      enable = mkEnableOption "btop";
+      package = mkOpt package pkgs.btop "The btop package to use. Use `pkgs.btop-cuda` for NVIDIA GPU support.";
+    };
 
   config = mkIf cfg.enable {
     programs.btop = {
       enable = true;
-
-      package =
-        if nvidiaCfg.enable
-        then pkgs.btop-cuda
-        else null;
+      package = cfg.package;
 
       settings = {
         color_theme = "tokyonight_night";
