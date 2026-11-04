@@ -35,7 +35,7 @@ in {
       environmentVariables = {
         CUDA_VISIBLE_DEVICES = "0";
 
-        OLLAMA_CONTEXT_LENGTH = "32678";
+        OLLAMA_CONTEXT_LENGTH = "65356";
         OLLAMA_KEEP_ALIVE = "20m";
         OLLAMA_NUM_PARALLEL = "1";
         OLLAMA_NUM_THREADS = "12";
