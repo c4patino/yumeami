@@ -9,6 +9,7 @@
     jellyfin-web
     lazygit
     lidarr
+    miasma
     nu_scripts
     ombi
     opencode
