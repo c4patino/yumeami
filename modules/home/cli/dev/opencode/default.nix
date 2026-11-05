@@ -30,6 +30,7 @@ in {
 
         ".config/opencode/skills/gh".source = "${pkgs.gh-skill}";
         ".config/opencode/skills/gh-stack".source = "${pkgs.gh-stack}/share/skills/gh-stack/gh-stack";
+        ".config/opencode/skills/grill-me".source = inputs.dotfiles + "/.config/opencode/skills/grill-me";
         ".config/opencode/skills/jira-cli".source = "${pkgs.jira-cli-skill}";
         ".config/opencode/skills/nixos".source = inputs.dotfiles + "/.config/opencode/skills/nixos";
         ".config/opencode/skills/nushell".source = "${pkgs.nu_scripts}/share/skills/nu_scripts/nushell";
