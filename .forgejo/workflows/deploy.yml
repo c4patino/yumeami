@@ -36,3 +36,31 @@ jobs:
         run: terraform -chdir=infra/cloudflare plan -input=false -out=tfplan
       - name: terraform apply
         run: terraform -chdir=infra/cloudflare apply -input=false tfplan
+  terraform-tailscale:
+    runs-on: ubuntu-latest
+    env:
+      PGUSER: ${{ secrets.PGUSER }}
+      PGPASSWORD: ${{ secrets.PGPASSWORD }}
+      TF_IN_AUTOMATION: "true"
+      TF_VAR_tailscale_oauth_client_id: ${{ secrets.TF_VAR_tailscale_oauth_client_id }}
+      TF_VAR_tailscale_oauth_client_secret: ${{ secrets.TF_VAR_tailscale_oauth_client_secret }}
+      TF_VAR_tailscale_email: ${{ secrets.TF_VAR_tailscale_email }}
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v6.0.1
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - name: install terraform
+        uses: https://github.com/hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+      - name: setup tailscale
+        uses: https://github.com/tailscale/github-action@v4.4.0
+        with:
+          authkey: ${{ secrets.TS_AUTHKEY }}
+      - name: terraform init
+        run: terraform -chdir=infra/tailscale init -input=false
+      - name: terraform plan
+        run: terraform -chdir=infra/tailscale plan -input=false -out=tfplan
+      - name: terraform apply
+        run: terraform -chdir=infra/tailscale apply -input=false tfplan
