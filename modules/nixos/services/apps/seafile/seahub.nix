@@ -19,7 +19,7 @@
   port = resolveServicePort networkCfg.registry "seafile" 8080;
 
   seahubSettings = pkgs.seahub.mkSettings {
-    host = hostName;
+    host = "seafile.yumeami.sh";
     port = port;
     fileServerPort = port + 1;
     seafRoot = cfg.root;
@@ -58,8 +58,8 @@ in {
           REDIS_HOST = "127.0.0.1";
           REDIS_PORT = "6379";
 
-          SEAFILE_SERVER_PROTOCOL = "http";
-          SEAFILE_SERVER_HOSTNAME = hostName;
+          SEAFILE_SERVER_PROTOCOL = "https";
+          SEAFILE_SERVER_HOSTNAME = "seafile.yumeami.sh";
 
           INIT_SEAFILE_ADMIN_EMAIL = "c4patino@gmail.com";
         };
