@@ -95,6 +95,7 @@ in {
           ".gnupg"
           ".java"
           ".local/share/Google"
+          ".local/share/Hubstaff/"
           ".local/share/JetBrains"
           ".local/share/PrismLauncher"
           ".local/share/Steam"
