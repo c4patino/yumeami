@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) attrValues concatLists genList listToAttrs mapAttrs mkEnableOption mkIf optional types;
-  inherit (lib.${namespace}) getAttrByNamespace mkNullableOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkPersistDir;
+  inherit (lib.${namespace}) getAttrByNamespace mkNullableOpt mkOpt mkOptAttrset mkOptionsWithNamespace mkPersistDir waitForNetwork;
   inherit (config.networking) hostName;
   inherit (config.sops) secrets;
   base = "${namespace}.services.ci.github-runner";
@@ -99,10 +99,7 @@ in {
     systemd.services = let
       mkRunnerService = instance: {
         name = "github-runner-${mkRunnerKey instance}";
-        value = {
-          wants = ["tailscaled.service"];
-          after = ["tailscaled.service"];
-        };
+        value = waitForNetwork;
       };
     in
       runnerInstances
