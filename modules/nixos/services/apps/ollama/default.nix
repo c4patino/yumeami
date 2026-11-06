@@ -39,7 +39,7 @@ in {
         OLLAMA_CONTEXT_LENGTH = "65536";
         OLLAMA_KEEP_ALIVE = "20m";
         OLLAMA_NUM_PARALLEL = "1";
-        OLLAMA_NUM_THREADS = "12";
+        OLLAMA_NUM_THREADS = "6";
       };
     };
 
