@@ -18,7 +18,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    asciinema.url = "github:asciinema/asciinema-server";
+    asciinema.url = "github:asciinema/asciinema-server?ref=main";
     impermanence.url = "github:nix-community/impermanence";
     jiratui.url = "github:whyisdifficult/jiratui";
     nix-minecraft.url = "github:infinidoge/nix-minecraft";
