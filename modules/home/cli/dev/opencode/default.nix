@@ -19,6 +19,8 @@ in {
     home = {
       packages = with pkgs; [
         opencode
+
+        nodejs
       ];
 
       file = {
