@@ -15,14 +15,21 @@ in {
       development = enabled;
       shell = enabled;
     };
+
+    cli.dev.azure = {
+      enable = true;
+      org = "buildertrend";
+    };
   };
 
   programs.nushell.extraConfig = mkAfter ''
     $env.BIFROST_API_KEY = open ${config.sops.secrets."bifrost/auth".path};
+    $env.BT_NUGET_PAT = open ${config.sops.secrets."azure-devops/package".path};
   '';
 
-  sops.secrets."bifrost/auth" = {
-    sopsFile = "${inputs.self}/secrets/sops/${host}.yaml";
+  sops.secrets = {
+    "bifrost/auth".sopsFile = "${inputs.self}/secrets/sops/${host}.yaml";
+    "azure-devops/package".sopsFile = "${inputs.self}/secrets/sops/${host}.yaml";
   };
 
   home = {
