@@ -32,10 +32,12 @@ in {
 
     services = {
       ci = {
-        gitea-runner = {
-          enable = true;
-          runners."default" = {};
-        };
+        #  TODO: re-enable this and switch this module to use the new
+        #  forgejo-runner keys once switching to 26.11
+        # gitea-runner = {
+        #   enable = true;
+        #   runners."default" = {};
+        # };
         github-runner = {
           enable = true;
           runners = {

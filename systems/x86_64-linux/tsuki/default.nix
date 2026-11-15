@@ -26,12 +26,14 @@ in {
 
     services = {
       ci = {
-        gitea-runner = {
-          enable = true;
-          runners."default" = {
-            capacity = 4;
-          };
-        };
+        #  TODO: re-enable this and switch this module to use the new
+        #  forgejo-runner keys once switching to 26.11
+        # gitea-runner = {
+        #   enable = true;
+        #   runners."default" = {
+        #     capacity = 4;
+        #   };
+        # };
         woodpecker.runners.primary = {
           enable = true;
           capacity = 4;
