@@ -655,11 +655,11 @@
     },
     "nixpkgs_12": {
       "locked": {
-        "lastModified": 1793706278,
-        "narHash": "sha256-iCbwhLa+h23/rxGQD9YJJ+BrMYHCPKB6au/BsobNWB4=",
-        "rev": "ea9e3ef341e11c193537f674f821a99f9f436729",
+        "lastModified": 1793977579,
+        "narHash": "sha256-4/Yzr1fWTh/zBAR1tR84ZQ1Zhmor8AXwgD4AS7sPn60=",
+        "rev": "4fe25e12eb9f4c744966dd3de5a05246cf098601",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1107593.ea9e3ef341e1/nixexprs.tar.zst"
+        "url": "https://releases.nixos.org/nixpkgs/nixpkgs-26.11pre1109744.4fe25e12eb9f/nixexprs.tar.zst"
       },
       "original": {
         "id": "nixpkgs",
@@ -1388,11 +1388,11 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1793768400,
-        "narHash": "sha256-Rd/BWT7GI5NHKjI9yckAxknptb7oFtOge02N2psoSko=",
+        "lastModified": 1794674054,
+        "narHash": "sha256-jOLX6/1D0sCGIc2uzdso1KwV4krPCx9Pqt+GS3D5u/k=",
         "ref": "main",
-        "rev": "b2d4b2c8dcbda96f06e5bfe4cd2261f48ff46249",
-        "revCount": 105,
+        "rev": "d4b6acea7c3c5d42e861b79e5c8d02e5fe202df0",
+        "revCount": 111,
         "type": "git",
         "url": "https://git.cpatino.com/c4patino/yumevim-nix"
       },
