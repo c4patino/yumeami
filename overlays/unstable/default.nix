@@ -9,13 +9,16 @@
     jellyfin-web
     lazygit
     lidarr
+    miasma
     nu_scripts
     ombi
     opencode
+    presenterm
     prowlarr
     radarr
     seerr
     sonarr
+    tuicr
     unpackerr
     vaultwarden
     ;
