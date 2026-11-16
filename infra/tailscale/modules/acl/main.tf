@@ -23,6 +23,8 @@ resource "tailscale_acl" "default" {
       "chibi"  = "100.101.224.25",
       "tsuki"  = "100.71.23.30",
       "shiori" = "100.127.93.17",
+
+      "nas" = "100.98.174.68",
     }
 
     groups = {}
@@ -53,9 +55,19 @@ resource "tailscale_acl" "default" {
 
     grants = [
       {
-        src = ["tag:server", "tag:storage"]
+        src = ["tag:server"]
         dst = ["tag:server", "tag:storage"]
         ip  = ["*"]
+      },
+      {
+        src = ["tag:server"]
+        dst = ["host:arisu"]
+        ip  = ["tcp:2049"]
+      },
+      {
+        src = ["host:nas"]
+        dst = ["host:shiori"]
+        ip  = ["tcp:22"]
       },
     ]
 
@@ -65,9 +77,10 @@ resource "tailscale_acl" "default" {
         "node:tsReleaseTrack == 'stable'",
       ],
 
-      "posture:latestMobile" : ["node:os IN ['android', 'ios']", "node:tsReleaseTrack == 'stable'"],
+      "posture:latestMobile" : [
+        "node:os IN ['android', 'ios']",
+        "node:tsReleaseTrack == 'stable'",
+      ],
     }
-
-    ssh = []
   })
 }
