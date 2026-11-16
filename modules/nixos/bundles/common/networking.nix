@@ -114,6 +114,11 @@ in {
               path = "/socket";
             };
           };
+          miasma = {
+            port = 9999;
+            internal = true;
+            public = true;
+          };
           paste = {
             port = 5100;
             public = true;
@@ -138,11 +143,6 @@ in {
           };
           unbound = {
             port = 54;
-          };
-          miasma = {
-            port = 9999;
-            internal = true;
-            public = true;
           };
           seerr = {
             port = 5055;
