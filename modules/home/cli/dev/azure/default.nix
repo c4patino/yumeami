@@ -15,14 +15,15 @@
   inherit (cfg) org;
   patFile = config.sops.secrets."azure-devops/auth".path;
 in {
-  options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "azure devops";
+  options = with types;
+    mkOptionsWithNamespace base {
+      enable = mkEnableOption "azure devops";
 
-    org = mkOption {
-      type = types.str;
-      description = "Azure DevOps organization name (the <org> in dev.azure.com/<org>).";
+      org = mkOption {
+        type = str;
+        description = "Azure DevOps organization name (the <org> in dev.azure.com/<org>).";
+      };
     };
-  };
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
