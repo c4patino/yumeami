@@ -4,6 +4,7 @@
   inputs,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib) mkAfter mkForce;
@@ -16,9 +17,16 @@ in {
       shell = enabled;
     };
 
-    cli.dev.azure = {
-      enable = true;
-      org = "buildertrend";
+    cli.dev = {
+      azure = {
+        enable = true;
+        org = "buildertrend";
+      };
+
+      gcloud = {
+        enable = true;
+        project = "btdevelopment";
+      };
     };
   };
 
