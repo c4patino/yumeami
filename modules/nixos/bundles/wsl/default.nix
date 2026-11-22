@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkEnableOption mkForce mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib.${namespace}) enabled getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.bundles.wsl";
   cfg = getAttrByNamespace config base;
 in {

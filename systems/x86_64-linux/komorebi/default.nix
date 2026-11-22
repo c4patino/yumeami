@@ -23,14 +23,6 @@ in {
       docker = enabled;
       podman = enabled;
     };
-
-    services = {
-      security = {
-        ca = enabled;
-        gnupg = enabled;
-        polkit = enabled;
-      };
-    };
   };
 
   users.users.c4patino.openssh.authorizedKeys.keys = mkForce [];
