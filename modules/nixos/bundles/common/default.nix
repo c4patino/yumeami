@@ -103,5 +103,7 @@ in {
       "d /mnt/sda 0755 c4patino users -"
       "d /mnt/sdb 0755 c4patino users -"
     ];
+
+    system.stateVersion = "26.05";
   };
 }

@@ -21,6 +21,4 @@ in {
     hostName = "kokoro-windows";
     hostId = "98fb2503";
   };
-
-  system.stateVersion = "26.05";
 }

@@ -13,6 +13,4 @@ in {
 
     cli.dev.neovim.variant = "minimal";
   };
-
-  home.stateVersion = "26.05";
 }

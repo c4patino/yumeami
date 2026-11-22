@@ -21,6 +21,4 @@ in {
     hostName = "arisu-windows";
     hostId = "c6cc4687";
   };
-
-  system.stateVersion = "26.05";
 }

@@ -53,6 +53,4 @@ in {
     hostName = "komorebi";
     hostId = "c6cc4687";
   };
-
-  system.stateVersion = "26.05";
 }

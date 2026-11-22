@@ -47,6 +47,4 @@ in {
     efi.canTouchEfiVariables = mkForce false;
     grub.efiInstallAsRemovable = true;
   };
-
-  system.stateVersion = "26.05";
 }

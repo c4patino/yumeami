@@ -43,6 +43,4 @@ in {
     hostName = "shiori";
     hostId = "1a4ecbe3";
   };
-
-  system.stateVersion = "26.05";
 }

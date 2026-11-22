@@ -46,11 +46,6 @@ in {
     };
   };
 
-  networking = {
-    hostName = "kokoro";
-    hostId = "41f4c357";
-  };
-
   boot = {
     binfmt = {
       emulatedSystems = ["aarch64-linux"];
@@ -62,5 +57,8 @@ in {
     };
   };
 
-  system.stateVersion = "26.05";
+  networking = {
+    hostName = "kokoro";
+    hostId = "41f4c357";
+  };
 }

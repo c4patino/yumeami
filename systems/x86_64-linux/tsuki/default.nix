@@ -70,6 +70,4 @@ in {
     hostName = "tsuki";
     hostId = "3d19e767";
   };
-
-  system.stateVersion = "26.05";
 }

@@ -90,15 +90,11 @@ in {
     }
   ];
 
-  home = {
-    packages = with pkgs; [
-      inputs.deploy-rs.packages.${system}.default
+  home.packages = with pkgs; [
+    inputs.deploy-rs.packages.${system}.default
 
-      nvtopPackages.nvidia
+    nvtopPackages.nvidia
 
-      helix-cli
-    ];
-
-    stateVersion = "26.05";
-  };
+    helix-cli
+  ];
 }

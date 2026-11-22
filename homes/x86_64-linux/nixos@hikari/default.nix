@@ -37,6 +37,7 @@ in {
 
     file."dotfiles".source = inputs.self;
     sessionVariables.NH_FLAKE = "/home/nixos/dotfiles";
+
     stateVersion = "26.05";
   };
 
