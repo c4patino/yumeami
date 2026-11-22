@@ -49,11 +49,6 @@ in {
       };
     };
 
-    programs.bash = {
-      enable = true;
-      completion.enable = true;
-    };
-
     sops = let
       inherit (config.users.users) c4patino;
     in {

@@ -23,6 +23,7 @@ in {
   ${namespace} = {
     bundles = {
       common = enabled;
+      homelab = enabled;
       desktop = enabled;
     };
 

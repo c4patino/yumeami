@@ -17,6 +17,7 @@ in {
   ${namespace} = {
     bundles = {
       common = enabled;
+      homelab = enabled;
       server = enabled;
     };
 

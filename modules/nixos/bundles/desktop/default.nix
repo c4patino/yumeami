@@ -25,6 +25,7 @@ in {
       };
 
       hardware = {
+        bootloader = enabled;
         audio = enabled;
         bluetooth = enabled;
         printing = enabled;
@@ -33,6 +34,10 @@ in {
       services = {
         security = {
           gnome-keyring = enabled;
+        };
+
+        storage = {
+          impermanence = enabled;
         };
       };
     };

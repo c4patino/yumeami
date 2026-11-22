@@ -5,12 +5,16 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) getAttrByNamespace;
-  base = "${namespace}.bundles.common";
+  inherit (lib.${namespace}) enabled getAttrByNamespace;
+  base = "${namespace}.bundles.homelab";
   cfg = getAttrByNamespace config base;
 in {
   config = mkIf cfg.enable {
     ${namespace}.services.networking = {
+      network-manager = enabled;
+      openssh = enabled;
+      tailscale = enabled;
+
       devices = {
         arisu = {
           ip = "100.117.106.23";

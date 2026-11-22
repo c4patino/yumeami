@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkEnableOption mkForce mkIf;
-  inherit (lib.${namespace}) disabled enabled getAttrByNamespace mkOptionsWithNamespace;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.bundles.wsl";
   cfg = getAttrByNamespace config base;
 in {
@@ -19,33 +19,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    ${namespace} = {
-      hardware.bootloader = mkForce disabled;
-
-      services = {
-        apps = {
-          slurm = {
-            enable = mkForce false;
-          };
-        };
-
-        networking = {
-          network-manager = mkForce disabled;
-          openssh = mkForce disabled;
-          tailscale = mkForce disabled;
-        };
-
-        storage = {
-          impermanence = mkForce disabled;
-          syncthing = mkForce disabled;
-        };
-      };
-    };
-
-    services = {
-      gnome.gnome-keyring = enabled;
-      resolved.enable = mkForce false;
-    };
+    services.resolved.enable = mkForce false;
 
     programs.nh = {
       enable = true;

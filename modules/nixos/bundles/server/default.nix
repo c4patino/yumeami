@@ -15,10 +15,16 @@ in {
 
   config = mkIf cfg.enable {
     ${namespace} = {
+      hardware.bootloader = enabled;
+
       services = {
         networking = {
           httpd = enabled;
           tailscale.recovery = enabled;
+        };
+
+        storage = {
+          impermanence = enabled;
         };
 
         security = {
