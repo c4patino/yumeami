@@ -95,6 +95,8 @@ in {
       inputs.deploy-rs.packages.${system}.default
 
       nvtopPackages.nvidia
+
+      helix-cli
     ];
 
     stateVersion = "26.05";
