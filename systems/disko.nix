@@ -1,8 +1,10 @@
 {
+  lib ? (import <nixpkgs> {}).lib,
   main ? throw "Primary device not defined",
   extras ? [],
   pools ? [],
   size ? "100%",
+  swapSize ? "32G",
   ...
 }: let
   mainDisk = {
@@ -11,38 +13,47 @@
       type = "disk";
       content = {
         type = "gpt";
-        partitions = {
-          boot = {
-            name = "boot";
-            size = "3M";
-            type = "EF02";
-          };
-          esp = {
-            name = "ESP";
-            size = "512M";
-            type = "EF00";
-            content = {
-              type = "filesystem";
-              format = "vfat";
-              mountpoint = "/boot";
+        partitions =
+          {
+            boot = {
+              name = "boot";
+              size = "3M";
+              type = "EF02";
+            };
+            esp = {
+              name = "ESP";
+              size = "512M";
+              type = "EF00";
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot";
+              };
+            };
+          }
+          // (
+            if swapSize == "0"
+            then {}
+            else {
+              swap = {
+                size = swapSize;
+                content = {
+                  type = "swap";
+                  resumeDevice = true;
+                };
+              };
+            }
+          )
+          // {
+            root = {
+              name = "root";
+              size = size;
+              content = {
+                type = "zfs";
+                pool = "zroot";
+              };
             };
           };
-          swap = {
-            size = "32G";
-            content = {
-              type = "swap";
-              resumeDevice = true;
-            };
-          };
-          root = {
-            name = "root";
-            size = size;
-            content = {
-              type = "zfs";
-              pool = "zroot";
-            };
-          };
-        };
       };
     };
   };

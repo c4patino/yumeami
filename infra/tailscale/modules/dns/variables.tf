@@ -24,7 +24,7 @@ variable "magic_dns" {
 variable "public_nameservers" {
   description = "Public DNS nameservers to use."
   type        = list(string)
-  default     = ["100.101.224.25", "1.1.1.1", "8.8.8.8"]
+  default     = ["1.1.1.1", "8.8.8.8"]
 }
 
 variable "split_dns" {

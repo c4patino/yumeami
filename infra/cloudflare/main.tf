@@ -12,6 +12,9 @@ terraform {
   }
 }
 
+locals {
+}
+
 provider "cloudflare" {
   email   = var.cloudflare_api_email
   api_key = var.cloudflare_api_token
@@ -20,8 +23,10 @@ provider "cloudflare" {
 module "dns" {
   source = "./modules/dns"
 
-  account_id = var.cloudflare_account_id
-  zone_name  = var.zone_name
+  account_id           = var.cloudflare_account_id
+  zone_name            = var.zone_name
+  wildcard_a_record    = var.wildcard_a_record
+  wildcard_aaaa_record = var.wildcard_aaaa_record
 }
 
 # module "tunnel" {

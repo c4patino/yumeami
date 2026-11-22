@@ -34,11 +34,12 @@ in {
         shiori = {
           ip = "100.127.93.17";
         };
+        tobira = {
+          ip = "100.107.215.117";
+          gateway.enable = true;
+        };
         tsuki = {
           ip = "100.71.23.30";
-          gateway = {
-            enable = true;
-          };
         };
         nas = {
           ip = "100.98.174.68";
@@ -75,6 +76,20 @@ in {
           prometheus = {
             port = 5501;
             internal = true;
+          };
+        };
+
+        tobira = {
+          blocky = {
+            port = 53;
+          };
+          unbound = {
+            port = 54;
+          };
+          miasma = {
+            port = 9999;
+            internal = true;
+            public = true;
           };
         };
 
@@ -117,11 +132,6 @@ in {
               enable = true;
               path = "/socket";
             };
-          };
-          miasma = {
-            port = 9999;
-            internal = true;
-            public = true;
           };
           paste = {
             port = 5100;

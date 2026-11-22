@@ -22,8 +22,14 @@
     shiori = {
       hostname = "shiori";
       system = "x86_64-linux";
-      groups = ["server"];
+      # TODO: when shiori is back online re-enable this server on the group
+      # groups = ["server"];
       activationTimeout = 1800;
+    };
+    tobira = {
+      hostname = "tobira";
+      system = "x86_64-linux";
+      groups = ["server"];
     };
     tsuki = {
       hostname = "tsuki";

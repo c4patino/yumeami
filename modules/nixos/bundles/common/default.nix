@@ -64,9 +64,6 @@ in {
       nh
       nix-output-monitor
       nvd
-
-      curl
-      wget
     ];
 
     time.timeZone = "America/Chicago";

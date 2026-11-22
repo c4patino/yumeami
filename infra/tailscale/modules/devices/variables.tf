@@ -23,7 +23,7 @@ variable "tailnet_domain" {
 variable "servers" {
   description = "List of server device names (without domain)."
   type        = list(string)
-  default     = ["chibi", "shiori", "tsuki"]
+  default     = ["chibi", "shiori", "tobira", "tsuki"]
 }
 
 variable "storage" {

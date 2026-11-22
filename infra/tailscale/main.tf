@@ -57,18 +57,18 @@ module "dns" {
 
   magic_dns = true
   public_nameservers = [
-    "100.101.224.25",
+    "100.107.215.117",
     "1.1.1.1",
     "8.8.8.8"
   ]
   split_dns = [
     {
       domain     = "cpatino.com"
-      nameserver = "100.101.224.25"
+      nameserver = "100.107.215.117"
     },
     {
       domain     = "yumeami.sh"
-      nameserver = "100.101.224.25"
+      nameserver = "100.107.215.117"
     }
   ]
 }
@@ -81,7 +81,7 @@ module "devices" {
   tailscale_tailnet_id          = var.tailscale_tailnet_id
 
   tailnet_domain = var.tailscale_tailnet_domain
-  servers        = ["chibi", "shiori", "tsuki"]
+  servers        = ["chibi", "shiori", "tobira", "tsuki"]
   storage        = ["nas"]
 }
 

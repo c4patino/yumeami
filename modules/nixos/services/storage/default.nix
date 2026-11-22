@@ -1,8 +1,14 @@
-{pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: let
+  inherit (lib) mkDefault;
+in {
   boot = {
     supportedFilesystems = ["ntfs" "zfs" "nfs"];
 
-    zfs.forceImportRoot = false;
+    zfs.forceImportRoot = mkDefault false;
   };
 
   services.davfs2.enable = true;

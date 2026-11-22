@@ -19,6 +19,7 @@ in {
   };
 
   config = mkIf cfg.enable {
+    networking.nameservers = mkForce [];
     services.resolved.enable = mkForce false;
 
     programs.nh = {
@@ -35,7 +36,5 @@ in {
       enable = true;
       defaultUser = "c4patino";
     };
-
-    networking.nameservers = mkForce [];
   };
 }

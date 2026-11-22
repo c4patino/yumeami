@@ -21,6 +21,7 @@ resource "tailscale_acl" "default" {
       "arisu"  = "100.117.106.23",
       "kokoro" = "100.69.45.111",
       "chibi"  = "100.101.224.25",
+      "tobira" = "100.107.215.117",
       "tsuki"  = "100.71.23.30",
       "shiori" = "100.127.93.17",
 
@@ -63,11 +64,6 @@ resource "tailscale_acl" "default" {
         src = ["tag:server"]
         dst = ["host:arisu"]
         ip  = ["tcp:2049"]
-      },
-      {
-        src = ["host:nas"]
-        dst = ["host:shiori"]
-        ip  = ["tcp:22"]
       },
     ]
 

@@ -20,6 +20,18 @@ variable "zone_name" {
   default     = "cpatino.com"
 }
 
+variable "wildcard_a_record" {
+  description = "IPv4 address for the wildcard A record (cpatino.com). Set empty to skip."
+  type        = string
+  default     = ""
+}
+
+variable "wildcard_aaaa_record" {
+  description = "IPv6 address for the wildcard AAAA record (cpatino.com). Set empty to skip."
+  type        = string
+  default     = ""
+}
+
 variable "allowed_email" {
   description = "Email address allowed to access the tunnel."
   type        = string
@@ -98,8 +110,14 @@ variable "machines" {
       description = ""
     },
     {
-      name        = "tsuki"
+      name        = "tobira"
       ip          = "10.0.1.3"
+      ssh_port    = 22
+      description = ""
+    },
+    {
+      name        = "tsuki"
+      ip          = "10.0.1.4"
       ssh_port    = 22
       description = ""
     },

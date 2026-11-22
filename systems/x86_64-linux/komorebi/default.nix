@@ -27,20 +27,6 @@ in {
 
   users.users.c4patino.openssh.authorizedKeys.keys = mkForce [];
 
-  sops = let
-    inherit (config.users.users) c4patino;
-  in {
-    secrets = {
-      "ssl/ca/cert" = {};
-
-      "master-password" = {
-        owner = c4patino.name;
-      };
-    };
-
-    age.keyFile = mkDefault "/persist${c4patino.home}/dotfiles/secrets/crypt/age/${hostName}/keys.txt";
-  };
-
   networking = {
     hostName = "komorebi";
     hostId = "c6cc4687";

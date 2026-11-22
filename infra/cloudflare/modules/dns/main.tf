@@ -35,3 +35,25 @@ resource "cloudflare_dns_record" "www_github" {
   proxied = true
   ttl     = 1
 }
+
+#===============================================================================
+#  *.cpatino.com
+#===============================================================================
+
+resource "cloudflare_dns_record" "wildcard_cpatino_com_a" {
+  zone_id = cloudflare_zone.main.id
+  name    = "*"
+  type    = "A"
+  content = var.wildcard_a_record
+  proxied = var.wildcard_a_record != ""
+  ttl     = 1
+}
+
+resource "cloudflare_dns_record" "wildcard_cpatino_com_aaaa" {
+  zone_id = cloudflare_zone.main.id
+  name    = "*"
+  type    = "AAAA"
+  content = var.wildcard_aaaa_record
+  proxied = var.wildcard_aaaa_record != ""
+  ttl     = 1
+}
