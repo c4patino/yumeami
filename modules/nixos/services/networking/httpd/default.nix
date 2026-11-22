@@ -169,7 +169,7 @@ in {
         {
           "localhost" = let
             localhostProxyConfig =
-              registry.${hostName}
+              registry.${hostName} or {}
               |> mapAttrsToList mkLocalhostConfig
               |> concatStringsSep "\n";
           in {
@@ -200,7 +200,8 @@ in {
           };
         }
 
-        (registry.${hostName}
+        (
+          registry.${hostName} or {}
           |> filterAttrs (_: svc: svc.internal)
           |> mapAttrsToList (name: svc:
             (mkVirtualHost {
@@ -210,7 +211,8 @@ in {
             hostName
             name
             svc)
-          |> listToAttrs)
+          |> listToAttrs
+        )
 
         (mkIf (isGateway networkingCfg.devices hostName) (
           registryFlat
