@@ -65,6 +65,11 @@ resource "tailscale_acl" "default" {
         dst = ["host:arisu"]
         ip  = ["tcp:2049"]
       },
+      {
+        src = ["bellegully25@gmail.com"]
+        dst = ["tag:server"]
+        ip  = ["*"]
+      },
     ]
 
     postures = {
