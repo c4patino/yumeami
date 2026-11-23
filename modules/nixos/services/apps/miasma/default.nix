@@ -39,7 +39,7 @@ in {
         StateDirectory = "miasma";
         ReadWritePaths = "/var/lib/miasma";
 
-        ExecStart = "${pkgs.miasma}/bin/miasma --host ${cfg.host} --port ${toString port} --link-prefix ${cfg.linkPrefix}";
+        ExecStart = "${pkgs.miasma}/bin/miasma --host ${cfg.host} --port ${toString port} --link-prefix ${cfg.linkPrefix} --max-in-flight 50 --force-gzip true";
       };
     };
 
