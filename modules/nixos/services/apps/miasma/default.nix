@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf types;
+  inherit (lib) mkIf mkOption types;
   inherit (lib.${namespace}) getAttrByNamespace hostHasService mkOpt mkOptionsWithNamespace resolveServicePort;
   inherit (config.networking) hostName;
 
@@ -20,14 +20,33 @@ in {
     mkOptionsWithNamespace base {
       host = mkOpt str "0.0.0.0" "Host address to bind to";
       linkPrefix = mkOpt str "/miasma" "prefix for self-directing links";
+      settings = mkOption {
+        type = attrs;
+        default = {};
+        internal = true;
+        description = "Miasma configuration assembled by module options.";
+      };
     };
 
   config = mkIf isEnabled {
+    ${namespace}.services.apps.miasma.settings = {
+      server = {
+        host = cfg.host;
+        port = port;
+      };
+
+      link_prefix = cfg.linkPrefix;
+      max_in_flight = 50;
+      force_gzip = true;
+    };
+
     systemd.services.miasma = {
       description = "Trap AI web scrapers in an endless poison pit";
       wantedBy = ["multi-user.target"];
       serviceConfig = let
         inherit (config.users.users) miasma;
+
+        configFile = (pkgs.formats.yaml {}).generate "miasma.yaml" cfg.settings;
       in {
         Type = "simple";
         Restart = "always";
@@ -39,7 +58,7 @@ in {
         StateDirectory = "miasma";
         ReadWritePaths = "/var/lib/miasma";
 
-        ExecStart = "${pkgs.miasma}/bin/miasma --host ${cfg.host} --port ${toString port} --link-prefix ${cfg.linkPrefix} --max-in-flight 50 --force-gzip true";
+        ExecStart = "${pkgs.miasma}/bin/miasma --config-file ${configFile}";
       };
     };
 
