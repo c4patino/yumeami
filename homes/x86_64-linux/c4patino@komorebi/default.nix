@@ -4,6 +4,7 @@
   inputs,
   lib,
   namespace,
+  pkgs,
   ...
 }: let
   inherit (lib) mkAfter mkForce;
@@ -52,10 +53,15 @@ in {
     "hangfire/username".sopsFile = "${inputs.self}/secrets/sops/${host}.yaml";
   };
 
-  home.file = {
-    ".config/opencode/opencode.json".source =
-      "${config.snowfallorg.user.home.directory}/dotfiles/secrets/crypt/opencode/komorebi.json"
-      |> config.lib.file.mkOutOfStoreSymlink
-      |> mkForce;
+  home = {
+    packages = with pkgs; [
+      alejandra
+    ];
+    file = {
+      ".config/opencode/opencode.json".source =
+        "${config.snowfallorg.user.home.directory}/dotfiles/secrets/crypt/opencode/komorebi.json"
+        |> config.lib.file.mkOutOfStoreSymlink
+        |> mkForce;
+    };
   };
 }
