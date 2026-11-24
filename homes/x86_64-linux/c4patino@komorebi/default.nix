@@ -29,13 +29,21 @@ in {
     };
   };
 
-  programs.nushell.extraConfig = mkAfter ''
-    $env.BIFROST_API_KEY = open ${config.sops.secrets."bifrost/auth".path}
-    $env.BT_NUGET_PAT = open ${config.sops.secrets."azure-devops/package".path}
-    $env.BT_NUGET_PAT_ENCODED = open ${config.sops.secrets."azure-devops/package".path} | encode base64
-    $env.HANGFIRE_REPO_USERNAME = open ${config.sops.secrets."hangfire/username".path}
-    $env.HANGFIRE_REPO_PASSWORD = open ${config.sops.secrets."hangfire/password".path}
-  '';
+  programs = {
+    git = {
+      settings = {
+        user.email = "ceferino.patino@buildertrend.com";
+      };
+    };
+
+    nushell.extraConfig = mkAfter ''
+      $env.BIFROST_API_KEY = open ${config.sops.secrets."bifrost/auth".path}
+      $env.BT_NUGET_PAT = open ${config.sops.secrets."azure-devops/package".path}
+      $env.BT_NUGET_PAT_ENCODED = open ${config.sops.secrets."azure-devops/package".path} | encode base64
+      $env.HANGFIRE_REPO_USERNAME = open ${config.sops.secrets."hangfire/username".path}
+      $env.HANGFIRE_REPO_PASSWORD = open ${config.sops.secrets."hangfire/password".path}
+    '';
+  };
 
   sops.secrets = {
     "azure-devops/package".sopsFile = "${inputs.self}/secrets/sops/${host}.yaml";

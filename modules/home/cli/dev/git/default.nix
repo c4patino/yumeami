@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) concatStringsSep mkEnableOption mkIf;
+  inherit (lib) concatStringsSep mkEnableOption mkDefault mkIf;
   inherit (lib.${namespace}) enabled getAttrByNamespace mkOptionsWithNamespace;
   base = "${namespace}.cli.dev.git";
   cfg = getAttrByNamespace config base;
@@ -66,9 +66,9 @@ in {
           merge.conflictStyle = "zdiff3";
 
           user = {
-            name = "C4 Patino";
-            email = "c4patino@gmail.com";
-            signingkey = "~/.ssh/id_ed25519.pub";
+            name = mkDefault "C4 Patino";
+            email = mkDefault "c4patino@gmail.com";
+            signingkey = mkDefault "~/.ssh/id_ed25519.pub";
           };
         };
 
