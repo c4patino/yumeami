@@ -13,27 +13,19 @@ in {
     ${namespace} = {
       services.apps.slurm = {
         enable = true;
-        controlHosts = ["arisu" "chibi"];
+        controlHosts = ["chibi"];
         nodeMap = {
           arisu = {
             configString = "CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=63400 Gres=gpu:rtx3070:1,shard:rtx3070:12 Weight=1";
-            partitions = ["main" "extended"];
+            partitions = ["main"];
           };
           kokoro = {
-            configString = "CPUs=10 Sockets=1 CoresPerSocket=10 ThreadsPerCore=1 RealMemory=23700 Weight=100";
-            partitions = ["extended"];
-          };
-          chibi = {
-            configString = "CPUs=4 Sockets=1 CoresPerSocket=4 ThreadsPerCore=1 RealMemory=7750 Weight=10";
-            partitions = ["extended"];
-          };
-          shiori = {
-            configString = "CPUs=4 Sockets=1 CoresPerSocket=4 ThreadsPerCore=1 RealMemory=15500 Weight=5";
-            partitions = ["extended"];
+            configString = "CPUs=8 Sockets=1 CoresPerSocket=8 ThreadsPerCore=1 RealMemory=31500";
+            state = "DOWN";
           };
           tsuki = {
-            configString = "CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=31500 Weight=0";
-            partitions = ["main" "extended"];
+            configString = "CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=31500 Weight=1";
+            partitions = ["main"];
           };
         };
       };

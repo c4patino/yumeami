@@ -57,12 +57,6 @@ in {
               whitelist = ["shiori"];
             }
           ];
-          mounts = {
-            slurm = {
-              host = "chibi";
-              folder = "/mnt/nfs/slurm";
-            };
-          };
         };
       };
 
