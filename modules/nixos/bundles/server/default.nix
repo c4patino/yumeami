@@ -23,12 +23,12 @@ in {
           tailscale.recovery = enabled;
         };
 
-        storage = {
-          impermanence = enabled;
-        };
-
         security = {
           fail2ban = enabled;
+        };
+
+        storage = {
+          impermanence = enabled;
         };
       };
     };
