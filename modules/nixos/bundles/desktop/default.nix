@@ -40,6 +40,11 @@ in {
           impermanence = enabled;
         };
       };
+
+      virtualization = {
+        docker = enabled;
+        podman = enabled;
+      };
     };
 
     fonts = {

@@ -37,11 +37,6 @@ in {
 
       registry.tobira.blocky.priority = mkForce 128;
     };
-
-    virtualization = {
-      docker = mkForce disabled;
-      podman = mkForce disabled;
-    };
   };
 
   boot.zfs.devNodes = "/dev/disk/by-path";

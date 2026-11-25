@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mkIf;
-  inherit (lib.${namespace}) enabled getAttrByNamespace;
+  inherit (lib.${namespace}) getAttrByNamespace;
   base = "${namespace}.bundles.homelab";
   cfg = getAttrByNamespace config base;
 in {
@@ -36,11 +36,6 @@ in {
             partitions = ["main" "extended"];
           };
         };
-      };
-
-      virtualization = {
-        docker = enabled;
-        podman = enabled;
       };
     };
   };

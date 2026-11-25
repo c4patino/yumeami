@@ -21,6 +21,11 @@ in {
       server = enabled;
     };
 
+    virtualization = {
+      docker = enabled;
+      podman = enabled;
+    };
+
     hardware = {
       amd = enabled;
     };
