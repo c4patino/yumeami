@@ -24,6 +24,7 @@ in {
         options = {
           partitions = mkListOpt str [] "List of partitions for the node";
           configString = mkOpt str "" "Configuration string for the node capabilities";
+          state = mkOpt str "UNKNOWN" "Initial state of the node (UNKNOWN, DOWN, etc.)";
         };
       }) {} "Mapping of node device defintitions to IPs and device configurations";
     };
@@ -32,7 +33,7 @@ in {
     services = {
       slurm = {
         nodeName = let
-          mkNodeConfig = node: info: "${node} NodeAddr=${resolveHostIP networkCfg.devices node} ${info.configString} State=UNKNOWN";
+          mkNodeConfig = node: info: "${node} NodeAddr=${resolveHostIP networkCfg.devices node} ${info.configString} State=${info.state}";
         in
           mapAttrsToList mkNodeConfig cfg.nodeMap;
 
