@@ -5,28 +5,28 @@
 }:
 stdenvNoCC.mkDerivation rec {
   pname = "qui";
-  version = "1.36.0";
+  version = "1.36.1";
 
   src =
     {
       x86_64-linux = fetchzip {
         url = "https://github.com/autobrr/qui/releases/download/v${version}/qui_${version}_linux_x86_64.tar.gz";
-        hash = "sha256-BFWl95rLu74yVLnw1gbDW9fyrIGSZlMl+r1s+lYct8E=";
+        hash = "sha256-4pZ+HhoxSu6HuoehAWxMEzndCit0wYNoA/PKyTrVV/4=";
         stripRoot = false;
       };
       aarch64-linux = fetchzip {
         url = "https://github.com/autobrr/qui/releases/download/v${version}/qui_${version}_linux_arm64.tar.gz";
-        hash = "sha256-Oy3swCWUkF2pubb5HZv65xJkBHwWj7yMYO6TWIU8TZ8=";
+        hash = "sha256-zDxjbhptrhXaHCc8sSFrv6f3warj11R9W8gSWmEB0VM=";
         stripRoot = false;
       };
       x86_64-darwin = fetchzip {
         url = "https://github.com/autobrr/qui/releases/download/v${version}/qui_${version}_darwin_x86_64.tar.gz";
-        hash = "sha256-DpayEoC+ysEYGCB3Ze8h4B69lGGORYtTPpcN6NWrF14=";
+        hash = "sha256-/ZvuLuWpZywm82yDOC6hobCzc85nsrmKHxGK+WP+C0Q=";
         stripRoot = false;
       };
       aarch64-darwin = fetchzip {
         url = "https://github.com/autobrr/qui/releases/download/v${version}/qui_${version}_darwin_arm64.tar.gz";
-        hash = "sha256-p+kHoa3AweDPurqj0flOPJ+j6wgMXgO/B1zLoDtEvJE=";
+        hash = "sha256-01fwVKwg6Qvae/ugrsWOwkZpw++NdlgWSwK+ssYmjVc=";
         stripRoot = false;
       };
     }.${
