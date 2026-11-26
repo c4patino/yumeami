@@ -24,7 +24,7 @@ in {
             state = "DOWN";
           };
           tsuki = {
-            configString = "CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=31500 Weight=1";
+            configString = "CPUs=12 Sockets=1 CoresPerSocket=6 ThreadsPerCore=2 RealMemory=63400 Weight=1";
             partitions = ["main"];
           };
         };
