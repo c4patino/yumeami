@@ -61,9 +61,16 @@ resource "tailscale_acl" "default" {
         ip  = ["*"]
       },
       {
+        # NOTE: allow servers to access NFS shares on arisu
         src = ["tag:server"]
         dst = ["host:arisu"]
         ip  = ["tcp:2049"]
+      },
+      {
+        # NOTE: allow servers to access slurm clients / workers on arisu and kokoro
+        src = ["tag:server"]
+        dst = ["host:arisu", "host:kokoro"]
+        ip  = ["tcp:6818"]
       },
       {
         src = ["bellegully25@gmail.com"]
