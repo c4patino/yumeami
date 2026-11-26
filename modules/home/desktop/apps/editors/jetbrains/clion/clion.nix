@@ -17,7 +17,7 @@ in {
 
   config = mkIf cfg.enable {
     home = {
-      packages = with pkgs; [jetbrains.clion];
+      packages = with pkgs; [clion];
 
       file.".ideavimrc" = {
         source = inputs.dotfiles + "/.ideavimrc";

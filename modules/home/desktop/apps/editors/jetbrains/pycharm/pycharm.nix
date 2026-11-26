@@ -17,7 +17,7 @@ in {
 
   config = mkIf cfg.enable {
     home = {
-      packages = with pkgs; [jetbrains.pycharm-professional];
+      packages = with pkgs; [pycharm-professional];
 
       file.".ideavimrc" = {
         source = inputs.dotfiles + "/.ideavimrc";

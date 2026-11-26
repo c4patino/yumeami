@@ -17,7 +17,7 @@ in {
 
   config = mkIf cfg.enable {
     home = {
-      packages = with pkgs; [jetbrains.idea-ultimate];
+      packages = with pkgs; [intellij-idea-ultimate];
 
       file.".ideavimrc" = {
         source = inputs.dotfiles + "/.ideavimrc";
