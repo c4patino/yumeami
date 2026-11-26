@@ -106,6 +106,6 @@ in {
       . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
     '';
 
-    home.stateVersion = "26.05";
+    home.stateVersion = "26.11";
   };
 }
