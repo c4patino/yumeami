@@ -32,14 +32,12 @@ in {
 
     services = {
       ci = {
-        #  TODO: re-enable this and switch this module to use the new
-        #  forgejo-runner keys once switching to 26.11
-        # gitea-runner = {
-        #   enable = true;
-        #   runners."default" = {
-        #     capacity = 4;
-        #   };
-        # };
+        forgejo-runner = {
+          enable = true;
+          connections = {
+            default.url = "https://git.cpatino.com";
+          };
+        };
         woodpecker.runners.primary = {
           enable = true;
           capacity = 4;
