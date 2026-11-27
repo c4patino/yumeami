@@ -129,6 +129,7 @@ in {
               type = "weather";
               location = "Lincoln, Nebraska, United States";
               hour-format = "24h";
+              units = "imperial";
             }
             {
               type = "markets";

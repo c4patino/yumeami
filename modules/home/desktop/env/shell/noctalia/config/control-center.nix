@@ -67,6 +67,10 @@ in {
           };
         };
       };
+
+      weather = {
+        unit = "imperial";
+      };
     };
   };
 }
